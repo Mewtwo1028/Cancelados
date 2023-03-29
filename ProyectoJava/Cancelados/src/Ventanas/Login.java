@@ -96,6 +96,8 @@ public class Login extends javax.swing.JFrame {
         } else {
             if (con.verificarLogin(username, pass).equals("1")) {
                 System.out.println("admin");
+                PanelAdministrador a = new PanelAdministrador();
+                a.setVisible(true);
             } else {
                 System.out.println("empleado");
             }
