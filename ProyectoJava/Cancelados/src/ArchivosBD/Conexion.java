@@ -4,7 +4,7 @@ package ArchivosBD;
  *
  * @author osmar
  */
-import Código.Credenciales;
+import Código.Cliente;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import java.sql.*;
@@ -47,5 +47,28 @@ public class Conexion {
             Logger.getLogger(Conexion.class.getName()).log(Level.SEVERE, null, ex);
         }
         return "";
+    }
+
+    public boolean registrarCliente(Cliente cliente) {
+
+        String nombre = cliente.getNombre();
+        String aPaterno = cliente.getaPaterno();
+        String aMaterno = cliente.getaMaterno();
+        String curp = cliente.getCurp();
+        String calle = cliente.getCalle();
+        String colonia = cliente.getColonia();
+        String ciudad = cliente.getCiudad();
+        String estado = cliente.getEstado();
+        String cp = cliente.getCp();
+
+        String SQL_insertar = "INSERT INTO cliente VALUES (null,'" + nombre + "','" + aPaterno + "','" + aMaterno + "','" + curp + "','" + calle + "','" + colonia + "','" + ciudad + "','" + estado + "','" + cp + "')";
+
+        try {
+            transaccion.execute(SQL_insertar);
+        } catch (SQLException ex) {
+            return false;
+        }
+
+        return true;
     }
 }
