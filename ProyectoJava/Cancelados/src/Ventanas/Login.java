@@ -1,7 +1,3 @@
-/*
- * Click nbfs://nbhost/SystemFileSystem/Templates/Licenses/license-default.txt to change this license
- * Click nbfs://nbhost/SystemFileSystem/Templates/GUIForms/JFrame.java to edit this template
- */
 package Ventanas;
 
 import ArchivosBD.Conexion;
@@ -13,11 +9,10 @@ import ArchivosBD.Conexion;
 public class Login extends javax.swing.JFrame {
 
     Conexion con = new Conexion();
+
     public Login() {
         initComponents();
-        
-        con.verificarLogin("Hugo", "admin");
-        
+        this.setLocationRelativeTo(null);
     }
 
     /**
@@ -90,13 +85,22 @@ public class Login extends javax.swing.JFrame {
 
         pack();
     }// </editor-fold>//GEN-END:initComponents
-        
-    
+
+
     private void btnIngresarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnIngresarActionPerformed
-        String username=txtUsername.getText();
-        String pass=txtPassword.getText();
-        
-        
+        String username = txtUsername.getText();
+        String pass = txtPassword.getText();
+
+        if (con.verificarLogin(username, pass).equals("")) {
+            System.out.println("credenciales no validads");
+        } else {
+            if (con.verificarLogin(username, pass).equals("1")) {
+                System.out.println("admin");
+            } else {
+                System.out.println("empleado");
+            }
+        }
+
     }//GEN-LAST:event_btnIngresarActionPerformed
 
     /**

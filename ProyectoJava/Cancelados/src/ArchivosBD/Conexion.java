@@ -1,4 +1,3 @@
-
 package ArchivosBD;
 
 /**
@@ -13,40 +12,40 @@ import java.sql.DriverManager;
 import java.sql.SQLException;
 
 public class Conexion {
+
     //Datos de la conexión
     private static final String DB_DRIVER = "com.mysql.cj.jdbc.Driver";
-    private static final String DB_URL = "jdbc:mysql://localhost:3306/cancelados";
-    private static final String DB_USER = "Osmar";
-    private static final String DB_PASSWORD = "Mewtwo1028";
-    
+    private static final String DB_URL = "jdbc:mysql://localhost:3306/mydb";
+    private static final String DB_USER = "root";
+    private static final String DB_PASSWORD = "admin";
+
     Connection conexion;
     Statement transaccion;
     ResultSet cursor; //aqui se guardan la informacion de las consultas SELECT
-    
+
     //Método para obtener la conexión a la base de datos
-    public Conexion(){
-        try{
-            Class.forName("com.mysql.cj.jdbc.Driver");
-            conexion = DriverManager.getConnection("jdbc:mysql://localhost:3306/tap_ejemplo1?zeroDateTimeBehavior=CONVERT_TO_NULL","root","");
+    public Conexion() {
+        try {
+            Class.forName(DB_DRIVER);
+            conexion = DriverManager.getConnection(DB_URL, DB_USER, DB_PASSWORD);
             transaccion = conexion.createStatement();
-        }catch(SQLException | ClassNotFoundException ex){
+        } catch (SQLException | ClassNotFoundException ex) {
             Logger.getLogger(Conexion.class.getName()).log(Level.SEVERE, null, ex);
         }
     }
-    
-    public boolean verificarLogin(String nombreCredencial, String contrasena){
-    
-        Credenciales credencial = new Credenciales();
-    
+
+    public String verificarLogin(String nombreCredencial, String contrasena) {
+
+        //Credenciales credencial = new Credenciales();
         try {
-            cursor = transaccion.executeQuery("SELECT * FROM credenciales WHERE nombre='"+nombreCredencial+"' and contraseña='"+contrasena+"'");
+            cursor = transaccion.executeQuery("Select E.Roles_idRoles from empleado E inner join Credenciales C On (C.Empleado_idEmpleado = E.idEmpleado) where nombre='" + nombreCredencial + "' and contrasena='" + contrasena + "'");
             if (cursor.next()) {
-                return true;
+                String idRol = cursor.getString(1);
+                return idRol;
             }
         } catch (SQLException ex) {
             Logger.getLogger(Conexion.class.getName()).log(Level.SEVERE, null, ex);
         }
-        return false;
+        return "";
     }
 }
-
