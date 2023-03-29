@@ -5,19 +5,19 @@ SET @OLD_FOREIGN_KEY_CHECKS=@@FOREIGN_KEY_CHECKS, FOREIGN_KEY_CHECKS=0;
 SET @OLD_SQL_MODE=@@SQL_MODE, SQL_MODE='ONLY_FULL_GROUP_BY,STRICT_TRANS_TABLES,NO_ZERO_IN_DATE,NO_ZERO_DATE,ERROR_FOR_DIVISION_BY_ZERO,NO_ENGINE_SUBSTITUTION';
 
 -- -----------------------------------------------------
--- Schema mydb
+-- Schema cancelados
 -- -----------------------------------------------------
 
 -- -----------------------------------------------------
--- Schema mydb
+-- Schema cancelados
 -- -----------------------------------------------------
-CREATE SCHEMA IF NOT EXISTS `mydb` DEFAULT CHARACTER SET utf8 ;
-USE `mydb` ;
+CREATE SCHEMA IF NOT EXISTS `cancelados` DEFAULT CHARACTER SET utf8 ;
+USE `cancelados` ;
 
 -- -----------------------------------------------------
--- Table `mydb`.`Roles`
+-- Table `cancelados`.`Roles`
 -- -----------------------------------------------------
-CREATE TABLE IF NOT EXISTS `mydb`.`Roles` (
+CREATE TABLE IF NOT EXISTS `cancelados`.`Roles` (
   `idRoles` INT NOT NULL AUTO_INCREMENT,
   `Nombre` VARCHAR(45) NULL,
   `Descripcion` VARCHAR(45) NULL,
@@ -27,9 +27,9 @@ ENGINE = InnoDB;
 
 
 -- -----------------------------------------------------
--- Table `mydb`.`Empleado`
+-- Table `cancelados`.`Empleado`
 -- -----------------------------------------------------
-CREATE TABLE IF NOT EXISTS `mydb`.`Empleado` (
+CREATE TABLE IF NOT EXISTS `cancelados`.`Empleado` (
   `idEmpleado` INT NOT NULL AUTO_INCREMENT,
   `Nombre` VARCHAR(45) NULL,
   `ApellidoPaterno` VARCHAR(45) NULL,
@@ -42,23 +42,22 @@ CREATE TABLE IF NOT EXISTS `mydb`.`Empleado` (
   `RFC` VARCHAR(45) NULL,
   `Municipio` VARCHAR(45) NULL,
   `Estado` VARCHAR(45) NULL,
-  `Empleadocol` VARCHAR(45) NULL,
   `Roles_idRoles` INT NOT NULL,
   PRIMARY KEY (`idEmpleado`, `Roles_idRoles`),
   UNIQUE INDEX `idUsuario_UNIQUE` (`idEmpleado` ASC) VISIBLE,
   INDEX `fk_Empleado_Roles1_idx` (`Roles_idRoles` ASC) VISIBLE,
   CONSTRAINT `fk_Empleado_Roles1`
     FOREIGN KEY (`Roles_idRoles`)
-    REFERENCES `mydb`.`Roles` (`idRoles`)
+    REFERENCES `cancelados`.`Roles` (`idRoles`)
     ON DELETE NO ACTION
     ON UPDATE NO ACTION)
 ENGINE = InnoDB;
 
 
 -- -----------------------------------------------------
--- Table `mydb`.`Producto`
+-- Table `cancelados`.`Producto`
 -- -----------------------------------------------------
-CREATE TABLE IF NOT EXISTS `mydb`.`Producto` (
+CREATE TABLE IF NOT EXISTS `cancelados`.`Producto` (
   `idProducto` INT NOT NULL AUTO_INCREMENT,
   `Nombre` VARCHAR(45) NULL,
   `Descripcion` VARCHAR(45) NULL,
@@ -72,9 +71,9 @@ ENGINE = InnoDB;
 
 
 -- -----------------------------------------------------
--- Table `mydb`.`Categoria`
+-- Table `cancelados`.`Categoria`
 -- -----------------------------------------------------
-CREATE TABLE IF NOT EXISTS `mydb`.`Categoria` (
+CREATE TABLE IF NOT EXISTS `cancelados`.`Categoria` (
   `idCategoria` INT NOT NULL AUTO_INCREMENT,
   `Nombre` VARCHAR(45) NULL,
   `Descripcion` VARCHAR(45) NULL,
@@ -84,16 +83,16 @@ CREATE TABLE IF NOT EXISTS `mydb`.`Categoria` (
   INDEX `fk_Categoria_Producto1_idx` (`Producto_idProducto` ASC) VISIBLE,
   CONSTRAINT `fk_Categoria_Producto1`
     FOREIGN KEY (`Producto_idProducto`)
-    REFERENCES `mydb`.`Producto` (`idProducto`)
+    REFERENCES `cancelados`.`Producto` (`idProducto`)
     ON DELETE NO ACTION
     ON UPDATE NO ACTION)
 ENGINE = InnoDB;
 
 
 -- -----------------------------------------------------
--- Table `mydb`.`Cliente`
+-- Table `cancelados`.`Cliente`
 -- -----------------------------------------------------
-CREATE TABLE IF NOT EXISTS `mydb`.`Cliente` (
+CREATE TABLE IF NOT EXISTS `cancelados`.`Cliente` (
   `idCliente` INT NOT NULL AUTO_INCREMENT,
   `Nombre` VARCHAR(45) NULL,
   `ApellidoPaterno` VARCHAR(45) NULL,
@@ -110,9 +109,9 @@ ENGINE = InnoDB;
 
 
 -- -----------------------------------------------------
--- Table `mydb`.`Venta`
+-- Table `cancelados`.`Venta`
 -- -----------------------------------------------------
-CREATE TABLE IF NOT EXISTS `mydb`.`Venta` (
+CREATE TABLE IF NOT EXISTS `cancelados`.`Venta` (
   `idVenta` INT NOT NULL AUTO_INCREMENT,
   `PrecioTotal` DECIMAL(2) NULL,
   `Fecha` DATETIME NULL,
@@ -126,26 +125,26 @@ CREATE TABLE IF NOT EXISTS `mydb`.`Venta` (
   INDEX `fk_Venta_Empleado1_idx` (`Empleado_idEmpleado` ASC) VISIBLE,
   CONSTRAINT `fk_Venta_Producto`
     FOREIGN KEY (`Producto_idProducto`)
-    REFERENCES `mydb`.`Producto` (`idProducto`)
+    REFERENCES `cancelados`.`Producto` (`idProducto`)
     ON DELETE NO ACTION
     ON UPDATE NO ACTION,
   CONSTRAINT `fk_Venta_Cliente1`
     FOREIGN KEY (`Cliente_idCliente`)
-    REFERENCES `mydb`.`Cliente` (`idCliente`)
+    REFERENCES `cancelados`.`Cliente` (`idCliente`)
     ON DELETE NO ACTION
     ON UPDATE NO ACTION,
   CONSTRAINT `fk_Venta_Empleado1`
     FOREIGN KEY (`Empleado_idEmpleado`)
-    REFERENCES `mydb`.`Empleado` (`idEmpleado`)
+    REFERENCES `cancelados`.`Empleado` (`idEmpleado`)
     ON DELETE NO ACTION
     ON UPDATE NO ACTION)
 ENGINE = InnoDB;
 
 
 -- -----------------------------------------------------
--- Table `mydb`.`DetalleVenta`
+-- Table `cancelados`.`DetalleVenta`
 -- -----------------------------------------------------
-CREATE TABLE IF NOT EXISTS `mydb`.`DetalleVenta` (
+CREATE TABLE IF NOT EXISTS `cancelados`.`DetalleVenta` (
   `idTicket` INT NOT NULL AUTO_INCREMENT,
   `SubTotal` DECIMAL(2) NULL,
   `Impuestos` DECIMAL(2) NULL,
@@ -160,16 +159,16 @@ CREATE TABLE IF NOT EXISTS `mydb`.`DetalleVenta` (
   INDEX `fk_DetalleVenta_Venta1_idx` (`Venta_idVenta` ASC, `Venta_Producto_idProducto` ASC, `Venta_Cliente_idCliente` ASC, `Venta_Empleado_idEmpleado` ASC) VISIBLE,
   CONSTRAINT `fk_DetalleVenta_Venta1`
     FOREIGN KEY (`Venta_idVenta` , `Venta_Producto_idProducto` , `Venta_Cliente_idCliente` , `Venta_Empleado_idEmpleado`)
-    REFERENCES `mydb`.`Venta` (`idVenta` , `Producto_idProducto` , `Cliente_idCliente` , `Empleado_idEmpleado`)
+    REFERENCES `cancelados`.`Venta` (`idVenta` , `Producto_idProducto` , `Cliente_idCliente` , `Empleado_idEmpleado`)
     ON DELETE NO ACTION
     ON UPDATE NO ACTION)
 ENGINE = InnoDB;
 
 
 -- -----------------------------------------------------
--- Table `mydb`.`Credenciales`
+-- Table `cancelados`.`Credenciales`
 -- -----------------------------------------------------
-CREATE TABLE IF NOT EXISTS `mydb`.`Credenciales` (
+CREATE TABLE IF NOT EXISTS `cancelados`.`Credenciales` (
   `idCredenciales` INT NOT NULL AUTO_INCREMENT,
   `Contrasena` VARCHAR(45) NULL,
   `Empleado_idEmpleado` INT NOT NULL,
@@ -179,7 +178,7 @@ CREATE TABLE IF NOT EXISTS `mydb`.`Credenciales` (
   INDEX `fk_Credenciales_Empleado1_idx` (`Empleado_idEmpleado` ASC, `Empleado_Roles_idRoles` ASC) VISIBLE,
   CONSTRAINT `fk_Credenciales_Empleado1`
     FOREIGN KEY (`Empleado_idEmpleado` , `Empleado_Roles_idRoles`)
-    REFERENCES `mydb`.`Empleado` (`idEmpleado` , `Roles_idRoles`)
+    REFERENCES `cancelados`.`Empleado` (`idEmpleado` , `Roles_idRoles`)
     ON DELETE NO ACTION
     ON UPDATE NO ACTION)
 ENGINE = InnoDB;

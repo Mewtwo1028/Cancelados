@@ -6,8 +6,11 @@ package Ventanas;
 
 import ArchivosBD.Conexion;
 import Código.Empleado;
+import com.mysql.cj.xdevapi.Statement;
 import java.sql.DriverManager;
+import java.util.ArrayList;
 import javax.swing.JOptionPane;
+import javax.swing.table.DefaultTableModel;
 
 /**
  *
@@ -15,12 +18,32 @@ import javax.swing.JOptionPane;
  */
 public class PanelAdministrarEmpleado extends javax.swing.JFrame {
 
-    /**
-     * Creates new form PanelAdministrarEmpleado
-     */
+            DefaultTableModel modelo = new DefaultTableModel() {
+        @Override
+        public boolean isCellEditable(int row, int column) {
+            return false;
+        }
+
+    };
     public PanelAdministrarEmpleado() {
 
         initComponents();
+        modelo.addColumn("ID Empleado");
+        modelo.addColumn("Nombre");
+        modelo.addColumn("Apellido Paterno");
+        modelo.addColumn("Apellido Materno");
+        modelo.addColumn("Calle");
+        modelo.addColumn("No. Exterior");
+        modelo.addColumn("Colonia");
+        modelo.addColumn("CP");
+        modelo.addColumn("Municipio");
+        modelo.addColumn("Estado");
+        modelo.addColumn("CURP");
+        modelo.addColumn("RFC");
+        modelo.addColumn("ROL");
+        modelo.addColumn("Contraseña");
+        tblEmpleado.setModel(modelo);
+        
     }
 
     /**
@@ -35,8 +58,6 @@ public class PanelAdministrarEmpleado extends javax.swing.JFrame {
         jLabel1 = new javax.swing.JLabel();
         btnRegistrar = new javax.swing.JButton();
         btnModificar = new javax.swing.JButton();
-        jScrollPane1 = new javax.swing.JScrollPane();
-        tblEmpleado = new javax.swing.JTable();
         jPanel1 = new javax.swing.JPanel();
         txtNombre = new javax.swing.JTextField();
         txtAPaterno = new javax.swing.JTextField();
@@ -66,6 +87,9 @@ public class PanelAdministrarEmpleado extends javax.swing.JFrame {
         jPanel3 = new javax.swing.JPanel();
         jLabel14 = new javax.swing.JLabel();
         txtContrasena = new javax.swing.JTextField();
+        btnConsultar = new javax.swing.JButton();
+        jScrollPane1 = new javax.swing.JScrollPane();
+        tblEmpleado = new javax.swing.JTable();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
 
@@ -79,19 +103,11 @@ public class PanelAdministrarEmpleado extends javax.swing.JFrame {
         });
 
         btnModificar.setText("Modificar");
-
-        tblEmpleado.setModel(new javax.swing.table.DefaultTableModel(
-            new Object [][] {
-                {null, null, null, null},
-                {null, null, null, null},
-                {null, null, null, null},
-                {null, null, null, null}
-            },
-            new String [] {
-                "Title 1", "Title 2", "Title 3", "Title 4"
+        btnModificar.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnModificarActionPerformed(evt);
             }
-        ));
-        jScrollPane1.setViewportView(tblEmpleado);
+        });
 
         txtAPaterno.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
@@ -258,50 +274,76 @@ public class PanelAdministrarEmpleado extends javax.swing.JFrame {
                 .addGap(33, 33, 33))
         );
 
+        btnConsultar.setText("Consultar");
+        btnConsultar.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnConsultarActionPerformed(evt);
+            }
+        });
+
+        tblEmpleado.setModel(new javax.swing.table.DefaultTableModel(
+            new Object [][] {
+                {},
+                {},
+                {},
+                {}
+            },
+            new String [] {
+
+            }
+        ));
+        jScrollPane1.setViewportView(tblEmpleado);
+
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
         getContentPane().setLayout(layout);
         layout.setHorizontalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
-                .addGap(284, 284, 284)
-                .addComponent(jLabel1)
-                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
             .addGroup(layout.createSequentialGroup()
                 .addGap(36, 36, 36)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
                     .addComponent(jPanel1, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                     .addComponent(jPanel2, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                     .addComponent(jPanel3, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 164, Short.MAX_VALUE)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addComponent(jScrollPane1, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
-                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                            .addComponent(btnModificar)
-                            .addComponent(btnRegistrar))
-                        .addGap(79, 79, 79))))
+                    .addGroup(layout.createSequentialGroup()
+                        .addGap(62, 62, 62)
+                        .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 1221, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addGap(0, 131, Short.MAX_VALUE))
+                    .addGroup(layout.createSequentialGroup()
+                        .addGap(648, 648, 648)
+                        .addComponent(btnConsultar)
+                        .addGap(28, 28, 28)
+                        .addComponent(btnRegistrar)
+                        .addGap(28, 28, 28)
+                        .addComponent(btnModificar)
+                        .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))))
+            .addGroup(layout.createSequentialGroup()
+                .addGap(392, 392, 392)
+                .addComponent(jLabel1)
+                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(layout.createSequentialGroup()
-                .addGap(24, 24, 24)
+                .addGap(26, 26, 26)
                 .addComponent(jLabel1)
-                .addGap(18, 18, 18)
-                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
+                .addGap(16, 16, 16)
+                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING, false)
                     .addGroup(layout.createSequentialGroup()
-                        .addComponent(btnRegistrar)
-                        .addGap(31, 31, 31)
-                        .addComponent(btnModificar)
-                        .addGap(48, 48, 48)
-                        .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                            .addComponent(btnConsultar)
+                            .addComponent(btnRegistrar)
+                            .addComponent(btnModificar))
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                        .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addGap(35, 35, 35))
                     .addGroup(layout.createSequentialGroup()
                         .addComponent(jPanel1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                         .addComponent(jPanel2, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                        .addComponent(jPanel3, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addGap(107, 107, 107)))
-                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                        .addComponent(jPanel3, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)))
+                .addContainerGap(113, Short.MAX_VALUE))
         );
 
         pack();
@@ -310,6 +352,27 @@ public class PanelAdministrarEmpleado extends javax.swing.JFrame {
     private void txtAPaternoActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_txtAPaternoActionPerformed
         // TODO add your handling code here:
     }//GEN-LAST:event_txtAPaternoActionPerformed
+
+    
+    private void actualizarTabla() {
+        Conexion con = new Conexion();
+        ArrayList<String[]> datosObtenidosSelect = con.consultarTodos();
+
+        if (datosObtenidosSelect.size() == 0) {
+            return;
+        }
+
+        int total = modelo.getRowCount();
+
+        for (int i = 0; i < total; i++) {
+            modelo.removeRow(i);
+        }
+
+        for (int i = 0; i < datosObtenidosSelect.size(); i++) {
+            modelo.addRow(datosObtenidosSelect.get(i));
+        }
+
+    }
 
     private void btnRegistrarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnRegistrarActionPerformed
 
@@ -338,6 +401,42 @@ public class PanelAdministrarEmpleado extends javax.swing.JFrame {
             
         // TODO add your handling code here:
     }//GEN-LAST:event_btnRegistrarActionPerformed
+
+    private void btnModificarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnModificarActionPerformed
+      String nombre = txtNombre.getText();
+        String aPaterno = txtAPaterno.getText();
+        String aMaterno = txtAMaterno.getText();
+        String calle = txtAMaterno.getText();
+        String noExt = txtNoExt.getText();
+        String Colonia = txtColonia.getText();
+        String cp = txtCP.getText();
+        String curp = txtCurp.getText();
+        String rfc = txtRFC.getText();
+        String municipio = txtMunicipio.getText();
+        String estado = txtEstado.getText();
+        String idRol = txtIdRol.getText();
+        String contra = txtContrasena.getText();
+
+        Empleado empleado = new Empleado(nombre,aPaterno,aMaterno,calle,noExt,Colonia,cp,curp,rfc,municipio,estado,idRol);
+        
+        Conexion con = new Conexion();
+        if(con.actualizarEmpleado(empleado,contra)){
+            JOptionPane.showMessageDialog(this,"correcto");
+        }else{
+            JOptionPane.showMessageDialog(this,"ERROR!");
+        }
+
+    }//GEN-LAST:event_btnModificarActionPerformed
+
+    private void btnConsultarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnConsultarActionPerformed
+        Conexion con = new Conexion();
+
+        ArrayList <String[]>  lista = con.consultarTodos();
+        for (int i = 0; i<lista.size(); i++){
+            modelo.addRow(lista.get(i));
+        }
+       
+    }//GEN-LAST:event_btnConsultarActionPerformed
 
     /**
      * @param args the command line arguments
@@ -375,6 +474,7 @@ public class PanelAdministrarEmpleado extends javax.swing.JFrame {
     }
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
+    private javax.swing.JButton btnConsultar;
     private javax.swing.JButton btnModificar;
     private javax.swing.JButton btnRegistrar;
     private javax.swing.JLabel jLabel1;

@@ -23,12 +23,18 @@
   <Layout>
     <DimensionLayout dim="0">
       <Group type="103" groupAlignment="0" attributes="0">
-          <Group type="102" alignment="0" attributes="0">
-              <EmptySpace min="-2" pref="58" max="-2" attributes="0"/>
-              <Component id="btnRegistrarEmpleado" min="-2" max="-2" attributes="0"/>
-              <EmptySpace pref="288" max="32767" attributes="0"/>
-              <Component id="btnModificarEmpleado" min="-2" max="-2" attributes="0"/>
-              <EmptySpace min="-2" pref="182" max="-2" attributes="0"/>
+          <Group type="102" attributes="0">
+              <Group type="103" groupAlignment="0" attributes="0">
+                  <Group type="102" alignment="0" attributes="0">
+                      <EmptySpace min="-2" pref="53" max="-2" attributes="0"/>
+                      <Component id="btnRegistrarEmpleado" min="-2" max="-2" attributes="0"/>
+                  </Group>
+                  <Group type="102" alignment="0" attributes="0">
+                      <EmptySpace min="-2" pref="34" max="-2" attributes="0"/>
+                      <Component id="btnAdministrarProductos" min="-2" max="-2" attributes="0"/>
+                  </Group>
+              </Group>
+              <EmptySpace pref="525" max="32767" attributes="0"/>
           </Group>
       </Group>
     </DimensionLayout>
@@ -36,11 +42,10 @@
       <Group type="103" groupAlignment="0" attributes="0">
           <Group type="102" alignment="0" attributes="0">
               <EmptySpace min="-2" pref="106" max="-2" attributes="0"/>
-              <Group type="103" groupAlignment="3" attributes="0">
-                  <Component id="btnRegistrarEmpleado" alignment="3" min="-2" max="-2" attributes="0"/>
-                  <Component id="btnModificarEmpleado" alignment="3" min="-2" max="-2" attributes="0"/>
-              </Group>
-              <EmptySpace pref="351" max="32767" attributes="0"/>
+              <Component id="btnRegistrarEmpleado" min="-2" max="-2" attributes="0"/>
+              <EmptySpace min="-2" pref="44" max="-2" attributes="0"/>
+              <Component id="btnAdministrarProductos" min="-2" max="-2" attributes="0"/>
+              <EmptySpace pref="284" max="32767" attributes="0"/>
           </Group>
       </Group>
     </DimensionLayout>
@@ -48,12 +53,15 @@
   <SubComponents>
     <Component class="javax.swing.JButton" name="btnRegistrarEmpleado">
       <Properties>
-        <Property name="text" type="java.lang.String" value="Registrar Empleado"/>
+        <Property name="text" type="java.lang.String" value="Administrar Empleado"/>
       </Properties>
+      <Events>
+        <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="btnRegistrarEmpleadoActionPerformed"/>
+      </Events>
     </Component>
-    <Component class="javax.swing.JButton" name="btnModificarEmpleado">
+    <Component class="javax.swing.JButton" name="btnAdministrarProductos">
       <Properties>
-        <Property name="text" type="java.lang.String" value="Modificar Empleado"/>
+        <Property name="text" type="java.lang.String" value="Administrar Productos (Pr&#xf3;ximamente)"/>
       </Properties>
     </Component>
   </SubComponents>

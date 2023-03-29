@@ -166,4 +166,8 @@ public class Empleado {
         this.idRol = idRol;
     }
 
+    public void getIdEmpleado (int idEmpleado) {
+      this.idEmpledo = idEmpleado;
+    }
+
 }
