@@ -1,6 +1,7 @@
 package Ventanas;
 
 import ArchivosBD.Conexion;
+import javax.swing.JOptionPane;
 
 /**
  *
@@ -92,14 +93,16 @@ public class Login extends javax.swing.JFrame {
         String pass = txtPassword.getText();
 
         if (con.verificarLogin(username, pass).equals("")) {
-            System.out.println("credenciales no validads");
+            JOptionPane.showMessageDialog(this, "ERROR! Usuario o contraseña no validos");
         } else {
             if (con.verificarLogin(username, pass).equals("1")) {
-                System.out.println("admin");
                 PanelAdministrador a = new PanelAdministrador();
+                this.dispose();
                 a.setVisible(true);
             } else {
-                System.out.println("empleado");
+                PanelControlEmpleado b = new PanelControlEmpleado();
+                this.dispose();
+                b.setVisible(true);
             }
         }
 
