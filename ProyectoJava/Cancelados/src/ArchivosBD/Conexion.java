@@ -86,7 +86,7 @@ public class Conexion {
         return cursor;
     }
     
-    public boolean insertarEmpleado(Empleado empleado, String usuario, String contra){
+    public boolean insertarEmpleado(Empleado empleado, String contra){
 
         String SQL_insertar = "INSERT INTO empleado VALUES (null, '%nom%', '%pa%', '%ma%', '%cal%', '%noe%', '%col%', '%cp%', '%curp%', '%rfc%', '%mun%', '%est%', %rol%)";
 
