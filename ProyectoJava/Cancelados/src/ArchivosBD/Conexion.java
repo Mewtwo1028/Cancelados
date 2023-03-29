@@ -5,6 +5,7 @@ package ArchivosBD;
  * @author osmar
  */
 import Código.Credenciales;
+import Código.Empleado;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import java.sql.*;
@@ -22,9 +23,8 @@ public class Conexion {
     Connection conexion;
     Statement transaccion;
     ResultSet cursor; //aqui se guardan la informacion de las consultas SELECT
-
-    //Método para obtener la conexión a la base de datos
-    public Conexion() {
+    
+    public Conexion(){
         try {
             Class.forName(DB_DRIVER);
             conexion = DriverManager.getConnection(DB_URL, DB_USER, DB_PASSWORD);
@@ -48,4 +48,50 @@ public class Conexion {
         }
         return "";
     }
+
+    public Connection getConexion() {
+        return conexion;
+    }
+
+    public Statement getTransaccion() {
+        return transaccion;
+    }
+
+    public ResultSet getCursor() {
+        return cursor;
+    }
+    
+    public boolean insertarEmpleado(Empleado empleado, String usuario, String contra){
+
+        String SQL_insertar = "INSERT INTO empleado VALUES (null, '%nom%', '%pa%', '%ma%', '%cal%', '%noe%', '%col%', '%cp%', '%curp%', '%rfc%', '%mun%', '%est%', %rol%)";
+
+        SQL_insertar = SQL_insertar.replace("%nom%", empleado.getNombre());
+        SQL_insertar = SQL_insertar.replace("%pa%", empleado.getaPaterno());
+        SQL_insertar = SQL_insertar.replace("%ma%", empleado.getaMaterno());
+        SQL_insertar = SQL_insertar.replace("%cal%", empleado.getCalle());
+        SQL_insertar = SQL_insertar.replace("%noe%", empleado.getNoExt());
+        SQL_insertar = SQL_insertar.replace("%col%", empleado.getColonia());
+        SQL_insertar = SQL_insertar.replace("%cp%", empleado.getCp());
+        SQL_insertar = SQL_insertar.replace("%curp%", empleado.getCurp());
+        SQL_insertar = SQL_insertar.replace("%rfc%", empleado.getRfc());
+        SQL_insertar = SQL_insertar.replace("%mun%", empleado.getMunicipio());
+        SQL_insertar = SQL_insertar.replace("%est%", empleado.getEstado());
+        SQL_insertar = SQL_insertar.replace("%rol%", empleado.getIdRol());
+        
+        String SQL_idEmpleado = "select idEmpleado from empleado order by idEmpleado DESC";
+
+        try {
+            transaccion.execute(SQL_insertar);
+            cursor = transaccion.executeQuery(SQL_idEmpleado);
+            cursor.next();
+            String idEmpleado = cursor.getString(1);
+            String SQL_insertarCredencial = "INSERT INTO credenciales VALUES (null, '"+contra+"',"+idEmpleado+","+empleado.getIdRol()+")";
+            transaccion.execute(SQL_insertarCredencial);
+        } catch (SQLException ex) {
+            return false;
+        }
+        return true;
+    }
+    
+    
 }
