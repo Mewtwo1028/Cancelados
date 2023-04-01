@@ -379,7 +379,7 @@ public class PanelAdministrarEmpleado extends javax.swing.JFrame {
         String nombre = txtNombre.getText();
         String aPaterno = txtAPaterno.getText();
         String aMaterno = txtAMaterno.getText();
-        String calle = txtAMaterno.getText();
+        String calle = txtCalle.getText();
         String noExt = txtNoExt.getText();
         String Colonia = txtColonia.getText();
         String cp = txtCP.getText();
