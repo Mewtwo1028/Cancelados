@@ -66,22 +66,23 @@ public class Empleado {
         
         //Consulta
         Conexion con = new Conexion();
-        String consulta = "UPDATE Empleado SET idEmpleado=?, nombre=?, ApellidoPaterno =?, ApellidoMaterno=?,Calle=?,NoExt=?, Colonia=?,CP=?,Municipio=?,Estado=?,CURP=?,RFC=?;"; //pendiente Roles_idRoles por algunos errores
+        String consulta = "UPDATE Empleado SET nombre=?, ApellidoPaterno =?, ApellidoMaterno=?,Calle=?,NoExt=?, Colonia=?,CP=?,Municipio=?,Estado=?,CURP=?,RFC=? WHERE idEmpleado=?;"; //pendiente Roles_idRoles por algunos errores
         
         try {
             CallableStatement cs = con.getConexion().prepareCall(consulta);
-            cs.setInt(1, idEmpledo);
-            cs.setString(2, getNombre());
-            cs.setString(3, getaPaterno());
-            cs.setString(4, getaMaterno());
-            cs.setString(5, getCalle());
-            cs.setString(6, getNoExt());
-            cs.setString(7, getColonia());
-            cs.setString(8, getCp());
-            cs.setString(9, getMunicipio());
-            cs.setString(10, getEstado());
-            cs.setString(11, getCurp());
-            cs.setString(12, getRfc());
+            
+            cs.setString(1, getNombre());
+            cs.setString(2, getaPaterno());
+            cs.setString(3, getaMaterno());
+            cs.setString(4, getCalle());
+            cs.setString(5, getNoExt());
+            cs.setString(6, getColonia());
+            cs.setString(7, getCp());
+            cs.setString(8, getMunicipio());
+            cs.setString(9, getEstado());
+            cs.setString(10, getCurp());
+            cs.setString(11, getRfc());
+            cs.setInt(12, Integer.parseInt(id.getText()));
             //cs.setInt(13, getIdRol());
             
             cs.execute();

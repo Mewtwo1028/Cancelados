@@ -93,6 +93,7 @@ public class PanelAdministrarEmpleado extends javax.swing.JFrame {
         btnConsultar = new javax.swing.JButton();
         jScrollPane1 = new javax.swing.JScrollPane();
         tblEmpleado = new javax.swing.JTable();
+        jLabel16 = new javax.swing.JLabel();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
         getContentPane().setLayout(new org.netbeans.lib.awtextra.AbsoluteLayout());
@@ -264,9 +265,9 @@ public class PanelAdministrarEmpleado extends javax.swing.JFrame {
                     .addComponent(txtMunicipio, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addComponent(txtCP, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(jLabel12)
-                    .addComponent(jLabel9))
+                .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addComponent(jLabel9)
+                    .addComponent(jLabel12))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(txtEstado, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
@@ -319,6 +320,9 @@ public class PanelAdministrarEmpleado extends javax.swing.JFrame {
         jScrollPane1.setViewportView(tblEmpleado);
 
         getContentPane().add(jScrollPane1, new org.netbeans.lib.awtextra.AbsoluteConstraints(810, 250, 1221, -1));
+
+        jLabel16.setText("jLabel16");
+        getContentPane().add(jLabel16, new org.netbeans.lib.awtextra.AbsoluteConstraints(510, 80, -1, -1));
 
         pack();
     }// </editor-fold>//GEN-END:initComponents
@@ -383,24 +387,25 @@ public class PanelAdministrarEmpleado extends javax.swing.JFrame {
      
         Empleado temp = new Empleado(txtNombre.getText(), txtAPaterno.getText(), txtAMaterno.getText(), txtCalle.getText(),txtNoExt.getText(),txtColonia.getText(), txtCP.getText(),txtCurp.getText(),txtRFC.getText(), txtMunicipio.getText(), txtEstado.getText(),txtIdRol.getText());
         temp.modificarEmpleado(txtIdEmpleado,txtNombre, txtAPaterno, txtAMaterno, txtCalle, txtNoExt,txtColonia,txtCP, txtMunicipio, txtEstado, txtCurp, txtRFC, txtIdRol);
-        
+        llenarTabla();
         
     }//GEN-LAST:event_btnModificarActionPerformed
 
-    
-   
-    private void btnConsultarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnConsultarActionPerformed
+    public void llenarTabla(){
          Conexion con = new Conexion();
-
+        modelo.setRowCount(0); //Limpiamos la tabla
         ArrayList <String[]>  lista = con.consultarTodos();
         for (int i = 0; i<lista.size(); i++){
             modelo.addRow(lista.get(i));
         }
+    }
+   
+    private void btnConsultarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnConsultarActionPerformed
+         llenarTabla();
        
     }//GEN-LAST:event_btnConsultarActionPerformed
 
-    
-    
+
     private void tblEmpleadoMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_tblEmpleadoMouseClicked
         Empleado temp = new Empleado(txtNombre.getText(), txtAPaterno.getText(), txtAMaterno.getText(), txtCalle.getText(),txtNoExt.getText(),txtColonia.getText(), txtCP.getText(),txtCurp.getText(),txtRFC.getText(), txtMunicipio.getText(), txtEstado.getText(),txtIdRol.getText());
         temp.getEmpleadoTabla(tblEmpleado,txtIdEmpleado,txtNombre, txtAPaterno, txtAMaterno, txtCalle, txtNoExt,txtColonia,txtCP, txtMunicipio, txtEstado, txtCurp, txtRFC, txtIdRol);
@@ -454,6 +459,7 @@ public class PanelAdministrarEmpleado extends javax.swing.JFrame {
     private javax.swing.JLabel jLabel13;
     private javax.swing.JLabel jLabel14;
     private javax.swing.JLabel jLabel15;
+    private javax.swing.JLabel jLabel16;
     private javax.swing.JLabel jLabel2;
     private javax.swing.JLabel jLabel3;
     private javax.swing.JLabel jLabel4;
