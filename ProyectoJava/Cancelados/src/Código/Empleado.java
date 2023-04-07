@@ -49,7 +49,7 @@ public class Empleado {
     }
     
     
-    public void modificarEmpleado(JTextField  id, JTextField nombre, JTextField aPaterno, JTextField aMaterno, JTextField calle, JTextField ext, JTextField col, JTextField cp, JTextField mun, JTextField estado, JTextField curp, JTextField rfc, JTextField rol){
+    public boolean modificarEmpleado(JTextField  id, JTextField nombre, JTextField aPaterno, JTextField aMaterno, JTextField calle, JTextField ext, JTextField col, JTextField cp, JTextField mun, JTextField estado, JTextField curp, JTextField rfc, JTextField rol){
         setIdEmpledo(Integer.parseInt(id.getText()));
         setNombre(nombre.getText());
         setaPaterno(aPaterno.getText());
@@ -87,11 +87,10 @@ public class Empleado {
             
             cs.execute();
             
-            //AQUÍ VA OTRA VEZ EL COMPONENTE!!!
-            JOptionPane.showMessageDialog(null, "Modificación correcta");
+            return true;
             
-        } catch (Exception e) {
-            JOptionPane.showMessageDialog(null, "Error al modificar: "+e.toString());
+        } catch (NumberFormatException | SQLException e) {
+            return false;
         }
         
     }

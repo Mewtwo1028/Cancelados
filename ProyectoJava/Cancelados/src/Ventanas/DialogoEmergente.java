@@ -14,10 +14,9 @@ public class DialogoEmergente extends javax.swing.JDialog {
         super(parent, modal);
         initComponents();
         this.setLocationRelativeTo(null);
-        setColorFondo(89, 31, 29);
+        setColorFondo(94, 29, 27);
         colocarImagen("chatBubble");
         setTamanoFuente(18);
-        setTexto(texto);
     }
 
     public void setTamanoFuente(int tamano) {
