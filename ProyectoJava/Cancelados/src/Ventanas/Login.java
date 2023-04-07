@@ -20,29 +20,34 @@ public class Login extends javax.swing.JFrame {
     private void inicializar() {
         //Configuracion ventana
         this.setLocationRelativeTo(null);
-        this.getContentPane().setBackground(Color.WHITE);
+        //this.getContentPane().setBackground(Color.WHITE);
         this.setExtendedState(JFrame.MAXIMIZED_BOTH);
         this.setTitle("Iniciar sesion");
+        
+        FuncionesUtiles funcionesUtiles = new FuncionesUtiles();
+        
+        //Configurar panel principal
+        jPanelPrincipal.setBounds(0, 0, (int) java.awt.Toolkit.getDefaultToolkit().getScreenSize().getWidth(), (int) java.awt.Toolkit.getDefaultToolkit().getScreenSize().getHeight());
+        jPanelPrincipal.setBackground(Color.WHITE);
+        
+        //Configurar bolitas
+        jLabelBolitas.setBounds((int)jPanelPrincipal.getBounds().getMaxX(), (int)jPanelPrincipal.getBounds().getMaxY(), 248, 231);
 
         //Imagenes
-        FuncionesUtiles funcionesUtiles = new FuncionesUtiles();
         funcionesUtiles.colocarImagen("/Imagenes/LogoLetrasDegradado.png", jLabelLogoDegradado);
         funcionesUtiles.colocarImagen("/Imagenes/bolitas.png", jLabelBolitas);
 
         //Boton olvidar contraseña
-        btnForgottenPassword.setOpaque(false);
-        btnForgottenPassword.setContentAreaFilled(false);
-        btnForgottenPassword.setBorderPainted(false);
+        funcionesUtiles.confBtn(btnForgottenPassword);
 
         //Configurar jPanelCredenciales
         jPanelCredenciales.setBackground(Color.WHITE);
 
         //Boton ingresar
-        btnIngresar.setBackground(new Color(94, 29, 27));
-        btnIngresar.setForeground(Color.WHITE);
+        funcionesUtiles.confBtnColor(btnIngresar);
 
         //Bienvenida
-        jLabelBienvenida.setForeground(new Color(94, 29, 27));
+        jLabelBienvenida.setForeground(funcionesUtiles.getColorCancelados());
     }
 
     /**
@@ -54,6 +59,9 @@ public class Login extends javax.swing.JFrame {
     // <editor-fold defaultstate="collapsed" desc="Generated Code">//GEN-BEGIN:initComponents
     private void initComponents() {
 
+        jPanelPrincipal = new javax.swing.JPanel();
+        jLabelLogoDegradado = new javax.swing.JLabel();
+        jLabelBienvenida = new javax.swing.JLabel();
         jPanelCredenciales = new javax.swing.JPanel();
         jLabel1 = new javax.swing.JLabel();
         jLabel2 = new javax.swing.JLabel();
@@ -61,19 +69,19 @@ public class Login extends javax.swing.JFrame {
         btnIngresar = new javax.swing.JButton();
         txtPassword = new javax.swing.JPasswordField();
         btnForgottenPassword = new javax.swing.JButton();
-        jLabelLogoDegradado = new javax.swing.JLabel();
-        jLabelBienvenida = new javax.swing.JLabel();
         jLabelBolitas = new javax.swing.JLabel();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
         setMinimumSize(new java.awt.Dimension(1280, 720));
-        setPreferredSize(new java.awt.Dimension(1280, 720));
-        getContentPane().setLayout(new org.netbeans.lib.awtextra.AbsoluteLayout());
+
+        jLabelBienvenida.setFont(new java.awt.Font("Segoe UI", 1, 36)); // NOI18N
+        jLabelBienvenida.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
+        jLabelBienvenida.setText("Bienvenido");
 
         jPanelCredenciales.setForeground(new java.awt.Color(255, 0, 51));
         jPanelCredenciales.setLayout(new org.netbeans.lib.awtextra.AbsoluteLayout());
 
-        jLabel1.setText("Username");
+        jLabel1.setText("Usuario");
         jPanelCredenciales.add(jLabel1, new org.netbeans.lib.awtextra.AbsoluteConstraints(30, 20, -1, -1));
 
         jLabel2.setText("Contraseña");
@@ -98,14 +106,49 @@ public class Login extends javax.swing.JFrame {
         btnForgottenPassword.setText("Olvide mi contraseña");
         jPanelCredenciales.add(btnForgottenPassword, new org.netbeans.lib.awtextra.AbsoluteConstraints(30, 230, 270, -1));
 
-        getContentPane().add(jPanelCredenciales, new org.netbeans.lib.awtextra.AbsoluteConstraints(950, 200, 320, 290));
-        getContentPane().add(jLabelLogoDegradado, new org.netbeans.lib.awtextra.AbsoluteConstraints(0, 1, 730, 720));
+        javax.swing.GroupLayout jPanelPrincipalLayout = new javax.swing.GroupLayout(jPanelPrincipal);
+        jPanelPrincipal.setLayout(jPanelPrincipalLayout);
+        jPanelPrincipalLayout.setHorizontalGroup(
+            jPanelPrincipalLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(jPanelPrincipalLayout.createSequentialGroup()
+                .addComponent(jLabelLogoDegradado, javax.swing.GroupLayout.DEFAULT_SIZE, 730, Short.MAX_VALUE)
+                .addGroup(jPanelPrincipalLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addGroup(jPanelPrincipalLayout.createSequentialGroup()
+                        .addGap(157, 157, 157)
+                        .addGroup(jPanelPrincipalLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanelPrincipalLayout.createSequentialGroup()
+                                .addGap(145, 145, 145)
+                                .addComponent(jLabelBolitas))
+                            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanelPrincipalLayout.createSequentialGroup()
+                                .addComponent(jPanelCredenciales, javax.swing.GroupLayout.DEFAULT_SIZE, 330, Short.MAX_VALUE)
+                                .addGap(63, 63, 63))))
+                    .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanelPrincipalLayout.createSequentialGroup()
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                        .addComponent(jLabelBienvenida)
+                        .addGap(142, 142, 142))))
+        );
+        jPanelPrincipalLayout.setVerticalGroup(
+            jPanelPrincipalLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(jPanelPrincipalLayout.createSequentialGroup()
+                .addGap(88, 88, 88)
+                .addComponent(jLabelBienvenida)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                .addComponent(jPanelCredenciales, javax.swing.GroupLayout.PREFERRED_SIZE, 269, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addGap(72, 72, 72)
+                .addComponent(jLabelBolitas, javax.swing.GroupLayout.PREFERRED_SIZE, 231, javax.swing.GroupLayout.PREFERRED_SIZE))
+            .addComponent(jLabelLogoDegradado, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+        );
 
-        jLabelBienvenida.setFont(new java.awt.Font("Segoe UI", 1, 36)); // NOI18N
-        jLabelBienvenida.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
-        jLabelBienvenida.setText("Bienvenido");
-        getContentPane().add(jLabelBienvenida, new org.netbeans.lib.awtextra.AbsoluteConstraints(1020, 140, -1, -1));
-        getContentPane().add(jLabelBolitas, new org.netbeans.lib.awtextra.AbsoluteConstraints(1120, 490, 248, 231));
+        javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
+        getContentPane().setLayout(layout);
+        layout.setHorizontalGroup(
+            layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addComponent(jPanelPrincipal, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+        );
+        layout.setVerticalGroup(
+            layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addComponent(jPanelPrincipal, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+        );
 
         pack();
     }// </editor-fold>//GEN-END:initComponents
@@ -131,7 +174,7 @@ public class Login extends javax.swing.JFrame {
             dEmergente.setVisible(true);
         } else {
             if (con.verificarLogin(username, pass).equals("1")) {
-                PanelAdministrador a = new PanelAdministrador();
+                PanelControlAdministrador a = new PanelControlAdministrador();
                 this.dispose();
                 a.setVisible(true);
             } else {
@@ -183,6 +226,7 @@ public class Login extends javax.swing.JFrame {
     private javax.swing.JLabel jLabelBolitas;
     private javax.swing.JLabel jLabelLogoDegradado;
     private javax.swing.JPanel jPanelCredenciales;
+    private javax.swing.JPanel jPanelPrincipal;
     private javax.swing.JPasswordField txtPassword;
     private javax.swing.JTextField txtUsername;
     // End of variables declaration//GEN-END:variables
