@@ -174,7 +174,7 @@ public class Login extends javax.swing.JFrame {
             dEmergente.setVisible(true);
         } else {
             if (con.verificarLogin(username, pass).equals("1")) {
-                PanelAdministrador a = new PanelAdministrador();
+                PanelControlAdministrador a = new PanelControlAdministrador();
                 this.dispose();
                 a.setVisible(true);
             } else {
