@@ -8,6 +8,9 @@ import ArchivosBD.Conexion;
 import java.sql.DriverManager;
 import java.sql.Statement;
 import java.sql.*;
+import javax.swing.JOptionPane;
+import javax.swing.JTable;
+import javax.swing.JTextField;
 
 /**
  *
@@ -46,6 +49,82 @@ public class Empleado {
     }
     
     
+    public boolean modificarEmpleado(JTextField  id, JTextField nombre, JTextField aPaterno, JTextField aMaterno, JTextField calle, JTextField ext, JTextField col, JTextField cp, JTextField mun, JTextField estado, JTextField curp, JTextField rfc, JTextField rol){
+        setIdEmpledo(Integer.parseInt(id.getText()));
+        setNombre(nombre.getText());
+        setaPaterno(aPaterno.getText());
+        setaMaterno(aMaterno.getText());
+        setCalle(calle.getText());
+        setNoExt(ext.getText());
+        setColonia(col.getText());
+        setCp(cp.getText());
+        setMunicipio(mun.getText());
+        setEstado(estado.getText());
+        setCurp(curp.getText());
+        setRfc(rfc.getText());
+        setIdRol(rol.getText());
+        
+        //Consulta
+        Conexion con = new Conexion();
+        String consulta = "UPDATE Empleado SET nombre=?, ApellidoPaterno =?, ApellidoMaterno=?,Calle=?,NoExt=?, Colonia=?,CP=?,Municipio=?,Estado=?,CURP=?,RFC=? WHERE idEmpleado=?;"; //pendiente Roles_idRoles por algunos errores
+        
+        try {
+            CallableStatement cs = con.getConexion().prepareCall(consulta);
+            
+            cs.setString(1, getNombre());
+            cs.setString(2, getaPaterno());
+            cs.setString(3, getaMaterno());
+            cs.setString(4, getCalle());
+            cs.setString(5, getNoExt());
+            cs.setString(6, getColonia());
+            cs.setString(7, getCp());
+            cs.setString(8, getMunicipio());
+            cs.setString(9, getEstado());
+            cs.setString(10, getCurp());
+            cs.setString(11, getRfc());
+            cs.setInt(12, Integer.parseInt(id.getText()));
+            //cs.setInt(13, getIdRol());
+            
+            cs.execute();
+            
+            return true;
+            
+        } catch (NumberFormatException | SQLException e) {
+            return false;
+        }
+        
+    }
+    
+    public void getEmpleadoTabla (JTable parametroEmpleado, JTextField  id, JTextField nombre, JTextField aPaterno, JTextField aMaterno, JTextField calle, JTextField ext, JTextField col, JTextField cp, JTextField mun, JTextField estado, JTextField curp, JTextField rfc, JTextField rol){//Método que manda a los jTextFields los datos del registro seleccionado en la tabla
+      
+        try{
+            int fila =  parametroEmpleado.getSelectedRow();
+            if (fila >=0){
+                id.setText( parametroEmpleado.getValueAt(fila, 0).toString());
+                nombre.setText( parametroEmpleado.getValueAt(fila, 1).toString());
+                aPaterno.setText( parametroEmpleado.getValueAt(fila, 2).toString());
+                aMaterno.setText(parametroEmpleado.getValueAt(fila, 3).toString());
+                calle.setText(parametroEmpleado.getValueAt(fila, 4).toString());
+                ext.setText(parametroEmpleado.getValueAt(fila, 5).toString());
+                col.setText(parametroEmpleado.getValueAt(fila, 6).toString());
+                cp.setText(parametroEmpleado.getValueAt(fila, 7).toString());
+                curp.setText(parametroEmpleado.getValueAt(fila, 8).toString());
+                rfc.setText(parametroEmpleado.getValueAt(fila, 9).toString());
+                mun.setText(parametroEmpleado.getValueAt(fila, 10).toString());
+                estado.setText(parametroEmpleado.getValueAt(fila,11).toString());
+                rol.setText(parametroEmpleado.getValueAt(fila, 12).toString());
+                
+            }
+            
+            //POR AQUÍ IRÍA LO DEL COMPONENTE!!!
+            else{
+               // JOptionPane.showInputDialog(this,"Fila no selecccionada");
+            }
+        } catch (Exception e){
+            //JOptionPane.showInputDialog(this,"Fila no selecccionada");
+        }
+        
+    }
 
     public Empleado(String nombre, String aPaterno, String aMaterno, String calle, String noExt, String Colonia, String cp, String curp, String rfc, String municipio, String estado, String idRol) {
         this.nombre = nombre;

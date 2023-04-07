@@ -35,7 +35,7 @@ CREATE TABLE IF NOT EXISTS `cancelados`.`Empleado` (
   `ApellidoPaterno` VARCHAR(45) NULL,
   `ApellidoMaterno` VARCHAR(45) NULL,
   `Calle` VARCHAR(45) NULL,
-  `No.Ext` VARCHAR(45) NULL,
+  `NoExt` VARCHAR(45) NULL,
   `Colonia` VARCHAR(45) NULL,
   `CP` VARCHAR(45) NULL,
   `CURP` VARCHAR(45) NULL,
