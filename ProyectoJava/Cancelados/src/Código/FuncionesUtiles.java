@@ -15,7 +15,17 @@ public class FuncionesUtiles {
     public FuncionesUtiles() {
 
     }
-
+    
+    /**
+     * Funcion que coloca una imagen en un jButton pero que no lo ajusta al tamaño del boton
+     * @param imagen
+     * @param jButton 
+     */
+    public void colocarImagen(String imagen, JButton jButton) {
+        ImageIcon img = new ImageIcon(getClass().getResource(imagen));
+        jButton.setIcon(img);
+    }
+    
     /**
      * Funcion que coloca una imagen en un jlabel y la justa deacuerdo al tamaño
      * del jlabel.

@@ -2,7 +2,6 @@ package Ventanas;
 
 import Código.FuncionesUtiles;
 import java.awt.Color;
-import java.awt.Container;
 import javax.swing.JFrame;
 
 public class PanelControlAdministrador extends javax.swing.JFrame {
@@ -27,7 +26,7 @@ public class PanelControlAdministrador extends javax.swing.JFrame {
         jPanelPrincipal.setBackground(Color.WHITE);
         
         //Colocar panel de la izquierda
-        PanelBotonesIzquierda panelBotones = new PanelBotonesIzquierda();
+        AccionesRapidasAdministrador panelBotones = new AccionesRapidasAdministrador(this);
         panelBotones.setBounds(0, 0, 266, (int) this.getBounds().getHeight()-50);
         jPanelIzquierda.removeAll();
         jPanelIzquierda.setMinimumSize(panelBotones.getPreferredSize());
@@ -227,7 +226,7 @@ public class PanelControlAdministrador extends javax.swing.JFrame {
 
     private void btnAdmEmpleadoActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnAdmEmpleadoActionPerformed
         // TODO add your handling code here:
-        PanelAdministrarEmpleado pAdminEmpl= new PanelAdministrarEmpleado();
+        AdministrarEmpleado pAdminEmpl= new AdministrarEmpleado();
         this.dispose();
         pAdminEmpl.setVisible(true);
     }//GEN-LAST:event_btnAdmEmpleadoActionPerformed
