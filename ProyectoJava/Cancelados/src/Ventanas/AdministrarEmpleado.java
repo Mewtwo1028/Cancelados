@@ -384,6 +384,11 @@ public class AdministrarEmpleado extends javax.swing.JFrame {
         });
 
         btnEliminar.setText("Eliminar");
+        btnEliminar.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnEliminarActionPerformed(evt);
+            }
+        });
 
         javax.swing.GroupLayout jPanelAccionesLayout = new javax.swing.GroupLayout(jPanelAcciones);
         jPanelAcciones.setLayout(jPanelAccionesLayout);
@@ -544,6 +549,21 @@ public class AdministrarEmpleado extends javax.swing.JFrame {
         Empleado temp = new Empleado(txtNombre.getText(), txtApPaterno.getText(), txtApMaterno.getText(), txtCalle.getText(), txtNoExt.getText(), txtColonia.getText(), txtCP.getText(), txtCURP.getText(), txtRFC.getText(), txtMunicipio.getText(), txtEstado.getText(), txtIdRol);
         temp.getEmpleadoTabla(tblEmpleado, txtIDEmpleado, txtNombre, txtApPaterno, txtApMaterno, txtCalle, txtNoExt, txtColonia, txtCP, txtMunicipio, txtEstado, txtCURP, txtRFC, jComboBoxRol);
     }//GEN-LAST:event_tblEmpleadoMouseClicked
+
+    private void btnEliminarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnEliminarActionPerformed
+        // ELIMINAR EMPLEADO
+        DialogoEmergente dEmergente = new DialogoEmergente(this, true);
+        Empleado empleado = new Empleado(Integer.parseInt(txtIDEmpleado.getText()));        
+        
+        if (empleado.eliminarEmpleado(empleado)) {
+            llenarTabla();
+            dEmergente.setTexto("El empleado se elimino de\nforma correcta");
+            dEmergente.setVisible(true);
+        } else {
+            dEmergente.setTexto("ERROR AL INTENTAR\nELIMINAR AL EMPLEADO!");
+            dEmergente.setVisible(true);
+        }
+    }//GEN-LAST:event_btnEliminarActionPerformed
 
     private void llenarTabla() {
         Conexion con = new Conexion();

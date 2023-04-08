@@ -1,18 +1,13 @@
 package Código;
 
 import ArchivosBD.Conexion;
-import java.sql.DriverManager;
-import java.sql.Statement;
 import java.sql.*;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 import javax.swing.JComboBox;
-import javax.swing.JOptionPane;
 import javax.swing.JTable;
 import javax.swing.JTextField;
 
-/**
- *
- * @author osmar
- */
 public class Empleado {
 
     int idEmpledo;
@@ -43,6 +38,49 @@ public class Empleado {
         this.municipio = municipio;
         this.estado = estado;
         this.idRol = idRol;
+    }
+
+    public Empleado(String nombre, String aPaterno, String aMaterno, String calle, String noExt, String Colonia, String cp, String curp, String rfc, String municipio, String estado, String idRol) {
+        this.nombre = nombre;
+        this.aPaterno = aPaterno;
+        this.aMaterno = aMaterno;
+        this.calle = calle;
+        this.noExt = noExt;
+        this.Colonia = Colonia;
+        this.cp = cp;
+        this.curp = curp;
+        this.rfc = rfc;
+        this.municipio = municipio;
+        this.estado = estado;
+        this.idRol = idRol;
+    }
+
+    public Empleado(int idEmpleado) {
+        this.idEmpledo = idEmpleado;
+    }
+
+    public boolean eliminarEmpleado(Empleado empleado) {
+        Conexion conexion = new Conexion();
+        String operacion1 = "DELETE FROM credenciales WHERE Empleado_idEmpleado=?;";
+        String operacion2 = "DELETE FROM empleado WHERE idEmpleado=?;";
+        
+        System.out.println(String.valueOf(empleado.getIdEmpledo()));
+
+        CallableStatement cs;
+        try {
+            //Borrar las credenciales del empleado
+            cs = conexion.getConexion().prepareCall(operacion1);
+            cs.setString(1, String.valueOf(empleado.getIdEmpledo()));
+            cs.execute();
+            
+            //Borrar al empleado
+            cs = conexion.getConexion().prepareCall(operacion2);
+            cs.setString(1, String.valueOf(empleado.getIdEmpledo()));
+            cs.execute();
+            return true;
+        } catch (SQLException ex) {
+            return false;
+        }
     }
 
     public boolean modificarEmpleado(Empleado empleado) {
@@ -104,21 +142,6 @@ public class Empleado {
             //JOptionPane.showInputDialog(this,"Fila no selecccionada");
         }
 
-    }
-
-    public Empleado(String nombre, String aPaterno, String aMaterno, String calle, String noExt, String Colonia, String cp, String curp, String rfc, String municipio, String estado, String idRol) {
-        this.nombre = nombre;
-        this.aPaterno = aPaterno;
-        this.aMaterno = aMaterno;
-        this.calle = calle;
-        this.noExt = noExt;
-        this.Colonia = Colonia;
-        this.cp = cp;
-        this.curp = curp;
-        this.rfc = rfc;
-        this.municipio = municipio;
-        this.estado = estado;
-        this.idRol = idRol;
     }
 
     public int getIdEmpledo() {
