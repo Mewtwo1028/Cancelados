@@ -118,7 +118,7 @@
                           <Group type="102" attributes="0">
                               <Group type="103" groupAlignment="0" max="-2" attributes="0">
                                   <Component id="btnAgregarProducto" pref="277" max="32767" attributes="0"/>
-                                  <Component id="btnVentas" max="32767" attributes="0"/>
+                                  <Component id="btnAdministrarVentas" max="32767" attributes="0"/>
                               </Group>
                               <EmptySpace type="separate" max="-2" attributes="0"/>
                               <Group type="103" groupAlignment="0" attributes="0">
@@ -128,9 +128,9 @@
                                       <Component id="btnEliminarProducto" min="-2" pref="277" max="-2" attributes="0"/>
                                   </Group>
                                   <Group type="102" attributes="0">
-                                      <Component id="btnClientes" min="-2" pref="277" max="-2" attributes="0"/>
+                                      <Component id="btnAdministrarClientes" min="-2" pref="277" max="-2" attributes="0"/>
                                       <EmptySpace type="separate" max="-2" attributes="0"/>
-                                      <Component id="btnAdmEmpleado" min="-2" pref="277" max="-2" attributes="0"/>
+                                      <Component id="btnAdmEmpleados" min="-2" pref="277" max="-2" attributes="0"/>
                                   </Group>
                               </Group>
                           </Group>
@@ -150,9 +150,9 @@
                       </Group>
                       <EmptySpace type="separate" max="-2" attributes="0"/>
                       <Group type="103" groupAlignment="0" attributes="0">
-                          <Component id="btnVentas" min="-2" pref="150" max="-2" attributes="0"/>
-                          <Component id="btnClientes" min="-2" pref="150" max="-2" attributes="0"/>
-                          <Component id="btnAdmEmpleado" min="-2" pref="150" max="-2" attributes="0"/>
+                          <Component id="btnAdministrarVentas" min="-2" pref="150" max="-2" attributes="0"/>
+                          <Component id="btnAdministrarClientes" min="-2" pref="150" max="-2" attributes="0"/>
+                          <Component id="btnAdmEmpleados" min="-2" pref="150" max="-2" attributes="0"/>
                       </Group>
                       <EmptySpace type="separate" max="-2" attributes="0"/>
                       <Component id="btnVender" min="-2" pref="150" max="-2" attributes="0"/>
@@ -167,10 +167,13 @@
                 <Property name="text" type="java.lang.String" value="Agregar Producto"/>
               </Properties>
             </Component>
-            <Component class="javax.swing.JButton" name="btnVentas">
+            <Component class="javax.swing.JButton" name="btnAdministrarVentas">
               <Properties>
-                <Property name="text" type="java.lang.String" value="Ventas"/>
+                <Property name="text" type="java.lang.String" value="Administrar Ventas"/>
               </Properties>
+              <Events>
+                <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="btnAdministrarVentasActionPerformed"/>
+              </Events>
             </Component>
             <Component class="javax.swing.JButton" name="btnVender">
               <Properties>
@@ -182,22 +185,25 @@
                 <Property name="text" type="java.lang.String" value="Editar Producto"/>
               </Properties>
             </Component>
-            <Component class="javax.swing.JButton" name="btnClientes">
+            <Component class="javax.swing.JButton" name="btnAdministrarClientes">
               <Properties>
-                <Property name="text" type="java.lang.String" value="Clientes"/>
+                <Property name="text" type="java.lang.String" value="Administrar Clientes"/>
               </Properties>
+              <Events>
+                <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="btnAdministrarClientesActionPerformed"/>
+              </Events>
             </Component>
             <Component class="javax.swing.JButton" name="btnEliminarProducto">
               <Properties>
                 <Property name="text" type="java.lang.String" value="Eliminar Producto"/>
               </Properties>
             </Component>
-            <Component class="javax.swing.JButton" name="btnAdmEmpleado">
+            <Component class="javax.swing.JButton" name="btnAdmEmpleados">
               <Properties>
-                <Property name="text" type="java.lang.String" value="Administrar Empleado"/>
+                <Property name="text" type="java.lang.String" value="Administrar Empleados"/>
               </Properties>
               <Events>
-                <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="btnAdmEmpleadoActionPerformed"/>
+                <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="btnAdmEmpleadosActionPerformed"/>
               </Events>
             </Component>
           </SubComponents>
