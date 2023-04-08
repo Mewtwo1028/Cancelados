@@ -55,9 +55,9 @@ public class PanelControlAdministrador extends javax.swing.JFrame {
         tools.confBtnColor(btnAgregarProducto);
         tools.confBtnColor(btnEditarProducto);
         tools.confBtnColor(btnEliminarProducto);
-        tools.confBtnColor(btnVentas);
-        tools.confBtnColor(btnClientes);
-        tools.confBtnColor(btnAdmEmpleado);
+        tools.confBtnColor(btnAdministrarVentas);
+        tools.confBtnColor(btnAdministrarClientes);
+        tools.confBtnColor(btnAdmEmpleados);
         tools.confBtnColor(btnVender);
     }
 
@@ -75,12 +75,12 @@ public class PanelControlAdministrador extends javax.swing.JFrame {
         jPanelInformacion = new javax.swing.JPanel();
         jPanelOperaciones = new javax.swing.JPanel();
         btnAgregarProducto = new javax.swing.JButton();
-        btnVentas = new javax.swing.JButton();
+        btnAdministrarVentas = new javax.swing.JButton();
         btnVender = new javax.swing.JButton();
         btnEditarProducto = new javax.swing.JButton();
-        btnClientes = new javax.swing.JButton();
+        btnAdministrarClientes = new javax.swing.JButton();
         btnEliminarProducto = new javax.swing.JButton();
-        btnAdmEmpleado = new javax.swing.JButton();
+        btnAdmEmpleados = new javax.swing.JButton();
         jPanelLinea = new javax.swing.JPanel();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
@@ -111,20 +111,30 @@ public class PanelControlAdministrador extends javax.swing.JFrame {
 
         btnAgregarProducto.setText("Agregar Producto");
 
-        btnVentas.setText("Ventas");
+        btnAdministrarVentas.setText("Administrar Ventas");
+        btnAdministrarVentas.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnAdministrarVentasActionPerformed(evt);
+            }
+        });
 
         btnVender.setText("VENDER");
 
         btnEditarProducto.setText("Editar Producto");
 
-        btnClientes.setText("Clientes");
+        btnAdministrarClientes.setText("Administrar Clientes");
+        btnAdministrarClientes.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnAdministrarClientesActionPerformed(evt);
+            }
+        });
 
         btnEliminarProducto.setText("Eliminar Producto");
 
-        btnAdmEmpleado.setText("Administrar Empleado");
-        btnAdmEmpleado.addActionListener(new java.awt.event.ActionListener() {
+        btnAdmEmpleados.setText("Administrar Empleados");
+        btnAdmEmpleados.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
-                btnAdmEmpleadoActionPerformed(evt);
+                btnAdmEmpleadosActionPerformed(evt);
             }
         });
 
@@ -139,7 +149,7 @@ public class PanelControlAdministrador extends javax.swing.JFrame {
                     .addGroup(jPanelOperacionesLayout.createSequentialGroup()
                         .addGroup(jPanelOperacionesLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
                             .addComponent(btnAgregarProducto, javax.swing.GroupLayout.DEFAULT_SIZE, 277, Short.MAX_VALUE)
-                            .addComponent(btnVentas, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                            .addComponent(btnAdministrarVentas, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
                         .addGap(18, 18, 18)
                         .addGroup(jPanelOperacionesLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                             .addGroup(jPanelOperacionesLayout.createSequentialGroup()
@@ -147,9 +157,9 @@ public class PanelControlAdministrador extends javax.swing.JFrame {
                                 .addGap(18, 18, 18)
                                 .addComponent(btnEliminarProducto, javax.swing.GroupLayout.PREFERRED_SIZE, 277, javax.swing.GroupLayout.PREFERRED_SIZE))
                             .addGroup(jPanelOperacionesLayout.createSequentialGroup()
-                                .addComponent(btnClientes, javax.swing.GroupLayout.PREFERRED_SIZE, 277, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                .addComponent(btnAdministrarClientes, javax.swing.GroupLayout.PREFERRED_SIZE, 277, javax.swing.GroupLayout.PREFERRED_SIZE)
                                 .addGap(18, 18, 18)
-                                .addComponent(btnAdmEmpleado, javax.swing.GroupLayout.PREFERRED_SIZE, 277, javax.swing.GroupLayout.PREFERRED_SIZE)))))
+                                .addComponent(btnAdmEmpleados, javax.swing.GroupLayout.PREFERRED_SIZE, 277, javax.swing.GroupLayout.PREFERRED_SIZE)))))
                 .addContainerGap(47, Short.MAX_VALUE))
         );
         jPanelOperacionesLayout.setVerticalGroup(
@@ -162,9 +172,9 @@ public class PanelControlAdministrador extends javax.swing.JFrame {
                     .addComponent(btnEliminarProducto, javax.swing.GroupLayout.PREFERRED_SIZE, 150, javax.swing.GroupLayout.PREFERRED_SIZE))
                 .addGap(18, 18, 18)
                 .addGroup(jPanelOperacionesLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addComponent(btnVentas, javax.swing.GroupLayout.PREFERRED_SIZE, 150, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(btnClientes, javax.swing.GroupLayout.PREFERRED_SIZE, 150, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(btnAdmEmpleado, javax.swing.GroupLayout.PREFERRED_SIZE, 150, javax.swing.GroupLayout.PREFERRED_SIZE))
+                    .addComponent(btnAdministrarVentas, javax.swing.GroupLayout.PREFERRED_SIZE, 150, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(btnAdministrarClientes, javax.swing.GroupLayout.PREFERRED_SIZE, 150, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(btnAdmEmpleados, javax.swing.GroupLayout.PREFERRED_SIZE, 150, javax.swing.GroupLayout.PREFERRED_SIZE))
                 .addGap(18, 18, 18)
                 .addComponent(btnVender, javax.swing.GroupLayout.PREFERRED_SIZE, 150, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addContainerGap(98, Short.MAX_VALUE))
@@ -224,12 +234,22 @@ public class PanelControlAdministrador extends javax.swing.JFrame {
         pack();
     }// </editor-fold>//GEN-END:initComponents
 
-    private void btnAdmEmpleadoActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnAdmEmpleadoActionPerformed
+    private void btnAdmEmpleadosActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnAdmEmpleadosActionPerformed
         // TODO add your handling code here:
         AdministrarEmpleado pAdminEmpl= new AdministrarEmpleado();
         this.dispose();
         pAdminEmpl.setVisible(true);
-    }//GEN-LAST:event_btnAdmEmpleadoActionPerformed
+    }//GEN-LAST:event_btnAdmEmpleadosActionPerformed
+
+    private void btnAdministrarVentasActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnAdministrarVentasActionPerformed
+        // TODO add your handling code here:
+    }//GEN-LAST:event_btnAdministrarVentasActionPerformed
+
+    private void btnAdministrarClientesActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnAdministrarClientesActionPerformed
+        AdministrarCliente pAdminClien= new AdministrarCliente();
+        this.dispose();
+        pAdminClien.setVisible(true);
+    }//GEN-LAST:event_btnAdministrarClientesActionPerformed
 
     /**
      * @param args the command line arguments
@@ -274,13 +294,13 @@ public class PanelControlAdministrador extends javax.swing.JFrame {
     }
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
-    private javax.swing.JButton btnAdmEmpleado;
+    private javax.swing.JButton btnAdmEmpleados;
+    private javax.swing.JButton btnAdministrarClientes;
+    private javax.swing.JButton btnAdministrarVentas;
     private javax.swing.JButton btnAgregarProducto;
-    private javax.swing.JButton btnClientes;
     private javax.swing.JButton btnEditarProducto;
     private javax.swing.JButton btnEliminarProducto;
     private javax.swing.JButton btnVender;
-    private javax.swing.JButton btnVentas;
     private javax.swing.JPanel jPanelInformacion;
     private javax.swing.JPanel jPanelIzquierda;
     private javax.swing.JPanel jPanelLinea;
