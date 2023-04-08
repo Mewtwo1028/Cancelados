@@ -1,13 +1,10 @@
-/*
- * Click nbfs://nbhost/SystemFileSystem/Templates/Licenses/license-default.txt to change this license
- * Click nbfs://nbhost/SystemFileSystem/Templates/Classes/Class.java to edit this template
- */
 package Código;
 
 import ArchivosBD.Conexion;
 import java.sql.DriverManager;
 import java.sql.Statement;
 import java.sql.*;
+import javax.swing.JComboBox;
 import javax.swing.JOptionPane;
 import javax.swing.JTable;
 import javax.swing.JTextField;
@@ -47,62 +44,45 @@ public class Empleado {
         this.estado = estado;
         this.idRol = idRol;
     }
-    
-    
-    public boolean modificarEmpleado(JTextField  id, JTextField nombre, JTextField aPaterno, JTextField aMaterno, JTextField calle, JTextField ext, JTextField col, JTextField cp, JTextField mun, JTextField estado, JTextField curp, JTextField rfc, JTextField rol){
-        setIdEmpledo(Integer.parseInt(id.getText()));
-        setNombre(nombre.getText());
-        setaPaterno(aPaterno.getText());
-        setaMaterno(aMaterno.getText());
-        setCalle(calle.getText());
-        setNoExt(ext.getText());
-        setColonia(col.getText());
-        setCp(cp.getText());
-        setMunicipio(mun.getText());
-        setEstado(estado.getText());
-        setCurp(curp.getText());
-        setRfc(rfc.getText());
-        setIdRol(rol.getText());
-        
-        //Consulta
+
+    public boolean modificarEmpleado(Empleado empleado) {
         Conexion con = new Conexion();
         String consulta = "UPDATE Empleado SET nombre=?, ApellidoPaterno =?, ApellidoMaterno=?,Calle=?,NoExt=?, Colonia=?,CP=?,Municipio=?,Estado=?,CURP=?,RFC=? WHERE idEmpleado=?;"; //pendiente Roles_idRoles por algunos errores
-        
+
         try {
             CallableStatement cs = con.getConexion().prepareCall(consulta);
-            
-            cs.setString(1, getNombre());
-            cs.setString(2, getaPaterno());
-            cs.setString(3, getaMaterno());
-            cs.setString(4, getCalle());
-            cs.setString(5, getNoExt());
-            cs.setString(6, getColonia());
-            cs.setString(7, getCp());
-            cs.setString(8, getMunicipio());
-            cs.setString(9, getEstado());
-            cs.setString(10, getCurp());
-            cs.setString(11, getRfc());
-            cs.setInt(12, Integer.parseInt(id.getText()));
+
+            cs.setString(1, empleado.getNombre());
+            cs.setString(2, empleado.getaPaterno());
+            cs.setString(3, empleado.getaMaterno());
+            cs.setString(4, empleado.getCalle());
+            cs.setString(5, empleado.getNoExt());
+            cs.setString(6, empleado.getColonia());
+            cs.setString(7, empleado.getCp());
+            cs.setString(8, empleado.getMunicipio());
+            cs.setString(9, empleado.getEstado());
+            cs.setString(10, empleado.getCurp());
+            cs.setString(11, empleado.getRfc());
+            cs.setInt(12, empleado.getIdEmpledo());
             //cs.setInt(13, getIdRol());
-            
+
             cs.execute();
-            
+
             return true;
-            
+
         } catch (NumberFormatException | SQLException e) {
             return false;
         }
-        
     }
-    
-    public void getEmpleadoTabla (JTable parametroEmpleado, JTextField  id, JTextField nombre, JTextField aPaterno, JTextField aMaterno, JTextField calle, JTextField ext, JTextField col, JTextField cp, JTextField mun, JTextField estado, JTextField curp, JTextField rfc, JTextField rol){//Método que manda a los jTextFields los datos del registro seleccionado en la tabla
-      
-        try{
-            int fila =  parametroEmpleado.getSelectedRow();
-            if (fila >=0){
-                id.setText( parametroEmpleado.getValueAt(fila, 0).toString());
-                nombre.setText( parametroEmpleado.getValueAt(fila, 1).toString());
-                aPaterno.setText( parametroEmpleado.getValueAt(fila, 2).toString());
+
+    public void getEmpleadoTabla(JTable parametroEmpleado, JTextField id, JTextField nombre, JTextField aPaterno, JTextField aMaterno, JTextField calle, JTextField ext, JTextField col, JTextField cp, JTextField mun, JTextField estado, JTextField curp, JTextField rfc, JComboBox rol) {//Método que manda a los jTextFields los datos del registro seleccionado en la tabla
+
+        try {
+            int fila = parametroEmpleado.getSelectedRow();
+            if (fila >= 0) {
+                id.setText(parametroEmpleado.getValueAt(fila, 0).toString());
+                nombre.setText(parametroEmpleado.getValueAt(fila, 1).toString());
+                aPaterno.setText(parametroEmpleado.getValueAt(fila, 2).toString());
                 aMaterno.setText(parametroEmpleado.getValueAt(fila, 3).toString());
                 calle.setText(parametroEmpleado.getValueAt(fila, 4).toString());
                 ext.setText(parametroEmpleado.getValueAt(fila, 5).toString());
@@ -111,19 +91,19 @@ public class Empleado {
                 curp.setText(parametroEmpleado.getValueAt(fila, 8).toString());
                 rfc.setText(parametroEmpleado.getValueAt(fila, 9).toString());
                 mun.setText(parametroEmpleado.getValueAt(fila, 10).toString());
-                estado.setText(parametroEmpleado.getValueAt(fila,11).toString());
-                rol.setText(parametroEmpleado.getValueAt(fila, 12).toString());
-                
+                estado.setText(parametroEmpleado.getValueAt(fila, 11).toString());
+                //rol.setText(parametroEmpleado.getValueAt(fila, 12).toString());
+                String valorRol = parametroEmpleado.getValueAt(fila, 12).toString();
+                rol.setSelectedIndex(valorRol.equals("1") ? 1 : 0);
+
+            } //POR AQUÍ IRÍA LO DEL COMPONENTE!!!
+            else {
+                // JOptionPane.showInputDialog(this,"Fila no selecccionada");
             }
-            
-            //POR AQUÍ IRÍA LO DEL COMPONENTE!!!
-            else{
-               // JOptionPane.showInputDialog(this,"Fila no selecccionada");
-            }
-        } catch (Exception e){
+        } catch (Exception e) {
             //JOptionPane.showInputDialog(this,"Fila no selecccionada");
         }
-        
+
     }
 
     public Empleado(String nombre, String aPaterno, String aMaterno, String calle, String noExt, String Colonia, String cp, String curp, String rfc, String municipio, String estado, String idRol) {
@@ -245,8 +225,8 @@ public class Empleado {
         this.idRol = idRol;
     }
 
-    public void getIdEmpleado (int idEmpleado) {
-      this.idEmpledo = idEmpleado;
+    public void getIdEmpleado(int idEmpleado) {
+        this.idEmpledo = idEmpleado;
     }
 
 }

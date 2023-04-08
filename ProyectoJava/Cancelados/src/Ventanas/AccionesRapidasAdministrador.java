@@ -2,15 +2,15 @@ package Ventanas;
 
 import Código.FuncionesUtiles;
 import java.awt.Color;
+import javax.swing.JFrame;
 
-public class PanelBotonesIzquierda extends javax.swing.JPanel {
+public class AccionesRapidasAdministrador extends javax.swing.JPanel {
 
-    /**
-     * Creates new form PanelBotonesIzquierda
-     */
-    public PanelBotonesIzquierda() {
+    JFrame actual;
+    public AccionesRapidasAdministrador(JFrame actual) {
         initComponents();
         inicializar();
+        this.actual = actual;
     }
     
     private void inicializar(){
@@ -36,6 +36,15 @@ public class PanelBotonesIzquierda extends javax.swing.JPanel {
         
         //Configurar linea
         jPanelLinea.setBackground(funUtil.getColorCancelados());
+        
+        //Agregar iconos a los botones
+        funUtil.colocarImagen("/Iconos/menu.png", btnMenu);
+        funUtil.colocarImagen("/Iconos/pendientes.png", btnPendientes);
+        funUtil.colocarImagen("/Iconos/reportes.png", btnReportes);
+        funUtil.colocarImagen("/Iconos/notificaciones.png", btnNotificaciones);
+        funUtil.colocarImagen("/Iconos/pagos.png", btnPagos);
+        funUtil.colocarImagen("/Iconos/configuraciones.png", btnConfiguraciones);
+        funUtil.colocarImagen("/Iconos/acercaDe.png", btnAcercaDe);
     }
 
     /**
@@ -61,6 +70,11 @@ public class PanelBotonesIzquierda extends javax.swing.JPanel {
         jPanelLinea = new javax.swing.JPanel();
 
         btnMenu.setText("MENU");
+        btnMenu.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnMenuActionPerformed(evt);
+            }
+        });
 
         btnPendientes.setText("PENDIENTES");
 
@@ -75,6 +89,11 @@ public class PanelBotonesIzquierda extends javax.swing.JPanel {
         btnAcercaDe.setText("ACERCA DE");
 
         btnVolver.setText("Volver");
+        btnVolver.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnVolverActionPerformed(evt);
+            }
+        });
 
         jPanelLinea.setPreferredSize(new java.awt.Dimension(15, 100));
 
@@ -144,6 +163,24 @@ public class PanelBotonesIzquierda extends javax.swing.JPanel {
                         .addContainerGap())))
         );
     }// </editor-fold>//GEN-END:initComponents
+
+    private void btnMenuActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnMenuActionPerformed
+        PanelControlAdministrador menu = new PanelControlAdministrador();
+        actual.dispose();
+        menu.setVisible(true);
+    }//GEN-LAST:event_btnMenuActionPerformed
+
+    private void btnVolverActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnVolverActionPerformed
+        if(actual.getTitle().equals("Panel de control")){
+            Login login = new Login();
+            login.setVisible(true);
+            actual.dispose();
+        }else{
+            PanelControlAdministrador admon = new PanelControlAdministrador();
+            admon.setVisible(true);
+            actual.dispose();
+        }
+    }//GEN-LAST:event_btnVolverActionPerformed
 
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
