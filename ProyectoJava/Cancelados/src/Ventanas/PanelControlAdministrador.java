@@ -52,7 +52,7 @@ public class PanelControlAdministrador extends javax.swing.JFrame {
         jPanelLinea.setBackground(tools.getColorCancelados());
         
         //botones
-        tools.confBtnColor(btnAgregarProducto);
+        tools.confBtnColor(btnAdministrarProductos);
         tools.confBtnColor(btnEditarProducto);
         tools.confBtnColor(btnEliminarProducto);
         tools.confBtnColor(btnAdministrarVentas);
@@ -74,7 +74,7 @@ public class PanelControlAdministrador extends javax.swing.JFrame {
         jPanelIzquierda = new javax.swing.JPanel();
         jPanelInformacion = new javax.swing.JPanel();
         jPanelOperaciones = new javax.swing.JPanel();
-        btnAgregarProducto = new javax.swing.JButton();
+        btnAdministrarProductos = new javax.swing.JButton();
         btnAdministrarVentas = new javax.swing.JButton();
         btnVender = new javax.swing.JButton();
         btnEditarProducto = new javax.swing.JButton();
@@ -109,7 +109,12 @@ public class PanelControlAdministrador extends javax.swing.JFrame {
             .addGap(0, 112, Short.MAX_VALUE)
         );
 
-        btnAgregarProducto.setText("Agregar Producto");
+        btnAdministrarProductos.setText("Administrar Productos");
+        btnAdministrarProductos.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnAdministrarProductosActionPerformed(evt);
+            }
+        });
 
         btnAdministrarVentas.setText("Administrar Ventas");
         btnAdministrarVentas.addActionListener(new java.awt.event.ActionListener() {
@@ -148,7 +153,7 @@ public class PanelControlAdministrador extends javax.swing.JFrame {
                     .addComponent(btnVender, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                     .addGroup(jPanelOperacionesLayout.createSequentialGroup()
                         .addGroup(jPanelOperacionesLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
-                            .addComponent(btnAgregarProducto, javax.swing.GroupLayout.DEFAULT_SIZE, 277, Short.MAX_VALUE)
+                            .addComponent(btnAdministrarProductos, javax.swing.GroupLayout.DEFAULT_SIZE, 277, Short.MAX_VALUE)
                             .addComponent(btnAdministrarVentas, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
                         .addGap(18, 18, 18)
                         .addGroup(jPanelOperacionesLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -167,7 +172,7 @@ public class PanelControlAdministrador extends javax.swing.JFrame {
             .addGroup(jPanelOperacionesLayout.createSequentialGroup()
                 .addContainerGap()
                 .addGroup(jPanelOperacionesLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addComponent(btnAgregarProducto, javax.swing.GroupLayout.PREFERRED_SIZE, 150, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(btnAdministrarProductos, javax.swing.GroupLayout.PREFERRED_SIZE, 150, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addComponent(btnEditarProducto, javax.swing.GroupLayout.PREFERRED_SIZE, 150, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addComponent(btnEliminarProducto, javax.swing.GroupLayout.PREFERRED_SIZE, 150, javax.swing.GroupLayout.PREFERRED_SIZE))
                 .addGap(18, 18, 18)
@@ -251,6 +256,12 @@ public class PanelControlAdministrador extends javax.swing.JFrame {
         pAdminClien.setVisible(true);
     }//GEN-LAST:event_btnAdministrarClientesActionPerformed
 
+    private void btnAdministrarProductosActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnAdministrarProductosActionPerformed
+        AdministrarProducto pAdminProduc = new AdministrarProducto();
+        this.dispose();
+        pAdminProduc.setVisible(true);
+    }//GEN-LAST:event_btnAdministrarProductosActionPerformed
+
     /**
      * @param args the command line arguments
      */
@@ -296,8 +307,8 @@ public class PanelControlAdministrador extends javax.swing.JFrame {
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JButton btnAdmEmpleados;
     private javax.swing.JButton btnAdministrarClientes;
+    private javax.swing.JButton btnAdministrarProductos;
     private javax.swing.JButton btnAdministrarVentas;
-    private javax.swing.JButton btnAgregarProducto;
     private javax.swing.JButton btnEditarProducto;
     private javax.swing.JButton btnEliminarProducto;
     private javax.swing.JButton btnVender;

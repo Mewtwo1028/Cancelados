@@ -117,7 +117,7 @@
                           <Component id="btnVender" max="32767" attributes="0"/>
                           <Group type="102" attributes="0">
                               <Group type="103" groupAlignment="0" max="-2" attributes="0">
-                                  <Component id="btnAgregarProducto" pref="277" max="32767" attributes="0"/>
+                                  <Component id="btnAdministrarProductos" pref="277" max="32767" attributes="0"/>
                                   <Component id="btnAdministrarVentas" max="32767" attributes="0"/>
                               </Group>
                               <EmptySpace type="separate" max="-2" attributes="0"/>
@@ -144,7 +144,7 @@
                   <Group type="102" alignment="0" attributes="0">
                       <EmptySpace max="-2" attributes="0"/>
                       <Group type="103" groupAlignment="0" attributes="0">
-                          <Component id="btnAgregarProducto" min="-2" pref="150" max="-2" attributes="0"/>
+                          <Component id="btnAdministrarProductos" min="-2" pref="150" max="-2" attributes="0"/>
                           <Component id="btnEditarProducto" min="-2" pref="150" max="-2" attributes="0"/>
                           <Component id="btnEliminarProducto" min="-2" pref="150" max="-2" attributes="0"/>
                       </Group>
@@ -162,10 +162,13 @@
             </DimensionLayout>
           </Layout>
           <SubComponents>
-            <Component class="javax.swing.JButton" name="btnAgregarProducto">
+            <Component class="javax.swing.JButton" name="btnAdministrarProductos">
               <Properties>
-                <Property name="text" type="java.lang.String" value="Agregar Producto"/>
+                <Property name="text" type="java.lang.String" value="Administrar Productos"/>
               </Properties>
+              <Events>
+                <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="btnAdministrarProductosActionPerformed"/>
+              </Events>
             </Component>
             <Component class="javax.swing.JButton" name="btnAdministrarVentas">
               <Properties>
