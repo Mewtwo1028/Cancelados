@@ -4,12 +4,18 @@ import ArchivosBD.Conexion;
 import Código.Cliente;
 import Código.Empleado;
 import Código.FuncionesUtiles;
+import Código.Producto;
 import java.awt.Color;
+import java.awt.Image;
+import java.io.File;
 import java.util.ArrayList;
+import javax.swing.ImageIcon;
+import javax.swing.JFileChooser;
 import javax.swing.JFrame;
+import javax.swing.filechooser.FileNameExtensionFilter;
 import javax.swing.table.DefaultTableModel;
 
-public class AdministrarCliente extends javax.swing.JFrame {
+public class AdministrarProducto extends javax.swing.JFrame {
 
     DefaultTableModel modelo = new DefaultTableModel() {
         @Override
@@ -18,7 +24,14 @@ public class AdministrarCliente extends javax.swing.JFrame {
         }
     };
 
-    public AdministrarCliente() {
+    File f = null;
+    String path = null;
+    private ImageIcon format = null;
+    String fname = null;
+    int s = 0;
+    byte[] pimage = null;
+
+    public AdministrarProducto() {
         initComponents();
         inicializar();
         initTabla();
@@ -30,7 +43,7 @@ public class AdministrarCliente extends javax.swing.JFrame {
         this.setLocationRelativeTo(null);
         this.getContentPane().setBackground(Color.WHITE);
         this.setExtendedState(JFrame.MAXIMIZED_BOTH);
-        this.setTitle("Administrar Cliente");
+        this.setTitle("Administrar Producto");
 
         //Configurar panel principal
         jPanelPrincipal.setBackground(Color.WHITE);
@@ -74,36 +87,31 @@ public class AdministrarCliente extends javax.swing.JFrame {
 
         //Limpiar txtFields
         limpiarTxtFields();
-        
+
         //idCliente
-        txtIDCliente.setEnabled(false);
+        txtIDProducto.setEnabled(false);
     }
 
     private void limpiarTxtFields() {
         txtNombre.setText("");
-        txtApPaterno.setText("");
-        txtApMaterno.setText("");
-        txtCURP.setText("");
-        txtCalle.setText("");
-        txtColonia.setText("");
-        txtCiudad.setText("");
-        txtEstado.setText("");
-        txtCP.setText("");
-        txtIDCliente.setText("");
+        txtDescripcion.setText("");
+        txtPrecioUnitario.setText("");
+        txtImagePath.setText("");
+        txtStock.setText("");
+        txtAutor.setText("");
+        txtIDProducto.setText("");
+        labelProductoImagen.removeAll();
     }
 
     private void initTabla() {
         modelo.addColumn("ID");
         modelo.addColumn("Nombre");
-        modelo.addColumn("Apellido Paterno");
-        modelo.addColumn("Apellido Materno");
-        modelo.addColumn("CURP");
-        modelo.addColumn("Calle");
-        modelo.addColumn("Colonia");
-        modelo.addColumn("Ciudad");
-        modelo.addColumn("Estado");
-        modelo.addColumn("CP");
-        tblCliente.setModel(modelo);
+        modelo.addColumn("Descripcion");
+        modelo.addColumn("Precio Unitario");
+        //modelo.addColumn("Imagen");
+        modelo.addColumn("Stock");
+        modelo.addColumn("Autor");
+        tblProducto.setModel(modelo);
     }
 
     /**
@@ -121,28 +129,24 @@ public class AdministrarCliente extends javax.swing.JFrame {
         jPanelLinea = new javax.swing.JPanel();
         jPanelOperaciones = new javax.swing.JPanel();
         jScrollPane1 = new javax.swing.JScrollPane();
-        tblCliente = new javax.swing.JTable();
+        tblProducto = new javax.swing.JTable();
         jPanelFormulario = new javax.swing.JPanel();
         labelNombre = new javax.swing.JLabel();
         txtNombre = new javax.swing.JTextField();
-        labelApPaterno = new javax.swing.JLabel();
-        txtApPaterno = new javax.swing.JTextField();
-        labelApMaterno = new javax.swing.JLabel();
-        txtApMaterno = new javax.swing.JTextField();
-        labelCURP = new javax.swing.JLabel();
-        txtCURP = new javax.swing.JTextField();
-        labelColonia = new javax.swing.JLabel();
-        txtColonia = new javax.swing.JTextField();
-        labelCiudad = new javax.swing.JLabel();
-        txtCiudad = new javax.swing.JTextField();
-        labelEstado = new javax.swing.JLabel();
-        txtEstado = new javax.swing.JTextField();
-        labelCP = new javax.swing.JLabel();
-        txtCP = new javax.swing.JTextField();
-        labelCalle = new javax.swing.JLabel();
-        txtCalle = new javax.swing.JTextField();
-        labelIDCliente = new javax.swing.JLabel();
-        txtIDCliente = new javax.swing.JTextField();
+        labelDescripcion = new javax.swing.JLabel();
+        txtDescripcion = new javax.swing.JTextField();
+        labelPrecioUnitario = new javax.swing.JLabel();
+        txtPrecioUnitario = new javax.swing.JTextField();
+        labelImagen = new javax.swing.JLabel();
+        labelAutor = new javax.swing.JLabel();
+        txtAutor = new javax.swing.JTextField();
+        labelIDProducto = new javax.swing.JLabel();
+        txtIDProducto = new javax.swing.JTextField();
+        labelStock = new javax.swing.JLabel();
+        txtStock = new javax.swing.JTextField();
+        labelProductoImagen = new javax.swing.JLabel();
+        btnImagen = new javax.swing.JButton();
+        txtImagePath = new javax.swing.JTextField();
         jPanelAcciones = new javax.swing.JPanel();
         btnConsultar = new javax.swing.JButton();
         btnRegistrar = new javax.swing.JButton();
@@ -184,7 +188,7 @@ public class AdministrarCliente extends javax.swing.JFrame {
             .addGap(0, 0, Short.MAX_VALUE)
         );
 
-        tblCliente.setModel(new javax.swing.table.DefaultTableModel(
+        tblProducto.setModel(new javax.swing.table.DefaultTableModel(
             new Object [][] {
                 {null, null, null, null},
                 {null, null, null, null},
@@ -195,52 +199,47 @@ public class AdministrarCliente extends javax.swing.JFrame {
                 "Title 1", "Title 2", "Title 3", "Title 4"
             }
         ));
-        tblCliente.addMouseListener(new java.awt.event.MouseAdapter() {
+        tblProducto.addMouseListener(new java.awt.event.MouseAdapter() {
             public void mouseClicked(java.awt.event.MouseEvent evt) {
-                tblClienteMouseClicked(evt);
+                tblProductoMouseClicked(evt);
             }
         });
-        jScrollPane1.setViewportView(tblCliente);
+        jScrollPane1.setViewportView(tblProducto);
 
         labelNombre.setText("Nombre");
 
         txtNombre.setText("jTextField1");
 
-        labelApPaterno.setText("Apellido Paterno");
+        labelDescripcion.setText("Descripcion");
 
-        txtApPaterno.setText("jTextField2");
+        txtDescripcion.setText("jTextField2");
 
-        labelApMaterno.setText("Apellido Materno");
+        labelPrecioUnitario.setText("Precio Unitario");
 
-        txtApMaterno.setText("jTextField3");
+        txtPrecioUnitario.setText("jTextField3");
 
-        labelCURP.setText("CURP");
+        labelImagen.setText("Imagen");
 
-        txtCURP.setText("jTextField4");
+        labelAutor.setText("Autor");
 
-        labelColonia.setText("Colonia");
+        txtAutor.setText("jTextField5");
 
-        txtColonia.setText("jTextField5");
+        labelIDProducto.setText("ID. Producto");
 
-        labelCiudad.setText("Ciudad");
+        txtIDProducto.setText("jTextField6");
 
-        txtCiudad.setText("jTextField6");
+        labelStock.setText("Stock");
 
-        labelEstado.setText("Estado");
+        txtStock.setText("jTextField10");
 
-        txtEstado.setText("jTextField7");
+        btnImagen.setText("Elegir imagen");
+        btnImagen.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnImagenActionPerformed(evt);
+            }
+        });
 
-        labelCP.setText("CP");
-
-        txtCP.setText("jTextField8");
-
-        labelCalle.setText("Calle");
-
-        txtCalle.setText("jTextField10");
-
-        labelIDCliente.setText("ID. Cliente");
-
-        txtIDCliente.setText("jTextField1");
+        txtImagePath.setText("jTextField1");
 
         javax.swing.GroupLayout jPanelFormularioLayout = new javax.swing.GroupLayout(jPanelFormulario);
         jPanelFormulario.setLayout(jPanelFormularioLayout);
@@ -249,68 +248,68 @@ public class AdministrarCliente extends javax.swing.JFrame {
             .addGroup(jPanelFormularioLayout.createSequentialGroup()
                 .addContainerGap()
                 .addGroup(jPanelFormularioLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING, false)
-                    .addComponent(labelCalle, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                    .addComponent(labelCURP, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                    .addComponent(labelApPaterno, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                    .addComponent(labelStock, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                    .addComponent(labelImagen, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                    .addComponent(labelDescripcion, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                     .addComponent(labelNombre, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                    .addComponent(labelApMaterno, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                    .addComponent(labelPrecioUnitario, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addGroup(jPanelFormularioLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
                     .addComponent(txtNombre)
-                    .addComponent(txtApMaterno)
-                    .addComponent(txtApPaterno)
-                    .addComponent(txtCURP)
-                    .addComponent(txtCalle, javax.swing.GroupLayout.DEFAULT_SIZE, 130, Short.MAX_VALUE))
+                    .addComponent(txtPrecioUnitario)
+                    .addComponent(txtDescripcion)
+                    .addComponent(txtStock, javax.swing.GroupLayout.DEFAULT_SIZE, 130, Short.MAX_VALUE)
+                    .addComponent(btnImagen, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
                 .addGap(18, 18, 18)
                 .addGroup(jPanelFormularioLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
-                    .addComponent(labelColonia, javax.swing.GroupLayout.DEFAULT_SIZE, 92, Short.MAX_VALUE)
-                    .addComponent(labelCiudad, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                    .addComponent(labelEstado, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                    .addComponent(labelCP, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                    .addComponent(labelIDCliente, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addGroup(jPanelFormularioLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
-                    .addComponent(txtColonia, javax.swing.GroupLayout.DEFAULT_SIZE, 130, Short.MAX_VALUE)
-                    .addComponent(txtCiudad)
-                    .addComponent(txtEstado)
-                    .addComponent(txtCP)
-                    .addComponent(txtIDCliente))
-                .addContainerGap(252, Short.MAX_VALUE))
+                    .addGroup(jPanelFormularioLayout.createSequentialGroup()
+                        .addGroup(jPanelFormularioLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
+                            .addComponent(labelAutor, javax.swing.GroupLayout.DEFAULT_SIZE, 92, Short.MAX_VALUE)
+                            .addComponent(labelIDProducto, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                        .addGroup(jPanelFormularioLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
+                            .addComponent(txtAutor, javax.swing.GroupLayout.DEFAULT_SIZE, 130, Short.MAX_VALUE)
+                            .addComponent(txtIDProducto)))
+                    .addComponent(txtImagePath))
+                .addGap(18, 18, 18)
+                .addComponent(labelProductoImagen, javax.swing.GroupLayout.PREFERRED_SIZE, 228, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addContainerGap())
         );
         jPanelFormularioLayout.setVerticalGroup(
             jPanelFormularioLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(jPanelFormularioLayout.createSequentialGroup()
                 .addContainerGap()
-                .addGroup(jPanelFormularioLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(labelNombre)
-                    .addComponent(txtNombre, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(labelColonia)
-                    .addComponent(txtColonia, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
-                .addGap(18, 18, 18)
-                .addGroup(jPanelFormularioLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(labelApPaterno)
-                    .addComponent(txtApPaterno, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(labelCiudad)
-                    .addComponent(txtCiudad, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
-                .addGap(18, 18, 18)
-                .addGroup(jPanelFormularioLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(labelApMaterno)
-                    .addComponent(txtApMaterno, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(labelEstado)
-                    .addComponent(txtEstado, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
-                .addGap(18, 18, 18)
-                .addGroup(jPanelFormularioLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(labelCURP)
-                    .addComponent(txtCURP, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(labelCP)
-                    .addComponent(txtCP, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
-                .addGap(18, 18, 18)
-                .addGroup(jPanelFormularioLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(labelCalle)
-                    .addComponent(txtCalle, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(labelIDCliente)
-                    .addComponent(txtIDCliente, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
-                .addContainerGap(9, Short.MAX_VALUE))
+                .addGroup(jPanelFormularioLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addGroup(jPanelFormularioLayout.createSequentialGroup()
+                        .addGap(3, 3, 3)
+                        .addComponent(labelProductoImagen, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                    .addGroup(jPanelFormularioLayout.createSequentialGroup()
+                        .addGroup(jPanelFormularioLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                            .addComponent(labelNombre)
+                            .addComponent(txtNombre, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                            .addComponent(labelAutor)
+                            .addComponent(txtAutor, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                        .addGap(18, 18, 18)
+                        .addGroup(jPanelFormularioLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                            .addComponent(labelDescripcion)
+                            .addComponent(txtDescripcion, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                            .addComponent(labelIDProducto)
+                            .addComponent(txtIDProducto, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                        .addGap(18, 18, 18)
+                        .addGroup(jPanelFormularioLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                            .addComponent(labelPrecioUnitario)
+                            .addComponent(txtPrecioUnitario, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                        .addGap(18, 18, 18)
+                        .addGroup(jPanelFormularioLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                            .addComponent(labelImagen)
+                            .addComponent(btnImagen, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                            .addComponent(txtImagePath, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                        .addGap(18, 18, 18)
+                        .addGroup(jPanelFormularioLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                            .addComponent(labelStock)
+                            .addComponent(txtStock, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                        .addGap(2, 2, 2)))
+                .addContainerGap())
         );
 
         btnConsultar.setText("Consultar");
@@ -407,7 +406,7 @@ public class AdministrarCliente extends javax.swing.JFrame {
                     .addComponent(jPanelInformacion, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addComponent(jPanelLinea, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                .addContainerGap(20, Short.MAX_VALUE))
         );
         jPanelPrincipalLayout.setVerticalGroup(
             jPanelPrincipalLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -445,16 +444,13 @@ public class AdministrarCliente extends javax.swing.JFrame {
         DialogoEmergente dEmergente = new DialogoEmergente(this, true);
 
         String nombre = txtNombre.getText();
-        String aPaterno = txtApPaterno.getText();
-        String aMaterno = txtApMaterno.getText();
-        String curp = txtCURP.getText();
-        String calle = txtCalle.getText();
-        String colonia = txtColonia.getText();
-        String ciudad = txtCiudad.getText();
-        String estado = txtEstado.getText();
-        String cp = txtCP.getText();
+        String descripcion = txtDescripcion.getText();
+        Float precioUnitario = Float.valueOf(txtPrecioUnitario.getText());
+        String imagen = txtImagePath.getText();
+        int stock = Integer.parseInt(txtStock.getText());
+        String autor = txtAutor.getText();
 
-        Cliente cliente = new Cliente(nombre, aPaterno, aMaterno, curp, calle, colonia, ciudad, estado, cp);
+        Producto producto = new Producto(nombre, descripcion, precioUnitario, imagen, stock, autor);
 
         if (validarFormulario()) {
             dEmergente.setTexto("ERROR HAY AL MENOS\nUN CAMPO SIN LLENAR");
@@ -462,12 +458,12 @@ public class AdministrarCliente extends javax.swing.JFrame {
             return;
         }
 
-        if (cliente.insertarCliente(cliente)) {
+        if (producto.insertarProducto(producto)) {
             llenarTabla();
-            dEmergente.setTexto("El cliente se registro de\nforma correcta");
+            dEmergente.setTexto("El producto se registro de\nforma correcta");
             dEmergente.setVisible(true);
         } else {
-            dEmergente.setTexto("ERROR AL INTENTAR\nREGISTRAR AL\nCLIENTE!");
+            dEmergente.setTexto("ERROR AL INTENTAR\nREGISTRAR EL\nPRODUCTO!");
             dEmergente.setVisible(true);
         }
         limpiarTxtFields();
@@ -475,72 +471,89 @@ public class AdministrarCliente extends javax.swing.JFrame {
 
     private void btnModificarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnModificarActionPerformed
         DialogoEmergente dEmergente = new DialogoEmergente(this, true);
-        
-        Cliente cliente = new Cliente(Integer.parseInt(txtIDCliente.getText()), txtNombre.getText(), txtApPaterno.getText(), txtApMaterno.getText(), txtCURP.getText(), txtCalle.getText(), txtColonia.getText(), txtCiudad.getText(), txtEstado.getText(), txtCP.getText());
-        if (cliente.modificarCliente(cliente)) {
+
+        Producto producto = new Producto(Integer.parseInt(txtIDProducto.getText()), txtNombre.getText(), txtDescripcion.getText(), Float.valueOf(txtPrecioUnitario.getText()), txtImagePath.getText(), Integer.parseInt(txtStock.getText()), txtAutor.getText());
+        if (producto.modificarProducto(producto)) {
             llenarTabla();
-            dEmergente.setTexto("El cliente se modifico de forma correcta");
+            dEmergente.setTexto("El producto se modifico de forma correcta");
             dEmergente.setVisible(true);
         } else {
-            dEmergente.setTexto("ERROR AL INTENTAR MODIFICAR AL CLIENTE!");
+            dEmergente.setTexto("ERROR AL INTENTAR MODIFICAR EL PRODUCTO!");
             dEmergente.setVisible(true);
         }
         limpiarTxtFields();
     }//GEN-LAST:event_btnModificarActionPerformed
 
-    private void tblClienteMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_tblClienteMouseClicked
+    private void tblProductoMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_tblProductoMouseClicked
         //String txtIdRol = String.valueOf(jComboBoxRol.getSelectedItem()).equals("Empleado") ? "2" : "1";
         //Cliente temp = new Cliente(txtNombre.getText(), txtApPaterno.getText(), txtApMaterno.getText(), txtCURP.getText(), txtCalle.getText(), txtColonia.getText(), txtCiudad.getText(), txtEstado.getText(), txtCP.getText(), txtMunicipio.getText(), txtEstado.getText(), txtIdRol);
         //temp.getEmpleadoTabla(tblCliente, txtIDEmpleado, txtNombre, txtApPaterno, txtApMaterno, txtCURP, txtCalle, txtColonia, txtCiudad, txtMunicipio, txtEstado, txtEstado, txtCP, jComboBoxRol);
-        
+
         obtenerRenglonTabla();
-        
-    }//GEN-LAST:event_tblClienteMouseClicked
+
+    }//GEN-LAST:event_tblProductoMouseClicked
 
     private void btnEliminarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnEliminarActionPerformed
-        // ELIMINAR CLIENTE
+        // ELIMINAR PRODUCTO
         DialogoEmergente dEmergente = new DialogoEmergente(this, true);
-        Cliente cliente = new Cliente(Integer.parseInt(txtIDCliente.getText()));
+        Producto producto = new Producto(Integer.parseInt(txtIDProducto.getText()));
 
-        if (cliente.eliminarCliente(cliente)) {
+        if (producto.eliminarProducto(producto)) {
             llenarTabla();
-            dEmergente.setTexto("El cliente se elimino de\nforma correcta");
+            dEmergente.setTexto("El producto se elimino de\nforma correcta");
             dEmergente.setVisible(true);
         } else {
-            dEmergente.setTexto("ERROR AL INTENTAR\nELIMINAR AL CLIENTE!");
+            dEmergente.setTexto("ERROR AL INTENTAR\nELIMINAR EL PRODUCTO!");
             dEmergente.setVisible(true);
         }
         limpiarTxtFields();
     }//GEN-LAST:event_btnEliminarActionPerformed
 
-    private void obtenerRenglonTabla(){
-        int fila = tblCliente.getSelectedRow();
-        
-        if (fila>=0) {
-            txtIDCliente.setText(tblCliente.getValueAt(fila, 0).toString());
-            txtNombre.setText(tblCliente.getValueAt(fila, 1).toString());
-            txtApPaterno.setText(tblCliente.getValueAt(fila, 2).toString());
-            txtApMaterno.setText(tblCliente.getValueAt(fila, 3).toString());
-            txtCURP.setText(tblCliente.getValueAt(fila, 4).toString());
-            txtCalle.setText(tblCliente.getValueAt(fila, 5).toString());
-            txtColonia.setText(tblCliente.getValueAt(fila, 6).toString());
-            txtCiudad.setText(tblCliente.getValueAt(fila, 7).toString());
-            txtEstado.setText(tblCliente.getValueAt(fila, 8).toString());
-            txtCP.setText(tblCliente.getValueAt(fila, 9).toString());
+    private void btnImagenActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnImagenActionPerformed
+        JFileChooser fileChooser = new JFileChooser();
+        FileNameExtensionFilter filtro = new FileNameExtensionFilter("PNG AND JPG", "PNG", "JPG");
+        fileChooser.addChoosableFileFilter(filtro);
+        int load = fileChooser.showOpenDialog(null);
+
+        if (load == fileChooser.APPROVE_OPTION) {
+            f = fileChooser.getSelectedFile();
+            path = f.getAbsolutePath();
+            txtImagePath.setText(path);
+            ImageIcon ii = new ImageIcon(path);
+            Image img = ii.getImage().getScaledInstance(labelProductoImagen.getWidth(), labelProductoImagen.getHeight(), Image.SCALE_SMOOTH);
+            labelProductoImagen.setIcon(new ImageIcon(img));
+        }
+    }//GEN-LAST:event_btnImagenActionPerformed
+
+    private void obtenerRenglonTabla() {
+        int fila = tblProducto.getSelectedRow();
+
+        if (fila >= 0) {
+            txtIDProducto.setText(tblProducto.getValueAt(fila, 0).toString());
+            txtNombre.setText(tblProducto.getValueAt(fila, 1).toString());
+            txtDescripcion.setText(tblProducto.getValueAt(fila, 2).toString());
+            txtPrecioUnitario.setText(tblProducto.getValueAt(fila, 3).toString());
+            //txtImagePath.setText(tblProducto.getValueAt(fila, 4).toString());
+
+            Producto producto = new Producto(Integer.parseInt(txtIDProducto.getText()));
+            producto.obtenerImagen(producto, labelProductoImagen);
+
+            txtStock.setText(tblProducto.getValueAt(fila, 4).toString());
+            txtAutor.setText(tblProducto.getValueAt(fila, 5).toString());
         }
     }
-    
+
     private void llenarTabla() {
-        Cliente cliente = new Cliente();
+        Producto producto = new Producto();
         modelo.setRowCount(0); //Limpiamos la tabla
-        ArrayList<String[]> lista = cliente.consultarTodos();
+        ArrayList<String[]> lista = producto.consultarTodos();
         for (int i = 0; i < lista.size(); i++) {
             modelo.addRow(lista.get(i));
         }
     }
 
     private boolean validarFormulario() {
-        return txtNombre.getText().isBlank() | txtApPaterno.getText().isBlank() | txtApMaterno.getText().isBlank() | txtCURP.getText().isBlank() | txtCalle.getText().isBlank() | txtColonia.getText().isBlank() | txtCiudad.getText().isBlank() | txtEstado.getText().isBlank() | txtCP.getText().isBlank();
+        return txtNombre.getText().isBlank() | txtDescripcion.getText().isBlank() | txtPrecioUnitario.getText().isBlank() | btnImagen.getText().isBlank() | txtStock.getText().isBlank() | txtAutor.getText().isBlank();
     }
 
     public static void main(String args[]) {
@@ -557,21 +570,23 @@ public class AdministrarCliente extends javax.swing.JFrame {
                 }
             }
         } catch (ClassNotFoundException ex) {
-            java.util.logging.Logger.getLogger(AdministrarCliente.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
+            java.util.logging.Logger.getLogger(AdministrarProducto.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
         } catch (InstantiationException ex) {
-            java.util.logging.Logger.getLogger(AdministrarCliente.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
+            java.util.logging.Logger.getLogger(AdministrarProducto.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
         } catch (IllegalAccessException ex) {
-            java.util.logging.Logger.getLogger(AdministrarCliente.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
+            java.util.logging.Logger.getLogger(AdministrarProducto.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
         } catch (javax.swing.UnsupportedLookAndFeelException ex) {
-            java.util.logging.Logger.getLogger(AdministrarCliente.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
+            java.util.logging.Logger.getLogger(AdministrarProducto.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
         }
+        //</editor-fold>
+        //</editor-fold>
         //</editor-fold>
         //</editor-fold>
 
         /* Create and display the form */
         java.awt.EventQueue.invokeLater(new Runnable() {
             public void run() {
-                new AdministrarCliente().setVisible(true);
+                new AdministrarProducto().setVisible(true);
             }
         });
     }
@@ -579,6 +594,7 @@ public class AdministrarCliente extends javax.swing.JFrame {
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JButton btnConsultar;
     private javax.swing.JButton btnEliminar;
+    private javax.swing.JButton btnImagen;
     private javax.swing.JButton btnModificar;
     private javax.swing.JButton btnRegistrar;
     private javax.swing.JPanel jPanelAcciones;
@@ -589,26 +605,21 @@ public class AdministrarCliente extends javax.swing.JFrame {
     private javax.swing.JPanel jPanelOperaciones;
     private javax.swing.JPanel jPanelPrincipal;
     private javax.swing.JScrollPane jScrollPane1;
-    private javax.swing.JLabel labelApMaterno;
-    private javax.swing.JLabel labelApPaterno;
-    private javax.swing.JLabel labelCP;
-    private javax.swing.JLabel labelCURP;
-    private javax.swing.JLabel labelCalle;
-    private javax.swing.JLabel labelCiudad;
-    private javax.swing.JLabel labelColonia;
-    private javax.swing.JLabel labelEstado;
-    private javax.swing.JLabel labelIDCliente;
+    private javax.swing.JLabel labelAutor;
+    private javax.swing.JLabel labelDescripcion;
+    private javax.swing.JLabel labelIDProducto;
+    private javax.swing.JLabel labelImagen;
     private javax.swing.JLabel labelNombre;
-    private javax.swing.JTable tblCliente;
-    private javax.swing.JTextField txtApMaterno;
-    private javax.swing.JTextField txtApPaterno;
-    private javax.swing.JTextField txtCP;
-    private javax.swing.JTextField txtCURP;
-    private javax.swing.JTextField txtCalle;
-    private javax.swing.JTextField txtCiudad;
-    private javax.swing.JTextField txtColonia;
-    private javax.swing.JTextField txtEstado;
-    private javax.swing.JTextField txtIDCliente;
+    private javax.swing.JLabel labelPrecioUnitario;
+    private javax.swing.JLabel labelProductoImagen;
+    private javax.swing.JLabel labelStock;
+    private javax.swing.JTable tblProducto;
+    private javax.swing.JTextField txtAutor;
+    private javax.swing.JTextField txtDescripcion;
+    private javax.swing.JTextField txtIDProducto;
+    private javax.swing.JTextField txtImagePath;
     private javax.swing.JTextField txtNombre;
+    private javax.swing.JTextField txtPrecioUnitario;
+    private javax.swing.JTextField txtStock;
     // End of variables declaration//GEN-END:variables
 }
