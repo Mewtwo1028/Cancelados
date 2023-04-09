@@ -62,7 +62,7 @@ CREATE TABLE IF NOT EXISTS `cancelados`.`Producto` (
   `Nombre` VARCHAR(45) NULL,
   `Descripcion` VARCHAR(45) NULL,
   `PrecioUnitario` DECIMAL(2) NULL,
-  `Imagen` BLOB NULL,
+  `Imagen` LONGBLOB NULL,
   `Stock` INT NULL,
   `Autor` VARCHAR(45) NULL,
   PRIMARY KEY (`idProducto`),
