@@ -252,6 +252,7 @@ public class PanelControlAdministrador extends javax.swing.JFrame {
 
     private void btnAdministrarClientesActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnAdministrarClientesActionPerformed
         AdministrarCliente pAdminClien= new AdministrarCliente();
+        pAdminClien.setAdministrador();
         this.dispose();
         pAdminClien.setVisible(true);
     }//GEN-LAST:event_btnAdministrarClientesActionPerformed

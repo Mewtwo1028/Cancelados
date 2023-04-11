@@ -6,9 +6,6 @@ import javax.swing.JFrame;
 
 public class PanelControlEmpleado extends javax.swing.JFrame {
 
-    /**
-     * Creates new form PanelControl
-     */
     public PanelControlEmpleado() {
         initComponents();
         inicializar();
@@ -206,7 +203,8 @@ public class PanelControlEmpleado extends javax.swing.JFrame {
 
     private void btnRegistrarClienteActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnRegistrarClienteActionPerformed
         this.dispose();
-        RegistrarCliente win = new RegistrarCliente();
+        AdministrarCliente win = new AdministrarCliente();
+        win.setEmpleado();
         win.setVisible(true);
     }//GEN-LAST:event_btnRegistrarClienteActionPerformed
 

@@ -90,6 +90,7 @@ public class AdministrarProducto extends javax.swing.JFrame {
 
         //idCliente
         txtIDProducto.setEnabled(false);
+        txtImagePath.setEnabled(false);
     }
 
     private void limpiarTxtFields() {
