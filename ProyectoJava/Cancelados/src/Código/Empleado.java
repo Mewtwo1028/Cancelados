@@ -83,6 +83,28 @@ public class Empleado {
         }
     }
 
+    
+    public boolean modificaCredenciales(JTextField contra, JComboBox rol,JTextField id){
+        Conexion con = new Conexion();
+     String actualizaCredenciales = "UPDATE credenciales SET Contrasena=?, Empleado_Roles_idRoles=? WHERE Empleado_idEmpleado=?;";
+     try {
+            CallableStatement cs = con.getConexion().prepareCall(actualizaCredenciales);
+
+            cs.setString(1, contra.getText());
+            cs.setInt(2, rol.getSelectedIndex());
+            cs.setInt(3, Integer.parseInt(id.getText()));
+
+
+            cs.execute();
+
+            return true;
+
+        } catch (NumberFormatException | SQLException e) {
+            return false;
+        }
+    }    
+    
+    
     public boolean modificarEmpleado(Empleado empleado) {
         Conexion con = new Conexion();
         String consulta = "UPDATE Empleado SET nombre=?, ApellidoPaterno =?, ApellidoMaterno=?,Calle=?,NoExt=?, Colonia=?,CP=?,Municipio=?,Estado=?,CURP=?,RFC=? WHERE idEmpleado=?;"; //pendiente Roles_idRoles por algunos errores

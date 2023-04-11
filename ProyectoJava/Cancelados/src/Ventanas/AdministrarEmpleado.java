@@ -4,9 +4,18 @@ import ArchivosBD.Conexion;
 import Código.Empleado;
 import Código.FuncionesUtiles;
 import java.awt.Color;
+import java.math.BigInteger;
 import java.util.ArrayList;
 import javax.swing.JFrame;
 import javax.swing.table.DefaultTableModel;
+import java.security.SecureRandom;
+import java.security.MessageDigest;
+import java.security.NoSuchAlgorithmException;
+import java.util.logging.Level;
+import java.util.logging.Logger;
+
+
+
 
 public class AdministrarEmpleado extends javax.swing.JFrame {
 
@@ -21,8 +30,14 @@ public class AdministrarEmpleado extends javax.swing.JFrame {
         initComponents();
         inicializar();
         initTabla();
+        
     }
 
+    //Función que comprueba si el campo contraseña y repetir contraseña tienen el mismo contenido
+    private boolean compruebaContra(String pass1,String pass2){
+       return pass1.compareTo(pass2) < 0 ? false : true; 
+    }
+    
     private void inicializar() {
         FuncionesUtiles tool = new FuncionesUtiles();
         //Configuracion ventana
@@ -30,7 +45,7 @@ public class AdministrarEmpleado extends javax.swing.JFrame {
         this.getContentPane().setBackground(Color.WHITE);
         this.setExtendedState(JFrame.MAXIMIZED_BOTH);
         this.setTitle("Administrar Empleado");
-
+        
         //Configurar panel principal
         jPanelPrincipal.setBackground(Color.WHITE);
 
@@ -70,6 +85,7 @@ public class AdministrarEmpleado extends javax.swing.JFrame {
         tool.confBtnColor(btnRegistrar);
         tool.confBtnColor(btnModificar);
         tool.confBtnColor(btnEliminar);
+        tool.confBtnColor(btnRestaurarContrasena);
 
         //Limpiar txtFields
         limpiarTxtFields();
@@ -90,6 +106,10 @@ public class AdministrarEmpleado extends javax.swing.JFrame {
         jComboBoxRol.setSelectedIndex(0);
         txtContra.setText("");
         txtIDEmpleado.setText("");
+        txtContra.setEditable(false);
+        txtContra.setEnabled(false);
+        txtRepContrasena.setEditable(false);
+        txtRepContrasena.setEnabled(false);
     }
 
     private void initTabla() {
@@ -106,7 +126,7 @@ public class AdministrarEmpleado extends javax.swing.JFrame {
         modelo.addColumn("Municipio");
         modelo.addColumn("Estado");
         modelo.addColumn("ROL");
-        modelo.addColumn("Contraseña");
+        //modelo.addColumn("Contraseña");
         tblEmpleado.setModel(modelo);
         txtIDEmpleado.setEnabled(false);
     }
@@ -156,11 +176,14 @@ public class AdministrarEmpleado extends javax.swing.JFrame {
         labelIDEmpleado = new javax.swing.JLabel();
         txtIDEmpleado = new javax.swing.JTextField();
         jComboBoxRol = new javax.swing.JComboBox<>();
+        jLabel1 = new javax.swing.JLabel();
+        txtRepContrasena = new javax.swing.JPasswordField();
         jPanelAcciones = new javax.swing.JPanel();
         btnConsultar = new javax.swing.JButton();
         btnRegistrar = new javax.swing.JButton();
         btnModificar = new javax.swing.JButton();
         btnEliminar = new javax.swing.JButton();
+        btnRestaurarContrasena = new javax.swing.JButton();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
 
@@ -271,6 +294,8 @@ public class AdministrarEmpleado extends javax.swing.JFrame {
 
         jComboBoxRol.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "Empleado", "Administrador" }));
 
+        jLabel1.setText("Repetir Contraseña");
+
         javax.swing.GroupLayout jPanelFormularioLayout = new javax.swing.GroupLayout(jPanelFormulario);
         jPanelFormulario.setLayout(jPanelFormularioLayout);
         jPanelFormularioLayout.setHorizontalGroup(
@@ -304,18 +329,25 @@ public class AdministrarEmpleado extends javax.swing.JFrame {
                     .addComponent(txtCURP)
                     .addComponent(txtRFC)
                     .addComponent(txtMunicipio, javax.swing.GroupLayout.DEFAULT_SIZE, 130, Short.MAX_VALUE))
-                .addGap(18, 18, 18)
                 .addGroup(jPanelFormularioLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
-                    .addComponent(labelEstadp, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                    .addComponent(labelRol, javax.swing.GroupLayout.DEFAULT_SIZE, 92, Short.MAX_VALUE)
-                    .addComponent(labelContra, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                    .addComponent(labelIDEmpleado, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addGroup(jPanelFormularioLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
-                    .addComponent(txtEstado)
-                    .addComponent(txtContra, javax.swing.GroupLayout.DEFAULT_SIZE, 130, Short.MAX_VALUE)
-                    .addComponent(txtIDEmpleado)
-                    .addComponent(jComboBoxRol, 0, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                    .addGroup(jPanelFormularioLayout.createSequentialGroup()
+                        .addGap(18, 18, 18)
+                        .addGroup(jPanelFormularioLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
+                            .addComponent(labelEstadp, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                            .addComponent(labelRol, javax.swing.GroupLayout.DEFAULT_SIZE, 92, Short.MAX_VALUE)
+                            .addComponent(labelContra, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                            .addComponent(labelIDEmpleado, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                        .addGroup(jPanelFormularioLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
+                            .addComponent(txtEstado)
+                            .addComponent(txtContra, javax.swing.GroupLayout.DEFAULT_SIZE, 130, Short.MAX_VALUE)
+                            .addComponent(txtIDEmpleado)
+                            .addComponent(jComboBoxRol, 0, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)))
+                    .addGroup(jPanelFormularioLayout.createSequentialGroup()
+                        .addGap(12, 12, 12)
+                        .addComponent(jLabel1)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                        .addComponent(txtRepContrasena)))
                 .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
         );
         jPanelFormularioLayout.setVerticalGroup(
@@ -351,15 +383,17 @@ public class AdministrarEmpleado extends javax.swing.JFrame {
                     .addComponent(txtCalle, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addComponent(labelRFC)
                     .addComponent(txtRFC, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(labelIDEmpleado)
-                    .addComponent(txtIDEmpleado, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                    .addComponent(jLabel1)
+                    .addComponent(txtRepContrasena, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
                 .addGap(18, 18, 18)
                 .addGroup(jPanelFormularioLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(labelNoExt)
                     .addComponent(txtNoExt, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addComponent(labelMunicipio)
-                    .addComponent(txtMunicipio, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
-                .addContainerGap(9, Short.MAX_VALUE))
+                    .addComponent(txtMunicipio, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(txtIDEmpleado, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(labelIDEmpleado))
+                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
         );
 
         btnConsultar.setText("Consultar");
@@ -390,6 +424,13 @@ public class AdministrarEmpleado extends javax.swing.JFrame {
             }
         });
 
+        btnRestaurarContrasena.setText("Restaurar Contraseña");
+        btnRestaurarContrasena.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnRestaurarContrasenaActionPerformed(evt);
+            }
+        });
+
         javax.swing.GroupLayout jPanelAccionesLayout = new javax.swing.GroupLayout(jPanelAcciones);
         jPanelAcciones.setLayout(jPanelAccionesLayout);
         jPanelAccionesLayout.setHorizontalGroup(
@@ -400,7 +441,8 @@ public class AdministrarEmpleado extends javax.swing.JFrame {
                     .addComponent(btnConsultar, javax.swing.GroupLayout.DEFAULT_SIZE, 188, Short.MAX_VALUE)
                     .addComponent(btnRegistrar, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                     .addComponent(btnModificar, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                    .addComponent(btnEliminar, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                    .addComponent(btnEliminar, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                    .addComponent(btnRestaurarContrasena, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
                 .addContainerGap())
         );
         jPanelAccionesLayout.setVerticalGroup(
@@ -414,6 +456,8 @@ public class AdministrarEmpleado extends javax.swing.JFrame {
                 .addComponent(btnModificar, javax.swing.GroupLayout.PREFERRED_SIZE, 35, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addComponent(btnEliminar, javax.swing.GroupLayout.PREFERRED_SIZE, 35, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addComponent(btnRestaurarContrasena, javax.swing.GroupLayout.PREFERRED_SIZE, 35, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
         );
 
@@ -512,7 +556,7 @@ public class AdministrarEmpleado extends javax.swing.JFrame {
         Empleado empleado = new Empleado(nombre, aPaterno, aMaterno, calle, noExt, Colonia, cp, curp, rfc, municipio, estado, idRol);
 
         if (validarFormulario()) {
-            dEmergente.setTexto("ERROR HAY AL MENOS\nUN CAMPO SIN LLENAR");
+            dEmergente.setTexto("¡ERROR! HAY AL MENOS\nUN CAMPO SIN LLENAR");
             dEmergente.setVisible(true);
             return;
         }
@@ -520,7 +564,7 @@ public class AdministrarEmpleado extends javax.swing.JFrame {
         Conexion con = new Conexion();
         if (con.insertarEmpleado(empleado, contra)) {
             llenarTabla();
-            dEmergente.setTexto("El empleado se registro de  forma correcta");
+            dEmergente.setTexto("El empleado se registró de  forma correcta");
             dEmergente.setVisible(true);
         } else {
             dEmergente.setTexto("ERROR AL INTENTAR\nREGISTRAR AL\nEMPLEADO!");
@@ -529,17 +573,48 @@ public class AdministrarEmpleado extends javax.swing.JFrame {
         limpiarTxtFields();
     }//GEN-LAST:event_btnRegistrarActionPerformed
 
+    private String encriptaContra (String contrasena) throws NoSuchAlgorithmException{
+        MessageDigest md = MessageDigest.getInstance("MD5");
+        byte[] messageDigest = md.digest(contrasena.getBytes());
+        
+        BigInteger bigInt = new BigInteger(1, messageDigest);
+        
+        return bigInt.toString();
+    }
+    
+    
     private void btnModificarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnModificarActionPerformed
         DialogoEmergente dEmergente = new DialogoEmergente(this, true);
         String txtIdRol = String.valueOf(jComboBoxRol.getSelectedItem()).equals("Empleado")? "2":"1";
-        
         Empleado empleado = new Empleado(Integer.parseInt(txtIDEmpleado.getText()),txtNombre.getText(), txtApPaterno.getText(), txtApMaterno.getText(), txtCalle.getText(), txtNoExt.getText(), txtColonia.getText(), txtCP.getText(), txtCURP.getText(), txtRFC.getText(), txtMunicipio.getText(), txtEstado.getText(), txtIdRol);        
+
+
+        if (txtContra.isEnabled()){
+           
+            try {
+                if (compruebaContra(encriptaContra(txtContra.getText()), encriptaContra(txtRepContrasena.getText()))){
+                    
+                    empleado.modificaCredenciales(txtContra, jComboBoxRol, txtIDEmpleado);
+                    dEmergente.setTexto("OK");
+                }
+                else{ 
+                    dEmergente.setTexto("Error. Las contraseñas no coinciden");
+ 
+                }
+            } catch (NoSuchAlgorithmException ex) {
+                Logger.getLogger(AdministrarEmpleado.class.getName()).log(Level.SEVERE, null, ex);
+            }
+            
+            dEmergente.setVisible(true);
+        }
+        
+        
         if (empleado.modificarEmpleado(empleado)) {
             llenarTabla();
-            dEmergente.setTexto("El empleado se modifico de forma correcta");
+            dEmergente.setTexto("El empleado se modificó de forma correcta");
             dEmergente.setVisible(true);
         } else {
-            dEmergente.setTexto("ERROR AL INTENTAR MODIFICAR AL EMPLEADO!");
+            dEmergente.setTexto("¡ERROR AL INTENTAR MODIFICAR AL EMPLEADO!");
             dEmergente.setVisible(true);
         }
         limpiarTxtFields();
@@ -558,14 +633,27 @@ public class AdministrarEmpleado extends javax.swing.JFrame {
         
         if (empleado.eliminarEmpleado(empleado)) {
             llenarTabla();
-            dEmergente.setTexto("El empleado se elimino de\nforma correcta");
+            dEmergente.setTexto("El empleado se eliminó de\nforma correcta");
             dEmergente.setVisible(true);
         } else {
-            dEmergente.setTexto("ERROR AL INTENTAR\nELIMINAR AL EMPLEADO!");
+            dEmergente.setTexto("¡ERROR AL INTENTAR\nELIMINAR AL EMPLEADO!");
             dEmergente.setVisible(true);
         }
         limpiarTxtFields();
     }//GEN-LAST:event_btnEliminarActionPerformed
+
+    private void btnRestaurarContrasenaActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnRestaurarContrasenaActionPerformed
+        
+        DialogoEmergente t = new DialogoEmergente(this, true);
+        t.setTexto("Campos de \ncontraseña habilitados");
+        t.setVisible(true);
+        
+        
+        txtContra.setEditable(true);
+        txtContra.setEnabled(true);
+        txtRepContrasena.setEditable(true);
+        txtRepContrasena.setEnabled(true);
+    }//GEN-LAST:event_btnRestaurarContrasenaActionPerformed
 
     private void llenarTabla() {
         Conexion con = new Conexion();
@@ -617,7 +705,9 @@ public class AdministrarEmpleado extends javax.swing.JFrame {
     private javax.swing.JButton btnEliminar;
     private javax.swing.JButton btnModificar;
     private javax.swing.JButton btnRegistrar;
+    private javax.swing.JButton btnRestaurarContrasena;
     private javax.swing.JComboBox<String> jComboBoxRol;
+    private javax.swing.JLabel jLabel1;
     private javax.swing.JPanel jPanelAcciones;
     private javax.swing.JPanel jPanelFormulario;
     private javax.swing.JPanel jPanelInformacion;
@@ -654,5 +744,6 @@ public class AdministrarEmpleado extends javax.swing.JFrame {
     private javax.swing.JTextField txtNoExt;
     private javax.swing.JTextField txtNombre;
     private javax.swing.JTextField txtRFC;
+    private javax.swing.JPasswordField txtRepContrasena;
     // End of variables declaration//GEN-END:variables
 }

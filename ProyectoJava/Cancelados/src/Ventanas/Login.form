@@ -155,8 +155,12 @@
             </Component>
             <Component class="javax.swing.JButton" name="btnForgottenPassword">
               <Properties>
-                <Property name="text" type="java.lang.String" value="Olvide mi contrase&#xf1;a"/>
+                <Property name="text" type="java.lang.String" value="Olvid&#xe9; mi contrase&#xf1;a"/>
               </Properties>
+              <Events>
+                <EventHandler event="mouseEntered" listener="java.awt.event.MouseListener" parameters="java.awt.event.MouseEvent" handler="btnForgottenPasswordMouseEntered"/>
+                <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="btnForgottenPasswordActionPerformed"/>
+              </Events>
               <Constraints>
                 <Constraint layoutClass="org.netbeans.modules.form.compat2.layouts.DesignAbsoluteLayout" value="org.netbeans.modules.form.compat2.layouts.DesignAbsoluteLayout$AbsoluteConstraintsDescription">
                   <AbsoluteConstraints x="30" y="230" width="270" height="-1"/>

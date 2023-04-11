@@ -213,19 +213,29 @@
                               <Component id="txtRFC" max="32767" attributes="0"/>
                               <Component id="txtMunicipio" pref="130" max="32767" attributes="0"/>
                           </Group>
-                          <EmptySpace type="separate" max="-2" attributes="0"/>
                           <Group type="103" groupAlignment="0" max="-2" attributes="0">
-                              <Component id="labelEstadp" max="32767" attributes="0"/>
-                              <Component id="labelRol" pref="92" max="32767" attributes="0"/>
-                              <Component id="labelContra" max="32767" attributes="0"/>
-                              <Component id="labelIDEmpleado" max="32767" attributes="0"/>
-                          </Group>
-                          <EmptySpace max="-2" attributes="0"/>
-                          <Group type="103" groupAlignment="0" max="-2" attributes="0">
-                              <Component id="txtEstado" max="32767" attributes="0"/>
-                              <Component id="txtContra" pref="130" max="32767" attributes="0"/>
-                              <Component id="txtIDEmpleado" max="32767" attributes="0"/>
-                              <Component id="jComboBoxRol" max="32767" attributes="0"/>
+                              <Group type="102" attributes="0">
+                                  <EmptySpace type="separate" max="-2" attributes="0"/>
+                                  <Group type="103" groupAlignment="0" max="-2" attributes="0">
+                                      <Component id="labelEstadp" max="32767" attributes="0"/>
+                                      <Component id="labelRol" pref="92" max="32767" attributes="0"/>
+                                      <Component id="labelContra" max="32767" attributes="0"/>
+                                      <Component id="labelIDEmpleado" max="32767" attributes="0"/>
+                                  </Group>
+                                  <EmptySpace max="-2" attributes="0"/>
+                                  <Group type="103" groupAlignment="0" max="-2" attributes="0">
+                                      <Component id="txtEstado" max="32767" attributes="0"/>
+                                      <Component id="txtContra" pref="130" max="32767" attributes="0"/>
+                                      <Component id="txtIDEmpleado" max="32767" attributes="0"/>
+                                      <Component id="jComboBoxRol" max="32767" attributes="0"/>
+                                  </Group>
+                              </Group>
+                              <Group type="102" attributes="0">
+                                  <EmptySpace min="-2" pref="12" max="-2" attributes="0"/>
+                                  <Component id="jLabel1" min="-2" max="-2" attributes="0"/>
+                                  <EmptySpace max="-2" attributes="0"/>
+                                  <Component id="txtRepContrasena" max="32767" attributes="0"/>
+                              </Group>
                           </Group>
                           <EmptySpace max="32767" attributes="0"/>
                       </Group>
@@ -267,8 +277,8 @@
                               <Component id="txtCalle" alignment="3" min="-2" max="-2" attributes="0"/>
                               <Component id="labelRFC" alignment="3" min="-2" max="-2" attributes="0"/>
                               <Component id="txtRFC" alignment="3" min="-2" max="-2" attributes="0"/>
-                              <Component id="labelIDEmpleado" alignment="3" min="-2" max="-2" attributes="0"/>
-                              <Component id="txtIDEmpleado" alignment="3" min="-2" max="-2" attributes="0"/>
+                              <Component id="jLabel1" alignment="3" min="-2" max="-2" attributes="0"/>
+                              <Component id="txtRepContrasena" alignment="3" min="-2" max="-2" attributes="0"/>
                           </Group>
                           <EmptySpace type="separate" max="-2" attributes="0"/>
                           <Group type="103" groupAlignment="3" attributes="0">
@@ -276,8 +286,10 @@
                               <Component id="txtNoExt" alignment="3" min="-2" max="-2" attributes="0"/>
                               <Component id="labelMunicipio" alignment="3" min="-2" max="-2" attributes="0"/>
                               <Component id="txtMunicipio" alignment="3" min="-2" max="-2" attributes="0"/>
+                              <Component id="txtIDEmpleado" alignment="3" min="-2" max="-2" attributes="0"/>
+                              <Component id="labelIDEmpleado" alignment="3" min="-2" max="-2" attributes="0"/>
                           </Group>
-                          <EmptySpace pref="9" max="32767" attributes="0"/>
+                          <EmptySpace max="32767" attributes="0"/>
                       </Group>
                   </Group>
                 </DimensionLayout>
@@ -431,6 +443,13 @@
                     <AuxValue name="JavaCodeGenerator_TypeParameters" type="java.lang.String" value="&lt;String&gt;"/>
                   </AuxValues>
                 </Component>
+                <Component class="javax.swing.JLabel" name="jLabel1">
+                  <Properties>
+                    <Property name="text" type="java.lang.String" value="Repetir Contrase&#xf1;a"/>
+                  </Properties>
+                </Component>
+                <Component class="javax.swing.JPasswordField" name="txtRepContrasena">
+                </Component>
               </SubComponents>
             </Container>
             <Container class="javax.swing.JPanel" name="jPanelAcciones">
@@ -445,6 +464,7 @@
                               <Component id="btnRegistrar" max="32767" attributes="0"/>
                               <Component id="btnModificar" alignment="0" max="32767" attributes="0"/>
                               <Component id="btnEliminar" alignment="0" max="32767" attributes="0"/>
+                              <Component id="btnRestaurarContrasena" alignment="0" max="32767" attributes="0"/>
                           </Group>
                           <EmptySpace max="-2" attributes="0"/>
                       </Group>
@@ -461,6 +481,8 @@
                           <Component id="btnModificar" min="-2" pref="35" max="-2" attributes="0"/>
                           <EmptySpace max="-2" attributes="0"/>
                           <Component id="btnEliminar" min="-2" pref="35" max="-2" attributes="0"/>
+                          <EmptySpace max="-2" attributes="0"/>
+                          <Component id="btnRestaurarContrasena" min="-2" pref="35" max="-2" attributes="0"/>
                           <EmptySpace max="32767" attributes="0"/>
                       </Group>
                   </Group>
@@ -497,6 +519,14 @@
                   </Properties>
                   <Events>
                     <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="btnEliminarActionPerformed"/>
+                  </Events>
+                </Component>
+                <Component class="javax.swing.JButton" name="btnRestaurarContrasena">
+                  <Properties>
+                    <Property name="text" type="java.lang.String" value="Restaurar Contrase&#xf1;a"/>
+                  </Properties>
+                  <Events>
+                    <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="btnRestaurarContrasenaActionPerformed"/>
                   </Events>
                 </Component>
               </SubComponents>

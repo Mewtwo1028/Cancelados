@@ -3,6 +3,7 @@ package Ventanas;
 import ArchivosBD.Conexion;
 import Código.FuncionesUtiles;
 import java.awt.Color;
+import java.awt.Cursor;
 import java.awt.event.KeyEvent;
 import javax.swing.JFrame;
 
@@ -103,7 +104,17 @@ public class Login extends javax.swing.JFrame {
         });
         jPanelCredenciales.add(txtPassword, new org.netbeans.lib.awtextra.AbsoluteConstraints(30, 120, 270, 40));
 
-        btnForgottenPassword.setText("Olvide mi contraseña");
+        btnForgottenPassword.setText("Olvidé mi contraseña");
+        btnForgottenPassword.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseEntered(java.awt.event.MouseEvent evt) {
+                btnForgottenPasswordMouseEntered(evt);
+            }
+        });
+        btnForgottenPassword.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnForgottenPasswordActionPerformed(evt);
+            }
+        });
         jPanelCredenciales.add(btnForgottenPassword, new org.netbeans.lib.awtextra.AbsoluteConstraints(30, 230, 270, -1));
 
         javax.swing.GroupLayout jPanelPrincipalLayout = new javax.swing.GroupLayout(jPanelPrincipal);
@@ -162,6 +173,17 @@ public class Login extends javax.swing.JFrame {
     private void btnIngresarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnIngresarActionPerformed
         iniciarSesion();
     }//GEN-LAST:event_btnIngresarActionPerformed
+
+    private void btnForgottenPasswordMouseEntered(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_btnForgottenPasswordMouseEntered
+        btnForgottenPassword.setCursor(Cursor.getPredefinedCursor(Cursor.HAND_CURSOR));
+    }//GEN-LAST:event_btnForgottenPasswordMouseEntered
+
+    private void btnForgottenPasswordActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnForgottenPasswordActionPerformed
+        DialogoEmergente t = new DialogoEmergente(this, rootPaneCheckingEnabled);
+        t.setTexto("Por favor, solicite a un \nadministrador que le \nrestaure la contraseña");
+        t.setVisible(true);
+        
+    }//GEN-LAST:event_btnForgottenPasswordActionPerformed
     
     private void iniciarSesion() {
         Conexion con = new Conexion();
@@ -170,7 +192,7 @@ public class Login extends javax.swing.JFrame {
         
         if ((username.isBlank() | pass.isBlank()) | con.verificarLogin(username, pass).equals("")) {
             DialogoEmergente dEmergente = new DialogoEmergente(this, true);
-            dEmergente.setTexto("ERROR! Usuario o\ncontraseña no validos");
+            dEmergente.setTexto("¡Error! Usuario o\ncontraseña no válidos");
             dEmergente.setVisible(true);
         } else {
             if (con.verificarLogin(username, pass).equals("1")) {
