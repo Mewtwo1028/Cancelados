@@ -35,14 +35,6 @@ public class AdministrarCliente extends javax.swing.JFrame {
         //Configurar panel principal
         jPanelPrincipal.setBackground(Color.WHITE);
 
-        //Colocar panel de la izquierda
-        AccionesRapidasAdministrador panelBotones = new AccionesRapidasAdministrador(this);
-        panelBotones.setBounds(0, 0, 266, (int) this.getBounds().getHeight() - 80);
-        jPanelIzquierda.removeAll();
-        jPanelIzquierda.setMinimumSize(panelBotones.getPreferredSize());
-        jPanelIzquierda.add(panelBotones);
-        panelBotones.revalidate();
-        panelBotones.repaint();
 
         //Configurar panel de arriba
         jPanelInformacion.setBackground(Color.WHITE);
@@ -104,6 +96,28 @@ public class AdministrarCliente extends javax.swing.JFrame {
         modelo.addColumn("Estado");
         modelo.addColumn("CP");
         tblCliente.setModel(modelo);
+    }
+    
+    public void setAdministrador(){
+        //Colocar panel de la izquierda
+        AccionesRapidasAdministrador panelBotones = new AccionesRapidasAdministrador(this);
+        panelBotones.setBounds(0, 0, 266, (int) this.getBounds().getHeight() - 80);
+        jPanelIzquierda.removeAll();
+        jPanelIzquierda.setMinimumSize(panelBotones.getPreferredSize());
+        jPanelIzquierda.add(panelBotones);
+        panelBotones.revalidate();
+        panelBotones.repaint();
+    }
+    
+    public void setEmpleado(){
+        //Colocar panel de la izquierda
+        AccionesRapidasEmpleado panelBotones = new AccionesRapidasEmpleado(this);
+        panelBotones.setBounds(0, 0, 266, (int) this.getBounds().getHeight() - 80);
+        jPanelIzquierda.removeAll();
+        jPanelIzquierda.setMinimumSize(panelBotones.getPreferredSize());
+        jPanelIzquierda.add(panelBotones);
+        panelBotones.revalidate();
+        panelBotones.repaint();
     }
 
     /**
