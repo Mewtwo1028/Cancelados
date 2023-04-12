@@ -49,3 +49,5 @@ INSERT INTO cliente (idCliente, Nombre, ApellidoPaterno, ApellidoMaterno, CURP, 
 
 alter table credenciales drop foreign key fk_credenciales_empleado1;
 alter table credenciales drop column Empleado_Roles_idRoles;
+
+UPDATE `cancelados`.`credenciales` SET `Contrasena` = '2087348535479320780316101705201136896' WHERE (`idCredenciales` = '1') and (`Empleado_idEmpleado` = '1');

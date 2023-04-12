@@ -588,7 +588,7 @@ public class AdministrarEmpleado extends javax.swing.JFrame {
 
         if (txtContra.isEnabled()) {
             try {
-                Credenciales credencial = new Credenciales(txtContra.getText(), Integer.parseInt(txtIDEmpleado.getText()));
+                Credenciales credencial = new Credenciales(encriptaContra(txtContra.getText()), Integer.parseInt(txtIDEmpleado.getText()));
 
                 if (compruebaContra(encriptaContra(txtContra.getText()), encriptaContra(txtRepContrasena.getText()))) {
 

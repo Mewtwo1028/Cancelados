@@ -5,6 +5,11 @@ import Código.FuncionesUtiles;
 import java.awt.Color;
 import java.awt.Cursor;
 import java.awt.event.KeyEvent;
+import java.math.BigInteger;
+import java.security.MessageDigest;
+import java.security.NoSuchAlgorithmException;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 import javax.swing.JFrame;
 
 /**
@@ -16,6 +21,14 @@ public class Login extends javax.swing.JFrame {
     public Login() {
         initComponents();
         inicializar();
+    }
+    private String encriptaContra(String contrasena) throws NoSuchAlgorithmException {
+        MessageDigest md = MessageDigest.getInstance("MD5");
+        byte[] messageDigest = md.digest(contrasena.getBytes());
+
+        BigInteger bigInt = new BigInteger(1, messageDigest);
+
+        return bigInt.toString();
     }
     
     private void inicializar() {
@@ -188,7 +201,12 @@ public class Login extends javax.swing.JFrame {
     private void iniciarSesion() {
         Conexion con = new Conexion();
         String username = txtUsername.getText();
-        String pass = txtPassword.getText();
+        String pass = null;
+        try {
+            pass = encriptaContra(txtPassword.getText());
+        } catch (NoSuchAlgorithmException ex) {
+            Logger.getLogger(Login.class.getName()).log(Level.SEVERE, null, ex);
+        }
         
         if ((username.isBlank() | pass.isBlank()) | con.verificarLogin(username, pass).equals("")) {
             DialogoEmergente dEmergente = new DialogoEmergente(this, true);
