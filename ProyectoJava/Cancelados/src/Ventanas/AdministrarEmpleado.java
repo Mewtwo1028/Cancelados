@@ -559,8 +559,8 @@ public class AdministrarEmpleado extends javax.swing.JFrame {
             return;
         }
 
-        Conexion con = new Conexion();
-        if (con.insertarEmpleado(empleado, contra)) {
+        //Conexion con = new Conexion();
+        if (empleado.insertarEmpleado(empleado, contra)) {
             llenarTabla();
             dEmergente.setTexto("El empleado se registró de  forma correcta");
             dEmergente.setVisible(true);
@@ -649,9 +649,9 @@ public class AdministrarEmpleado extends javax.swing.JFrame {
     }//GEN-LAST:event_btnRestaurarContrasenaActionPerformed
 
     private void llenarTabla() {
-        Conexion con = new Conexion();
+        Empleado empleado = new Empleado();
         modelo.setRowCount(0); //Limpiamos la tabla
-        ArrayList<String[]> lista = con.consultarTodos();
+        ArrayList<String[]> lista = empleado.consultarTodos();
         for (int i = 0; i < lista.size(); i++) {
             modelo.addRow(lista.get(i));
         }

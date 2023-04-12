@@ -2,6 +2,7 @@ package Código;
 
 import ArchivosBD.Conexion;
 import java.sql.*;
+import java.util.ArrayList;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import javax.swing.JComboBox;
@@ -23,9 +24,9 @@ public class Empleado {
     String municipio;
     String estado;
     int idRol;
-    
-    public Empleado(){
-        
+
+    public Empleado() {
+
     }
 
     public Empleado(int idEmpledo, String nombre, String aPaterno, String aMaterno, String calle, String noExt, String Colonia, String cp, String curp, String rfc, String municipio, String estado, int idRol) {
@@ -63,12 +64,105 @@ public class Empleado {
         this.idEmpledo = idEmpleado;
     }
 
+    public ArrayList<String[]> consultarTodos() {
+        Conexion con = new Conexion();
+        ArrayList<String[]> resultado = new ArrayList<String[]>();
+        String consulta = "SELECT * FROM empleado";
+
+        ResultSet cursor;
+        try {
+            cursor = con.getTransaccion().executeQuery(consulta);
+
+            if (cursor.next()) {
+                do {
+                    String[] renglon = {cursor.getString(1), cursor.getString(2), cursor.getString(3), cursor.getString(4), cursor.getString(5), cursor.getString(6), cursor.getString(7), cursor.getString(8), cursor.getString(9), cursor.getString(10), cursor.getString(11), cursor.getString(12), cursor.getString(13)};
+                    resultado.add(renglon);
+                } while (cursor.next());
+            }
+        } catch (SQLException ex) {
+            Logger.getLogger(Conexion.class.getName()).log(Level.SEVERE, null, ex);
+        }
+
+        return resultado;
+
+    }
+
+    /*
+    public boolean insertarEmpleado(Empleado empleado, String contra) {
+
+        String SQL_insertar = "INSERT INTO empleado VALUES (null, '%nom%', '%pa%', '%ma%', '%cal%', '%noe%', '%col%', '%cp%', '%curp%', '%rfc%', '%mun%', '%est%', %rol%)";
+
+        SQL_insertar = SQL_insertar.replace("%nom%", empleado.getNombre());
+        SQL_insertar = SQL_insertar.replace("%pa%", empleado.getaPaterno());
+        SQL_insertar = SQL_insertar.replace("%ma%", empleado.getaMaterno());
+        SQL_insertar = SQL_insertar.replace("%cal%", empleado.getCalle());
+        SQL_insertar = SQL_insertar.replace("%noe%", empleado.getNoExt());
+        SQL_insertar = SQL_insertar.replace("%col%", empleado.getColonia());
+        SQL_insertar = SQL_insertar.replace("%cp%", empleado.getCp());
+        SQL_insertar = SQL_insertar.replace("%curp%", empleado.getCurp());
+        SQL_insertar = SQL_insertar.replace("%rfc%", empleado.getRfc());
+        SQL_insertar = SQL_insertar.replace("%mun%", empleado.getMunicipio());
+        SQL_insertar = SQL_insertar.replace("%est%", empleado.getEstado());
+        SQL_insertar = SQL_insertar.replace("%rol%", empleado.getIdRol());
+
+        String SQL_idEmpleado = "select idEmpleado from empleado order by idEmpleado DESC";
+
+        try {
+            transaccion.execute(SQL_insertar);
+            cursor = transaccion.executeQuery(SQL_idEmpleado);
+            cursor.next();
+            String idEmpleado = cursor.getString(1);
+            String SQL_insertarCredencial = "INSERT INTO credenciales VALUES (null, '" + contra + "'," + idEmpleado + "," + empleado.getIdRol() + ")";
+            transaccion.execute(SQL_insertarCredencial);
+        } catch (SQLException ex) {
+            return false;
+        }
+        return true;
+    }
+     */
+    public boolean insertarEmpleado(Empleado empleado, String contra) {
+        Conexion conexion = new Conexion();
+        String SQL_insertar = "INSERT INTO empleado VALUES (null, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)";
+        String SQL_idEmpleado = "select idEmpleado from empleado order by idEmpleado DESC";
+
+        CallableStatement cs;
+        try {
+            cs = conexion.getConexion().prepareCall(SQL_insertar);
+            cs.setString(1, empleado.getNombre());
+            cs.setString(2, empleado.getaPaterno());
+            cs.setString(3, empleado.getaMaterno());
+            cs.setString(4, empleado.getCalle());
+            cs.setString(5, empleado.getNoExt());
+            cs.setString(6, empleado.getColonia());
+            cs.setString(7, empleado.getCp());
+            cs.setString(8, empleado.getCurp());
+            cs.setString(9, empleado.getRfc());
+            cs.setString(10, empleado.getMunicipio());
+            cs.setString(11, empleado.getEstado());
+            cs.setInt(12, empleado.getIdRol());
+            cs.execute();
+
+            cs = conexion.getConexion().prepareCall(SQL_idEmpleado);
+            ResultSet cursor = cs.executeQuery();
+            cursor.next();
+            int idEmpleado = cursor.getInt(1);
+            String SQL_insertarCredencial = "INSERT INTO credenciales VALUES (null, ?, ?)";
+            cs = conexion.getConexion().prepareCall(SQL_insertarCredencial);
+
+            cs.setString(1, contra);
+            cs.setInt(2, idEmpleado);
+            cs.execute();
+
+            return true;
+        } catch (SQLException ex) {
+            return false;
+        }
+    }
+
     public boolean eliminarEmpleado(Empleado empleado) {
         Conexion conexion = new Conexion();
         String operacion1 = "DELETE FROM credenciales WHERE Empleado_idEmpleado=?;";
         String operacion2 = "DELETE FROM empleado WHERE idEmpleado=?;";
-
-        System.out.println(String.valueOf(empleado.getIdEmpledo()));
 
         CallableStatement cs;
         try {
@@ -125,7 +219,6 @@ public class Empleado {
             cs.setString(11, empleado.getRfc());
             cs.setInt(12, getIdRol());
             cs.setInt(13, empleado.getIdEmpledo());
-            
 
             cs.execute();
 

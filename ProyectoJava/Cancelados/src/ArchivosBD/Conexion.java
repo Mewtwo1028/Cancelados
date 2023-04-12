@@ -51,6 +51,7 @@ public class Conexion {
         return "";
     }
 
+    /*
     public boolean registrarCliente(Cliente cliente) {
 
         String nombre = cliente.getNombre();
@@ -73,7 +74,7 @@ public class Conexion {
 
         return true;
     }
-
+     */
     public Connection getConexion() {
         return conexion;
     }
@@ -85,66 +86,7 @@ public class Conexion {
     public ResultSet getCursor() {
         return cursor;
     }
-
-    public boolean insertarEmpleado(Empleado empleado, String contra) {
-
-        String SQL_insertar = "INSERT INTO empleado VALUES (null, '%nom%', '%pa%', '%ma%', '%cal%', '%noe%', '%col%', '%cp%', '%curp%', '%rfc%', '%mun%', '%est%', %rol%)";
-
-        SQL_insertar = SQL_insertar.replace("%nom%", empleado.getNombre());
-        SQL_insertar = SQL_insertar.replace("%pa%", empleado.getaPaterno());
-        SQL_insertar = SQL_insertar.replace("%ma%", empleado.getaMaterno());
-        SQL_insertar = SQL_insertar.replace("%cal%", empleado.getCalle());
-        SQL_insertar = SQL_insertar.replace("%noe%", empleado.getNoExt());
-        SQL_insertar = SQL_insertar.replace("%col%", empleado.getColonia());
-        SQL_insertar = SQL_insertar.replace("%cp%", empleado.getCp());
-        SQL_insertar = SQL_insertar.replace("%curp%", empleado.getCurp());
-        SQL_insertar = SQL_insertar.replace("%rfc%", empleado.getRfc());
-        SQL_insertar = SQL_insertar.replace("%mun%", empleado.getMunicipio());
-        SQL_insertar = SQL_insertar.replace("%est%", empleado.getEstado());
-        SQL_insertar = SQL_insertar.replace("%rol%", empleado.getIdRol());
-
-        String SQL_idEmpleado = "select idEmpleado from empleado order by idEmpleado DESC";
-
-        try {
-            transaccion.execute(SQL_insertar);
-            cursor = transaccion.executeQuery(SQL_idEmpleado);
-            cursor.next();
-            String idEmpleado = cursor.getString(1);
-            String SQL_insertarCredencial = "INSERT INTO credenciales VALUES (null, '" + contra + "'," + idEmpleado + "," + empleado.getIdRol() + ")";
-            transaccion.execute(SQL_insertarCredencial);
-        } catch (SQLException ex) {
-            return false;
-        }
-        return true;
-    }
-
-    public boolean actualizarEmpleado(Empleado empleado, String contra) {
-        String SQL_actualizar = "UPDATE empleado SET nombre='%nom%', aPaterno='%pa%', aMaterno='%ma%', calle='%cal%', noExt='%noe%', colonia='%col%', cp='%cp%', curp='%curp%', rfc='%rfc%', municipio='%mun%', estado='%est%', idRol=%rol%";
-
-        SQL_actualizar = SQL_actualizar.replace("%nom%", empleado.getNombre());
-        SQL_actualizar = SQL_actualizar.replace("%pa%", empleado.getaPaterno());
-        SQL_actualizar = SQL_actualizar.replace("%ma%", empleado.getaMaterno());
-        SQL_actualizar = SQL_actualizar.replace("%cal%", empleado.getCalle());
-        SQL_actualizar = SQL_actualizar.replace("%noe%", empleado.getNoExt());
-        SQL_actualizar = SQL_actualizar.replace("%col%", empleado.getColonia());
-        SQL_actualizar = SQL_actualizar.replace("%cp%", empleado.getCp());
-        SQL_actualizar = SQL_actualizar.replace("%curp%", empleado.getCurp());
-        SQL_actualizar = SQL_actualizar.replace("%rfc%", empleado.getRfc());
-        SQL_actualizar = SQL_actualizar.replace("%mun%", empleado.getMunicipio());
-        SQL_actualizar = SQL_actualizar.replace("%est%", empleado.getEstado());
-        SQL_actualizar = SQL_actualizar.replace("%rol%", empleado.getIdRol());
-        //SQL_actualizar = SQL_actualizar.replace("%id%", empleado.getIdEmpleado());
-
-        //String SQL_actualizarCredencial = "UPDATE credenciales SET contrasena='"+contra+"' WHERE idEmpleado="+empleado.getIdEmpleado();
-        try {
-            transaccion.execute(SQL_actualizar);
-            //transaccion.execute(SQL_actualizarCredencial);
-        } catch (SQLException ex) {
-            return false;
-        }
-        return true;
-    }
-
+    /*
     public ArrayList<String[]> consultarTodos() {
         ArrayList<String[]> resultado = new ArrayList<String[]>();
 
@@ -163,5 +105,6 @@ public class Conexion {
         return resultado;
 
     }
+     */
 
 }
