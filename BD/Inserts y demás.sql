@@ -44,3 +44,8 @@ INSERT INTO cliente (idCliente, Nombre, ApellidoPaterno, ApellidoMaterno, CURP, 
 (8, "Ricardo", "Díaz", "García", "DIGR800501MNZRCR05", "Calle 8", "La Cantera", "Tepic", "Nayarit", "63190"),
 (9, "Ana", "Gutiérrez", "Vázquez", "GUVA830101MNZNTN07", "Calle 9", "Indeco", "Tepic", "Nayarit", "63110"),
 (10, "Mario", "Martínez", "Flores", "MAFM950703MNZRTL01", "Calle 10", "San Juan", "Tepic", "Nayarit", "63120");
+
+
+
+alter table credenciales drop foreign key fk_credenciales_empleado1;
+alter table credenciales drop column Empleado_Roles_idRoles;

@@ -22,9 +22,13 @@ public class Empleado {
     String rfc;
     String municipio;
     String estado;
-    String idRol;
+    int idRol;
+    
+    public Empleado(){
+        
+    }
 
-    public Empleado(int idEmpledo, String nombre, String aPaterno, String aMaterno, String calle, String noExt, String Colonia, String cp, String curp, String rfc, String municipio, String estado, String idRol) {
+    public Empleado(int idEmpledo, String nombre, String aPaterno, String aMaterno, String calle, String noExt, String Colonia, String cp, String curp, String rfc, String municipio, String estado, int idRol) {
         this.idEmpledo = idEmpledo;
         this.nombre = nombre;
         this.aPaterno = aPaterno;
@@ -40,7 +44,7 @@ public class Empleado {
         this.idRol = idRol;
     }
 
-    public Empleado(String nombre, String aPaterno, String aMaterno, String calle, String noExt, String Colonia, String cp, String curp, String rfc, String municipio, String estado, String idRol) {
+    public Empleado(String nombre, String aPaterno, String aMaterno, String calle, String noExt, String Colonia, String cp, String curp, String rfc, String municipio, String estado, int idRol) {
         this.nombre = nombre;
         this.aPaterno = aPaterno;
         this.aMaterno = aMaterno;
@@ -63,7 +67,7 @@ public class Empleado {
         Conexion conexion = new Conexion();
         String operacion1 = "DELETE FROM credenciales WHERE Empleado_idEmpleado=?;";
         String operacion2 = "DELETE FROM empleado WHERE idEmpleado=?;";
-        
+
         System.out.println(String.valueOf(empleado.getIdEmpledo()));
 
         CallableStatement cs;
@@ -72,7 +76,7 @@ public class Empleado {
             cs = conexion.getConexion().prepareCall(operacion1);
             cs.setString(1, String.valueOf(empleado.getIdEmpledo()));
             cs.execute();
-            
+
             //Borrar al empleado
             cs = conexion.getConexion().prepareCall(operacion2);
             cs.setString(1, String.valueOf(empleado.getIdEmpledo()));
@@ -83,17 +87,14 @@ public class Empleado {
         }
     }
 
-    
-    public boolean modificaCredenciales(JTextField contra, JComboBox rol,JTextField id){
+    public boolean modificaCredenciales(Credenciales credencial) {
         Conexion con = new Conexion();
-     String actualizaCredenciales = "UPDATE credenciales SET Contrasena=?, Empleado_Roles_idRoles=? WHERE Empleado_idEmpleado=?;";
-     try {
+        String actualizaCredenciales = "UPDATE credenciales SET Contrasena=? WHERE Empleado_idEmpleado=?;";
+        try {
             CallableStatement cs = con.getConexion().prepareCall(actualizaCredenciales);
 
-            cs.setString(1, contra.getText());
-            cs.setInt(2, rol.getSelectedIndex());
-            cs.setInt(3, Integer.parseInt(id.getText()));
-
+            cs.setString(1, credencial.getContraseña());
+            cs.setInt(2, credencial.getIdEmpleado());
 
             cs.execute();
 
@@ -102,12 +103,11 @@ public class Empleado {
         } catch (NumberFormatException | SQLException e) {
             return false;
         }
-    }    
-    
-    
+    }
+
     public boolean modificarEmpleado(Empleado empleado) {
         Conexion con = new Conexion();
-        String consulta = "UPDATE Empleado SET nombre=?, ApellidoPaterno =?, ApellidoMaterno=?,Calle=?,NoExt=?, Colonia=?,CP=?,Municipio=?,Estado=?,CURP=?,RFC=? WHERE idEmpleado=?;"; //pendiente Roles_idRoles por algunos errores
+        String consulta = "UPDATE Empleado SET nombre=?, ApellidoPaterno =?, ApellidoMaterno=?,Calle=?,NoExt=?, Colonia=?,CP=?,Municipio=?,Estado=?,CURP=?,RFC=?, Roles_idRoles=? WHERE idEmpleado=?;";
 
         try {
             CallableStatement cs = con.getConexion().prepareCall(consulta);
@@ -123,8 +123,9 @@ public class Empleado {
             cs.setString(9, empleado.getEstado());
             cs.setString(10, empleado.getCurp());
             cs.setString(11, empleado.getRfc());
-            cs.setInt(12, empleado.getIdEmpledo());
-            //cs.setInt(13, getIdRol());
+            cs.setInt(12, getIdRol());
+            cs.setInt(13, empleado.getIdEmpledo());
+            
 
             cs.execute();
 
@@ -262,11 +263,11 @@ public class Empleado {
         this.estado = estado;
     }
 
-    public String getIdRol() {
+    public int getIdRol() {
         return idRol;
     }
 
-    public void setIdRol(String idRol) {
+    public void setIdRol(int idRol) {
         this.idRol = idRol;
     }
 

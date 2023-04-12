@@ -1,6 +1,7 @@
 package Ventanas;
 
 import ArchivosBD.Conexion;
+import Código.Credenciales;
 import Código.Empleado;
 import Código.FuncionesUtiles;
 import java.awt.Color;
@@ -13,9 +14,6 @@ import java.security.MessageDigest;
 import java.security.NoSuchAlgorithmException;
 import java.util.logging.Level;
 import java.util.logging.Logger;
-
-
-
 
 public class AdministrarEmpleado extends javax.swing.JFrame {
 
@@ -30,14 +28,14 @@ public class AdministrarEmpleado extends javax.swing.JFrame {
         initComponents();
         inicializar();
         initTabla();
-        
+
     }
 
     //Función que comprueba si el campo contraseña y repetir contraseña tienen el mismo contenido
-    private boolean compruebaContra(String pass1,String pass2){
-       return pass1.compareTo(pass2) < 0 ? false : true; 
+    private boolean compruebaContra(String pass1, String pass2) {
+        return pass1.compareTo(pass2) < 0 ? false : true;
     }
-    
+
     private void inicializar() {
         FuncionesUtiles tool = new FuncionesUtiles();
         //Configuracion ventana
@@ -45,7 +43,7 @@ public class AdministrarEmpleado extends javax.swing.JFrame {
         this.getContentPane().setBackground(Color.WHITE);
         this.setExtendedState(JFrame.MAXIMIZED_BOTH);
         this.setTitle("Administrar Empleado");
-        
+
         //Configurar panel principal
         jPanelPrincipal.setBackground(Color.WHITE);
 
@@ -550,8 +548,8 @@ public class AdministrarEmpleado extends javax.swing.JFrame {
         String estado = txtEstado.getText();
         String rol = String.valueOf(jComboBoxRol.getSelectedItem());
         String contra = txtContra.getText();
-        
-        String idRol = rol.equals("Empleado")? "2":"1";
+
+        int idRol = rol.equals("Empleado") ? 2 : 1;
 
         Empleado empleado = new Empleado(nombre, aPaterno, aMaterno, calle, noExt, Colonia, cp, curp, rfc, municipio, estado, idRol);
 
@@ -573,42 +571,38 @@ public class AdministrarEmpleado extends javax.swing.JFrame {
         limpiarTxtFields();
     }//GEN-LAST:event_btnRegistrarActionPerformed
 
-    private String encriptaContra (String contrasena) throws NoSuchAlgorithmException{
+    private String encriptaContra(String contrasena) throws NoSuchAlgorithmException {
         MessageDigest md = MessageDigest.getInstance("MD5");
         byte[] messageDigest = md.digest(contrasena.getBytes());
-        
+
         BigInteger bigInt = new BigInteger(1, messageDigest);
-        
+
         return bigInt.toString();
     }
-    
-    
+
+
     private void btnModificarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnModificarActionPerformed
         DialogoEmergente dEmergente = new DialogoEmergente(this, true);
-        String txtIdRol = String.valueOf(jComboBoxRol.getSelectedItem()).equals("Empleado")? "2":"1";
-        Empleado empleado = new Empleado(Integer.parseInt(txtIDEmpleado.getText()),txtNombre.getText(), txtApPaterno.getText(), txtApMaterno.getText(), txtCalle.getText(), txtNoExt.getText(), txtColonia.getText(), txtCP.getText(), txtCURP.getText(), txtRFC.getText(), txtMunicipio.getText(), txtEstado.getText(), txtIdRol);        
+        int txtIdRol = String.valueOf(jComboBoxRol.getSelectedItem()).equals("Empleado") ? 2 : 1;
+        Empleado empleado = new Empleado(Integer.parseInt(txtIDEmpleado.getText()), txtNombre.getText(), txtApPaterno.getText(), txtApMaterno.getText(), txtCalle.getText(), txtNoExt.getText(), txtColonia.getText(), txtCP.getText(), txtCURP.getText(), txtRFC.getText(), txtMunicipio.getText(), txtEstado.getText(), txtIdRol);
 
-
-        if (txtContra.isEnabled()){
-           
+        if (txtContra.isEnabled()) {
             try {
-                if (compruebaContra(encriptaContra(txtContra.getText()), encriptaContra(txtRepContrasena.getText()))){
-                    
-                    empleado.modificaCredenciales(txtContra, jComboBoxRol, txtIDEmpleado);
+                Credenciales credencial = new Credenciales(txtContra.getText(), Integer.parseInt(txtIDEmpleado.getText()));
+
+                if (compruebaContra(encriptaContra(txtContra.getText()), encriptaContra(txtRepContrasena.getText()))) {
+
+                    empleado.modificaCredenciales(credencial);
                     dEmergente.setTexto("OK");
-                }
-                else{ 
+                } else {
                     dEmergente.setTexto("Error. Las contraseñas no coinciden");
- 
                 }
             } catch (NoSuchAlgorithmException ex) {
                 Logger.getLogger(AdministrarEmpleado.class.getName()).log(Level.SEVERE, null, ex);
             }
-            
             dEmergente.setVisible(true);
         }
-        
-        
+
         if (empleado.modificarEmpleado(empleado)) {
             llenarTabla();
             dEmergente.setTexto("El empleado se modificó de forma correcta");
@@ -621,16 +615,16 @@ public class AdministrarEmpleado extends javax.swing.JFrame {
     }//GEN-LAST:event_btnModificarActionPerformed
 
     private void tblEmpleadoMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_tblEmpleadoMouseClicked
-        String txtIdRol = String.valueOf(jComboBoxRol.getSelectedItem()).equals("Empleado")? "2":"1";
-        Empleado temp = new Empleado(txtNombre.getText(), txtApPaterno.getText(), txtApMaterno.getText(), txtCalle.getText(), txtNoExt.getText(), txtColonia.getText(), txtCP.getText(), txtCURP.getText(), txtRFC.getText(), txtMunicipio.getText(), txtEstado.getText(), txtIdRol);
+        String txtIdRol = String.valueOf(jComboBoxRol.getSelectedItem()).equals("Empleado") ? "2" : "1";
+        Empleado temp = new Empleado();
         temp.getEmpleadoTabla(tblEmpleado, txtIDEmpleado, txtNombre, txtApPaterno, txtApMaterno, txtCalle, txtNoExt, txtColonia, txtCP, txtMunicipio, txtEstado, txtCURP, txtRFC, jComboBoxRol);
     }//GEN-LAST:event_tblEmpleadoMouseClicked
 
     private void btnEliminarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnEliminarActionPerformed
         // ELIMINAR EMPLEADO
         DialogoEmergente dEmergente = new DialogoEmergente(this, true);
-        Empleado empleado = new Empleado(Integer.parseInt(txtIDEmpleado.getText()));        
-        
+        Empleado empleado = new Empleado(Integer.parseInt(txtIDEmpleado.getText()));
+
         if (empleado.eliminarEmpleado(empleado)) {
             llenarTabla();
             dEmergente.setTexto("El empleado se eliminó de\nforma correcta");
@@ -643,12 +637,11 @@ public class AdministrarEmpleado extends javax.swing.JFrame {
     }//GEN-LAST:event_btnEliminarActionPerformed
 
     private void btnRestaurarContrasenaActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnRestaurarContrasenaActionPerformed
-        
+
         DialogoEmergente t = new DialogoEmergente(this, true);
         t.setTexto("Campos de \ncontraseña habilitados");
         t.setVisible(true);
-        
-        
+
         txtContra.setEditable(true);
         txtContra.setEnabled(true);
         txtRepContrasena.setEditable(true);
@@ -663,8 +656,8 @@ public class AdministrarEmpleado extends javax.swing.JFrame {
             modelo.addRow(lista.get(i));
         }
     }
-    
-    private boolean validarFormulario(){
+
+    private boolean validarFormulario() {
         return txtNombre.getText().isBlank() | txtApPaterno.getText().isBlank() | txtApMaterno.getText().isBlank() | txtCalle.getText().isBlank() | txtNoExt.getText().isBlank() | txtColonia.getText().isBlank() | txtCP.getText().isBlank() | txtCURP.getText().isBlank() | txtRFC.getText().isBlank() | txtMunicipio.getText().isBlank() | txtEstado.getText().isBlank();
     }
 
