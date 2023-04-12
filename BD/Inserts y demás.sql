@@ -51,3 +51,32 @@ alter table credenciales drop foreign key fk_credenciales_empleado1;
 alter table credenciales drop column Empleado_Roles_idRoles;
 
 UPDATE `cancelados`.`credenciales` SET `Contrasena` = '2087348535479320780316101705201136896' WHERE (`idCredenciales` = '1') and (`Empleado_idEmpleado` = '1');
+
+
+-- *************************
+drop table detalleVenta;
+drop table venta;
+
+CREATE TABLE venta (
+idVenta INT NOT NULL AUTO_INCREMENT,
+total DECIMAL(2,0) NOT NULL,
+fecha DATETIME,
+idCliente INT NOT NULL,
+idEmpleado INT NOT NULL,
+CONSTRAINT pk_venta PRIMARY KEY (idVenta),
+CONSTRAINT fk_venta_cliente FOREIGN KEY (idCliente) REFERENCES cliente(idCliente),
+CONSTRAINT fk_venta_empleado FOREIGN KEY (idEmpleado) REFERENCES empleado(idEmpleado)
+);
+
+CREATE TABLE detalleVenta(
+idDetalleVenta INT NOT NULL AUTO_INCREMENT,
+idVenta INT NOT NULL,
+cantidad INT NOT NULL,
+precioUnitario DECIMAL(2,0),
+importe DECIMAL(16,2),
+idProducto INT NOT NULL,
+CONSTRAINT pk_detalleVenta PRIMARY KEY (idDetalleVenta),
+CONSTRAINT fk_detalleVenta_venta FOREIGN KEY (idVenta) REFERENCES venta(idVenta),
+CONSTRAINT fk_detalleVenta_producto FOREIGN KEY (idProducto) REFERENCES producto(idProducto)
+);
+-- *************************
