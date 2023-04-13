@@ -100,6 +100,26 @@ public class Cliente {
             return false;
         }
     }
+    
+    public ArrayList<String> consultarNombres(){
+        ArrayList<String> resultado = new ArrayList<>();
+
+        ResultSet cursor;
+        String consulta = "SELECT nombre FROM cliente;";
+
+        try {
+            Conexion con = new Conexion();
+            cursor = con.getTransaccion().executeQuery(consulta);
+            if (cursor.next()) {
+                do {
+                    resultado.add(cursor.getString(1));
+                } while (cursor.next());
+            }
+        } catch (SQLException ex) {
+            Logger.getLogger(Conexion.class.getName()).log(Level.SEVERE, null, ex);
+        }
+        return resultado;
+    }
 
     public ArrayList<String[]> consultarTodos() {
         ArrayList<String[]> resultado = new ArrayList<>();

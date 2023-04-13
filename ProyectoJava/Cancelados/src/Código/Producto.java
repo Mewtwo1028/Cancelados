@@ -54,6 +54,51 @@ public class Producto {
         this.autor = autor;
     }
 
+    public ArrayList<Producto> consultarNombres() {
+        ArrayList<Producto> resultado = new ArrayList<>();
+        Producto producto;
+
+        ResultSet cursor;
+        String consulta = "SELECT idProducto, nombre, precioUnitario, stock FROM producto;";
+
+        try {
+            Conexion con = new Conexion();
+            cursor = con.getTransaccion().executeQuery(consulta);
+            if (cursor.next()) {
+                do {
+                    producto = new Producto();
+                    producto.setIdProducto(cursor.getInt(1));
+                    producto.setNombre(cursor.getString(2));
+                    producto.setPrecioUnitario(cursor.getFloat(3));
+                    producto.setStock(cursor.getInt(4));
+                    resultado.add(producto);
+                } while (cursor.next());
+            }
+        } catch (SQLException ex) {
+            Logger.getLogger(Conexion.class.getName()).log(Level.SEVERE, null, ex);
+        }
+        return resultado;
+    }
+
+    public String consultarPrecio(Producto producto) {
+        String consulta = "SELECT precioUnitario FROM producto WHERE nombre=?;";
+
+        try {
+            Conexion con = new Conexion();
+            PreparedStatement cs = con.getConexion().prepareStatement(consulta);
+            cs.setString(1, String.valueOf(producto.getNombre()));
+            ResultSet cursor = cs.executeQuery();
+            if (cursor.next()) {
+                do {
+                    return cursor.getString(1);
+                } while (cursor.next());
+            }
+        } catch (SQLException ex) {
+            Logger.getLogger(Conexion.class.getName()).log(Level.SEVERE, null, ex);
+        }
+        return "";
+    }
+
     public ArrayList<String[]> consultarTodos() {
         ArrayList<String[]> resultado = new ArrayList<>();
 
@@ -206,6 +251,34 @@ public class Producto {
 
     public String getAutor() {
         return autor;
+    }
+
+    public void setIdProducto(int idProducto) {
+        this.idProducto = idProducto;
+    }
+
+    public void setNombre(String nombre) {
+        this.nombre = nombre;
+    }
+
+    public void setDescripcion(String descripcion) {
+        this.descripcion = descripcion;
+    }
+
+    public void setPrecioUnitario(float precioUnitario) {
+        this.precioUnitario = precioUnitario;
+    }
+
+    public void setImagen(String imagen) {
+        this.imagen = imagen;
+    }
+
+    public void setStock(int stock) {
+        this.stock = stock;
+    }
+
+    public void setAutor(String autor) {
+        this.autor = autor;
     }
 
 }
