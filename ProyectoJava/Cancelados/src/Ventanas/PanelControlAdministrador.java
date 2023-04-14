@@ -124,6 +124,11 @@ public class PanelControlAdministrador extends javax.swing.JFrame {
         });
 
         btnVender.setText("VENDER");
+        btnVender.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnVenderActionPerformed(evt);
+            }
+        });
 
         btnEditarProducto.setText("Editar Producto");
 
@@ -262,6 +267,12 @@ public class PanelControlAdministrador extends javax.swing.JFrame {
         this.dispose();
         pAdminProduc.setVisible(true);
     }//GEN-LAST:event_btnAdministrarProductosActionPerformed
+
+    private void btnVenderActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnVenderActionPerformed
+        RegistrarVenta v = new RegistrarVenta();
+        this.dispose();
+        v.setVisible(true);
+    }//GEN-LAST:event_btnVenderActionPerformed
 
     /**
      * @param args the command line arguments
