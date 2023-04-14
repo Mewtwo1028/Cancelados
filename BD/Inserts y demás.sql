@@ -80,3 +80,10 @@ CONSTRAINT fk_detalleVenta_venta FOREIGN KEY (idVenta) REFERENCES venta(idVenta)
 CONSTRAINT fk_detalleVenta_producto FOREIGN KEY (idProducto) REFERENCES producto(idProducto)
 );
 -- *************************
+
+
+
+ALTER TABLE venta MODIFY COLUMN fecha TIMESTAMP DEFAULT CURRENT_TIMESTAMP;
+ALTER TABLE venta MODIFY COLUMN total decimal(10,2);
+ALTER TABLE detalleVenta MODIFY COLUMN precioUnitario decimal(10,2);
+ALTER TABLE producto MODIFY COLUMN precioUnitario decimal(10,2);

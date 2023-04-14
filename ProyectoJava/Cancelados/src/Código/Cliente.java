@@ -2,13 +2,9 @@ package Código;
 
 import ArchivosBD.Conexion;
 import java.sql.CallableStatement;
-import java.sql.Connection;
-import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
-import java.sql.Statement;
 import java.util.ArrayList;
-import java.util.Arrays;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 
@@ -58,6 +54,30 @@ public class Cliente {
         this.idCliente = idCliente;
     }
 
+    public ArrayList<Cliente> consultarNombres() {
+        ArrayList<Cliente> resultado = new ArrayList<>();
+        Cliente cliente;
+
+        ResultSet cursor;
+        String consulta = "SELECT idCliente, nombre stock FROM cliente;";
+
+        try {
+            Conexion con = new Conexion();
+            cursor = con.getTransaccion().executeQuery(consulta);
+            if (cursor.next()) {
+                do {
+                    cliente = new Cliente();
+                    cliente.setIdCliente(cursor.getInt(1));
+                    cliente.setNombre(cursor.getString(2));
+                    resultado.add(cliente);
+                } while (cursor.next());
+            }
+        } catch (SQLException ex) {
+            Logger.getLogger(Conexion.class.getName()).log(Level.SEVERE, null, ex);
+        }
+        return resultado;
+    }
+
     public boolean eliminarCliente(Cliente cliente) {
         Conexion conexion = new Conexion();
         String operacion = "DELETE FROM cliente WHERE idCliente=?;";
@@ -99,26 +119,6 @@ public class Cliente {
         } catch (NumberFormatException | SQLException e) {
             return false;
         }
-    }
-    
-    public ArrayList<String> consultarNombres(){
-        ArrayList<String> resultado = new ArrayList<>();
-
-        ResultSet cursor;
-        String consulta = "SELECT nombre FROM cliente;";
-
-        try {
-            Conexion con = new Conexion();
-            cursor = con.getTransaccion().executeQuery(consulta);
-            if (cursor.next()) {
-                do {
-                    resultado.add(cursor.getString(1));
-                } while (cursor.next());
-            }
-        } catch (SQLException ex) {
-            Logger.getLogger(Conexion.class.getName()).log(Level.SEVERE, null, ex);
-        }
-        return resultado;
     }
 
     public ArrayList<String[]> consultarTodos() {

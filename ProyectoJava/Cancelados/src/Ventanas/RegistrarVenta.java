@@ -1,13 +1,16 @@
 package Ventanas;
 
 import Código.Cliente;
+import Código.DetalleVenta;
 import Código.FuncionesUtiles;
 import Código.Producto;
+import Código.Venta;
 import java.awt.Color;
 import java.util.ArrayList;
 import javax.swing.DefaultComboBoxModel;
 import javax.swing.JFrame;
 import javax.swing.table.DefaultTableModel;
+import javax.swing.table.TableModel;
 
 public class RegistrarVenta extends javax.swing.JFrame {
 
@@ -19,6 +22,7 @@ public class RegistrarVenta extends javax.swing.JFrame {
     };
 
     ArrayList<Producto> productos = new Producto().consultarNombres();
+    ArrayList<Cliente> clientes = new Cliente().consultarNombres();
     float subTotal = 0;
 
     public RegistrarVenta() {
@@ -110,7 +114,9 @@ public class RegistrarVenta extends javax.swing.JFrame {
         DefaultComboBoxModel dl = new DefaultComboBoxModel();
         dl.addElement("SELECCIONA UN CLIENTE");
 
-        dl.addAll(new Cliente().consultarNombres());
+        for (Cliente cliente : clientes) {
+            dl.addElement(cliente.getNombre());
+        }
 
         cbCliente.setModel(dl);
     }
@@ -329,11 +335,12 @@ public class RegistrarVenta extends javax.swing.JFrame {
                         .addComponent(txtSubtotal, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
                     .addComponent(labelProducto, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
                 .addGap(18, 18, 18)
-                .addGroup(jPanelFormularioLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(labelTotal)
-                    .addComponent(txtTotal, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addGroup(jPanelFormularioLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addComponent(labelCantidad, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                    .addComponent(cbCantidad, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                    .addGroup(jPanelFormularioLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                        .addComponent(labelTotal)
+                        .addComponent(txtTotal, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addComponent(cbCantidad, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)))
                 .addGap(18, 18, 18)
                 .addGroup(jPanelFormularioLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
                     .addGroup(jPanelFormularioLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
@@ -489,13 +496,23 @@ public class RegistrarVenta extends javax.swing.JFrame {
     }//GEN-LAST:event_btnEliminarActionPerformed
 
     private void btnRegistrarVentaActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnRegistrarVentaActionPerformed
-        
-        String importe = txtImporte.getText();
-        String fecha = "12/04/2023";
-        String idCliente = "1";
-        String idEmpleado = "1";
-        
-//registrarVenta();
+
+        float total = Float.parseFloat(txtSubtotal.getText());
+        //System.out.println("total: "+total);
+        String fecha = "2023-04-10 23:59:59";
+        int idCliente = obtenerIdCliente(cbCliente.getSelectedItem().toString());
+        //System.out.println("idCliente: "+idCliente);
+        int idEmpleado = 1;
+
+        ArrayList<Producto> listaProductos = obtenerListaProductos();
+
+        Venta venta = new Venta(total, idCliente, idEmpleado);
+        int idVenta = venta.realizarVenta(venta);
+        System.out.println("idVenta: "+idVenta);
+
+        DetalleVenta dv = new DetalleVenta();
+        dv.realizarDetalleVenta(listaProductos, idVenta);
+
     }//GEN-LAST:event_btnRegistrarVentaActionPerformed
 
     private void cbNombreProductoItemStateChanged(java.awt.event.ItemEvent evt) {//GEN-FIRST:event_cbNombreProductoItemStateChanged
@@ -519,6 +536,29 @@ public class RegistrarVenta extends javax.swing.JFrame {
 
     }//GEN-LAST:event_cbCantidadItemStateChanged
 
+    private ArrayList<Producto> obtenerListaProductos() {
+        ArrayList<Producto> listaProductos = new ArrayList<>();
+        TableModel modelo = tblProducto.getModel();
+        Producto producto;
+
+        for (int i = 0; i < modelo.getRowCount(); i++) {
+            producto = new Producto();
+            try {
+                producto.setIdProducto(Integer.parseInt(modelo.getValueAt(i, 0).toString()));
+                producto.setNombre(modelo.getValueAt(i, 1).toString());
+                producto.setPrecioUnitario(Float.parseFloat(modelo.getValueAt(i, 2).toString()));
+                producto.setStock(Integer.parseInt(modelo.getValueAt(i, 3).toString()));
+                producto.setImporte(Float.parseFloat(modelo.getValueAt(i, 4).toString()));
+
+                listaProductos.add(producto);
+            } catch (NumberFormatException ex) {
+
+            }
+        }
+
+        return listaProductos;
+    }
+
     private void calcularImporte() {
         if (cbCantidad.getSelectedItem() != null) {
             int cantidad = Integer.parseInt(cbCantidad.getSelectedItem().toString());
@@ -528,6 +568,17 @@ public class RegistrarVenta extends javax.swing.JFrame {
 
             txtImporte.setText(String.valueOf(calculo));
         }
+    }
+
+    private int obtenerIdCliente(String nombreCliente) {
+
+        for (Cliente cliente : clientes) {
+            if (cliente.getNombre().equals(nombreCliente)) {
+                return cliente.getIdCliente();
+            }
+        }
+
+        return -1;
     }
 
     private void llenarCantidad(Producto producto) {

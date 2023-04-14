@@ -15,7 +15,6 @@ import java.util.logging.Level;
 import java.util.logging.Logger;
 import javax.swing.ImageIcon;
 import javax.swing.JLabel;
-import javax.swing.JTable;
 
 public class Producto {
 
@@ -26,6 +25,7 @@ public class Producto {
     private String imagen;
     private int stock;
     private String autor;
+    private float importe;
 
     public Producto() {
 
@@ -279,6 +279,14 @@ public class Producto {
 
     public void setAutor(String autor) {
         this.autor = autor;
+    }
+    
+    public void setImporte(float importe){
+        this.importe = importe;
+    }
+    
+    public float getImporte(){
+        return importe;
     }
 
 }
