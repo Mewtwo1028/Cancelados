@@ -475,16 +475,19 @@ public class RegistrarVenta extends javax.swing.JFrame {
 
     private void btnAgregarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnAgregarActionPerformed
         String idProducto = txtIDProducto.getText();
-        String producto = cbNombreProducto.getSelectedItem().toString();
-        String precioUnitario = txtPrecioUnitario.getText();
         String cantidad = cbCantidad.getSelectedItem().toString();
         String importe = txtImporte.getText();
+        String producto = cbNombreProducto.getSelectedItem().toString();
+        String precioUnitario = txtPrecioUnitario.getText();
 
         subTotal += Float.parseFloat(importe);
         txtSubtotal.setText(String.valueOf(subTotal));
-        agregarTabla(idProducto, producto, precioUnitario, cantidad, importe);
 
-
+        if (existeProductoTabla(idProducto)) {
+            actualizarCantidadProducto(idProducto, cantidad, importe);
+        } else {
+            agregarTabla(idProducto, producto, precioUnitario, cantidad, importe);
+        }
     }//GEN-LAST:event_btnAgregarActionPerformed
 
     private void tblProductoMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_tblProductoMouseClicked
@@ -498,17 +501,13 @@ public class RegistrarVenta extends javax.swing.JFrame {
     private void btnRegistrarVentaActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnRegistrarVentaActionPerformed
 
         float total = Float.parseFloat(txtSubtotal.getText());
-        //System.out.println("total: "+total);
-        String fecha = "2023-04-10 23:59:59";
         int idCliente = obtenerIdCliente(cbCliente.getSelectedItem().toString());
-        //System.out.println("idCliente: "+idCliente);
         int idEmpleado = 1;
 
         ArrayList<Producto> listaProductos = obtenerListaProductos();
 
         Venta venta = new Venta(total, idCliente, idEmpleado);
         int idVenta = venta.realizarVenta(venta);
-        System.out.println("idVenta: "+idVenta);
 
         DetalleVenta dv = new DetalleVenta();
         dv.realizarDetalleVenta(listaProductos, idVenta);
@@ -531,10 +530,66 @@ public class RegistrarVenta extends javax.swing.JFrame {
     }//GEN-LAST:event_cbNombreProductoItemStateChanged
 
     private void cbCantidadItemStateChanged(java.awt.event.ItemEvent evt) {//GEN-FIRST:event_cbCantidadItemStateChanged
-
         calcularImporte();
-
     }//GEN-LAST:event_cbCantidadItemStateChanged
+
+    private void actualizarCantidadProducto(String idProducto, String cantidad, String importe) {
+        for (int i = 0; i < tblProducto.getRowCount(); i++) {
+            Object id = tblProducto.getValueAt(i, 0);
+            if (id != null && id.toString().equals(idProducto)) {
+
+                int vCantidad = Integer.parseInt(tblProducto.getValueAt(i, 3).toString());
+                int nCantidad = vCantidad + Integer.parseInt(cantidad);
+                tblProducto.setValueAt(nCantidad, i, 3);
+
+                float vImporte = Float.parseFloat(tblProducto.getValueAt(i, 4).toString());
+                float nImporte = vImporte + Float.parseFloat(importe);
+                tblProducto.setValueAt(nImporte, i, 4);
+                break; // Para salir del ciclo si el producto ha sido encontrado
+            }
+        }
+        tblProducto.repaint();
+    }
+
+    private boolean existeProductoTabla(String idProducto) {
+        ArrayList<Producto> listaProductos = obtenerCarrito();
+        int id = Integer.parseInt(idProducto);
+
+        for (Producto producto : listaProductos) {
+            if (producto.getIdProducto() == id) {
+                return true;
+            }
+        }
+        return false;
+    }
+
+    private ArrayList<Producto> obtenerCarrito() {
+        ArrayList<Producto> carrito = new ArrayList<>();
+
+        for (int i = 0; i < modelo.getRowCount(); i++) {
+            Producto producto = new Producto();
+            for (int j = 0; j < modelo.getColumnCount(); j++) {
+                Object valorCelda = modelo.getValueAt(i, j);
+                switch (j) {
+                    case 0 ->
+                        producto.setIdProducto(Integer.parseInt(valorCelda.toString()));
+                    case 1 ->
+                        producto.setNombre(valorCelda.toString());
+                    case 2 ->
+                        producto.setPrecioUnitario(Float.parseFloat(valorCelda.toString()));
+                    case 3 ->
+                        producto.setStock(Integer.parseInt(valorCelda.toString()));
+                    case 4 ->
+                        producto.setImporte(Float.parseFloat(valorCelda.toString()));
+                    default -> {
+                    }
+                }
+            }
+            carrito.add(producto);
+        }
+
+        return carrito;
+    }
 
     private ArrayList<Producto> obtenerListaProductos() {
         ArrayList<Producto> listaProductos = new ArrayList<>();
