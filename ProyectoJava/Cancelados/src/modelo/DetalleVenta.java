@@ -1,6 +1,6 @@
-package Código;
+package modelo;
 
-import ArchivosBD.Conexion;
+import controlador.Conexion;
 import java.sql.CallableStatement;
 import java.sql.SQLException;
 import java.util.ArrayList;

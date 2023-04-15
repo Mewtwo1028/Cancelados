@@ -1,4 +1,4 @@
-package Código;
+package modelo;
 
 public class Credenciales {
     private int idCredencial;

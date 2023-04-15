@@ -1,10 +1,11 @@
-package Ventanas;
+package vista;
 
-import Código.Cliente;
-import Código.DetalleVenta;
-import Código.FuncionesUtiles;
-import Código.Producto;
-import Código.Venta;
+import controlador.ClienteManager;
+import modelo.Cliente;
+import modelo.DetalleVenta;
+import modelo.FuncionesUtiles;
+import modelo.Producto;
+import modelo.Venta;
 import java.awt.Color;
 import java.util.ArrayList;
 import javax.swing.DefaultComboBoxModel;
@@ -22,7 +23,7 @@ public class RegistrarVenta extends javax.swing.JFrame {
     };
 
     ArrayList<Producto> productos = new Producto().consultarNombres();
-    ArrayList<Cliente> clientes = new Cliente().consultarNombres();
+    ArrayList<Cliente> clientes = new ClienteManager().consultarNombres();
     float subTotal = 0;
 
     public RegistrarVenta() {

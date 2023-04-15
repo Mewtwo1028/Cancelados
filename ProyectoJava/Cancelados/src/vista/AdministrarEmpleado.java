@@ -1,15 +1,22 @@
-package Ventanas;
+package vista;
 
-import ArchivosBD.Conexion;
-import Código.Cliente;
-import Código.Empleado;
-import Código.FuncionesUtiles;
+import controlador.Conexion;
+import controlador.EmpleadoManager;
+import modelo.Credenciales;
+import modelo.Empleado;
+import modelo.FuncionesUtiles;
 import java.awt.Color;
+import java.math.BigInteger;
 import java.util.ArrayList;
 import javax.swing.JFrame;
 import javax.swing.table.DefaultTableModel;
+import java.security.SecureRandom;
+import java.security.MessageDigest;
+import java.security.NoSuchAlgorithmException;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 
-public class AdministrarCliente extends javax.swing.JFrame {
+public class AdministrarEmpleado extends javax.swing.JFrame {
 
     DefaultTableModel modelo = new DefaultTableModel() {
         @Override
@@ -18,10 +25,16 @@ public class AdministrarCliente extends javax.swing.JFrame {
         }
     };
 
-    public AdministrarCliente() {
+    public AdministrarEmpleado() {
         initComponents();
         inicializar();
         initTabla();
+
+    }
+
+    //Función que comprueba si el campo contraseña y repetir contraseña tienen el mismo contenido
+    private boolean compruebaContra(String pass1, String pass2) {
+        return pass1.compareTo(pass2) < 0 ? false : true;
     }
 
     private void inicializar() {
@@ -30,10 +43,19 @@ public class AdministrarCliente extends javax.swing.JFrame {
         this.setLocationRelativeTo(null);
         this.getContentPane().setBackground(Color.WHITE);
         this.setExtendedState(JFrame.MAXIMIZED_BOTH);
-        this.setTitle("Administrar Cliente");
+        this.setTitle("Administrar Empleado");
 
         //Configurar panel principal
         jPanelPrincipal.setBackground(Color.WHITE);
+
+        //Colocar panel de la izquierda
+        AccionesRapidasAdministrador panelBotones = new AccionesRapidasAdministrador(this);
+        panelBotones.setBounds(0, 0, 266, (int) this.getBounds().getHeight() - 80);
+        jPanelIzquierda.removeAll();
+        jPanelIzquierda.setMinimumSize(panelBotones.getPreferredSize());
+        jPanelIzquierda.add(panelBotones);
+        panelBotones.revalidate();
+        panelBotones.repaint();
 
         //Configurar panel de arriba
         jPanelInformacion.setBackground(Color.WHITE);
@@ -62,61 +84,50 @@ public class AdministrarCliente extends javax.swing.JFrame {
         tool.confBtnColor(btnRegistrar);
         tool.confBtnColor(btnModificar);
         tool.confBtnColor(btnEliminar);
+        tool.confBtnColor(btnRestaurarContrasena);
 
         //Limpiar txtFields
         limpiarTxtFields();
-
-        //idCliente
-        txtIDCliente.setEnabled(false);
     }
 
     private void limpiarTxtFields() {
         txtNombre.setText("");
         txtApPaterno.setText("");
         txtApMaterno.setText("");
-        txtCURP.setText("");
         txtCalle.setText("");
+        txtNoExt.setText("");
         txtColonia.setText("");
-        txtCiudad.setText("");
-        txtEstado.setText("");
         txtCP.setText("");
-        txtIDCliente.setText("");
+        txtCURP.setText("");
+        txtRFC.setText("");
+        txtMunicipio.setText("");
+        txtEstado.setText("");
+        jComboBoxRol.setSelectedIndex(0);
+        txtContra.setText("");
+        txtIDEmpleado.setText("");
+        txtContra.setEditable(false);
+        txtContra.setEnabled(false);
+        txtRepContrasena.setEditable(false);
+        txtRepContrasena.setEnabled(false);
     }
 
     private void initTabla() {
-        modelo.addColumn("ID");
+        modelo.addColumn("ID Empleado");
         modelo.addColumn("Nombre");
         modelo.addColumn("Apellido Paterno");
         modelo.addColumn("Apellido Materno");
-        modelo.addColumn("CURP");
         modelo.addColumn("Calle");
+        modelo.addColumn("No. Exterior");
         modelo.addColumn("Colonia");
-        modelo.addColumn("Ciudad");
-        modelo.addColumn("Estado");
         modelo.addColumn("CP");
-        tblCliente.setModel(modelo);
-    }
-
-    public void setAdministrador() {
-        //Colocar panel de la izquierda
-        AccionesRapidasAdministrador panelBotones = new AccionesRapidasAdministrador(this);
-        panelBotones.setBounds(0, 0, 266, (int) this.getBounds().getHeight() - 80);
-        jPanelIzquierda.removeAll();
-        jPanelIzquierda.setMinimumSize(panelBotones.getPreferredSize());
-        jPanelIzquierda.add(panelBotones);
-        panelBotones.revalidate();
-        panelBotones.repaint();
-    }
-
-    public void setEmpleado() {
-        //Colocar panel de la izquierda
-        AccionesRapidasEmpleado panelBotones = new AccionesRapidasEmpleado(this);
-        panelBotones.setBounds(0, 0, 266, (int) this.getBounds().getHeight() - 80);
-        jPanelIzquierda.removeAll();
-        jPanelIzquierda.setMinimumSize(panelBotones.getPreferredSize());
-        jPanelIzquierda.add(panelBotones);
-        panelBotones.revalidate();
-        panelBotones.repaint();
+        modelo.addColumn("CURP");
+        modelo.addColumn("RFC");
+        modelo.addColumn("Municipio");
+        modelo.addColumn("Estado");
+        modelo.addColumn("ROL");
+        //modelo.addColumn("Contraseña");
+        tblEmpleado.setModel(modelo);
+        txtIDEmpleado.setEnabled(false);
     }
 
     /**
@@ -134,7 +145,7 @@ public class AdministrarCliente extends javax.swing.JFrame {
         jPanelLinea = new javax.swing.JPanel();
         jPanelOperaciones = new javax.swing.JPanel();
         jScrollPane1 = new javax.swing.JScrollPane();
-        tblCliente = new javax.swing.JTable();
+        tblEmpleado = new javax.swing.JTable();
         jPanelFormulario = new javax.swing.JPanel();
         labelNombre = new javax.swing.JLabel();
         txtNombre = new javax.swing.JTextField();
@@ -142,25 +153,36 @@ public class AdministrarCliente extends javax.swing.JFrame {
         txtApPaterno = new javax.swing.JTextField();
         labelApMaterno = new javax.swing.JLabel();
         txtApMaterno = new javax.swing.JTextField();
-        labelCURP = new javax.swing.JLabel();
-        txtCURP = new javax.swing.JTextField();
-        labelColonia = new javax.swing.JLabel();
-        txtColonia = new javax.swing.JTextField();
-        labelCiudad = new javax.swing.JLabel();
-        txtCiudad = new javax.swing.JTextField();
-        labelEstado = new javax.swing.JLabel();
-        txtEstado = new javax.swing.JTextField();
-        labelCP = new javax.swing.JLabel();
-        txtCP = new javax.swing.JTextField();
         labelCalle = new javax.swing.JLabel();
         txtCalle = new javax.swing.JTextField();
-        labelIDCliente = new javax.swing.JLabel();
-        txtIDCliente = new javax.swing.JTextField();
+        labelColonia = new javax.swing.JLabel();
+        txtColonia = new javax.swing.JTextField();
+        labelCP = new javax.swing.JLabel();
+        txtCP = new javax.swing.JTextField();
+        labelCURP = new javax.swing.JLabel();
+        txtCURP = new javax.swing.JTextField();
+        labelRFC = new javax.swing.JLabel();
+        txtRFC = new javax.swing.JTextField();
+        labelEstadp = new javax.swing.JLabel();
+        txtEstado = new javax.swing.JTextField();
+        labelNoExt = new javax.swing.JLabel();
+        txtNoExt = new javax.swing.JTextField();
+        labelMunicipio = new javax.swing.JLabel();
+        txtMunicipio = new javax.swing.JTextField();
+        labelRol = new javax.swing.JLabel();
+        labelContra = new javax.swing.JLabel();
+        txtContra = new javax.swing.JTextField();
+        labelIDEmpleado = new javax.swing.JLabel();
+        txtIDEmpleado = new javax.swing.JTextField();
+        jComboBoxRol = new javax.swing.JComboBox<>();
+        jLabel1 = new javax.swing.JLabel();
+        txtRepContrasena = new javax.swing.JPasswordField();
         jPanelAcciones = new javax.swing.JPanel();
         btnConsultar = new javax.swing.JButton();
         btnRegistrar = new javax.swing.JButton();
         btnModificar = new javax.swing.JButton();
         btnEliminar = new javax.swing.JButton();
+        btnRestaurarContrasena = new javax.swing.JButton();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
 
@@ -197,7 +219,7 @@ public class AdministrarCliente extends javax.swing.JFrame {
             .addGap(0, 0, Short.MAX_VALUE)
         );
 
-        tblCliente.setModel(new javax.swing.table.DefaultTableModel(
+        tblEmpleado.setModel(new javax.swing.table.DefaultTableModel(
             new Object [][] {
                 {null, null, null, null},
                 {null, null, null, null},
@@ -208,12 +230,12 @@ public class AdministrarCliente extends javax.swing.JFrame {
                 "Title 1", "Title 2", "Title 3", "Title 4"
             }
         ));
-        tblCliente.addMouseListener(new java.awt.event.MouseAdapter() {
+        tblEmpleado.addMouseListener(new java.awt.event.MouseAdapter() {
             public void mouseClicked(java.awt.event.MouseEvent evt) {
-                tblClienteMouseClicked(evt);
+                tblEmpleadoMouseClicked(evt);
             }
         });
-        jScrollPane1.setViewportView(tblCliente);
+        jScrollPane1.setViewportView(tblEmpleado);
 
         labelNombre.setText("Nombre");
 
@@ -227,33 +249,51 @@ public class AdministrarCliente extends javax.swing.JFrame {
 
         txtApMaterno.setText("jTextField3");
 
-        labelCURP.setText("CURP");
+        labelCalle.setText("Calle");
 
-        txtCURP.setText("jTextField4");
+        txtCalle.setText("jTextField4");
 
         labelColonia.setText("Colonia");
 
         txtColonia.setText("jTextField5");
 
-        labelCiudad.setText("Ciudad");
-
-        txtCiudad.setText("jTextField6");
-
-        labelEstado.setText("Estado");
-
-        txtEstado.setText("jTextField7");
-
         labelCP.setText("CP");
 
-        txtCP.setText("jTextField8");
+        txtCP.setText("jTextField6");
 
-        labelCalle.setText("Calle");
+        labelCURP.setText("CURP");
 
-        txtCalle.setText("jTextField10");
+        txtCURP.setText("jTextField7");
 
-        labelIDCliente.setText("ID. Cliente");
+        labelRFC.setText("RFC");
 
-        txtIDCliente.setText("jTextField1");
+        txtRFC.setText("jTextField8");
+
+        labelEstadp.setText("Estado");
+
+        txtEstado.setText("jTextField9");
+
+        labelNoExt.setText("No. Exterior");
+
+        txtNoExt.setText("jTextField10");
+
+        labelMunicipio.setText("Municipio");
+
+        txtMunicipio.setText("jTextField11");
+
+        labelRol.setText("Rol");
+
+        labelContra.setText("Contraseña");
+
+        txtContra.setText("jTextField13");
+
+        labelIDEmpleado.setText("ID. Empleado");
+
+        txtIDEmpleado.setText("jTextField14");
+
+        jComboBoxRol.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "Empleado", "Administrador" }));
+
+        jLabel1.setText("Repetir Contraseña");
 
         javax.swing.GroupLayout jPanelFormularioLayout = new javax.swing.GroupLayout(jPanelFormulario);
         jPanelFormulario.setLayout(jPanelFormularioLayout);
@@ -262,8 +302,8 @@ public class AdministrarCliente extends javax.swing.JFrame {
             .addGroup(jPanelFormularioLayout.createSequentialGroup()
                 .addContainerGap()
                 .addGroup(jPanelFormularioLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING, false)
+                    .addComponent(labelNoExt, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                     .addComponent(labelCalle, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                    .addComponent(labelCURP, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                     .addComponent(labelApPaterno, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                     .addComponent(labelNombre, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                     .addComponent(labelApMaterno, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
@@ -272,23 +312,42 @@ public class AdministrarCliente extends javax.swing.JFrame {
                     .addComponent(txtNombre)
                     .addComponent(txtApMaterno)
                     .addComponent(txtApPaterno)
-                    .addComponent(txtCURP)
-                    .addComponent(txtCalle, javax.swing.GroupLayout.DEFAULT_SIZE, 130, Short.MAX_VALUE))
+                    .addComponent(txtCalle)
+                    .addComponent(txtNoExt, javax.swing.GroupLayout.DEFAULT_SIZE, 130, Short.MAX_VALUE))
                 .addGap(18, 18, 18)
                 .addGroup(jPanelFormularioLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
                     .addComponent(labelColonia, javax.swing.GroupLayout.DEFAULT_SIZE, 92, Short.MAX_VALUE)
-                    .addComponent(labelCiudad, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                    .addComponent(labelEstado, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                     .addComponent(labelCP, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                    .addComponent(labelIDCliente, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                    .addComponent(labelCURP, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                    .addComponent(labelRFC, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                    .addComponent(labelMunicipio, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addGroup(jPanelFormularioLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
-                    .addComponent(txtColonia, javax.swing.GroupLayout.DEFAULT_SIZE, 130, Short.MAX_VALUE)
-                    .addComponent(txtCiudad)
-                    .addComponent(txtEstado)
+                    .addComponent(txtColonia)
                     .addComponent(txtCP)
-                    .addComponent(txtIDCliente))
-                .addContainerGap(252, Short.MAX_VALUE))
+                    .addComponent(txtCURP)
+                    .addComponent(txtRFC)
+                    .addComponent(txtMunicipio, javax.swing.GroupLayout.DEFAULT_SIZE, 130, Short.MAX_VALUE))
+                .addGroup(jPanelFormularioLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
+                    .addGroup(jPanelFormularioLayout.createSequentialGroup()
+                        .addGap(18, 18, 18)
+                        .addGroup(jPanelFormularioLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
+                            .addComponent(labelEstadp, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                            .addComponent(labelRol, javax.swing.GroupLayout.DEFAULT_SIZE, 92, Short.MAX_VALUE)
+                            .addComponent(labelContra, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                            .addComponent(labelIDEmpleado, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                        .addGroup(jPanelFormularioLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
+                            .addComponent(txtEstado)
+                            .addComponent(txtContra, javax.swing.GroupLayout.DEFAULT_SIZE, 130, Short.MAX_VALUE)
+                            .addComponent(txtIDEmpleado)
+                            .addComponent(jComboBoxRol, 0, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)))
+                    .addGroup(jPanelFormularioLayout.createSequentialGroup()
+                        .addGap(12, 12, 12)
+                        .addComponent(jLabel1)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                        .addComponent(txtRepContrasena)))
+                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
         );
         jPanelFormularioLayout.setVerticalGroup(
             jPanelFormularioLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -298,32 +357,42 @@ public class AdministrarCliente extends javax.swing.JFrame {
                     .addComponent(labelNombre)
                     .addComponent(txtNombre, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addComponent(labelColonia)
-                    .addComponent(txtColonia, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                    .addComponent(txtColonia, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(labelEstadp)
+                    .addComponent(txtEstado, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
                 .addGap(18, 18, 18)
                 .addGroup(jPanelFormularioLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(labelApPaterno)
                     .addComponent(txtApPaterno, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(labelCiudad)
-                    .addComponent(txtCiudad, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                    .addComponent(labelCP)
+                    .addComponent(txtCP, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(labelRol)
+                    .addComponent(jComboBoxRol, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
                 .addGap(18, 18, 18)
                 .addGroup(jPanelFormularioLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(labelApMaterno)
                     .addComponent(txtApMaterno, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(labelEstado)
-                    .addComponent(txtEstado, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
-                .addGap(18, 18, 18)
-                .addGroup(jPanelFormularioLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(labelCURP)
                     .addComponent(txtCURP, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(labelCP)
-                    .addComponent(txtCP, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                    .addComponent(labelContra)
+                    .addComponent(txtContra, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
                 .addGap(18, 18, 18)
                 .addGroup(jPanelFormularioLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(labelCalle)
                     .addComponent(txtCalle, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(labelIDCliente)
-                    .addComponent(txtIDCliente, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
-                .addContainerGap(9, Short.MAX_VALUE))
+                    .addComponent(labelRFC)
+                    .addComponent(txtRFC, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(jLabel1)
+                    .addComponent(txtRepContrasena, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addGap(18, 18, 18)
+                .addGroup(jPanelFormularioLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(labelNoExt)
+                    .addComponent(txtNoExt, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(labelMunicipio)
+                    .addComponent(txtMunicipio, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(txtIDEmpleado, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(labelIDEmpleado))
+                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
         );
 
         btnConsultar.setText("Consultar");
@@ -354,6 +423,13 @@ public class AdministrarCliente extends javax.swing.JFrame {
             }
         });
 
+        btnRestaurarContrasena.setText("Restaurar Contraseña");
+        btnRestaurarContrasena.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnRestaurarContrasenaActionPerformed(evt);
+            }
+        });
+
         javax.swing.GroupLayout jPanelAccionesLayout = new javax.swing.GroupLayout(jPanelAcciones);
         jPanelAcciones.setLayout(jPanelAccionesLayout);
         jPanelAccionesLayout.setHorizontalGroup(
@@ -364,7 +440,8 @@ public class AdministrarCliente extends javax.swing.JFrame {
                     .addComponent(btnConsultar, javax.swing.GroupLayout.DEFAULT_SIZE, 188, Short.MAX_VALUE)
                     .addComponent(btnRegistrar, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                     .addComponent(btnModificar, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                    .addComponent(btnEliminar, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                    .addComponent(btnEliminar, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                    .addComponent(btnRestaurarContrasena, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
                 .addContainerGap())
         );
         jPanelAccionesLayout.setVerticalGroup(
@@ -378,6 +455,8 @@ public class AdministrarCliente extends javax.swing.JFrame {
                 .addComponent(btnModificar, javax.swing.GroupLayout.PREFERRED_SIZE, 35, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addComponent(btnEliminar, javax.swing.GroupLayout.PREFERRED_SIZE, 35, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addComponent(btnRestaurarContrasena, javax.swing.GroupLayout.PREFERRED_SIZE, 35, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
         );
 
@@ -460,112 +539,125 @@ public class AdministrarCliente extends javax.swing.JFrame {
         String nombre = txtNombre.getText();
         String aPaterno = txtApPaterno.getText();
         String aMaterno = txtApMaterno.getText();
-        String curp = txtCURP.getText();
         String calle = txtCalle.getText();
-        String colonia = txtColonia.getText();
-        String ciudad = txtCiudad.getText();
-        String estado = txtEstado.getText();
+        String noExt = txtNoExt.getText();
+        String Colonia = txtColonia.getText();
         String cp = txtCP.getText();
+        String curp = txtCURP.getText();
+        String rfc = txtRFC.getText();
+        String municipio = txtMunicipio.getText();
+        String estado = txtEstado.getText();
+        String rol = String.valueOf(jComboBoxRol.getSelectedItem());
+        String contra = txtContra.getText();
 
-        Cliente cliente = new Cliente(nombre, aPaterno, aMaterno, curp, calle, colonia, ciudad, estado, cp);
+        int idRol = rol.equals("Empleado") ? 2 : 1;
+
+        Empleado empleado = new Empleado(nombre, aPaterno, aMaterno, calle, noExt, Colonia, cp, curp, rfc, municipio, estado, idRol);
 
         if (validarFormulario()) {
-            dEmergente.setTexto("ERROR HAY AL MENOS\nUN CAMPO SIN LLENAR");
+            dEmergente.setTexto("¡ERROR! HAY AL MENOS\nUN CAMPO SIN LLENAR");
             dEmergente.setVisible(true);
             return;
         }
 
-        if (cliente.insertarCliente(cliente)) {
+        if (new EmpleadoManager().insertarEmpleado(empleado, contra)) {
             llenarTabla();
-            dEmergente.setTexto("El cliente se registro de\nforma correcta");
+            dEmergente.setTexto("El empleado se registró de  forma correcta");
             dEmergente.setVisible(true);
         } else {
-            dEmergente.setTexto("ERROR AL INTENTAR\nREGISTRAR AL\nCLIENTE!");
+            dEmergente.setTexto("ERROR AL INTENTAR\nREGISTRAR AL\nEMPLEADO!");
             dEmergente.setVisible(true);
         }
         limpiarTxtFields();
     }//GEN-LAST:event_btnRegistrarActionPerformed
 
+    private String encriptaContra(String contrasena) throws NoSuchAlgorithmException {
+        MessageDigest md = MessageDigest.getInstance("MD5");
+        byte[] messageDigest = md.digest(contrasena.getBytes());
+
+        BigInteger bigInt = new BigInteger(1, messageDigest);
+
+        return bigInt.toString();
+    }
+
+
     private void btnModificarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnModificarActionPerformed
         DialogoEmergente dEmergente = new DialogoEmergente(this, true);
+        int txtIdRol = String.valueOf(jComboBoxRol.getSelectedItem()).equals("Empleado") ? 2 : 1;
+        Empleado empleado = new Empleado(Integer.parseInt(txtIDEmpleado.getText()), txtNombre.getText(), txtApPaterno.getText(), txtApMaterno.getText(), txtCalle.getText(), txtNoExt.getText(), txtColonia.getText(), txtCP.getText(), txtCURP.getText(), txtRFC.getText(), txtMunicipio.getText(), txtEstado.getText(), txtIdRol);
 
-        int idCliente = Integer.parseInt(txtIDCliente.getText());
-        String nombre = txtNombre.getText();
-        String apPaterno = txtApPaterno.getText();
-        String apMaterno = txtApMaterno.getText();
-        String curp = txtCURP.getText();
-        String calle = txtCalle.getText();
-        String colonia = txtColonia.getText();
-        String ciudad = txtCiudad.getText();
-        String estado = txtEstado.getText();
-        String cp = txtCP.getText();
+        if (txtContra.isEnabled()) {
+            try {
+                Credenciales credencial = new Credenciales(encriptaContra(txtContra.getText()), Integer.parseInt(txtIDEmpleado.getText()));
 
-        Cliente cliente = new Cliente(idCliente, nombre, apPaterno, apMaterno, curp, calle, colonia, ciudad, estado, cp);
+                if (compruebaContra(encriptaContra(txtContra.getText()), encriptaContra(txtRepContrasena.getText()))) {
 
-        if (cliente.modificarCliente(cliente)) {
+                    empleado.modificaCredenciales(credencial);
+                    dEmergente.setTexto("OK");
+                } else {
+                    dEmergente.setTexto("Error. Las contraseñas no coinciden");
+                }
+            } catch (NoSuchAlgorithmException ex) {
+                Logger.getLogger(AdministrarEmpleado.class.getName()).log(Level.SEVERE, null, ex);
+            }
+            dEmergente.setVisible(true);
+        }
+
+        if (new EmpleadoManager().modificarEmpleado(empleado)) {
             llenarTabla();
-            dEmergente.setTexto("El cliente se modifico de\nforma correcta");
+            dEmergente.setTexto("El empleado se modificó de forma correcta");
             dEmergente.setVisible(true);
         } else {
-            dEmergente.setTexto("ERROR AL INTENTAR\nMODIFICAR AL CLIENTE!");
+            dEmergente.setTexto("¡ERROR AL INTENTAR MODIFICAR AL EMPLEADO!");
             dEmergente.setVisible(true);
         }
         limpiarTxtFields();
     }//GEN-LAST:event_btnModificarActionPerformed
 
-    private void tblClienteMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_tblClienteMouseClicked
-        //String txtIdRol = String.valueOf(jComboBoxRol.getSelectedItem()).equals("Empleado") ? "2" : "1";
-        //Cliente temp = new Cliente(txtNombre.getText(), txtApPaterno.getText(), txtApMaterno.getText(), txtCURP.getText(), txtCalle.getText(), txtColonia.getText(), txtCiudad.getText(), txtEstado.getText(), txtCP.getText(), txtMunicipio.getText(), txtEstado.getText(), txtIdRol);
-        //temp.getEmpleadoTabla(tblCliente, txtIDEmpleado, txtNombre, txtApPaterno, txtApMaterno, txtCURP, txtCalle, txtColonia, txtCiudad, txtMunicipio, txtEstado, txtEstado, txtCP, jComboBoxRol);
-
-        obtenerRenglonTabla();
-
-    }//GEN-LAST:event_tblClienteMouseClicked
+    private void tblEmpleadoMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_tblEmpleadoMouseClicked
+        String txtIdRol = String.valueOf(jComboBoxRol.getSelectedItem()).equals("Empleado") ? "2" : "1";
+        Empleado temp = new Empleado();
+        temp.getEmpleadoTabla(tblEmpleado, txtIDEmpleado, txtNombre, txtApPaterno, txtApMaterno, txtCalle, txtNoExt, txtColonia, txtCP, txtMunicipio, txtEstado, txtCURP, txtRFC, jComboBoxRol);
+    }//GEN-LAST:event_tblEmpleadoMouseClicked
 
     private void btnEliminarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnEliminarActionPerformed
-        // ELIMINAR CLIENTE
+        // ELIMINAR EMPLEADO
         DialogoEmergente dEmergente = new DialogoEmergente(this, true);
-        Cliente cliente = new Cliente(Integer.parseInt(txtIDCliente.getText()));
+        Empleado empleado = new Empleado(Integer.parseInt(txtIDEmpleado.getText()));
 
-        if (cliente.eliminarCliente(cliente)) {
+        if (new EmpleadoManager().eliminarEmpleado(empleado)) {
             llenarTabla();
-            dEmergente.setTexto("El cliente se elimino de\nforma correcta");
+            dEmergente.setTexto("El empleado se eliminó de\nforma correcta");
             dEmergente.setVisible(true);
         } else {
-            dEmergente.setTexto("ERROR AL INTENTAR\nELIMINAR AL CLIENTE!");
+            dEmergente.setTexto("¡ERROR AL INTENTAR\nELIMINAR AL EMPLEADO!");
             dEmergente.setVisible(true);
         }
         limpiarTxtFields();
     }//GEN-LAST:event_btnEliminarActionPerformed
 
-    private void obtenerRenglonTabla() {
-        int fila = tblCliente.getSelectedRow();
+    private void btnRestaurarContrasenaActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnRestaurarContrasenaActionPerformed
 
-        if (fila >= 0) {
-            txtIDCliente.setText(tblCliente.getValueAt(fila, 0).toString());
-            txtNombre.setText(tblCliente.getValueAt(fila, 1).toString());
-            txtApPaterno.setText(tblCliente.getValueAt(fila, 2).toString());
-            txtApMaterno.setText(tblCliente.getValueAt(fila, 3).toString());
-            txtCURP.setText(tblCliente.getValueAt(fila, 4).toString());
-            txtCalle.setText(tblCliente.getValueAt(fila, 5).toString());
-            txtColonia.setText(tblCliente.getValueAt(fila, 6).toString());
-            txtCiudad.setText(tblCliente.getValueAt(fila, 7).toString());
-            txtEstado.setText(tblCliente.getValueAt(fila, 8).toString());
-            txtCP.setText(tblCliente.getValueAt(fila, 9).toString());
-        }
-    }
+        DialogoEmergente t = new DialogoEmergente(this, true);
+        t.setTexto("Campos de \ncontraseña habilitados");
+        t.setVisible(true);
+
+        txtContra.setEditable(true);
+        txtContra.setEnabled(true);
+        txtRepContrasena.setEditable(true);
+        txtRepContrasena.setEnabled(true);
+    }//GEN-LAST:event_btnRestaurarContrasenaActionPerformed
 
     private void llenarTabla() {
-        Cliente cliente = new Cliente();
         modelo.setRowCount(0); //Limpiamos la tabla
-        ArrayList<String[]> lista = cliente.consultarClientes();
+        ArrayList<String[]> lista = new EmpleadoManager().consultarTodos();
         for (int i = 0; i < lista.size(); i++) {
             modelo.addRow(lista.get(i));
         }
     }
 
     private boolean validarFormulario() {
-        return txtNombre.getText().isBlank() | txtApPaterno.getText().isBlank() | txtApMaterno.getText().isBlank() | txtCURP.getText().isBlank() | txtCalle.getText().isBlank() | txtColonia.getText().isBlank() | txtCiudad.getText().isBlank() | txtEstado.getText().isBlank() | txtCP.getText().isBlank();
+        return txtNombre.getText().isBlank() | txtApPaterno.getText().isBlank() | txtApMaterno.getText().isBlank() | txtCalle.getText().isBlank() | txtNoExt.getText().isBlank() | txtColonia.getText().isBlank() | txtCP.getText().isBlank() | txtCURP.getText().isBlank() | txtRFC.getText().isBlank() | txtMunicipio.getText().isBlank() | txtEstado.getText().isBlank();
     }
 
     public static void main(String args[]) {
@@ -582,21 +674,20 @@ public class AdministrarCliente extends javax.swing.JFrame {
                 }
             }
         } catch (ClassNotFoundException ex) {
-            java.util.logging.Logger.getLogger(AdministrarCliente.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
+            java.util.logging.Logger.getLogger(AdministrarEmpleado.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
         } catch (InstantiationException ex) {
-            java.util.logging.Logger.getLogger(AdministrarCliente.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
+            java.util.logging.Logger.getLogger(AdministrarEmpleado.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
         } catch (IllegalAccessException ex) {
-            java.util.logging.Logger.getLogger(AdministrarCliente.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
+            java.util.logging.Logger.getLogger(AdministrarEmpleado.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
         } catch (javax.swing.UnsupportedLookAndFeelException ex) {
-            java.util.logging.Logger.getLogger(AdministrarCliente.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
+            java.util.logging.Logger.getLogger(AdministrarEmpleado.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
         }
-        //</editor-fold>
         //</editor-fold>
 
         /* Create and display the form */
         java.awt.EventQueue.invokeLater(new Runnable() {
             public void run() {
-                new AdministrarCliente().setVisible(true);
+                new AdministrarEmpleado().setVisible(true);
             }
         });
     }
@@ -606,6 +697,9 @@ public class AdministrarCliente extends javax.swing.JFrame {
     private javax.swing.JButton btnEliminar;
     private javax.swing.JButton btnModificar;
     private javax.swing.JButton btnRegistrar;
+    private javax.swing.JButton btnRestaurarContrasena;
+    private javax.swing.JComboBox<String> jComboBoxRol;
+    private javax.swing.JLabel jLabel1;
     private javax.swing.JPanel jPanelAcciones;
     private javax.swing.JPanel jPanelFormulario;
     private javax.swing.JPanel jPanelInformacion;
@@ -619,21 +713,29 @@ public class AdministrarCliente extends javax.swing.JFrame {
     private javax.swing.JLabel labelCP;
     private javax.swing.JLabel labelCURP;
     private javax.swing.JLabel labelCalle;
-    private javax.swing.JLabel labelCiudad;
     private javax.swing.JLabel labelColonia;
-    private javax.swing.JLabel labelEstado;
-    private javax.swing.JLabel labelIDCliente;
+    private javax.swing.JLabel labelContra;
+    private javax.swing.JLabel labelEstadp;
+    private javax.swing.JLabel labelIDEmpleado;
+    private javax.swing.JLabel labelMunicipio;
+    private javax.swing.JLabel labelNoExt;
     private javax.swing.JLabel labelNombre;
-    private javax.swing.JTable tblCliente;
+    private javax.swing.JLabel labelRFC;
+    private javax.swing.JLabel labelRol;
+    private javax.swing.JTable tblEmpleado;
     private javax.swing.JTextField txtApMaterno;
     private javax.swing.JTextField txtApPaterno;
     private javax.swing.JTextField txtCP;
     private javax.swing.JTextField txtCURP;
     private javax.swing.JTextField txtCalle;
-    private javax.swing.JTextField txtCiudad;
     private javax.swing.JTextField txtColonia;
+    private javax.swing.JTextField txtContra;
     private javax.swing.JTextField txtEstado;
-    private javax.swing.JTextField txtIDCliente;
+    private javax.swing.JTextField txtIDEmpleado;
+    private javax.swing.JTextField txtMunicipio;
+    private javax.swing.JTextField txtNoExt;
     private javax.swing.JTextField txtNombre;
+    private javax.swing.JTextField txtRFC;
+    private javax.swing.JPasswordField txtRepContrasena;
     // End of variables declaration//GEN-END:variables
 }

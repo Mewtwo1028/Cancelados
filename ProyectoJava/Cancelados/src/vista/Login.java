@@ -1,7 +1,7 @@
-package Ventanas;
+package vista;
 
-import ArchivosBD.Conexion;
-import Código.FuncionesUtiles;
+import controlador.Conexion;
+import modelo.FuncionesUtiles;
 import java.awt.Color;
 import java.awt.Cursor;
 import java.awt.event.KeyEvent;
