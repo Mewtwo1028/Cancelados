@@ -1,11 +1,5 @@
 package modelo;
 
-import controlador.Conexion;
-import java.sql.CallableStatement;
-import java.sql.ResultSet;
-import java.sql.SQLException;
-import java.sql.PreparedStatement;
-
 public class Venta {
 
     private int idVenta;
@@ -22,34 +16,6 @@ public class Venta {
         this.total = total;
         this.idCliente = idCliente;
         this.idEmpleado = idEmpleado;
-    }
-
-    public int realizarVenta(Venta venta) {
-        String consulta1 = "INSERT INTO venta (total, idCliente, idEmpleado) VALUES (?,?,?);";
-        String consulta2 = "SELECT idVenta FROM venta ORDER BY idVenta DESC LIMIT 1;";
-        Conexion con;
-        CallableStatement cs;
-
-        try {
-            con = new Conexion();
-            cs = con.getConexion().prepareCall(consulta1);
-
-            cs.setFloat(1, venta.getTotal());
-            //cs.setTimestamp(2, new java.sql.Timestamp(System.currentTimeMillis()));
-            cs.setInt(2, venta.getIdCliente());
-            cs.setInt(3, venta.getIdEmpleado());
-            cs.execute();
-
-            ResultSet cursor = con.getConexion().createStatement().executeQuery(consulta2);
-            
-            if(cursor.next()){
-                return cursor.getInt(1);
-            }
-
-        } catch (SQLException e) {
-            return -1;
-        }
-        return -1;
     }
 
     public int getIdVenta() {
