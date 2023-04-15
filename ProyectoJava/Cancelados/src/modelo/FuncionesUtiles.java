@@ -1,4 +1,4 @@
-package Código;
+package modelo;
 
 import java.awt.Color;
 import java.awt.Image;

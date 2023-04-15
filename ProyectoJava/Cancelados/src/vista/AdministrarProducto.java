@@ -1,10 +1,10 @@
-package Ventanas;
+package vista;
 
-import ArchivosBD.Conexion;
-import Código.Cliente;
-import Código.Empleado;
-import Código.FuncionesUtiles;
-import Código.Producto;
+import controlador.Conexion;
+import modelo.Cliente;
+import modelo.Empleado;
+import modelo.FuncionesUtiles;
+import modelo.Producto;
 import java.awt.Color;
 import java.awt.Image;
 import java.io.File;

@@ -1,12 +1,12 @@
-package ArchivosBD;
+package controlador;
 
 /**
  *
  * @author osmar
  */
-import Código.Cliente;
-import Código.Credenciales;
-import Código.Empleado;
+import modelo.Cliente;
+import modelo.Credenciales;
+import modelo.Empleado;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import java.sql.*;

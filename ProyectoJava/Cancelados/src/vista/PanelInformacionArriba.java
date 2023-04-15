@@ -1,6 +1,6 @@
-package Ventanas;
+package vista;
 
-import Código.FuncionesUtiles;
+import modelo.FuncionesUtiles;
 import java.awt.Color;
 import java.text.DateFormat;
 import java.time.LocalDateTime;

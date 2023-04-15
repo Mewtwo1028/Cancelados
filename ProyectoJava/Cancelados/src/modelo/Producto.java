@@ -1,6 +1,6 @@
-package Código;
+package modelo;
 
-import ArchivosBD.Conexion;
+import controlador.Conexion;
 import java.awt.Image;
 import java.io.File;
 import java.io.FileInputStream;

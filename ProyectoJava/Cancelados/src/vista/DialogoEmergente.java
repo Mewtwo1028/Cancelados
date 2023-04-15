@@ -1,4 +1,4 @@
-package Ventanas;
+package vista;
 
 import java.awt.Color;
 import java.awt.Font;
@@ -59,7 +59,6 @@ public class DialogoEmergente extends javax.swing.JDialog {
         jLabel1 = new javax.swing.JLabel();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.DISPOSE_ON_CLOSE);
-        setMaximumSize(new java.awt.Dimension(400, 230));
         setMinimumSize(new java.awt.Dimension(400, 230));
         setUndecorated(true);
         setResizable(false);
