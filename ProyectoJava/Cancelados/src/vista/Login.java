@@ -11,7 +11,7 @@ import java.security.NoSuchAlgorithmException;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import javax.swing.JFrame;
-import modelo.CredencialManager;
+import controlador.CredencialManager;
 
 /**
  *
