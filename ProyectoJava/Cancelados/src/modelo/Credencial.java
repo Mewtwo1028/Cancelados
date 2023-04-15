@@ -1,21 +1,21 @@
 package modelo;
 
-public class Credenciales {
+public class Credencial {
     private int idCredencial;
     private String contraseña;
     private int idEmpleado;
     private int idRol;
     
-    public Credenciales(){
+    public Credencial(){
         
     }
 
-    public Credenciales(String contraseña, int idEmpleado) {
+    public Credencial(String contraseña, int idEmpleado) {
         this.contraseña = contraseña;
         this.idEmpleado = idEmpleado;
     }
 
-    public Credenciales(int idCredencial, String contraseña, int idEmpleado, int idRol) {
+    public Credencial(int idCredencial, String contraseña, int idEmpleado, int idRol) {
         this.idCredencial = idCredencial;
         this.contraseña = contraseña;
         this.idEmpleado = idEmpleado;

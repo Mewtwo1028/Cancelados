@@ -2,7 +2,7 @@ package vista;
 
 import controlador.Conexion;
 import controlador.EmpleadoManager;
-import modelo.Credenciales;
+import modelo.Credencial;
 import modelo.Empleado;
 import modelo.FuncionesUtiles;
 import java.awt.Color;
@@ -588,7 +588,7 @@ public class AdministrarEmpleado extends javax.swing.JFrame {
 
         if (txtContra.isEnabled()) {
             try {
-                Credenciales credencial = new Credenciales(encriptaContra(txtContra.getText()), Integer.parseInt(txtIDEmpleado.getText()));
+                Credencial credencial = new Credencial(encriptaContra(txtContra.getText()), Integer.parseInt(txtIDEmpleado.getText()));
 
                 if (compruebaContra(encriptaContra(txtContra.getText()), encriptaContra(txtRepContrasena.getText()))) {
 
