@@ -62,7 +62,7 @@ public class Empleado {
         this.idEmpledo = idEmpleado;
     }
 
-    public boolean modificaCredenciales(Credenciales credencial) {
+    public boolean modificaCredenciales(Credencial credencial) {
         Conexion con = new Conexion();
         String actualizaCredenciales = "UPDATE credenciales SET Contrasena=? WHERE Empleado_idEmpleado=?;";
         try {

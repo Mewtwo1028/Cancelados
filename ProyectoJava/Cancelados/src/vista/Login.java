@@ -11,17 +11,19 @@ import java.security.NoSuchAlgorithmException;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import javax.swing.JFrame;
+import modelo.CredencialManager;
 
 /**
  *
  * @author osmar
  */
 public class Login extends javax.swing.JFrame {
-    
+
     public Login() {
         initComponents();
         inicializar();
     }
+
     private String encriptaContra(String contrasena) throws NoSuchAlgorithmException {
         MessageDigest md = MessageDigest.getInstance("MD5");
         byte[] messageDigest = md.digest(contrasena.getBytes());
@@ -30,22 +32,22 @@ public class Login extends javax.swing.JFrame {
 
         return bigInt.toString();
     }
-    
+
     private void inicializar() {
         //Configuracion ventana
         this.setLocationRelativeTo(null);
         //this.getContentPane().setBackground(Color.WHITE);
         this.setExtendedState(JFrame.MAXIMIZED_BOTH);
         this.setTitle("Iniciar sesion");
-        
+
         FuncionesUtiles funcionesUtiles = new FuncionesUtiles();
-        
+
         //Configurar panel principal
         jPanelPrincipal.setBounds(0, 0, (int) java.awt.Toolkit.getDefaultToolkit().getScreenSize().getWidth(), (int) java.awt.Toolkit.getDefaultToolkit().getScreenSize().getHeight());
         jPanelPrincipal.setBackground(Color.WHITE);
-        
+
         //Configurar bolitas
-        jLabelBolitas.setBounds((int)jPanelPrincipal.getBounds().getMaxX(), (int)jPanelPrincipal.getBounds().getMaxY(), 248, 231);
+        jLabelBolitas.setBounds((int) jPanelPrincipal.getBounds().getMaxX(), (int) jPanelPrincipal.getBounds().getMaxY(), 248, 231);
 
         //Imagenes
         funcionesUtiles.colocarImagen("/Imagenes/LogoLetrasDegradado.png", jLabelLogoDegradado);
@@ -195,36 +197,49 @@ public class Login extends javax.swing.JFrame {
         DialogoEmergente t = new DialogoEmergente(this, rootPaneCheckingEnabled);
         t.setTexto("Por favor, solicite a un \nadministrador que le \nrestaure la contraseña");
         t.setVisible(true);
-        
+
     }//GEN-LAST:event_btnForgottenPasswordActionPerformed
-    
+
     private void iniciarSesion() {
-        Conexion con = new Conexion();
-        String username = txtUsername.getText();
+        String username = txtUsername.getText().trim();
+        String password = txtPassword.getText().trim();
         String pass = null;
+
+        if (username.isEmpty() || password.isEmpty()) {
+            DialogoEmergente dEmergente = new DialogoEmergente(this, true);
+            dEmergente.setTexto("¡Error! Campos de entrada vacios!");
+            dEmergente.setVisible(true);
+            return;
+        }
+
         try {
             pass = encriptaContra(txtPassword.getText());
         } catch (NoSuchAlgorithmException ex) {
             Logger.getLogger(Login.class.getName()).log(Level.SEVERE, null, ex);
+            System.out.println("¡Error! No se pudo encriptar la contraseña");
+            return;
         }
-        
-        if ((username.isBlank() | pass.isBlank()) | con.verificarLogin(username, pass).equals("")) {
+
+        String rolId = new CredencialManager().verificarLogin(username, pass);
+
+        if (rolId.isEmpty()) {
             DialogoEmergente dEmergente = new DialogoEmergente(this, true);
             dEmergente.setTexto("¡Error! Usuario o\ncontraseña no válidos");
             dEmergente.setVisible(true);
+            return;
+        }
+
+        if (rolId.equals("1")) {
+            PanelControlAdministrador panel = new PanelControlAdministrador();
+            this.dispose();
+            panel.setVisible(true);
         } else {
-            if (con.verificarLogin(username, pass).equals("1")) {
-                PanelControlAdministrador a = new PanelControlAdministrador();
-                this.dispose();
-                a.setVisible(true);
-            } else {
-                PanelControlEmpleado b = new PanelControlEmpleado();
-                this.dispose();
-                b.setVisible(true);
-            }
+            PanelControlEmpleado panel = new PanelControlEmpleado();
+            this.dispose();
+            panel.setVisible(true);
         }
     }
-    
+
     public static void main(String args[]) {
         /* Set the Nimbus look and feel */
         //<editor-fold defaultstate="collapsed" desc=" Look and feel setting code (optional) ">
