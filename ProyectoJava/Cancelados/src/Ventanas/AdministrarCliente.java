@@ -35,7 +35,6 @@ public class AdministrarCliente extends javax.swing.JFrame {
         //Configurar panel principal
         jPanelPrincipal.setBackground(Color.WHITE);
 
-
         //Configurar panel de arriba
         jPanelInformacion.setBackground(Color.WHITE);
         jPanelInformacion.setBounds(278, 6, (int) java.awt.Toolkit.getDefaultToolkit().getScreenSize().getWidth() - (int) jPanelIzquierda.getBounds().getWidth() - (int) jPanelLinea.getBounds().getWidth(), 110);
@@ -66,7 +65,7 @@ public class AdministrarCliente extends javax.swing.JFrame {
 
         //Limpiar txtFields
         limpiarTxtFields();
-        
+
         //idCliente
         txtIDCliente.setEnabled(false);
     }
@@ -97,8 +96,8 @@ public class AdministrarCliente extends javax.swing.JFrame {
         modelo.addColumn("CP");
         tblCliente.setModel(modelo);
     }
-    
-    public void setAdministrador(){
+
+    public void setAdministrador() {
         //Colocar panel de la izquierda
         AccionesRapidasAdministrador panelBotones = new AccionesRapidasAdministrador(this);
         panelBotones.setBounds(0, 0, 266, (int) this.getBounds().getHeight() - 80);
@@ -108,8 +107,8 @@ public class AdministrarCliente extends javax.swing.JFrame {
         panelBotones.revalidate();
         panelBotones.repaint();
     }
-    
-    public void setEmpleado(){
+
+    public void setEmpleado() {
         //Colocar panel de la izquierda
         AccionesRapidasEmpleado panelBotones = new AccionesRapidasEmpleado(this);
         panelBotones.setBounds(0, 0, 266, (int) this.getBounds().getHeight() - 80);
@@ -489,14 +488,26 @@ public class AdministrarCliente extends javax.swing.JFrame {
 
     private void btnModificarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnModificarActionPerformed
         DialogoEmergente dEmergente = new DialogoEmergente(this, true);
-        
-        Cliente cliente = new Cliente(Integer.parseInt(txtIDCliente.getText()), txtNombre.getText(), txtApPaterno.getText(), txtApMaterno.getText(), txtCURP.getText(), txtCalle.getText(), txtColonia.getText(), txtCiudad.getText(), txtEstado.getText(), txtCP.getText());
+
+        int idCliente = Integer.parseInt(txtIDCliente.getText());
+        String nombre = txtNombre.getText();
+        String apPaterno = txtApPaterno.getText();
+        String apMaterno = txtApMaterno.getText();
+        String curp = txtCURP.getText();
+        String calle = txtCalle.getText();
+        String colonia = txtColonia.getText();
+        String ciudad = txtCiudad.getText();
+        String estado = txtEstado.getText();
+        String cp = txtCP.getText();
+
+        Cliente cliente = new Cliente(idCliente, nombre, apPaterno, apMaterno, curp, calle, colonia, ciudad, estado, cp);
+
         if (cliente.modificarCliente(cliente)) {
             llenarTabla();
-            dEmergente.setTexto("El cliente se modifico de forma correcta");
+            dEmergente.setTexto("El cliente se modifico de\nforma correcta");
             dEmergente.setVisible(true);
         } else {
-            dEmergente.setTexto("ERROR AL INTENTAR MODIFICAR AL CLIENTE!");
+            dEmergente.setTexto("ERROR AL INTENTAR\nMODIFICAR AL CLIENTE!");
             dEmergente.setVisible(true);
         }
         limpiarTxtFields();
@@ -506,9 +517,9 @@ public class AdministrarCliente extends javax.swing.JFrame {
         //String txtIdRol = String.valueOf(jComboBoxRol.getSelectedItem()).equals("Empleado") ? "2" : "1";
         //Cliente temp = new Cliente(txtNombre.getText(), txtApPaterno.getText(), txtApMaterno.getText(), txtCURP.getText(), txtCalle.getText(), txtColonia.getText(), txtCiudad.getText(), txtEstado.getText(), txtCP.getText(), txtMunicipio.getText(), txtEstado.getText(), txtIdRol);
         //temp.getEmpleadoTabla(tblCliente, txtIDEmpleado, txtNombre, txtApPaterno, txtApMaterno, txtCURP, txtCalle, txtColonia, txtCiudad, txtMunicipio, txtEstado, txtEstado, txtCP, jComboBoxRol);
-        
+
         obtenerRenglonTabla();
-        
+
     }//GEN-LAST:event_tblClienteMouseClicked
 
     private void btnEliminarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnEliminarActionPerformed
@@ -527,10 +538,10 @@ public class AdministrarCliente extends javax.swing.JFrame {
         limpiarTxtFields();
     }//GEN-LAST:event_btnEliminarActionPerformed
 
-    private void obtenerRenglonTabla(){
+    private void obtenerRenglonTabla() {
         int fila = tblCliente.getSelectedRow();
-        
-        if (fila>=0) {
+
+        if (fila >= 0) {
             txtIDCliente.setText(tblCliente.getValueAt(fila, 0).toString());
             txtNombre.setText(tblCliente.getValueAt(fila, 1).toString());
             txtApPaterno.setText(tblCliente.getValueAt(fila, 2).toString());
@@ -543,11 +554,11 @@ public class AdministrarCliente extends javax.swing.JFrame {
             txtCP.setText(tblCliente.getValueAt(fila, 9).toString());
         }
     }
-    
+
     private void llenarTabla() {
         Cliente cliente = new Cliente();
         modelo.setRowCount(0); //Limpiamos la tabla
-        ArrayList<String[]> lista = cliente.consultarTodos();
+        ArrayList<String[]> lista = cliente.consultarClientes();
         for (int i = 0; i < lista.size(); i++) {
             modelo.addRow(lista.get(i));
         }
