@@ -1,6 +1,7 @@
 package vista;
 
 import controlador.ClienteManager;
+import controlador.ProductoManager;
 import modelo.Cliente;
 import modelo.DetalleVenta;
 import modelo.FuncionesUtiles;
@@ -22,7 +23,7 @@ public class RegistrarVenta extends javax.swing.JFrame {
         }
     };
 
-    ArrayList<Producto> productos = new Producto().consultarNombres();
+    ArrayList<Producto> productos = new ProductoManager().consultarNombres();
     ArrayList<Cliente> clientes = new ClienteManager().consultarNombres();
     float subTotal = 0;
 

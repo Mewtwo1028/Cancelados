@@ -1,8 +1,6 @@
 package vista;
 
-import controlador.Conexion;
-import modelo.Cliente;
-import modelo.Empleado;
+import controlador.ProductoManager;
 import modelo.FuncionesUtiles;
 import modelo.Producto;
 import java.awt.Color;
@@ -459,7 +457,7 @@ public class AdministrarProducto extends javax.swing.JFrame {
             return;
         }
 
-        if (producto.insertarProducto(producto)) {
+        if (new ProductoManager().insertarProducto(producto)) {
             llenarTabla();
             dEmergente.setTexto("El producto se registro de\nforma correcta");
             dEmergente.setVisible(true);
@@ -472,16 +470,33 @@ public class AdministrarProducto extends javax.swing.JFrame {
 
     private void btnModificarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnModificarActionPerformed
         DialogoEmergente dEmergente = new DialogoEmergente(this, true);
+        Producto producto;
 
-        Producto producto = new Producto(Integer.parseInt(txtIDProducto.getText()), txtNombre.getText(), txtDescripcion.getText(), Float.valueOf(txtPrecioUnitario.getText()), txtImagePath.getText(), Integer.parseInt(txtStock.getText()), txtAutor.getText());
-        if (producto.modificarProducto(producto)) {
-            llenarTabla();
-            dEmergente.setTexto("El producto se modifico de forma correcta");
-            dEmergente.setVisible(true);
+        producto = new Producto(Integer.parseInt(txtIDProducto.getText()), txtNombre.getText(), txtDescripcion.getText(), Float.parseFloat(txtPrecioUnitario.getText()), Integer.parseInt(txtStock.getText()), txtAutor.getText());
+
+        String mensajeDeTexto = "";
+
+        // Verifica si la ruta de la imagen está en blanco
+        if (txtImagePath.getText().isEmpty()) {
+            // Actualiza el producto sin imagen
+            if (new ProductoManager().modificarProductoSinImagen(producto)) {
+                llenarTabla();
+                mensajeDeTexto = "El producto se modificó de\nforma correcta.";
+            }
         } else {
-            dEmergente.setTexto("ERROR AL INTENTAR MODIFICAR EL PRODUCTO!");
-            dEmergente.setVisible(true);
+            // Actualiza el producto con imagen
+            producto.setImagen(txtImagePath.getText());
+            if (new ProductoManager().modificarProductoConImagen(producto)) {
+                llenarTabla();
+                mensajeDeTexto = "El producto se modificó de\nforma correcta.";
+            } else {
+                mensajeDeTexto = "ERROR AL INTENTAR\nMODIFICAR EL\nPRODUCTO!";
+            }
         }
+
+        // Muestra el diálogo emergente y limpia los campos de texto
+        dEmergente.setTexto(mensajeDeTexto);
+        dEmergente.setVisible(true);
         limpiarTxtFields();
     }//GEN-LAST:event_btnModificarActionPerformed
 
@@ -499,7 +514,7 @@ public class AdministrarProducto extends javax.swing.JFrame {
         DialogoEmergente dEmergente = new DialogoEmergente(this, true);
         Producto producto = new Producto(Integer.parseInt(txtIDProducto.getText()));
 
-        if (producto.eliminarProducto(producto)) {
+        if (new ProductoManager().eliminarProducto(producto)) {
             llenarTabla();
             dEmergente.setTexto("El producto se elimino de\nforma correcta");
             dEmergente.setVisible(true);
@@ -516,7 +531,7 @@ public class AdministrarProducto extends javax.swing.JFrame {
         fileChooser.addChoosableFileFilter(filtro);
         int load = fileChooser.showOpenDialog(null);
 
-        if (load == fileChooser.APPROVE_OPTION) {
+        if (load == JFileChooser.APPROVE_OPTION) {
             f = fileChooser.getSelectedFile();
             path = f.getAbsolutePath();
             txtImagePath.setText(path);
@@ -537,7 +552,7 @@ public class AdministrarProducto extends javax.swing.JFrame {
             //txtImagePath.setText(tblProducto.getValueAt(fila, 4).toString());
 
             Producto producto = new Producto(Integer.parseInt(txtIDProducto.getText()));
-            producto.obtenerImagen(producto, labelProductoImagen);
+            new ProductoManager().obtenerImagen(producto, labelProductoImagen);
 
             txtStock.setText(tblProducto.getValueAt(fila, 4).toString());
             txtAutor.setText(tblProducto.getValueAt(fila, 5).toString());
@@ -545,12 +560,13 @@ public class AdministrarProducto extends javax.swing.JFrame {
     }
 
     private void llenarTabla() {
-        Producto producto = new Producto();
         modelo.setRowCount(0); //Limpiamos la tabla
-        ArrayList<String[]> lista = producto.consultarTodos();
-        for (int i = 0; i < lista.size(); i++) {
-            modelo.addRow(lista.get(i));
+        ArrayList<Producto> lista = new ProductoManager().consultarProductos();
+        for (Producto p : lista) {
+            String[] fila = {String.valueOf(p.getIdProducto()), p.getNombre(), p.getDescripcion(), String.valueOf(p.getPrecioUnitario()), String.valueOf(p.getStock()), p.getAutor()};
+            modelo.addRow(fila);
         }
+        tblProducto.repaint();
     }
 
     private boolean validarFormulario() {
