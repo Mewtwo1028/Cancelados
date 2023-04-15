@@ -2,6 +2,7 @@ package vista;
 
 import controlador.ClienteManager;
 import controlador.ProductoManager;
+import controlador.VentaManager;
 import modelo.Cliente;
 import modelo.DetalleVenta;
 import modelo.FuncionesUtiles;
@@ -501,19 +502,22 @@ public class RegistrarVenta extends javax.swing.JFrame {
     }//GEN-LAST:event_btnEliminarActionPerformed
 
     private void btnRegistrarVentaActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnRegistrarVentaActionPerformed
-
+        ArrayList<Producto> listaProductos = obtenerListaProductos();
         float total = Float.parseFloat(txtSubtotal.getText());
         int idCliente = obtenerIdCliente(cbCliente.getSelectedItem().toString());
         int idEmpleado = 1;
 
-        ArrayList<Producto> listaProductos = obtenerListaProductos();
-
         Venta venta = new Venta(total, idCliente, idEmpleado);
-        int idVenta = venta.realizarVenta(venta);
 
-        DetalleVenta dv = new DetalleVenta();
-        dv.realizarDetalleVenta(listaProductos, idVenta);
+        DialogoEmergente dl = new DialogoEmergente(this, true);
 
+        if (registrarVenta(venta, listaProductos)) {
+            dl.setTexto("Venta registrada de\nforma correcta!");
+            dl.setVisible(true);
+        } else {
+            dl.setTexto("ERROR! NO SE PUDO REGISTRAR LA VENTA");
+            dl.setVisible(true);
+        }
     }//GEN-LAST:event_btnRegistrarVentaActionPerformed
 
     private void cbNombreProductoItemStateChanged(java.awt.event.ItemEvent evt) {//GEN-FIRST:event_cbNombreProductoItemStateChanged
@@ -534,6 +538,12 @@ public class RegistrarVenta extends javax.swing.JFrame {
     private void cbCantidadItemStateChanged(java.awt.event.ItemEvent evt) {//GEN-FIRST:event_cbCantidadItemStateChanged
         calcularImporte();
     }//GEN-LAST:event_cbCantidadItemStateChanged
+
+    private boolean registrarVenta(Venta venta, ArrayList<Producto> productos) {
+        int idVenta = new VentaManager().realizarVenta(venta);
+
+        return new DetalleVenta().realizarDetalleVenta(productos, idVenta);
+    }
 
     private void actualizarCantidadProducto(String idProducto, String cantidad, String importe) {
         for (int i = 0; i < tblProducto.getRowCount(); i++) {
