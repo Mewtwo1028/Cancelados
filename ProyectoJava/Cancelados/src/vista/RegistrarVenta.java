@@ -542,7 +542,11 @@ public class RegistrarVenta extends javax.swing.JFrame {
     private boolean registrarVenta(Venta venta, ArrayList<Producto> productos) {
         int idVenta = new VentaManager().realizarVenta(venta);
 
-        return new DetalleVenta().realizarDetalleVenta(productos, idVenta);
+        if (new DetalleVenta().realizarDetalleVenta(productos, idVenta)) {
+            return new ProductoManager().modificarStock(productos);
+        }
+
+        return false;
     }
 
     private void actualizarCantidadProducto(String idProducto, String cantidad, String importe) {

@@ -110,6 +110,24 @@ public class ProductoManager {
         }
     }
 
+    public boolean modificarStock(ArrayList<Producto> productos) {
+        String consulta = "UPDATE producto SET stock = stock - ? where idProducto = ?";
+
+        try (PreparedStatement ps = conexion.getConexion().prepareStatement(consulta)) {
+
+            for (Producto producto : productos) {
+                ps.setInt(1, producto.getStock());
+                ps.setInt(2, producto.getIdProducto());
+                ps.execute();
+            }
+
+            return true;
+
+        } catch (SQLException ex) {
+            return false;
+        }
+    }
+
     /**
      * Consulta los nombres, precios unitarios y stock de todos los productos en
      * la base de datos.

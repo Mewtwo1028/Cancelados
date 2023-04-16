@@ -2,6 +2,7 @@ package modelo;
 
 import controlador.Conexion;
 import java.sql.CallableStatement;
+import java.sql.PreparedStatement;
 import java.sql.SQLException;
 import java.util.ArrayList;
 
