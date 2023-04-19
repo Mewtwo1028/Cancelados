@@ -258,14 +258,15 @@ public class ProductoManager {
     public boolean eliminarProducto(Producto producto) {
         String operacion = "DELETE FROM producto WHERE idProducto=?;";
 
-        try (PreparedStatement ps = conexion.getConexion().prepareCall(operacion)) {
+        try (PreparedStatement ps = conexion.getConexion().prepareStatement(operacion)) {
 
             ps.setInt(1, producto.getIdProducto());
-
-            return ps.executeUpdate() == 1;
+            ps.execute();
+            
+            return true;
 
         } catch (SQLException ex) {
-            throw new RuntimeException("Error al eliminar el producto", ex);
+            return false;
         }
     }
 
