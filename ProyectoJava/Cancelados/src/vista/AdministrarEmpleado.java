@@ -105,6 +105,7 @@ public class AdministrarEmpleado extends javax.swing.JFrame {
         jComboBoxRol.setSelectedIndex(0);
         txtContra.setText("");
         txtIDEmpleado.setText("");
+        txtRepContrasena.setText("");
 
 
     }
@@ -622,7 +623,7 @@ public class AdministrarEmpleado extends javax.swing.JFrame {
         // ELIMINAR EMPLEADO
         DialogoEmergente dEmergente = new DialogoEmergente(this, true);
         Empleado empleado = new Empleado(Integer.parseInt(txtIDEmpleado.getText()));
-
+        
         if (new EmpleadoManager().eliminarEmpleado(empleado)) {
             llenarTabla();
             dEmergente.setTexto("El empleado se eliminó de\nforma correcta");
@@ -638,13 +639,28 @@ public class AdministrarEmpleado extends javax.swing.JFrame {
         String aux[] = new String[2];
         aux[0] = txtContra.getText();
         aux[1] = txtRepContrasena.getText();
+        int txtIdRol = String.valueOf(jComboBoxRol.getSelectedItem()).equals("Empleado") ? 2 : 1;
+        Empleado empleado = new Empleado(Integer.parseInt(txtIDEmpleado.getText()), txtNombre.getText(), txtApPaterno.getText(), txtApMaterno.getText(), txtCalle.getText(), txtNoExt.getText(), txtColonia.getText(), txtCP.getText(), txtCURP.getText(), txtRFC.getText(), txtMunicipio.getText(), txtEstado.getText(), txtIdRol);
           
       DialogoEmergente a = new DialogoEmergente(this, rootPaneCheckingEnabled);
       if (aux[0].isEmpty() || aux[1].isEmpty()){
           a.setTexto("Error. Contraseña vacía");
           
+      }else{
+            try {
+                Credencial credencial = new Credencial(encriptaContra(txtContra.getText()),Integer.parseInt(txtIDEmpleado.getText()));
+                if(compruebaContra(txtContra.getText(),txtRepContrasena.getText())){
+                    empleado.modificaCredenciales(credencial);
+                    a.setTexto("Contraseña restaurada");
+                }else{
+                    a.setTexto("Error. Las contraseñas no coinciden");
+                }
+            } catch (NoSuchAlgorithmException ex) {
+                Logger.getLogger(AdministrarEmpleado.class.getName()).log(Level.SEVERE, null, ex);
+            }
       }
       a.setVisible(true);
+      limpiarTxtFields();
       
     }//GEN-LAST:event_btnRestaurarContrasenaActionPerformed
 

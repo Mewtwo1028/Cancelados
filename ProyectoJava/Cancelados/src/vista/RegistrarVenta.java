@@ -12,6 +12,7 @@ import java.awt.Color;
 import java.util.ArrayList;
 import javax.swing.DefaultComboBoxModel;
 import javax.swing.JFrame;
+import javax.swing.JTextField;
 import javax.swing.table.DefaultTableModel;
 import javax.swing.table.TableModel;
 
@@ -183,6 +184,7 @@ public class RegistrarVenta extends javax.swing.JFrame {
         jLabel2 = new javax.swing.JLabel();
         txtIDProducto = new javax.swing.JTextField();
         cbCantidad = new javax.swing.JComboBox<>();
+        txtCliente = new javax.swing.JTextField();
         jPanelAcciones = new javax.swing.JPanel();
         btnAgregar = new javax.swing.JButton();
         btnRegistrarVenta = new javax.swing.JButton();
@@ -223,6 +225,8 @@ public class RegistrarVenta extends javax.swing.JFrame {
             .addGap(0, 0, Short.MAX_VALUE)
         );
 
+        jPanelOperaciones.setLayout(new org.netbeans.lib.awtextra.AbsoluteLayout());
+
         tblProducto.setModel(new javax.swing.table.DefaultTableModel(
             new Object [][] {
                 {null, null, null, null},
@@ -240,6 +244,8 @@ public class RegistrarVenta extends javax.swing.JFrame {
             }
         });
         jScrollPane1.setViewportView(tblProducto);
+
+        jPanelOperaciones.add(jScrollPane1, new org.netbeans.lib.awtextra.AbsoluteConstraints(6, 251, 743, 350));
 
         labelProducto.setText("Producto");
 
@@ -283,34 +289,45 @@ public class RegistrarVenta extends javax.swing.JFrame {
             }
         });
 
+        txtCliente.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                txtClienteActionPerformed(evt);
+            }
+        });
+
         javax.swing.GroupLayout jPanelFormularioLayout = new javax.swing.GroupLayout(jPanelFormulario);
         jPanelFormulario.setLayout(jPanelFormularioLayout);
         jPanelFormularioLayout.setHorizontalGroup(
             jPanelFormularioLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(jPanelFormularioLayout.createSequentialGroup()
                 .addContainerGap()
+                .addGroup(jPanelFormularioLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
+                    .addGroup(jPanelFormularioLayout.createSequentialGroup()
+                        .addComponent(jLabel1, javax.swing.GroupLayout.PREFERRED_SIZE, 92, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                        .addComponent(txtCliente))
+                    .addGroup(jPanelFormularioLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
+                        .addGroup(jPanelFormularioLayout.createSequentialGroup()
+                            .addGroup(jPanelFormularioLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                                .addGroup(jPanelFormularioLayout.createSequentialGroup()
+                                    .addComponent(labelProducto, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                                    .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED))
+                                .addGroup(jPanelFormularioLayout.createSequentialGroup()
+                                    .addComponent(labelCantidad, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                                    .addGap(6, 6, 6)))
+                            .addGroup(jPanelFormularioLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
+                                .addComponent(cbNombreProducto, 0, 130, Short.MAX_VALUE)
+                                .addComponent(cbCantidad, 0, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)))
+                        .addGroup(jPanelFormularioLayout.createSequentialGroup()
+                            .addGroup(jPanelFormularioLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
+                                .addComponent(labelPrecioUnitario, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                                .addComponent(labelimporte, javax.swing.GroupLayout.PREFERRED_SIZE, 92, javax.swing.GroupLayout.PREFERRED_SIZE))
+                            .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                            .addGroup(jPanelFormularioLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
+                                .addComponent(txtPrecioUnitario)
+                                .addComponent(txtImporte, javax.swing.GroupLayout.PREFERRED_SIZE, 130, javax.swing.GroupLayout.PREFERRED_SIZE)))))
                 .addGroup(jPanelFormularioLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addGroup(jPanelFormularioLayout.createSequentialGroup()
-                        .addGroup(jPanelFormularioLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
-                            .addGroup(jPanelFormularioLayout.createSequentialGroup()
-                                .addGroup(jPanelFormularioLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                                    .addGroup(jPanelFormularioLayout.createSequentialGroup()
-                                        .addComponent(labelProducto, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED))
-                                    .addGroup(jPanelFormularioLayout.createSequentialGroup()
-                                        .addComponent(labelCantidad, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                                        .addGap(6, 6, 6)))
-                                .addGroup(jPanelFormularioLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
-                                    .addComponent(cbNombreProducto, 0, 130, Short.MAX_VALUE)
-                                    .addComponent(cbCantidad, 0, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)))
-                            .addGroup(jPanelFormularioLayout.createSequentialGroup()
-                                .addGroup(jPanelFormularioLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
-                                    .addComponent(labelPrecioUnitario, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                                    .addComponent(labelimporte, javax.swing.GroupLayout.PREFERRED_SIZE, 92, javax.swing.GroupLayout.PREFERRED_SIZE))
-                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                                .addGroup(jPanelFormularioLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
-                                    .addComponent(txtPrecioUnitario)
-                                    .addComponent(txtImporte, javax.swing.GroupLayout.PREFERRED_SIZE, 130, javax.swing.GroupLayout.PREFERRED_SIZE))))
                         .addGap(18, 18, 18)
                         .addGroup(jPanelFormularioLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
                             .addComponent(labelSubtotal, javax.swing.GroupLayout.DEFAULT_SIZE, 92, Short.MAX_VALUE)
@@ -321,11 +338,10 @@ public class RegistrarVenta extends javax.swing.JFrame {
                             .addComponent(txtSubtotal, javax.swing.GroupLayout.DEFAULT_SIZE, 130, Short.MAX_VALUE)
                             .addComponent(txtTotal)
                             .addComponent(txtIDProducto)))
-                    .addGroup(jPanelFormularioLayout.createSequentialGroup()
-                        .addComponent(jLabel1, javax.swing.GroupLayout.PREFERRED_SIZE, 92, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                    .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanelFormularioLayout.createSequentialGroup()
+                        .addGap(116, 116, 116)
                         .addComponent(cbCliente, javax.swing.GroupLayout.PREFERRED_SIZE, 130, javax.swing.GroupLayout.PREFERRED_SIZE)))
-                .addContainerGap(350, Short.MAX_VALUE))
+                .addContainerGap(57, Short.MAX_VALUE))
         );
         jPanelFormularioLayout.setVerticalGroup(
             jPanelFormularioLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -358,9 +374,12 @@ public class RegistrarVenta extends javax.swing.JFrame {
                 .addGap(18, 18, 18)
                 .addGroup(jPanelFormularioLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(jLabel1)
-                    .addComponent(cbCliente, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                    .addComponent(cbCliente, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(txtCliente, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
                 .addContainerGap())
         );
+
+        jPanelOperaciones.add(jPanelFormulario, new org.netbeans.lib.awtextra.AbsoluteConstraints(6, 6, -1, -1));
 
         btnAgregar.setText("Agregar");
         btnAgregar.addActionListener(new java.awt.event.ActionListener() {
@@ -407,31 +426,7 @@ public class RegistrarVenta extends javax.swing.JFrame {
                 .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
         );
 
-        javax.swing.GroupLayout jPanelOperacionesLayout = new javax.swing.GroupLayout(jPanelOperaciones);
-        jPanelOperaciones.setLayout(jPanelOperacionesLayout);
-        jPanelOperacionesLayout.setHorizontalGroup(
-            jPanelOperacionesLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(jPanelOperacionesLayout.createSequentialGroup()
-                .addContainerGap()
-                .addGroup(jPanelOperacionesLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addComponent(jScrollPane1)
-                    .addGroup(jPanelOperacionesLayout.createSequentialGroup()
-                        .addComponent(jPanelFormulario, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                        .addComponent(jPanelAcciones, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)))
-                .addContainerGap())
-        );
-        jPanelOperacionesLayout.setVerticalGroup(
-            jPanelOperacionesLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanelOperacionesLayout.createSequentialGroup()
-                .addContainerGap()
-                .addGroup(jPanelOperacionesLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addComponent(jPanelFormulario, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                    .addComponent(jPanelAcciones, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 350, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addGap(33, 33, 33))
-        );
+        jPanelOperaciones.add(jPanelAcciones, new org.netbeans.lib.awtextra.AbsoluteConstraints(549, 6, -1, 179));
 
         javax.swing.GroupLayout jPanelPrincipalLayout = new javax.swing.GroupLayout(jPanelPrincipal);
         jPanelPrincipal.setLayout(jPanelPrincipalLayout);
@@ -515,7 +510,7 @@ public class RegistrarVenta extends javax.swing.JFrame {
             dl.setTexto("Venta registrada de\nforma correcta!");
             dl.setVisible(true);
         } else {
-            dl.setTexto("ERROR! NO SE PUDO REGISTRAR LA VENTA");
+            dl.setTexto("¡ERROR! NO SE PUDO REGISTRAR LA VENTA");
             dl.setVisible(true);
         }
     }//GEN-LAST:event_btnRegistrarVentaActionPerformed
@@ -538,6 +533,15 @@ public class RegistrarVenta extends javax.swing.JFrame {
     private void cbCantidadItemStateChanged(java.awt.event.ItemEvent evt) {//GEN-FIRST:event_cbCantidadItemStateChanged
         calcularImporte();
     }//GEN-LAST:event_cbCantidadItemStateChanged
+
+    //Función que filtra a partir de un campo de texto el cliente que busca
+    private int calculaPosicionCliente(JTextField nombre){
+        return 1;
+    }
+    
+    private void txtClienteActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_txtClienteActionPerformed
+        cbCliente.setSelectedIndex(calculaPosicionCliente(txtCliente));
+    }//GEN-LAST:event_txtClienteActionPerformed
 
     private boolean registrarVenta(Venta venta, ArrayList<Producto> productos) {
         int idVenta = new VentaManager().realizarVenta(venta);
@@ -725,6 +729,7 @@ public class RegistrarVenta extends javax.swing.JFrame {
     private javax.swing.JLabel labelTotal;
     private javax.swing.JLabel labelimporte;
     private javax.swing.JTable tblProducto;
+    private javax.swing.JTextField txtCliente;
     private javax.swing.JTextField txtIDProducto;
     private javax.swing.JTextField txtImporte;
     private javax.swing.JTextField txtPrecioUnitario;
