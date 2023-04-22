@@ -87,3 +87,17 @@ ALTER TABLE venta MODIFY COLUMN fecha TIMESTAMP DEFAULT CURRENT_TIMESTAMP;
 ALTER TABLE venta MODIFY COLUMN total decimal(10,2);
 ALTER TABLE detalleVenta MODIFY COLUMN precioUnitario decimal(10,2);
 ALTER TABLE producto MODIFY COLUMN precioUnitario decimal(10,2);
+
+-- Inserts de prueba para productos
+INSERT INTO producto (idProducto, Nombre, Descripcion, PrecioUnitario, Stock, autor) VALUES (2, 'Biblia Sagrada', 'Biblia Sagrada versión Reina-Valera', 25.99, 100, 'Anónimo');
+INSERT INTO producto (idProducto, Nombre, Descripcion, PrecioUnitario, Stock, autor) VALUES (3, 'Crucifijo de plata', 'Crucifijo de plata con detalle en oro', 35.99, 25, 'Anónimo');
+INSERT INTO producto (idProducto, Nombre, Descripcion, PrecioUnitario, Stock, autor) VALUES (4, 'Imagen de la Virgen', 'Imagen de la Virgen María de porcelana', 45.99, 15, 'Anónimo');
+INSERT INTO producto (idProducto, Nombre, Descripcion, PrecioUnitario, Stock, autor) VALUES (5, 'Vela de altar', 'Vela de cera blanca para altar', 5.99, 75, 'Anónimo');
+INSERT INTO producto (idProducto, Nombre, Descripcion, PrecioUnitario, Stock, autor) VALUES (6, 'Estampa religiosa', 'Estampa religiosa con oración a San José', 2.99, 200, 'Anónimo');
+INSERT INTO producto (idProducto, Nombre, Descripcion, PrecioUnitario, Stock, autor) VALUES (7, 'Agua bendita', 'Agua bendita en frasco de vidrio', 7.99, 50, 'Anónimo');
+INSERT INTO producto (idProducto, Nombre, Descripcion, PrecioUnitario, Stock, autor) VALUES (8, 'Libro de oraciones', 'Libro de oraciones católicas', 15.99, 75, 'Anónimo');
+INSERT INTO producto (idProducto, Nombre, Descripcion, PrecioUnitario, Stock, autor) VALUES (9, 'Escapulario de tela', 'Escapulario de tela con medalla de la Virgen', 12.99, 50, 'Anónimo');
+INSERT INTO producto (idProducto, Nombre, Descripcion, PrecioUnitario, Stock, autor) VALUES (10, 'Rosario de cristal', 'Rosario de cristal con cuentas facetadas', 18.99, 40, 'Anónimo');
+INSERT INTO producto (idProducto, Nombre, Descripcion, PrecioUnitario, Stock, autor) VALUES (11, 'Cruz de madera', 'Cruz de madera tallada a mano', 30.99, 20, 'Anónimo');
+INSERT INTO producto (idProducto, Nombre, Descripcion, PrecioUnitario, Stock, autor) VALUES (12, 'Santísimo Sacramento', 'Santísimo Sacramento de oro macizo', 350.99, 5, 'Anónimo');
+

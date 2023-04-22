@@ -72,7 +72,7 @@
                   <EmptySpace min="-2" pref="88" max="-2" attributes="0"/>
                   <Component id="jLabelBienvenida" min="-2" max="-2" attributes="0"/>
                   <EmptySpace type="unrelated" max="-2" attributes="0"/>
-                  <Component id="jPanelCredenciales" min="-2" pref="269" max="-2" attributes="0"/>
+                  <Component id="jPanelCredenciales" pref="269" max="32767" attributes="0"/>
                   <EmptySpace min="-2" pref="72" max="-2" attributes="0"/>
                   <Component id="jLabelBolitas" min="-2" pref="231" max="-2" attributes="0"/>
               </Group>

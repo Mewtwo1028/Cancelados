@@ -649,7 +649,7 @@ public class AdministrarEmpleado extends javax.swing.JFrame {
       }else{
             try {
                 Credencial credencial = new Credencial(encriptaContra(txtContra.getText()),Integer.parseInt(txtIDEmpleado.getText()));
-                if(compruebaContra(txtContra.getText(),txtRepContrasena.getText())){
+                if(compruebaContra(txtRepContrasena.getText(),txtContra.getText())){
                     empleado.modificaCredenciales(credencial);
                     a.setTexto("Contraseña restaurada");
                 }else{
