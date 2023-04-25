@@ -4,6 +4,7 @@ import controlador.ProductoManager;
 import modelo.FuncionesUtiles;
 import modelo.Producto;
 import java.awt.Color;
+import java.awt.Dimension;
 import java.awt.Image;
 import java.io.File;
 import java.util.ArrayList;
@@ -42,6 +43,7 @@ public class AdministrarProducto extends javax.swing.JFrame {
         this.getContentPane().setBackground(Color.WHITE);
         this.setExtendedState(JFrame.MAXIMIZED_BOTH);
         this.setTitle("Administrar Producto");
+        this.setMinimumSize(new Dimension(1280,720));
 
         //Configurar panel principal
         jPanelPrincipal.setBackground(Color.WHITE);
@@ -512,16 +514,16 @@ public class AdministrarProducto extends javax.swing.JFrame {
     private void btnEliminarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnEliminarActionPerformed
         // ELIMINAR PRODUCTO
         DialogoEmergente dEmergente = new DialogoEmergente(this, true);
-        Producto producto = new Producto(Integer.parseInt(txtIDProducto.getText()));
+        Producto producto = new Producto();
+        producto.setIdProducto(Integer.parseInt(txtIDProducto.getText()));
 
         if (new ProductoManager().eliminarProducto(producto)) {
             llenarTabla();
             dEmergente.setTexto("El producto se elimino de\nforma correcta");
-            dEmergente.setVisible(true);
         } else {
-            dEmergente.setTexto("ERROR AL INTENTAR\nELIMINAR EL PRODUCTO!");
-            dEmergente.setVisible(true);
+            dEmergente.setTexto("ERROR AL INTENTAR\nELIMINAR EL PRODUCTO!");          
         }
+        dEmergente.setVisible(true);
         limpiarTxtFields();
     }//GEN-LAST:event_btnEliminarActionPerformed
 

@@ -169,33 +169,31 @@
                                   <EmptySpace max="-2" attributes="0"/>
                                   <Component id="txtCliente" max="32767" attributes="0"/>
                               </Group>
-                              <Group type="103" groupAlignment="0" max="-2" attributes="0">
-                                  <Group type="102" alignment="0" attributes="0">
-                                      <Group type="103" groupAlignment="0" attributes="0">
-                                          <Group type="102" attributes="0">
-                                              <Component id="labelProducto" max="32767" attributes="0"/>
-                                              <EmptySpace max="-2" attributes="0"/>
-                                          </Group>
-                                          <Group type="102" attributes="0">
-                                              <Component id="labelCantidad" max="32767" attributes="0"/>
-                                              <EmptySpace min="-2" pref="6" max="-2" attributes="0"/>
-                                          </Group>
+                              <Group type="102" alignment="0" attributes="0">
+                                  <Group type="103" groupAlignment="0" attributes="0">
+                                      <Group type="102" attributes="0">
+                                          <Component id="labelProducto" max="32767" attributes="0"/>
+                                          <EmptySpace max="-2" attributes="0"/>
                                       </Group>
-                                      <Group type="103" groupAlignment="0" max="-2" attributes="0">
-                                          <Component id="cbNombreProducto" pref="130" max="32767" attributes="0"/>
-                                          <Component id="cbCantidad" max="32767" attributes="0"/>
+                                      <Group type="102" attributes="0">
+                                          <Component id="labelCantidad" max="32767" attributes="0"/>
+                                          <EmptySpace min="-2" pref="6" max="-2" attributes="0"/>
                                       </Group>
                                   </Group>
-                                  <Group type="102" alignment="0" attributes="0">
-                                      <Group type="103" groupAlignment="0" max="-2" attributes="0">
-                                          <Component id="labelPrecioUnitario" max="32767" attributes="0"/>
-                                          <Component id="labelimporte" min="-2" pref="92" max="-2" attributes="0"/>
-                                      </Group>
-                                      <EmptySpace max="-2" attributes="0"/>
-                                      <Group type="103" groupAlignment="0" max="-2" attributes="0">
-                                          <Component id="txtPrecioUnitario" max="32767" attributes="0"/>
-                                          <Component id="txtImporte" min="-2" pref="130" max="-2" attributes="0"/>
-                                      </Group>
+                                  <Group type="103" groupAlignment="0" max="-2" attributes="0">
+                                      <Component id="cbNombreProducto" pref="130" max="32767" attributes="0"/>
+                                      <Component id="cbCantidad" max="32767" attributes="0"/>
+                                  </Group>
+                              </Group>
+                              <Group type="102" alignment="0" attributes="0">
+                                  <Group type="103" groupAlignment="0" max="-2" attributes="0">
+                                      <Component id="labelPrecioUnitario" max="32767" attributes="0"/>
+                                      <Component id="labelimporte" min="-2" pref="92" max="-2" attributes="0"/>
+                                  </Group>
+                                  <EmptySpace max="-2" attributes="0"/>
+                                  <Group type="103" groupAlignment="0" max="-2" attributes="0">
+                                      <Component id="txtPrecioUnitario" max="32767" attributes="0"/>
+                                      <Component id="txtImporte" min="-2" pref="130" max="-2" attributes="0"/>
                                   </Group>
                               </Group>
                           </Group>

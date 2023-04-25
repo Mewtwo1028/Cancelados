@@ -4,6 +4,7 @@ import controlador.ClienteManager;
 import modelo.Cliente;
 import modelo.FuncionesUtiles;
 import java.awt.Color;
+import java.awt.Dimension;
 import java.util.ArrayList;
 import javax.swing.JFrame;
 import javax.swing.table.DefaultTableModel;
@@ -30,6 +31,7 @@ public class AdministrarCliente extends javax.swing.JFrame {
         this.getContentPane().setBackground(Color.WHITE);
         this.setExtendedState(JFrame.MAXIMIZED_BOTH);
         this.setTitle("Administrar Cliente");
+        this.setMinimumSize(new Dimension(1280,720));
 
         //Configurar panel principal
         jPanelPrincipal.setBackground(Color.WHITE);

@@ -84,6 +84,7 @@ public class PanelControlAdministrador extends javax.swing.JFrame {
         jPanelLinea = new javax.swing.JPanel();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
+        setMinimumSize(new java.awt.Dimension(1280, 720));
 
         jPanelPrincipal.setPreferredSize(new java.awt.Dimension(266, 708));
 

@@ -9,6 +9,7 @@ import modelo.FuncionesUtiles;
 import modelo.Producto;
 import modelo.Venta;
 import java.awt.Color;
+import java.awt.Dimension;
 import java.util.ArrayList;
 import javax.swing.DefaultComboBoxModel;
 import javax.swing.JFrame;
@@ -41,7 +42,8 @@ public class RegistrarVenta extends javax.swing.JFrame {
         this.setLocationRelativeTo(null);
         this.getContentPane().setBackground(Color.WHITE);
         this.setExtendedState(JFrame.MAXIMIZED_BOTH);
-        this.setTitle("Administrar Producto");
+        this.setTitle("Registrar venta");
+        this.setMinimumSize(new Dimension(1280,720));
 
         //Configurar panel principal
         jPanelPrincipal.setBackground(Color.WHITE);

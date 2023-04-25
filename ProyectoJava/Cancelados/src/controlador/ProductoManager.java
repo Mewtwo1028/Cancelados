@@ -261,7 +261,7 @@ public class ProductoManager {
         try (PreparedStatement ps = conexion.getConexion().prepareStatement(operacion)) {
 
             ps.setInt(1, producto.getIdProducto());
-            ps.execute();
+            ps.executeUpdate();
             
             return true;
 
