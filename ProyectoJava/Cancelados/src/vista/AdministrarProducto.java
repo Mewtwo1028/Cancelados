@@ -13,6 +13,7 @@ import javax.swing.JFileChooser;
 import javax.swing.JFrame;
 import javax.swing.filechooser.FileNameExtensionFilter;
 import javax.swing.table.DefaultTableModel;
+import javax.swing.*;
 
 public class AdministrarProducto extends javax.swing.JFrame {
 
@@ -34,6 +35,7 @@ public class AdministrarProducto extends javax.swing.JFrame {
         initComponents();
         inicializar();
         initTabla();
+        
     }
 
     private void inicializar() {
@@ -102,6 +104,7 @@ public class AdministrarProducto extends javax.swing.JFrame {
         txtAutor.setText("");
         txtIDProducto.setText("");
         labelProductoImagen.removeAll();
+        spnStock.setValue(0);
     }
 
     private void initTabla() {
@@ -144,10 +147,12 @@ public class AdministrarProducto extends javax.swing.JFrame {
         labelIDProducto = new javax.swing.JLabel();
         txtIDProducto = new javax.swing.JTextField();
         labelStock = new javax.swing.JLabel();
-        txtStock = new javax.swing.JTextField();
         labelProductoImagen = new javax.swing.JLabel();
         btnImagen = new javax.swing.JButton();
         txtImagePath = new javax.swing.JTextField();
+        spnStock = new javax.swing.JSpinner();
+        txtStock = new javax.swing.JTextField();
+        btnStock = new javax.swing.JButton();
         jPanelAcciones = new javax.swing.JPanel();
         btnConsultar = new javax.swing.JButton();
         btnRegistrar = new javax.swing.JButton();
@@ -231,8 +236,6 @@ public class AdministrarProducto extends javax.swing.JFrame {
 
         labelStock.setText("Stock");
 
-        txtStock.setText("jTextField10");
-
         btnImagen.setText("Elegir imagen");
         btnImagen.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
@@ -241,6 +244,19 @@ public class AdministrarProducto extends javax.swing.JFrame {
         });
 
         txtImagePath.setText("jTextField1");
+
+        spnStock.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseEntered(java.awt.event.MouseEvent evt) {
+                spnStockMouseEntered(evt);
+            }
+        });
+
+        btnStock.setText("Agregar");
+        btnStock.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnStockActionPerformed(evt);
+            }
+        });
 
         javax.swing.GroupLayout jPanelFormularioLayout = new javax.swing.GroupLayout(jPanelFormulario);
         jPanelFormulario.setLayout(jPanelFormularioLayout);
@@ -259,10 +275,10 @@ public class AdministrarProducto extends javax.swing.JFrame {
                     .addComponent(txtNombre)
                     .addComponent(txtPrecioUnitario)
                     .addComponent(txtDescripcion)
-                    .addComponent(txtStock, javax.swing.GroupLayout.DEFAULT_SIZE, 130, Short.MAX_VALUE)
-                    .addComponent(btnImagen, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                    .addComponent(btnImagen, javax.swing.GroupLayout.DEFAULT_SIZE, 130, Short.MAX_VALUE)
+                    .addComponent(txtStock))
                 .addGap(18, 18, 18)
-                .addGroup(jPanelFormularioLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
+                .addGroup(jPanelFormularioLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addGroup(jPanelFormularioLayout.createSequentialGroup()
                         .addGroup(jPanelFormularioLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
                             .addComponent(labelAutor, javax.swing.GroupLayout.DEFAULT_SIZE, 92, Short.MAX_VALUE)
@@ -271,8 +287,12 @@ public class AdministrarProducto extends javax.swing.JFrame {
                         .addGroup(jPanelFormularioLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
                             .addComponent(txtAutor, javax.swing.GroupLayout.DEFAULT_SIZE, 130, Short.MAX_VALUE)
                             .addComponent(txtIDProducto)))
-                    .addComponent(txtImagePath))
-                .addGap(18, 18, 18)
+                    .addComponent(txtImagePath, javax.swing.GroupLayout.PREFERRED_SIZE, 141, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addGroup(jPanelFormularioLayout.createSequentialGroup()
+                        .addComponent(spnStock, javax.swing.GroupLayout.PREFERRED_SIZE, 100, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addGap(18, 18, 18)
+                        .addComponent(btnStock)))
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 217, Short.MAX_VALUE)
                 .addComponent(labelProductoImagen, javax.swing.GroupLayout.PREFERRED_SIZE, 228, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addContainerGap())
         );
@@ -283,7 +303,8 @@ public class AdministrarProducto extends javax.swing.JFrame {
                 .addGroup(jPanelFormularioLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addGroup(jPanelFormularioLayout.createSequentialGroup()
                         .addGap(3, 3, 3)
-                        .addComponent(labelProductoImagen, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                        .addComponent(labelProductoImagen, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                        .addContainerGap())
                     .addGroup(jPanelFormularioLayout.createSequentialGroup()
                         .addGroup(jPanelFormularioLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                             .addComponent(labelNombre)
@@ -304,13 +325,14 @@ public class AdministrarProducto extends javax.swing.JFrame {
                         .addGroup(jPanelFormularioLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                             .addComponent(labelImagen)
                             .addComponent(btnImagen, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                            .addComponent(txtImagePath, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                            .addComponent(txtImagePath, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
                         .addGap(18, 18, 18)
                         .addGroup(jPanelFormularioLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                             .addComponent(labelStock)
-                            .addComponent(txtStock, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
-                        .addGap(2, 2, 2)))
-                .addContainerGap())
+                            .addComponent(spnStock, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                            .addComponent(txtStock, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                            .addComponent(btnStock))
+                        .addGap(10, 10, 10))))
         );
 
         btnConsultar.setText("Consultar");
@@ -407,7 +429,7 @@ public class AdministrarProducto extends javax.swing.JFrame {
                     .addComponent(jPanelInformacion, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addComponent(jPanelLinea, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addContainerGap(20, Short.MAX_VALUE))
+                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
         );
         jPanelPrincipalLayout.setVerticalGroup(
             jPanelPrincipalLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -543,6 +565,34 @@ public class AdministrarProducto extends javax.swing.JFrame {
         }
     }//GEN-LAST:event_btnImagenActionPerformed
 
+    private void spnStockMouseEntered(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_spnStockMouseEntered
+       
+    }//GEN-LAST:event_spnStockMouseEntered
+
+    private void btnStockActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnStockActionPerformed
+        int respuesta = JOptionPane.showConfirmDialog(this, "¿Seguro que deseas modificar\nel stock de este producto?");
+        
+        DialogoEmergente dEmergente = new DialogoEmergente(this, true);
+        Producto producto;
+        int nuevoStock = Integer.parseInt(spnStock.getValue().toString());
+        producto = new Producto(Integer.parseInt(txtIDProducto.getText()), txtNombre.getText(), txtDescripcion.getText(), Float.parseFloat(txtPrecioUnitario.getText()), Integer.parseInt(txtStock.getText())+nuevoStock, txtAutor.getText());
+
+        String mensajeDeTexto = "";
+
+        if (respuesta ==0){
+            // Actualiza el producto sin imagen
+            if (new ProductoManager().modificarProductoSinImagen(producto)) {
+                llenarTabla();
+                mensajeDeTexto = "El Stock se modificó de\nforma correcta.";
+            }else mensajeDeTexto = "Hubo un error al modificar\nel stock";
+            }else mensajeDeTexto = "Stock no modificado";
+             // Muestra el diálogo emergente y limpia los campos de texto
+        dEmergente.setTexto(mensajeDeTexto);
+        dEmergente.setVisible(true);
+        limpiarTxtFields();
+        
+    }//GEN-LAST:event_btnStockActionPerformed
+
     private void obtenerRenglonTabla() {
         int fila = tblProducto.getSelectedRow();
 
@@ -557,6 +607,7 @@ public class AdministrarProducto extends javax.swing.JFrame {
             new ProductoManager().obtenerImagen(producto, labelProductoImagen);
 
             txtStock.setText(tblProducto.getValueAt(fila, 4).toString());
+            //spnStock.setValue(Integer.parseInt(tblProducto.getValueAt(fila, 4).toString()));
             txtAutor.setText(tblProducto.getValueAt(fila, 5).toString());
         }
     }
@@ -616,6 +667,7 @@ public class AdministrarProducto extends javax.swing.JFrame {
     private javax.swing.JButton btnImagen;
     private javax.swing.JButton btnModificar;
     private javax.swing.JButton btnRegistrar;
+    private javax.swing.JButton btnStock;
     private javax.swing.JPanel jPanelAcciones;
     private javax.swing.JPanel jPanelFormulario;
     private javax.swing.JPanel jPanelInformacion;
@@ -632,6 +684,7 @@ public class AdministrarProducto extends javax.swing.JFrame {
     private javax.swing.JLabel labelPrecioUnitario;
     private javax.swing.JLabel labelProductoImagen;
     private javax.swing.JLabel labelStock;
+    private javax.swing.JSpinner spnStock;
     private javax.swing.JTable tblProducto;
     private javax.swing.JTextField txtAutor;
     private javax.swing.JTextField txtDescripcion;
