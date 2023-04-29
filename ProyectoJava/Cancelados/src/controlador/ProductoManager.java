@@ -63,7 +63,7 @@ public class ProductoManager {
      * @throws RuntimeException si ocurre un error al modificar el producto.
      */
     public boolean modificarProductoConImagen(Producto producto) {
-        String consulta = "UPDATE producto SET nombre=?, descripcion=?, precioUnitario=?,imagen=?,stock=?, autor=? WHERE idProducto=?;";
+        String consulta = "UPDATE producto SET nombre=?, descripcion=?, precioUnitario=?,imagen=?, autor=? WHERE idProducto=?;";
 
         try (PreparedStatement ps = conexion.getConexion().prepareStatement(consulta)) {
 
@@ -71,8 +71,7 @@ public class ProductoManager {
             ps.setString(2, producto.getDescripcion());
             ps.setFloat(3, producto.getPrecioUnitario());
             ps.setBlob(4, new FileInputStream(new File(producto.getImagen())));
-            ps.setInt(5, producto.getStock());
-            ps.setString(6, producto.getAutor());
+            ps.setString(5, producto.getAutor());
             ps.setInt(7, producto.getIdProducto());
 
             return ps.executeUpdate() == 1;
@@ -92,16 +91,15 @@ public class ProductoManager {
      * @throws RuntimeException si ocurre un error al modificar el producto.
      */
     public boolean modificarProductoSinImagen(Producto producto) {
-        String consulta = "UPDATE producto SET nombre=?, descripcion=?, precioUnitario=?,stock=?, autor=? WHERE idProducto=?;";
+        String consulta = "UPDATE producto SET nombre=?, descripcion=?, precioUnitario=?, autor=? WHERE idProducto=?;";
 
         try (PreparedStatement ps = conexion.getConexion().prepareStatement(consulta)) {
 
             ps.setString(1, producto.getNombre());
             ps.setString(2, producto.getDescripcion());
             ps.setFloat(3, producto.getPrecioUnitario());
-            ps.setInt(4, producto.getStock());
-            ps.setString(5, producto.getAutor());
-            ps.setInt(6, producto.getIdProducto());
+            ps.setString(4, producto.getAutor());
+            ps.setInt(5, producto.getIdProducto());
 
             return ps.executeUpdate() == 1;
 

@@ -14,6 +14,7 @@ import javax.swing.JFrame;
 import javax.swing.filechooser.FileNameExtensionFilter;
 import javax.swing.table.DefaultTableModel;
 import javax.swing.*;
+import java.awt.Toolkit;
 
 public class AdministrarProducto extends javax.swing.JFrame {
 
@@ -35,6 +36,10 @@ public class AdministrarProducto extends javax.swing.JFrame {
         initComponents();
         inicializar();
         initTabla();
+        double width = Toolkit.getDefaultToolkit().getScreenSize().width;
+        double height = Toolkit.getDefaultToolkit().getScreenSize().height;
+        System.out.print(width+","+height);
+        
         
     }
 
