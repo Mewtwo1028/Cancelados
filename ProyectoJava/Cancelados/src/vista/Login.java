@@ -18,7 +18,8 @@ import controlador.CredencialManager;
  * @author osmar
  */
 
-//Hola bro esto es un cambio 
+//Hola bro esto es un cambio
+//Recibido
 public class Login extends javax.swing.JFrame {
 
     public Login() {
