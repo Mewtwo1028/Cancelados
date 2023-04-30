@@ -7,6 +7,7 @@ public class Venta {
     private String fecha;
     private int idCliente;
     private int idEmpleado;
+    private String estado;
 
     public Venta() {
 
@@ -16,6 +17,11 @@ public class Venta {
         this.total = total;
         this.idCliente = idCliente;
         this.idEmpleado = idEmpleado;
+    }
+
+    public Venta(int idVenta, String estado) {
+        this.idVenta = idVenta;
+        this.estado = estado;
     }
 
     public int getIdVenta() {
@@ -56,6 +62,14 @@ public class Venta {
 
     public void setIdEmpleado(int idEmpleado) {
         this.idEmpleado = idEmpleado;
+    }
+
+    public String getEstado() {
+        return estado;
+    }
+
+    public void setEstado(String estado) {
+        this.estado = estado;
     }
 
 }
