@@ -253,7 +253,10 @@ public class PanelControlAdministrador extends javax.swing.JFrame {
     }//GEN-LAST:event_btnAdmEmpleadosActionPerformed
 
     private void btnAdministrarVentasActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnAdministrarVentasActionPerformed
-        // TODO add your handling code here:
+        AdministrarVentasPanel panelV = new AdministrarVentasPanel();
+        panelV.setAdministrador();
+        this.dispose();
+        panelV.setVisible(true);
     }//GEN-LAST:event_btnAdministrarVentasActionPerformed
 
     private void btnAdministrarClientesActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnAdministrarClientesActionPerformed

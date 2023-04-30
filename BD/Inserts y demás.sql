@@ -101,3 +101,38 @@ INSERT INTO producto (idProducto, Nombre, Descripcion, PrecioUnitario, Stock, au
 INSERT INTO producto (idProducto, Nombre, Descripcion, PrecioUnitario, Stock, autor) VALUES (11, 'Cruz de madera', 'Cruz de madera tallada a mano', 30.99, 20, 'Anónimo');
 INSERT INTO producto (idProducto, Nombre, Descripcion, PrecioUnitario, Stock, autor) VALUES (12, 'Santísimo Sacramento', 'Santísimo Sacramento de oro macizo', 350.99, 5, 'Anónimo');
 
+
+
+-- ******************* 30/04/2023 *******************
+ALTER TABLE venta ADD COLUMN estado VARCHAR(8);
+UPDATE venta set estado = 'VENDIDO' WHERE idVenta>=1;
+
+CREATE VIEW vistaVentas as (
+SELECT v.idVenta,v.total, v.fecha, CONCAT(c.nombre, " ", c.apellidoPaterno) AS nombreCliente, CONCAT(e.nombre, " ", e.apellidoPaterno) AS nombreEmpleado, v.estado FROM venta v 
+INNER JOIN cliente c ON (v.idCliente = c.idCliente)
+INNER JOIN empleado e ON (v.idEmpleado = e.idEmpleado)
+);
+
+CREATE VIEW vistaDetalleVenta AS (
+SELECT dv.idDetalleVenta,
+dv.idVenta,
+p.nombre AS producto,
+v.fecha, dv.cantidad,
+dv.precioUnitario,
+dv.importe,
+CONCAT(c.nombre, " ", c.apellidoPaterno, " ", c.apellidoMaterno) AS cliente,
+c.CURP,
+c.calle,
+c.cp,
+c.colonia,
+c.ciudad,
+c.estado,
+CONCAT(e.nombre, " ", e.apellidoPaterno, " ", e.apellidoMaterno) AS empleado
+FROM detalleVenta dv
+INNER JOIN venta v ON (dv.idVenta = v.idVenta)
+INNER JOIN producto p ON (dv.idProducto = p.idProducto)
+INNER JOIN empleado e ON (v.idEmpleado = e.idEmpleado)
+INNER JOIN cliente c ON (v.idCliente = c.idCliente)
+);
+-- **************************************************
+
