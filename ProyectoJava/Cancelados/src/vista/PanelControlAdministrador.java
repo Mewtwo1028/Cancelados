@@ -2,8 +2,9 @@ package vista;
 
 import modelo.FuncionesUtiles;
 import java.awt.Color;
+import java.awt.Toolkit;
 import javax.swing.JFrame;
-
+import java.awt.Dimension;
 public class PanelControlAdministrador extends javax.swing.JFrame {
 
     /**
@@ -44,7 +45,11 @@ public class PanelControlAdministrador extends javax.swing.JFrame {
         jPanelInformacion.add(panelInformacion);
         panelInformacion.revalidate();
         panelInformacion.repaint();
-        
+        double width = Toolkit.getDefaultToolkit().getScreenSize().width;
+        double height = Toolkit.getDefaultToolkit().getScreenSize().height;
+        //System.out.print((int)(1280*width/100)+","+height);
+        this.setSize((int)(width),(int) height);
+        this.setExtendedState(MAXIMIZED_BOTH);
         //Panel de las operaciones / botones de acciones
         jPanelOperaciones.setBackground(Color.WHITE);
         
@@ -88,11 +93,13 @@ public class PanelControlAdministrador extends javax.swing.JFrame {
 
         jPanelPrincipal.setPreferredSize(new java.awt.Dimension(266, 708));
 
+        jPanelIzquierda.setPreferredSize(new Dimension((int)(this.getSize().width/100),(int) (this.getSize().height*720/100)));
+
         javax.swing.GroupLayout jPanelIzquierdaLayout = new javax.swing.GroupLayout(jPanelIzquierda);
         jPanelIzquierda.setLayout(jPanelIzquierdaLayout);
         jPanelIzquierdaLayout.setHorizontalGroup(
             jPanelIzquierdaLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGap(0, 266, Short.MAX_VALUE)
+            .addGap(0, 274, Short.MAX_VALUE)
         );
         jPanelIzquierdaLayout.setVerticalGroup(
             jPanelIzquierdaLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -195,7 +202,7 @@ public class PanelControlAdministrador extends javax.swing.JFrame {
         jPanelLinea.setLayout(jPanelLineaLayout);
         jPanelLineaLayout.setHorizontalGroup(
             jPanelLineaLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGap(0, 70, Short.MAX_VALUE)
+            .addGap(0, 62, Short.MAX_VALUE)
         );
         jPanelLineaLayout.setVerticalGroup(
             jPanelLineaLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -208,7 +215,7 @@ public class PanelControlAdministrador extends javax.swing.JFrame {
             jPanelPrincipalLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(jPanelPrincipalLayout.createSequentialGroup()
                 .addContainerGap()
-                .addComponent(jPanelIzquierda, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addComponent(jPanelIzquierda, javax.swing.GroupLayout.PREFERRED_SIZE, 274, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addGroup(jPanelPrincipalLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
                     .addComponent(jPanelInformacion, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
@@ -227,7 +234,7 @@ public class PanelControlAdministrador extends javax.swing.JFrame {
                         .addComponent(jPanelInformacion, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                         .addComponent(jPanelOperaciones, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
-                    .addComponent(jPanelIzquierda, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                    .addComponent(jPanelIzquierda, javax.swing.GroupLayout.DEFAULT_SIZE, 708, Short.MAX_VALUE))
                 .addContainerGap())
         );
 

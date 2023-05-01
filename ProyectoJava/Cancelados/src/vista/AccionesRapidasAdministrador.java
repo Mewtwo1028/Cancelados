@@ -3,7 +3,9 @@ package vista;
 import modelo.FuncionesUtiles;
 import java.awt.Color;
 import java.awt.Cursor;
+import java.awt.Toolkit;
 import javax.swing.JFrame;
+
 
 public class AccionesRapidasAdministrador extends javax.swing.JPanel {
 
@@ -12,6 +14,9 @@ public class AccionesRapidasAdministrador extends javax.swing.JPanel {
         initComponents();
         inicializar();
         this.actual = actual;
+        double width = Toolkit.getDefaultToolkit().getScreenSize().width;
+        double height = Toolkit.getDefaultToolkit().getScreenSize().height;
+        this.setSize((int)(1280*width/100),(int) (height*720/100));
     }
     
     private void inicializar(){
@@ -102,17 +107,7 @@ public class AccionesRapidasAdministrador extends javax.swing.JPanel {
         });
 
         jPanelLinea.setPreferredSize(new java.awt.Dimension(15, 100));
-
-        javax.swing.GroupLayout jPanelLineaLayout = new javax.swing.GroupLayout(jPanelLinea);
-        jPanelLinea.setLayout(jPanelLineaLayout);
-        jPanelLineaLayout.setHorizontalGroup(
-            jPanelLineaLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGap(0, 15, Short.MAX_VALUE)
-        );
-        jPanelLineaLayout.setVerticalGroup(
-            jPanelLineaLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGap(0, 0, Short.MAX_VALUE)
-        );
+        jPanelLinea.setLayout(new java.awt.BorderLayout());
 
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(this);
         this.setLayout(layout);

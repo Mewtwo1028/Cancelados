@@ -12,6 +12,10 @@ import java.util.logging.Level;
 import java.util.logging.Logger;
 import javax.swing.JFrame;
 import controlador.CredencialManager;
+import java.awt.Dimension;
+import static java.awt.Frame.MAXIMIZED_BOTH;
+import java.awt.Toolkit;
+
 
 /**
  *
@@ -40,7 +44,12 @@ public class Login extends javax.swing.JFrame {
         //Configuracion ventana
         this.setLocationRelativeTo(null);
         //this.getContentPane().setBackground(Color.WHITE);
-        this.setExtendedState(JFrame.MAXIMIZED_BOTH);
+        double width = Toolkit.getDefaultToolkit().getScreenSize().width;
+        double height = Toolkit.getDefaultToolkit().getScreenSize().height;
+        //System.out.print((int)(1280*width/100)+","+height);
+        this.setSize((int)(width),(int) height);
+        jLabelLogoDegradado.setPreferredSize(new Dimension((int)(this.getSize().width/100),(int) (this.getSize().height*720/100)));
+        this.setExtendedState(MAXIMIZED_BOTH);
         this.setTitle("Iniciar sesion");
 
         FuncionesUtiles funcionesUtiles = new FuncionesUtiles();
@@ -80,7 +89,6 @@ public class Login extends javax.swing.JFrame {
 
         jPanelPrincipal = new javax.swing.JPanel();
         jLabelLogoDegradado = new javax.swing.JLabel();
-        jLabelBienvenida = new javax.swing.JLabel();
         jPanelCredenciales = new javax.swing.JPanel();
         jLabel1 = new javax.swing.JLabel();
         jLabel2 = new javax.swing.JLabel();
@@ -89,13 +97,14 @@ public class Login extends javax.swing.JFrame {
         txtPassword = new javax.swing.JPasswordField();
         btnForgottenPassword = new javax.swing.JButton();
         jLabelBolitas = new javax.swing.JLabel();
+        jLabelBienvenida = new javax.swing.JLabel();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
         setMinimumSize(new java.awt.Dimension(1280, 720));
 
-        jLabelBienvenida.setFont(new java.awt.Font("Segoe UI", 1, 36)); // NOI18N
-        jLabelBienvenida.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
-        jLabelBienvenida.setText("Bienvenido");
+        jLabelLogoDegradado.setPreferredSize(new Dimension((int)(this.getSize().width/100),(int) (this.getSize().height*720/100)));
+        jLabelLogoDegradado.setRequestFocusEnabled(false);
+        jLabelLogoDegradado.setVerifyInputWhenFocusTarget(false);
 
         jPanelCredenciales.setForeground(new java.awt.Color(255, 0, 51));
         jPanelCredenciales.setLayout(new org.netbeans.lib.awtextra.AbsoluteLayout());
@@ -135,37 +144,47 @@ public class Login extends javax.swing.JFrame {
         });
         jPanelCredenciales.add(btnForgottenPassword, new org.netbeans.lib.awtextra.AbsoluteConstraints(30, 230, 270, -1));
 
+        jLabelBienvenida.setFont(new java.awt.Font("Segoe UI", 1, 36)); // NOI18N
+        jLabelBienvenida.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
+        jLabelBienvenida.setText("Bienvenido");
+
         javax.swing.GroupLayout jPanelPrincipalLayout = new javax.swing.GroupLayout(jPanelPrincipal);
         jPanelPrincipal.setLayout(jPanelPrincipalLayout);
         jPanelPrincipalLayout.setHorizontalGroup(
             jPanelPrincipalLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(jPanelPrincipalLayout.createSequentialGroup()
-                .addComponent(jLabelLogoDegradado, javax.swing.GroupLayout.DEFAULT_SIZE, 730, Short.MAX_VALUE)
+                .addContainerGap()
+                .addComponent(jLabelLogoDegradado, javax.swing.GroupLayout.PREFERRED_SIZE, 819, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addGroup(jPanelPrincipalLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addGroup(jPanelPrincipalLayout.createSequentialGroup()
-                        .addGap(157, 157, 157)
+                        .addGap(319, 319, 319)
                         .addGroup(jPanelPrincipalLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                             .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanelPrincipalLayout.createSequentialGroup()
                                 .addGap(145, 145, 145)
                                 .addComponent(jLabelBolitas))
                             .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanelPrincipalLayout.createSequentialGroup()
-                                .addComponent(jPanelCredenciales, javax.swing.GroupLayout.DEFAULT_SIZE, 330, Short.MAX_VALUE)
+                                .addComponent(jPanelCredenciales, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                                 .addGap(63, 63, 63))))
-                    .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanelPrincipalLayout.createSequentialGroup()
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                    .addGroup(jPanelPrincipalLayout.createSequentialGroup()
+                        .addGap(229, 229, 229)
                         .addComponent(jLabelBienvenida)
-                        .addGap(142, 142, 142))))
+                        .addGap(0, 0, Short.MAX_VALUE))))
         );
         jPanelPrincipalLayout.setVerticalGroup(
             jPanelPrincipalLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(jPanelPrincipalLayout.createSequentialGroup()
-                .addGap(88, 88, 88)
-                .addComponent(jLabelBienvenida)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                .addComponent(jPanelCredenciales, javax.swing.GroupLayout.DEFAULT_SIZE, 269, Short.MAX_VALUE)
-                .addGap(72, 72, 72)
+                .addContainerGap()
+                .addGroup(jPanelPrincipalLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addGroup(jPanelPrincipalLayout.createSequentialGroup()
+                        .addGap(88, 88, 88)
+                        .addComponent(jLabelBienvenida)
+                        .addGap(18, 18, 18)
+                        .addComponent(jPanelCredenciales, javax.swing.GroupLayout.DEFAULT_SIZE, 257, Short.MAX_VALUE)
+                        .addGap(72, 72, 72))
+                    .addGroup(jPanelPrincipalLayout.createSequentialGroup()
+                        .addComponent(jLabelLogoDegradado, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)))
                 .addComponent(jLabelBolitas, javax.swing.GroupLayout.PREFERRED_SIZE, 231, javax.swing.GroupLayout.PREFERRED_SIZE))
-            .addComponent(jLabelLogoDegradado, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
         );
 
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
