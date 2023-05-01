@@ -48,20 +48,11 @@ public class RegistrarVenta extends javax.swing.JFrame {
         double width = Toolkit.getDefaultToolkit().getScreenSize().width;
         double height = Toolkit.getDefaultToolkit().getScreenSize().height;
         //System.out.print((int)(1280*width/100)+","+height);
-        this.setSize((int)(width),(int) height);
+        this.setSize((int) (width), (int) height);
         this.setExtendedState(MAXIMIZED_BOTH);
 
         //Configurar panel principal
         jPanelPrincipal.setBackground(Color.WHITE);
-
-        //Colocar panel de la izquierda
-        AccionesRapidasAdministrador panelBotones = new AccionesRapidasAdministrador(this);
-        panelBotones.setBounds(0, 0, 266, (int) this.getBounds().getHeight() - 80);
-        jPanelIzquierda.removeAll();
-        jPanelIzquierda.setMinimumSize(panelBotones.getPreferredSize());
-        jPanelIzquierda.add(panelBotones);
-        panelBotones.revalidate();
-        panelBotones.repaint();
 
         //Configurar panel de arriba
         jPanelInformacion.setBackground(Color.WHITE);
@@ -159,6 +150,28 @@ public class RegistrarVenta extends javax.swing.JFrame {
         tblProducto.setModel(modelo);
     }
 
+    public void setEmpleado() {
+        //Colocar panel de la izquierda
+        AccionesRapidasEmpleado panelBotones = new AccionesRapidasEmpleado(this);
+        panelBotones.setBounds(0, 0, 266, (int) this.getBounds().getHeight()-50);
+        jPanelIzquierda.removeAll();
+        jPanelIzquierda.setMinimumSize(panelBotones.getPreferredSize());
+        jPanelIzquierda.add(panelBotones);
+        panelBotones.revalidate();
+        panelBotones.repaint();
+    }
+
+    public void setAdmon() {
+        //Colocar panel de la izquierda
+        AccionesRapidasAdministrador panelBotones = new AccionesRapidasAdministrador(this);
+        panelBotones.setBounds(0, 0, 266, (int) this.getBounds().getHeight()-50);
+        jPanelIzquierda.removeAll();
+        jPanelIzquierda.setMinimumSize(panelBotones.getPreferredSize());
+        jPanelIzquierda.add(panelBotones);
+        panelBotones.revalidate();
+        panelBotones.repaint();
+    }
+
     /**
      * This method is called from within the constructor to initialize the form.
      * WARNING: Do NOT modify this code. The content of this method is always
@@ -200,6 +213,11 @@ public class RegistrarVenta extends javax.swing.JFrame {
         cbCantidad = new javax.swing.JComboBox<>();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
+        setMinimumSize(new java.awt.Dimension(1280, 720));
+        setPreferredSize(new java.awt.Dimension(1280, 720));
+
+        jPanelPrincipal.setMinimumSize(new java.awt.Dimension(1280, 720));
+        jPanelPrincipal.setPreferredSize(new java.awt.Dimension(1280, 720));
 
         javax.swing.GroupLayout jPanelIzquierdaLayout = new javax.swing.GroupLayout(jPanelIzquierda);
         jPanelIzquierda.setLayout(jPanelIzquierdaLayout);
@@ -475,7 +493,7 @@ public class RegistrarVenta extends javax.swing.JFrame {
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addComponent(jPanelPrincipal, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+            .addComponent(jPanelPrincipal, javax.swing.GroupLayout.DEFAULT_SIZE, 729, Short.MAX_VALUE)
         );
 
         pack();
@@ -545,10 +563,10 @@ public class RegistrarVenta extends javax.swing.JFrame {
     }//GEN-LAST:event_cbCantidadItemStateChanged
 
     //Función que filtra a partir de un campo de texto el cliente que busca
-    private int calculaPosicionCliente(JTextField nombre){
+    private int calculaPosicionCliente(JTextField nombre) {
         return 1;
     }
-    
+
     private void txtClienteActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_txtClienteActionPerformed
         cbCliente.setSelectedIndex(calculaPosicionCliente(txtCliente));
     }//GEN-LAST:event_txtClienteActionPerformed

@@ -113,16 +113,11 @@
               <Group type="103" groupAlignment="0" attributes="0">
                   <Group type="102" alignment="0" attributes="0">
                       <EmptySpace max="-2" attributes="0"/>
-                      <Group type="103" groupAlignment="1" max="-2" attributes="0">
-                          <Component id="btnVender" max="32767" attributes="0"/>
-                          <Group type="102" attributes="0">
-                              <Component id="btnAgregarProducto" min="-2" pref="277" max="-2" attributes="0"/>
-                              <EmptySpace type="separate" max="-2" attributes="0"/>
-                              <Component id="btnRegistrarCliente" min="-2" pref="277" max="-2" attributes="0"/>
-                              <EmptySpace type="separate" max="-2" attributes="0"/>
-                              <Component id="btnConsultarInventario" min="-2" pref="277" max="-2" attributes="0"/>
-                          </Group>
-                      </Group>
+                      <Component id="btnVender" min="-2" pref="277" max="-2" attributes="0"/>
+                      <EmptySpace type="separate" max="-2" attributes="0"/>
+                      <Component id="btnRegistrarCliente" min="-2" pref="277" max="-2" attributes="0"/>
+                      <EmptySpace type="separate" max="-2" attributes="0"/>
+                      <Component id="btnConsultarInventario" min="-2" pref="277" max="-2" attributes="0"/>
                       <EmptySpace pref="47" max="32767" attributes="0"/>
                   </Group>
               </Group>
@@ -132,23 +127,16 @@
                   <Group type="102" alignment="0" attributes="0">
                       <EmptySpace max="-2" attributes="0"/>
                       <Group type="103" groupAlignment="0" attributes="0">
-                          <Component id="btnAgregarProducto" min="-2" pref="150" max="-2" attributes="0"/>
+                          <Component id="btnVender" min="-2" pref="150" max="-2" attributes="0"/>
                           <Component id="btnRegistrarCliente" min="-2" pref="150" max="-2" attributes="0"/>
                           <Component id="btnConsultarInventario" min="-2" pref="150" max="-2" attributes="0"/>
                       </Group>
-                      <EmptySpace min="-2" pref="27" max="-2" attributes="0"/>
-                      <Component id="btnVender" min="-2" pref="150" max="-2" attributes="0"/>
-                      <EmptySpace pref="257" max="32767" attributes="0"/>
+                      <EmptySpace pref="434" max="32767" attributes="0"/>
                   </Group>
               </Group>
             </DimensionLayout>
           </Layout>
           <SubComponents>
-            <Component class="javax.swing.JButton" name="btnAgregarProducto">
-              <Properties>
-                <Property name="text" type="java.lang.String" value="Agregar Producto"/>
-              </Properties>
-            </Component>
             <Component class="javax.swing.JButton" name="btnVender">
               <Properties>
                 <Property name="text" type="java.lang.String" value="VENDER"/>
@@ -169,6 +157,9 @@
               <Properties>
                 <Property name="text" type="java.lang.String" value="Consultar inventario"/>
               </Properties>
+              <Events>
+                <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="btnConsultarInventarioActionPerformed"/>
+              </Events>
             </Component>
           </SubComponents>
         </Container>

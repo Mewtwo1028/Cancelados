@@ -96,11 +96,14 @@ public class Login extends javax.swing.JFrame {
         btnIngresar = new javax.swing.JButton();
         txtPassword = new javax.swing.JPasswordField();
         btnForgottenPassword = new javax.swing.JButton();
-        jLabelBolitas = new javax.swing.JLabel();
         jLabelBienvenida = new javax.swing.JLabel();
+        jLabelBolitas = new javax.swing.JLabel();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
         setMinimumSize(new java.awt.Dimension(1280, 720));
+
+        jPanelPrincipal.setMinimumSize(new java.awt.Dimension(1280, 720));
+        jPanelPrincipal.setPreferredSize(new java.awt.Dimension(1280, 720));
 
         jLabelLogoDegradado.setPreferredSize(new Dimension((int)(this.getSize().width/100),(int) (this.getSize().height*720/100)));
         jLabelLogoDegradado.setRequestFocusEnabled(false);
@@ -110,11 +113,11 @@ public class Login extends javax.swing.JFrame {
         jPanelCredenciales.setLayout(new org.netbeans.lib.awtextra.AbsoluteLayout());
 
         jLabel1.setText("Usuario");
-        jPanelCredenciales.add(jLabel1, new org.netbeans.lib.awtextra.AbsoluteConstraints(30, 20, -1, -1));
+        jPanelCredenciales.add(jLabel1, new org.netbeans.lib.awtextra.AbsoluteConstraints(30, 80, -1, -1));
 
         jLabel2.setText("Contraseña");
-        jPanelCredenciales.add(jLabel2, new org.netbeans.lib.awtextra.AbsoluteConstraints(30, 100, -1, -1));
-        jPanelCredenciales.add(txtUsername, new org.netbeans.lib.awtextra.AbsoluteConstraints(30, 40, 270, 40));
+        jPanelCredenciales.add(jLabel2, new org.netbeans.lib.awtextra.AbsoluteConstraints(30, 160, -1, -1));
+        jPanelCredenciales.add(txtUsername, new org.netbeans.lib.awtextra.AbsoluteConstraints(30, 100, 270, 40));
 
         btnIngresar.setText("Ingresar");
         btnIngresar.addActionListener(new java.awt.event.ActionListener() {
@@ -122,14 +125,14 @@ public class Login extends javax.swing.JFrame {
                 btnIngresarActionPerformed(evt);
             }
         });
-        jPanelCredenciales.add(btnIngresar, new org.netbeans.lib.awtextra.AbsoluteConstraints(30, 180, 270, 40));
+        jPanelCredenciales.add(btnIngresar, new org.netbeans.lib.awtextra.AbsoluteConstraints(30, 240, 270, 40));
 
         txtPassword.addKeyListener(new java.awt.event.KeyAdapter() {
             public void keyPressed(java.awt.event.KeyEvent evt) {
                 txtPasswordKeyPressed(evt);
             }
         });
-        jPanelCredenciales.add(txtPassword, new org.netbeans.lib.awtextra.AbsoluteConstraints(30, 120, 270, 40));
+        jPanelCredenciales.add(txtPassword, new org.netbeans.lib.awtextra.AbsoluteConstraints(30, 180, 270, 40));
 
         btnForgottenPassword.setText("Olvidé mi contraseña");
         btnForgottenPassword.addMouseListener(new java.awt.event.MouseAdapter() {
@@ -142,56 +145,41 @@ public class Login extends javax.swing.JFrame {
                 btnForgottenPasswordActionPerformed(evt);
             }
         });
-        jPanelCredenciales.add(btnForgottenPassword, new org.netbeans.lib.awtextra.AbsoluteConstraints(30, 230, 270, -1));
+        jPanelCredenciales.add(btnForgottenPassword, new org.netbeans.lib.awtextra.AbsoluteConstraints(30, 290, 270, -1));
 
         jLabelBienvenida.setFont(new java.awt.Font("Segoe UI", 1, 36)); // NOI18N
         jLabelBienvenida.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
         jLabelBienvenida.setText("Bienvenido");
+        jPanelCredenciales.add(jLabelBienvenida, new org.netbeans.lib.awtextra.AbsoluteConstraints(60, 20, -1, -1));
 
         javax.swing.GroupLayout jPanelPrincipalLayout = new javax.swing.GroupLayout(jPanelPrincipal);
         jPanelPrincipal.setLayout(jPanelPrincipalLayout);
         jPanelPrincipalLayout.setHorizontalGroup(
             jPanelPrincipalLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(jPanelPrincipalLayout.createSequentialGroup()
-                .addContainerGap()
-                .addComponent(jLabelLogoDegradado, javax.swing.GroupLayout.PREFERRED_SIZE, 819, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addComponent(jLabelLogoDegradado, javax.swing.GroupLayout.PREFERRED_SIZE, 825, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 249, Short.MAX_VALUE)
                 .addGroup(jPanelPrincipalLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addGroup(jPanelPrincipalLayout.createSequentialGroup()
-                        .addGap(319, 319, 319)
-                        .addGroup(jPanelPrincipalLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanelPrincipalLayout.createSequentialGroup()
-                                .addGap(145, 145, 145)
-                                .addComponent(jLabelBolitas))
-                            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanelPrincipalLayout.createSequentialGroup()
-                                .addComponent(jPanelCredenciales, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                                .addGap(63, 63, 63))))
-                    .addGroup(jPanelPrincipalLayout.createSequentialGroup()
-                        .addGap(229, 229, 229)
-                        .addComponent(jLabelBienvenida)
-                        .addGap(0, 0, Short.MAX_VALUE))))
+                    .addComponent(jLabelBolitas, javax.swing.GroupLayout.Alignment.TRAILING)
+                    .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanelPrincipalLayout.createSequentialGroup()
+                        .addComponent(jPanelCredenciales, javax.swing.GroupLayout.PREFERRED_SIZE, 322, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addGap(111, 111, 111))))
         );
         jPanelPrincipalLayout.setVerticalGroup(
             jPanelPrincipalLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(jPanelPrincipalLayout.createSequentialGroup()
-                .addContainerGap()
-                .addGroup(jPanelPrincipalLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addGroup(jPanelPrincipalLayout.createSequentialGroup()
-                        .addGap(88, 88, 88)
-                        .addComponent(jLabelBienvenida)
-                        .addGap(18, 18, 18)
-                        .addComponent(jPanelCredenciales, javax.swing.GroupLayout.DEFAULT_SIZE, 257, Short.MAX_VALUE)
-                        .addGap(72, 72, 72))
-                    .addGroup(jPanelPrincipalLayout.createSequentialGroup()
-                        .addComponent(jLabelLogoDegradado, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)))
+                .addContainerGap(119, Short.MAX_VALUE)
+                .addComponent(jPanelCredenciales, javax.swing.GroupLayout.PREFERRED_SIZE, 325, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addGap(45, 45, 45)
                 .addComponent(jLabelBolitas, javax.swing.GroupLayout.PREFERRED_SIZE, 231, javax.swing.GroupLayout.PREFERRED_SIZE))
+            .addComponent(jLabelLogoDegradado, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
         );
 
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
         getContentPane().setLayout(layout);
         layout.setHorizontalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addComponent(jPanelPrincipal, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+            .addComponent(jPanelPrincipal, javax.swing.GroupLayout.DEFAULT_SIZE, 1507, Short.MAX_VALUE)
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)

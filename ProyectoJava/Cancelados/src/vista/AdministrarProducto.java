@@ -53,15 +53,8 @@ public class AdministrarProducto extends javax.swing.JFrame {
         this.setExtendedState(MAXIMIZED_BOTH);
         //Configurar panel principal
         jPanelPrincipal.setBackground(Color.WHITE);
-
-        //Colocar panel de la izquierda
-        AccionesRapidasAdministrador panelBotones = new AccionesRapidasAdministrador(this);
-        panelBotones.setBounds(0, 0, 266, (int) this.getBounds().getHeight() - 80);
-        jPanelIzquierda.removeAll();
-        jPanelIzquierda.setMinimumSize(panelBotones.getPreferredSize());
-        jPanelIzquierda.add(panelBotones);
-        panelBotones.revalidate();
-        panelBotones.repaint();
+        
+        jPanel1.setBackground(Color.WHITE);
 
         //Configurar panel de arriba
         jPanelInformacion.setBackground(Color.WHITE);
@@ -121,6 +114,33 @@ public class AdministrarProducto extends javax.swing.JFrame {
         modelo.addColumn("Autor");
         tblProducto.setModel(modelo);
     }
+    
+    public void setAdmon(){
+        //Colocar panel de la izquierda
+        AccionesRapidasAdministrador panelBotones = new AccionesRapidasAdministrador(this);
+        panelBotones.setBounds(0, 0, 266, (int) this.getBounds().getHeight()-70);
+        jPanelIzquierda.removeAll();
+        jPanelIzquierda.setMinimumSize(panelBotones.getPreferredSize());
+        jPanelIzquierda.add(panelBotones);
+        panelBotones.revalidate();
+        panelBotones.repaint();
+    }
+    
+    public void setEmpleado(){
+        //Colocar panel de la izquierda
+        AccionesRapidasEmpleado panelBotones = new AccionesRapidasEmpleado(this);
+        panelBotones.setBounds(0, 0, 266, (int) this.getBounds().getHeight()-70);
+        jPanelIzquierda.removeAll();
+        jPanelIzquierda.setMinimumSize(panelBotones.getPreferredSize());
+        jPanelIzquierda.add(panelBotones);
+        panelBotones.revalidate();
+        panelBotones.repaint();
+        
+        //Desactivar botones
+        btnRegistrar.setVisible(false);
+        btnModificar.setVisible(false);
+        btnEliminar.setVisible(false);
+    }
 
     /**
      * This method is called from within the constructor to initialize the form.
@@ -165,6 +185,11 @@ public class AdministrarProducto extends javax.swing.JFrame {
         jPanelIzquierda = new javax.swing.JPanel();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
+        setMinimumSize(new java.awt.Dimension(1280, 720));
+        setPreferredSize(new java.awt.Dimension(1280, 720));
+
+        jPanelPrincipal.setMinimumSize(new java.awt.Dimension(1280, 720));
+        jPanelPrincipal.setPreferredSize(new java.awt.Dimension(1280, 720));
 
         javax.swing.GroupLayout jPanelInformacionLayout = new javax.swing.GroupLayout(jPanelInformacion);
         jPanelInformacion.setLayout(jPanelInformacionLayout);
@@ -183,7 +208,7 @@ public class AdministrarProducto extends javax.swing.JFrame {
         jPanelLinea.setLayout(jPanelLineaLayout);
         jPanelLineaLayout.setHorizontalGroup(
             jPanelLineaLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGap(0, 70, Short.MAX_VALUE)
+            .addGap(0, 0, Short.MAX_VALUE)
         );
         jPanelLineaLayout.setVerticalGroup(
             jPanelLineaLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -231,6 +256,8 @@ public class AdministrarProducto extends javax.swing.JFrame {
         txtIDProducto.setText("jTextField6");
 
         labelStock.setText("Stock");
+
+        labelProductoImagen.setMinimumSize(new java.awt.Dimension(288, 188));
 
         btnImagen.setText("Elegir imagen");
         btnImagen.addActionListener(new java.awt.event.ActionListener() {
@@ -288,19 +315,15 @@ public class AdministrarProducto extends javax.swing.JFrame {
                         .addComponent(spnStock, javax.swing.GroupLayout.PREFERRED_SIZE, 100, javax.swing.GroupLayout.PREFERRED_SIZE)
                         .addGap(18, 18, 18)
                         .addComponent(btnStock)))
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 281, Short.MAX_VALUE)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addComponent(labelProductoImagen, javax.swing.GroupLayout.PREFERRED_SIZE, 228, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addContainerGap())
+                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
         );
         jPanelFormularioLayout.setVerticalGroup(
             jPanelFormularioLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(jPanelFormularioLayout.createSequentialGroup()
                 .addContainerGap()
                 .addGroup(jPanelFormularioLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addGroup(jPanelFormularioLayout.createSequentialGroup()
-                        .addGap(3, 3, 3)
-                        .addComponent(labelProductoImagen, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                        .addContainerGap())
                     .addGroup(jPanelFormularioLayout.createSequentialGroup()
                         .addGroup(jPanelFormularioLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                             .addComponent(labelNombre)
@@ -328,7 +351,10 @@ public class AdministrarProducto extends javax.swing.JFrame {
                             .addComponent(spnStock, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                             .addComponent(txtStock, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                             .addComponent(btnStock))
-                        .addGap(10, 10, 10))))
+                        .addGap(10, 10, 10))
+                    .addGroup(jPanelFormularioLayout.createSequentialGroup()
+                        .addComponent(labelProductoImagen, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                        .addContainerGap())))
         );
 
         btnConsultar.setText("Consultar");
@@ -412,6 +438,10 @@ public class AdministrarProducto extends javax.swing.JFrame {
                 .addGap(33, 33, 33))
         );
 
+        jPanel1.setMinimumSize(new java.awt.Dimension(266, 650));
+        jPanel1.setPreferredSize(new java.awt.Dimension(266, 650));
+
+        jPanelIzquierda.setMinimumSize(new java.awt.Dimension(266, 650));
         jPanelIzquierda.setPreferredSize(new Dimension((int)(this.getSize().width/100),(int) (this.getSize().height*720/100)));
 
         javax.swing.GroupLayout jPanelIzquierdaLayout = new javax.swing.GroupLayout(jPanelIzquierda);
@@ -431,7 +461,7 @@ public class AdministrarProducto extends javax.swing.JFrame {
             jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(jPanel1Layout.createSequentialGroup()
                 .addContainerGap()
-                .addComponent(jPanelIzquierda, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                .addComponent(jPanelIzquierda, javax.swing.GroupLayout.DEFAULT_SIZE, 266, Short.MAX_VALUE)
                 .addContainerGap())
         );
         jPanel1Layout.setVerticalGroup(
@@ -454,7 +484,7 @@ public class AdministrarProducto extends javax.swing.JFrame {
                     .addComponent(jPanelOperaciones, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                     .addComponent(jPanelInformacion, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addComponent(jPanelLinea, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                .addComponent(jPanelLinea, javax.swing.GroupLayout.DEFAULT_SIZE, 63, Short.MAX_VALUE)
                 .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
         );
         jPanelPrincipalLayout.setVerticalGroup(
@@ -462,7 +492,7 @@ public class AdministrarProducto extends javax.swing.JFrame {
             .addGroup(jPanelPrincipalLayout.createSequentialGroup()
                 .addContainerGap()
                 .addGroup(jPanelPrincipalLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addComponent(jPanel1, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                    .addComponent(jPanel1, javax.swing.GroupLayout.DEFAULT_SIZE, 711, Short.MAX_VALUE)
                     .addGroup(jPanelPrincipalLayout.createSequentialGroup()
                         .addComponent(jPanelInformacion, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
@@ -479,7 +509,7 @@ public class AdministrarProducto extends javax.swing.JFrame {
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addComponent(jPanelPrincipal, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+            .addComponent(jPanelPrincipal, javax.swing.GroupLayout.DEFAULT_SIZE, 723, Short.MAX_VALUE)
         );
 
         pack();

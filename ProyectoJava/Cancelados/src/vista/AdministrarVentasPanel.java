@@ -85,7 +85,7 @@ public class AdministrarVentasPanel extends javax.swing.JFrame {
     public void setAdministrador() {
         //Colocar panel de la izquierda
         AccionesRapidasAdministrador panelBotones = new AccionesRapidasAdministrador(this);
-        panelBotones.setBounds(0, 0, 266, (int) this.getBounds().getHeight() - 80);
+        panelBotones.setBounds(0, 0, 266, (int) this.getBounds().getHeight() - 70);
         jPanelIzquierda.removeAll();
         jPanelIzquierda.setMinimumSize(panelBotones.getPreferredSize());
         jPanelIzquierda.add(panelBotones);
@@ -96,7 +96,7 @@ public class AdministrarVentasPanel extends javax.swing.JFrame {
     public void setEmpleado() {
         //Colocar panel de la izquierda
         AccionesRapidasEmpleado panelBotones = new AccionesRapidasEmpleado(this);
-        panelBotones.setBounds(0, 0, 266, (int) this.getBounds().getHeight() - 80);
+        panelBotones.setBounds(0, 0, 266, (int) this.getBounds().getHeight() - 70);
         jPanelIzquierda.removeAll();
         jPanelIzquierda.setMinimumSize(panelBotones.getPreferredSize());
         jPanelIzquierda.add(panelBotones);

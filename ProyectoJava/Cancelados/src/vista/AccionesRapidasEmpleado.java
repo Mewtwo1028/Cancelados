@@ -133,7 +133,7 @@ public class AccionesRapidasEmpleado extends javax.swing.JPanel {
     }// </editor-fold>//GEN-END:initComponents
 
     private void btnMenuActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnMenuActionPerformed
-        PanelControlAdministrador menu = new PanelControlAdministrador();
+        PanelControlEmpleado menu = new PanelControlEmpleado();
         actual.dispose();
         menu.setVisible(true);
     }//GEN-LAST:event_btnMenuActionPerformed

@@ -25,6 +25,7 @@ public class PanelControlAdministrador extends javax.swing.JFrame {
         
         //Configurar panel principal
         jPanelPrincipal.setBackground(Color.WHITE);
+        jPanelIzquierda.setBackground(Color.WHITE);
         
         //Colocar panel de la izquierda
         AccionesRapidasAdministrador panelBotones = new AccionesRapidasAdministrador(this);
@@ -275,12 +276,14 @@ public class PanelControlAdministrador extends javax.swing.JFrame {
 
     private void btnAdministrarProductosActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnAdministrarProductosActionPerformed
         AdministrarProducto pAdminProduc = new AdministrarProducto();
+        pAdminProduc.setAdmon();
         this.dispose();
         pAdminProduc.setVisible(true);
     }//GEN-LAST:event_btnAdministrarProductosActionPerformed
 
     private void btnVenderActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnVenderActionPerformed
         RegistrarVenta v = new RegistrarVenta();
+        v.setAdmon();
         this.dispose();
         v.setVisible(true);
     }//GEN-LAST:event_btnVenderActionPerformed
