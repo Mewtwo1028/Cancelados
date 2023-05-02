@@ -1,6 +1,7 @@
 package vista;
 
 import controlador.ClienteManager;
+import controlador.Conexion;
 import modelo.Cliente;
 import modelo.FuncionesUtiles;
 import java.awt.Color;
@@ -9,6 +10,7 @@ import java.awt.Toolkit;
 import java.util.ArrayList;
 import javax.swing.JFrame;
 import javax.swing.table.DefaultTableModel;
+import java.sql.ResultSet;
 
 public class AdministrarCliente extends javax.swing.JFrame {
 
@@ -23,6 +25,42 @@ public class AdministrarCliente extends javax.swing.JFrame {
         initComponents();
         inicializar();
         initTabla();
+    }
+    
+    public void buscarcliente(String texto) {
+        try {
+
+            String[] titulos = {"ID", "Nombre", "Apellido Paterno", "Apellido Materno", "CURP", "Calle", "Colonia", "Ciudad", "Estado", "CP"};
+            String filtro = "" + texto + "_%";
+
+            String SQL = "SELECT * FROM cliente WHERE Nombre like" + '"' + filtro + '"';
+
+            System.out.print(SQL);
+
+            Conexion conexion = new Conexion();
+
+            modelo = new DefaultTableModel(null, titulos);
+            ResultSet rs = conexion.getConexion().prepareStatement(SQL).executeQuery();
+            String[] fila = new String[10];
+            while (rs.next()) {
+                fila[0] = rs.getString("IdCliente");
+                fila[1] = rs.getString("Nombre");
+                fila[2] = rs.getString("ApellidoPaterno");
+                fila[3] = rs.getString("ApellidoMaterno");
+                fila[4] = rs.getString("CURP");
+                fila[5] = rs.getString("Calle");
+                fila[6] = rs.getString("Colonia");
+                fila[7] = rs.getString("Ciudad");
+                fila[8] = rs.getString("Estado");
+                fila[9] = rs.getString("CP");
+                modelo.addRow(fila);
+
+            }
+            tblCliente.setModel(modelo);
+        } catch (Exception e) {
+            System.err.println("" + e.getMessage());
+        }
+
     }
 
     private void inicializar() {
@@ -224,6 +262,11 @@ public class AdministrarCliente extends javax.swing.JFrame {
         labelNombre.setText("Nombre");
 
         txtNombre.setText("jTextField1");
+        txtNombre.addKeyListener(new java.awt.event.KeyAdapter() {
+            public void keyPressed(java.awt.event.KeyEvent evt) {
+                txtNombreKeyPressed(evt);
+            }
+        });
 
         labelApPaterno.setText("Apellido Paterno");
 
@@ -543,6 +586,13 @@ public class AdministrarCliente extends javax.swing.JFrame {
         }
         limpiarTxtFields();
     }//GEN-LAST:event_btnEliminarActionPerformed
+
+    private void txtNombreKeyPressed(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_txtNombreKeyPressed
+        // TODO add your handling code here:
+        String buscar = txtNombre.getText();
+        buscarcliente(buscar);
+
+    }//GEN-LAST:event_txtNombreKeyPressed
 
     private void obtenerRenglonTabla() {
         int fila = tblCliente.getSelectedRow();
