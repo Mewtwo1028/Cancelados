@@ -16,12 +16,10 @@ import java.awt.Dimension;
 import static java.awt.Frame.MAXIMIZED_BOTH;
 import java.awt.Toolkit;
 
-
 /**
  *
  * @author osmar
  */
-
 //Hola bro esto es un cambio
 //Recibido
 public class Login extends javax.swing.JFrame {
@@ -43,27 +41,51 @@ public class Login extends javax.swing.JFrame {
     private void inicializar() {
         //Configuracion ventana
         this.setLocationRelativeTo(null);
-        //this.getContentPane().setBackground(Color.WHITE);
-        double width = Toolkit.getDefaultToolkit().getScreenSize().width;
-        double height = Toolkit.getDefaultToolkit().getScreenSize().height;
+        this.getContentPane().setBackground(Color.WHITE);
+        //double width = Toolkit.getDefaultToolkit().getScreenSize().width;
+        //double height = Toolkit.getDefaultToolkit().getScreenSize().height;
         //System.out.print((int)(1280*width/100)+","+height);
-        this.setSize((int)(width),(int) height);
-        jLabelLogoDegradado.setPreferredSize(new Dimension((int)(this.getSize().width/100),(int) (this.getSize().height*720/100)));
+        //this.setSize((int)(width),(int) height);
+        //jLabelLogoDegradado.setPreferredSize(new Dimension((int)(this.getSize().width/100),(int) (this.getSize().height*720/100)));
         this.setExtendedState(MAXIMIZED_BOTH);
         this.setTitle("Iniciar sesion");
 
         FuncionesUtiles funcionesUtiles = new FuncionesUtiles();
 
         //Configurar panel principal
-        jPanelPrincipal.setBounds(0, 0, (int) java.awt.Toolkit.getDefaultToolkit().getScreenSize().getWidth(), (int) java.awt.Toolkit.getDefaultToolkit().getScreenSize().getHeight());
+        //jPanelPrincipal.setBounds(0, 0, (int) java.awt.Toolkit.getDefaultToolkit().getScreenSize().getWidth(), (int) java.awt.Toolkit.getDefaultToolkit().getScreenSize().getHeight());
+        //jPanelPrincipal.setBounds(0, 0, (int) this.getBounds().getWidth(), (int) this.getBounds().getHeight());
         jPanelPrincipal.setBackground(Color.WHITE);
 
+        //Configurar logo
+        //int height = (int) jPanelPrincipal.getHeight();
+        //int width = (int) jPanelPrincipal.getWidth() / 2;
+        //jLabelLogoDegradado.setBounds(0, 0, width, height);
+
         //Configurar bolitas
-        jLabelBolitas.setBounds((int) jPanelPrincipal.getBounds().getMaxX(), (int) jPanelPrincipal.getBounds().getMaxY(), 248, 231);
+        //jLabelBolitas.setBounds((int) jPanelPrincipal.getBounds().getMaxX() - 248, (int) jPanelPrincipal.getBounds().getMaxY() - 231, 248, 231);
+
+        int height = (int) this.getBounds().getHeight();
+        int width = (int) this.getBounds().getWidth();
+        int maxX = (int) this.getBounds().getMaxX();
+        int maxY = (int) this.getBounds().getMaxY();
+
+        jPanelPrincipal.setBounds(0, 0, width, height);
+        jPanelPrincipal.setBackground(Color.WHITE);
+
+        //Configurar logo
+        jLabelLogoDegradado.setBounds(0, 0, (int) width / 2, height);
+
+        //Configurar bolitas
+        jLabelBolitas.setBounds(maxX - 248, maxY - 231, 248, 231);
 
         //Imagenes
-        funcionesUtiles.colocarImagen("/Imagenes/LogoLetrasDegradado.png", jLabelLogoDegradado);
-        funcionesUtiles.colocarImagen("/Imagenes/bolitas.png", jLabelBolitas);
+        new FuncionesUtiles().colocarImagen("/Imagenes/LogoLetrasDegradado.png", jLabelLogoDegradado);
+        new FuncionesUtiles().colocarImagen("/Imagenes/bolitas.png", jLabelBolitas);
+        
+        //Imagenes
+        //funcionesUtiles.colocarImagen("/Imagenes/LogoLetrasDegradado.png", jLabelLogoDegradado);
+        //funcionesUtiles.colocarImagen("/Imagenes/bolitas.png", jLabelBolitas);
 
         //Boton olvidar contraseña
         funcionesUtiles.confBtn(btnForgottenPassword);
@@ -101,10 +123,17 @@ public class Login extends javax.swing.JFrame {
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
         setMinimumSize(new java.awt.Dimension(1280, 720));
+        setPreferredSize(new java.awt.Dimension(1280, 720));
+        addComponentListener(new java.awt.event.ComponentAdapter() {
+            public void componentResized(java.awt.event.ComponentEvent evt) {
+                formComponentResized(evt);
+            }
+        });
 
         jPanelPrincipal.setMinimumSize(new java.awt.Dimension(1280, 720));
         jPanelPrincipal.setPreferredSize(new java.awt.Dimension(1280, 720));
 
+        jLabelLogoDegradado.setMinimumSize(new java.awt.Dimension(777, 720));
         jLabelLogoDegradado.setPreferredSize(new Dimension((int)(this.getSize().width/100),(int) (this.getSize().height*720/100)));
         jLabelLogoDegradado.setRequestFocusEnabled(false);
         jLabelLogoDegradado.setVerifyInputWhenFocusTarget(false);
@@ -152,18 +181,22 @@ public class Login extends javax.swing.JFrame {
         jLabelBienvenida.setText("Bienvenido");
         jPanelCredenciales.add(jLabelBienvenida, new org.netbeans.lib.awtextra.AbsoluteConstraints(60, 20, -1, -1));
 
+        jLabelBolitas.setMaximumSize(new java.awt.Dimension(248, 231));
+        jLabelBolitas.setMinimumSize(new java.awt.Dimension(248, 231));
+        jLabelBolitas.setPreferredSize(new java.awt.Dimension(248, 231));
+
         javax.swing.GroupLayout jPanelPrincipalLayout = new javax.swing.GroupLayout(jPanelPrincipal);
         jPanelPrincipal.setLayout(jPanelPrincipalLayout);
         jPanelPrincipalLayout.setHorizontalGroup(
             jPanelPrincipalLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(jPanelPrincipalLayout.createSequentialGroup()
-                .addComponent(jLabelLogoDegradado, javax.swing.GroupLayout.PREFERRED_SIZE, 825, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 249, Short.MAX_VALUE)
+                .addComponent(jLabelLogoDegradado, javax.swing.GroupLayout.DEFAULT_SIZE, 777, Short.MAX_VALUE)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 70, Short.MAX_VALUE)
                 .addGroup(jPanelPrincipalLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addComponent(jLabelBolitas, javax.swing.GroupLayout.Alignment.TRAILING)
                     .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanelPrincipalLayout.createSequentialGroup()
                         .addComponent(jPanelCredenciales, javax.swing.GroupLayout.PREFERRED_SIZE, 322, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addGap(111, 111, 111))))
+                        .addGap(111, 111, 111))
+                    .addComponent(jLabelBolitas, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.PREFERRED_SIZE, 248, javax.swing.GroupLayout.PREFERRED_SIZE)))
         );
         jPanelPrincipalLayout.setVerticalGroup(
             jPanelPrincipalLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -179,7 +212,7 @@ public class Login extends javax.swing.JFrame {
         getContentPane().setLayout(layout);
         layout.setHorizontalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addComponent(jPanelPrincipal, javax.swing.GroupLayout.DEFAULT_SIZE, 1507, Short.MAX_VALUE)
+            .addComponent(jPanelPrincipal, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -209,6 +242,33 @@ public class Login extends javax.swing.JFrame {
         t.setVisible(true);
 
     }//GEN-LAST:event_btnForgottenPasswordActionPerformed
+
+    private void formComponentResized(java.awt.event.ComponentEvent evt) {//GEN-FIRST:event_formComponentResized
+
+        int height = (int) this.getBounds().getHeight();
+        int width = (int) this.getBounds().getWidth();
+        int maxX = (int) this.getBounds().getMaxX();
+        int maxY = (int) this.getBounds().getMaxY();
+
+        jPanelPrincipal.setBounds(0, 0, width, height);
+        jPanelPrincipal.setBackground(Color.WHITE);
+
+        //Configurar logo
+        jLabelLogoDegradado.setBounds(0, 0, (int) width / 2, height-43);
+
+        //Configurar bolitas
+        jLabelBolitas.setBounds(maxX - 248, maxY - 231, 248, 231);
+
+        //Imagenes
+        new FuncionesUtiles().colocarImagen("/Imagenes/LogoLetrasDegradado.png", jLabelLogoDegradado);
+        new FuncionesUtiles().colocarImagen("/Imagenes/bolitas.png", jLabelBolitas);
+
+        this.repaint();
+        jPanelPrincipal.repaint();
+        jLabelLogoDegradado.repaint();
+        jLabelBolitas.repaint();
+
+    }//GEN-LAST:event_formComponentResized
 
     private void iniciarSesion() {
         String username = txtUsername.getText().trim();

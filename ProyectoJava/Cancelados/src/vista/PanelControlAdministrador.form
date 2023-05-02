@@ -121,26 +121,18 @@
               <Group type="103" groupAlignment="0" attributes="0">
                   <Group type="102" alignment="0" attributes="0">
                       <EmptySpace max="-2" attributes="0"/>
-                      <Group type="103" groupAlignment="1" max="-2" attributes="0">
-                          <Component id="btnVender" max="32767" attributes="0"/>
+                      <Group type="103" groupAlignment="0" max="-2" attributes="0">
                           <Group type="102" attributes="0">
-                              <Group type="103" groupAlignment="0" max="-2" attributes="0">
-                                  <Component id="btnAdministrarProductos" pref="277" max="32767" attributes="0"/>
-                                  <Component id="btnAdministrarVentas" max="32767" attributes="0"/>
-                              </Group>
+                              <Component id="btnAdministrarProductos" min="-2" pref="277" max="-2" attributes="0"/>
                               <EmptySpace type="separate" max="-2" attributes="0"/>
-                              <Group type="103" groupAlignment="0" attributes="0">
-                                  <Group type="102" attributes="0">
-                                      <Component id="btnEditarProducto" min="-2" pref="277" max="-2" attributes="0"/>
-                                      <EmptySpace type="separate" max="-2" attributes="0"/>
-                                      <Component id="btnEliminarProducto" min="-2" pref="277" max="-2" attributes="0"/>
-                                  </Group>
-                                  <Group type="102" attributes="0">
-                                      <Component id="btnAdministrarClientes" min="-2" pref="277" max="-2" attributes="0"/>
-                                      <EmptySpace type="separate" max="-2" attributes="0"/>
-                                      <Component id="btnAdmEmpleados" min="-2" pref="277" max="-2" attributes="0"/>
-                                  </Group>
-                              </Group>
+                              <Component id="btnAdministrarVentas" min="-2" pref="277" max="-2" attributes="0"/>
+                              <EmptySpace type="separate" max="-2" attributes="0"/>
+                              <Component id="btnAdministrarClientes" min="-2" pref="277" max="-2" attributes="0"/>
+                          </Group>
+                          <Group type="102" attributes="0">
+                              <Component id="btnAdmEmpleados" min="-2" pref="277" max="-2" attributes="0"/>
+                              <EmptySpace type="separate" max="-2" attributes="0"/>
+                              <Component id="btnVender" max="32767" attributes="0"/>
                           </Group>
                       </Group>
                       <EmptySpace pref="47" max="32767" attributes="0"/>
@@ -151,20 +143,17 @@
               <Group type="103" groupAlignment="0" attributes="0">
                   <Group type="102" alignment="0" attributes="0">
                       <EmptySpace max="-2" attributes="0"/>
-                      <Group type="103" groupAlignment="0" attributes="0">
-                          <Component id="btnAdministrarProductos" min="-2" pref="150" max="-2" attributes="0"/>
-                          <Component id="btnEditarProducto" min="-2" pref="150" max="-2" attributes="0"/>
-                          <Component id="btnEliminarProducto" min="-2" pref="150" max="-2" attributes="0"/>
+                      <Group type="103" groupAlignment="3" attributes="0">
+                          <Component id="btnAdministrarProductos" alignment="3" min="-2" pref="150" max="-2" attributes="0"/>
+                          <Component id="btnAdministrarVentas" alignment="3" min="-2" pref="150" max="-2" attributes="0"/>
+                          <Component id="btnAdministrarClientes" alignment="3" min="-2" pref="150" max="-2" attributes="0"/>
                       </Group>
                       <EmptySpace type="separate" max="-2" attributes="0"/>
-                      <Group type="103" groupAlignment="0" attributes="0">
-                          <Component id="btnAdministrarVentas" min="-2" pref="150" max="-2" attributes="0"/>
-                          <Component id="btnAdministrarClientes" min="-2" pref="150" max="-2" attributes="0"/>
-                          <Component id="btnAdmEmpleados" min="-2" pref="150" max="-2" attributes="0"/>
+                      <Group type="103" groupAlignment="3" attributes="0">
+                          <Component id="btnVender" alignment="3" min="-2" pref="150" max="-2" attributes="0"/>
+                          <Component id="btnAdmEmpleados" alignment="3" min="-2" pref="150" max="-2" attributes="0"/>
                       </Group>
-                      <EmptySpace type="separate" max="-2" attributes="0"/>
-                      <Component id="btnVender" min="-2" pref="150" max="-2" attributes="0"/>
-                      <EmptySpace pref="98" max="32767" attributes="0"/>
+                      <EmptySpace pref="266" max="32767" attributes="0"/>
                   </Group>
               </Group>
             </DimensionLayout>
@@ -194,11 +183,6 @@
                 <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="btnVenderActionPerformed"/>
               </Events>
             </Component>
-            <Component class="javax.swing.JButton" name="btnEditarProducto">
-              <Properties>
-                <Property name="text" type="java.lang.String" value="Editar Producto"/>
-              </Properties>
-            </Component>
             <Component class="javax.swing.JButton" name="btnAdministrarClientes">
               <Properties>
                 <Property name="text" type="java.lang.String" value="Administrar Clientes"/>
@@ -206,11 +190,6 @@
               <Events>
                 <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="btnAdministrarClientesActionPerformed"/>
               </Events>
-            </Component>
-            <Component class="javax.swing.JButton" name="btnEliminarProducto">
-              <Properties>
-                <Property name="text" type="java.lang.String" value="Eliminar Producto"/>
-              </Properties>
             </Component>
             <Component class="javax.swing.JButton" name="btnAdmEmpleados">
               <Properties>

@@ -59,8 +59,6 @@ public class PanelControlAdministrador extends javax.swing.JFrame {
         
         //botones
         tools.confBtnColor(btnAdministrarProductos);
-        tools.confBtnColor(btnEditarProducto);
-        tools.confBtnColor(btnEliminarProducto);
         tools.confBtnColor(btnAdministrarVentas);
         tools.confBtnColor(btnAdministrarClientes);
         tools.confBtnColor(btnAdmEmpleados);
@@ -83,9 +81,7 @@ public class PanelControlAdministrador extends javax.swing.JFrame {
         btnAdministrarProductos = new javax.swing.JButton();
         btnAdministrarVentas = new javax.swing.JButton();
         btnVender = new javax.swing.JButton();
-        btnEditarProducto = new javax.swing.JButton();
         btnAdministrarClientes = new javax.swing.JButton();
-        btnEliminarProducto = new javax.swing.JButton();
         btnAdmEmpleados = new javax.swing.JButton();
         jPanelLinea = new javax.swing.JPanel();
 
@@ -139,16 +135,12 @@ public class PanelControlAdministrador extends javax.swing.JFrame {
             }
         });
 
-        btnEditarProducto.setText("Editar Producto");
-
         btnAdministrarClientes.setText("Administrar Clientes");
         btnAdministrarClientes.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 btnAdministrarClientesActionPerformed(evt);
             }
         });
-
-        btnEliminarProducto.setText("Eliminar Producto");
 
         btnAdmEmpleados.setText("Administrar Empleados");
         btnAdmEmpleados.addActionListener(new java.awt.event.ActionListener() {
@@ -163,40 +155,32 @@ public class PanelControlAdministrador extends javax.swing.JFrame {
             jPanelOperacionesLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(jPanelOperacionesLayout.createSequentialGroup()
                 .addContainerGap()
-                .addGroup(jPanelOperacionesLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING, false)
-                    .addComponent(btnVender, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                .addGroup(jPanelOperacionesLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
                     .addGroup(jPanelOperacionesLayout.createSequentialGroup()
-                        .addGroup(jPanelOperacionesLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
-                            .addComponent(btnAdministrarProductos, javax.swing.GroupLayout.DEFAULT_SIZE, 277, Short.MAX_VALUE)
-                            .addComponent(btnAdministrarVentas, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                        .addComponent(btnAdministrarProductos, javax.swing.GroupLayout.PREFERRED_SIZE, 277, javax.swing.GroupLayout.PREFERRED_SIZE)
                         .addGap(18, 18, 18)
-                        .addGroup(jPanelOperacionesLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                            .addGroup(jPanelOperacionesLayout.createSequentialGroup()
-                                .addComponent(btnEditarProducto, javax.swing.GroupLayout.PREFERRED_SIZE, 277, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                .addGap(18, 18, 18)
-                                .addComponent(btnEliminarProducto, javax.swing.GroupLayout.PREFERRED_SIZE, 277, javax.swing.GroupLayout.PREFERRED_SIZE))
-                            .addGroup(jPanelOperacionesLayout.createSequentialGroup()
-                                .addComponent(btnAdministrarClientes, javax.swing.GroupLayout.PREFERRED_SIZE, 277, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                .addGap(18, 18, 18)
-                                .addComponent(btnAdmEmpleados, javax.swing.GroupLayout.PREFERRED_SIZE, 277, javax.swing.GroupLayout.PREFERRED_SIZE)))))
+                        .addComponent(btnAdministrarVentas, javax.swing.GroupLayout.PREFERRED_SIZE, 277, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addGap(18, 18, 18)
+                        .addComponent(btnAdministrarClientes, javax.swing.GroupLayout.PREFERRED_SIZE, 277, javax.swing.GroupLayout.PREFERRED_SIZE))
+                    .addGroup(jPanelOperacionesLayout.createSequentialGroup()
+                        .addComponent(btnAdmEmpleados, javax.swing.GroupLayout.PREFERRED_SIZE, 277, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addGap(18, 18, 18)
+                        .addComponent(btnVender, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)))
                 .addContainerGap(47, Short.MAX_VALUE))
         );
         jPanelOperacionesLayout.setVerticalGroup(
             jPanelOperacionesLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(jPanelOperacionesLayout.createSequentialGroup()
                 .addContainerGap()
-                .addGroup(jPanelOperacionesLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                .addGroup(jPanelOperacionesLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(btnAdministrarProductos, javax.swing.GroupLayout.PREFERRED_SIZE, 150, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(btnEditarProducto, javax.swing.GroupLayout.PREFERRED_SIZE, 150, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(btnEliminarProducto, javax.swing.GroupLayout.PREFERRED_SIZE, 150, javax.swing.GroupLayout.PREFERRED_SIZE))
-                .addGap(18, 18, 18)
-                .addGroup(jPanelOperacionesLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addComponent(btnAdministrarVentas, javax.swing.GroupLayout.PREFERRED_SIZE, 150, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(btnAdministrarClientes, javax.swing.GroupLayout.PREFERRED_SIZE, 150, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(btnAdmEmpleados, javax.swing.GroupLayout.PREFERRED_SIZE, 150, javax.swing.GroupLayout.PREFERRED_SIZE))
+                    .addComponent(btnAdministrarClientes, javax.swing.GroupLayout.PREFERRED_SIZE, 150, javax.swing.GroupLayout.PREFERRED_SIZE))
                 .addGap(18, 18, 18)
-                .addComponent(btnVender, javax.swing.GroupLayout.PREFERRED_SIZE, 150, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addContainerGap(98, Short.MAX_VALUE))
+                .addGroup(jPanelOperacionesLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(btnVender, javax.swing.GroupLayout.PREFERRED_SIZE, 150, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(btnAdmEmpleados, javax.swing.GroupLayout.PREFERRED_SIZE, 150, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addContainerGap(266, Short.MAX_VALUE))
         );
 
         javax.swing.GroupLayout jPanelLineaLayout = new javax.swing.GroupLayout(jPanelLinea);
@@ -335,8 +319,6 @@ public class PanelControlAdministrador extends javax.swing.JFrame {
     private javax.swing.JButton btnAdministrarClientes;
     private javax.swing.JButton btnAdministrarProductos;
     private javax.swing.JButton btnAdministrarVentas;
-    private javax.swing.JButton btnEditarProducto;
-    private javax.swing.JButton btnEliminarProducto;
     private javax.swing.JButton btnVender;
     private javax.swing.JPanel jPanelInformacion;
     private javax.swing.JPanel jPanelIzquierda;
