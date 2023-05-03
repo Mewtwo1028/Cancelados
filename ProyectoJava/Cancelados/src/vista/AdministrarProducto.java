@@ -47,15 +47,15 @@ public class AdministrarProducto extends javax.swing.JFrame {
         this.getContentPane().setBackground(Color.WHITE);
         this.setExtendedState(JFrame.MAXIMIZED_BOTH);
         this.setTitle("Administrar Producto");
-        this.setMinimumSize(new Dimension(1280,720));
+        this.setMinimumSize(new Dimension(1280, 720));
         double width = Toolkit.getDefaultToolkit().getScreenSize().width;
         double height = Toolkit.getDefaultToolkit().getScreenSize().height;
         //System.out.print((int)(1280*width/100)+","+height);
-        this.setSize((int)(width),(int) height);
+        this.setSize((int) (width), (int) height);
         this.setExtendedState(MAXIMIZED_BOTH);
         //Configurar panel principal
         jPanelPrincipal.setBackground(Color.WHITE);
-        
+
         jPanel1.setBackground(Color.WHITE);
 
         //Configurar panel de arriba
@@ -116,28 +116,28 @@ public class AdministrarProducto extends javax.swing.JFrame {
         modelo.addColumn("Autor");
         tblProducto.setModel(modelo);
     }
-    
-    public void setAdmon(){
+
+    public void setAdmon() {
         //Colocar panel de la izquierda
         AccionesRapidasAdministrador panelBotones = new AccionesRapidasAdministrador(this);
-        panelBotones.setBounds(0, 0, 266, (int) this.getBounds().getHeight()-70);
+        panelBotones.setBounds(0, 0, 266, (int) this.getBounds().getHeight() - 70);
         jPanelIzquierda.removeAll();
         jPanelIzquierda.setMinimumSize(panelBotones.getPreferredSize());
         jPanelIzquierda.add(panelBotones);
         panelBotones.revalidate();
         panelBotones.repaint();
     }
-    
-    public void setEmpleado(){
+
+    public void setEmpleado() {
         //Colocar panel de la izquierda
         AccionesRapidasEmpleado panelBotones = new AccionesRapidasEmpleado(this);
-        panelBotones.setBounds(0, 0, 266, (int) this.getBounds().getHeight()-70);
+        panelBotones.setBounds(0, 0, 266, (int) this.getBounds().getHeight() - 70);
         jPanelIzquierda.removeAll();
         jPanelIzquierda.setMinimumSize(panelBotones.getPreferredSize());
         jPanelIzquierda.add(panelBotones);
         panelBotones.revalidate();
         panelBotones.repaint();
-        
+
         //Desactivar botones
         btnRegistrar.setVisible(false);
         btnModificar.setVisible(false);
@@ -614,17 +614,21 @@ public class AdministrarProducto extends javax.swing.JFrame {
         DialogoEmergente dEmergente = new DialogoEmergente(this, true);
         Producto producto;
         int nuevoStock = Integer.parseInt(spnStock.getValue().toString());
-        producto = new Producto(Integer.parseInt(txtIDProducto.getText()), txtNombre.getText(), txtDescripcion.getText(), Float.parseFloat(txtPrecioUnitario.getText()), Integer.parseInt(txtStock.getText())+nuevoStock, txtAutor.getText());
+        producto = new Producto(Integer.parseInt(txtIDProducto.getText()), txtNombre.getText(), txtDescripcion.getText(), Float.parseFloat(txtPrecioUnitario.getText()), Integer.parseInt(txtStock.getText()) + nuevoStock, txtAutor.getText());
 
         String mensajeDeTexto = "";
 
-        if (respuesta ==0){
+        if (respuesta == 0) {
             // Actualiza el producto sin imagen
             if (new ProductoManager().modificarProductoSinImagen(producto)) {
                 llenarTabla();
                 mensajeDeTexto = "El Stock se modificó de\nforma correcta.";
-            }else mensajeDeTexto = "Hubo un error al modificar\nel stock";
-        }else mensajeDeTexto = "Stock no modificado";
+            } else {
+                mensajeDeTexto = "Hubo un error al modificar\nel stock";
+            }
+        } else {
+            mensajeDeTexto = "Stock no modificado";
+        }
         // Muestra el diálogo emergente y limpia los campos de texto
         dEmergente.setTexto(mensajeDeTexto);
         dEmergente.setVisible(true);
@@ -666,7 +670,7 @@ public class AdministrarProducto extends javax.swing.JFrame {
 
     private void txtNombreKeyPressed(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_txtNombreKeyPressed
         // TODO add your handling code here:
-               String buscar = txtNombre.getText();
+        String buscar = txtNombre.getText();
         buscarproducto(buscar);
 
     }//GEN-LAST:event_txtNombreKeyPressed
@@ -703,11 +707,11 @@ public class AdministrarProducto extends javax.swing.JFrame {
     private boolean validarFormulario() {
         return txtNombre.getText().isBlank() | txtDescripcion.getText().isBlank() | txtPrecioUnitario.getText().isBlank() | btnImagen.getText().isBlank() | txtStock.getText().isBlank() | txtAutor.getText().isBlank();
     }
-    
+
     public void buscarproducto(String texto) {
         try {
 
-            String[] titulos = {"IdProducto", "Nombre", "Descripcion", "precioUnitario", "Imagen", "Stock", "Autor"};
+            //String[] titulos = {"IdProducto", "Nombre", "Descripcion", "precioUnitario", "Stock", "Autor"};
             String filtro = "" + texto + "_%";
 
             String SQL = "SELECT * FROM producto WHERE Nombre like" + '"' + filtro + '"';
@@ -716,7 +720,15 @@ public class AdministrarProducto extends javax.swing.JFrame {
 
             Conexion conexion = new Conexion();
 
-            modelo = new DefaultTableModel(null, titulos);
+            modelo = new DefaultTableModel();
+
+            modelo.addColumn("ID");
+            modelo.addColumn("Nombre");
+            modelo.addColumn("Descripcion");
+            modelo.addColumn("Precio Unitario");
+            modelo.addColumn("Stock");
+            modelo.addColumn("Autor");
+
             ResultSet rs = conexion.getConexion().prepareStatement(SQL).executeQuery();
             String[] fila = new String[7];
             while (rs.next()) {
@@ -724,10 +736,10 @@ public class AdministrarProducto extends javax.swing.JFrame {
                 fila[1] = rs.getString("Nombre");
                 fila[2] = rs.getString("Descripcion");
                 fila[3] = rs.getString("precioUnitario");
-                fila[4] = rs.getString("Imagen");
-                fila[5] = rs.getString("Stock");
-                fila[6] = rs.getString("Autor");
-                
+                //fila[4] = rs.getString("Imagen");
+                fila[4] = rs.getString("Stock");
+                fila[5] = rs.getString("Autor");
+
                 modelo.addRow(fila);
 
             }

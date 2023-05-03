@@ -32,11 +32,11 @@ public class AdministrarEmpleado extends javax.swing.JFrame {
         initTabla();
 
     }
-    
+
     public void buscarempleado(String texto) {
         try {
 
-            String[] titulos = {"IdEmpleado", "Nombre", "Apellido Paterno", "Apellido Materno", "Calle", "NoExt", "Colonia", "CP", "RFC", "Municipio","Estado","Roles_idRoles"};
+            //String[] titulos = {"IdEmpleado", "Nombre", "Apellido Paterno", "Apellido Materno", "Calle", "NoExt", "Colonia", "CP", "RFC", "Municipio","Estado","Roles_idRoles"};
             String filtro = "" + texto + "_%";
 
             String SQL = "SELECT * FROM empleado WHERE Nombre like" + '"' + filtro + '"';
@@ -45,7 +45,22 @@ public class AdministrarEmpleado extends javax.swing.JFrame {
 
             Conexion conexion = new Conexion();
 
-            modelo = new DefaultTableModel(null, titulos);
+            modelo = new DefaultTableModel();
+
+            modelo.addColumn("ID Empleado");
+            modelo.addColumn("Nombre");
+            modelo.addColumn("Apellido Paterno");
+            modelo.addColumn("Apellido Materno");
+            modelo.addColumn("Calle");
+            modelo.addColumn("No. Exterior");
+            modelo.addColumn("Colonia");
+            modelo.addColumn("CP");
+            modelo.addColumn("CURP");
+            modelo.addColumn("RFC");
+            modelo.addColumn("Municipio");
+            modelo.addColumn("Estado");
+            modelo.addColumn("ROL");
+
             ResultSet rs = conexion.getConexion().prepareStatement(SQL).executeQuery();
             String[] fila = new String[13];
             while (rs.next()) {
@@ -146,7 +161,6 @@ public class AdministrarEmpleado extends javax.swing.JFrame {
         txtContra.setText("");
         txtIDEmpleado.setText("");
         txtRepContrasena.setText("");
-
 
     }
 
@@ -668,7 +682,7 @@ public class AdministrarEmpleado extends javax.swing.JFrame {
         // ELIMINAR EMPLEADO
         DialogoEmergente dEmergente = new DialogoEmergente(this, true);
         Empleado empleado = new Empleado(Integer.parseInt(txtIDEmpleado.getText()));
-        
+
         if (new EmpleadoManager().eliminarEmpleado(empleado)) {
             llenarTabla();
             dEmergente.setTexto("El empleado se eliminó de\nforma correcta");
@@ -686,27 +700,27 @@ public class AdministrarEmpleado extends javax.swing.JFrame {
         aux[1] = txtRepContrasena.getText();
         int txtIdRol = String.valueOf(jComboBoxRol.getSelectedItem()).equals("Empleado") ? 2 : 1;
         Empleado empleado = new Empleado(Integer.parseInt(txtIDEmpleado.getText()), txtNombre.getText(), txtApPaterno.getText(), txtApMaterno.getText(), txtCalle.getText(), txtNoExt.getText(), txtColonia.getText(), txtCP.getText(), txtCURP.getText(), txtRFC.getText(), txtMunicipio.getText(), txtEstado.getText(), txtIdRol);
-          
-      DialogoEmergente a = new DialogoEmergente(this, rootPaneCheckingEnabled);
-      if (aux[0].isEmpty() || aux[1].isEmpty()){
-          a.setTexto("Error. Contraseña vacía");
-          
-      }else{
+
+        DialogoEmergente a = new DialogoEmergente(this, rootPaneCheckingEnabled);
+        if (aux[0].isEmpty() || aux[1].isEmpty()) {
+            a.setTexto("Error. Contraseña vacía");
+
+        } else {
             try {
-                Credencial credencial = new Credencial(encriptaContra(txtContra.getText()),Integer.parseInt(txtIDEmpleado.getText()));
-                if(compruebaContra(txtRepContrasena.getText(),txtContra.getText())){
+                Credencial credencial = new Credencial(encriptaContra(txtContra.getText()), Integer.parseInt(txtIDEmpleado.getText()));
+                if (compruebaContra(txtRepContrasena.getText(), txtContra.getText())) {
                     empleado.modificaCredenciales(credencial);
                     a.setTexto("Contraseña restaurada");
-                }else{
+                } else {
                     a.setTexto("Error. Las contraseñas no coinciden");
                 }
             } catch (NoSuchAlgorithmException ex) {
                 Logger.getLogger(AdministrarEmpleado.class.getName()).log(Level.SEVERE, null, ex);
             }
-      }
-      a.setVisible(true);
-      limpiarTxtFields();
-      
+        }
+        a.setVisible(true);
+        limpiarTxtFields();
+
     }//GEN-LAST:event_btnRestaurarContrasenaActionPerformed
 
     private void txtNombreKeyPressed(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_txtNombreKeyPressed
