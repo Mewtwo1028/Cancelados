@@ -18,8 +18,7 @@ public class VentaManager {
     /**
      * Realiza una venta e inserta los datos en la base de datos.
      *
-     * @param venta un objeto de tipo Venta que contiene los datos de la
-     * venta
+     * @param venta un objeto de tipo Venta que contiene los datos de la venta
      *
      * @return el ID de la venta recién creada, o -1 si se produce un error
      */
@@ -46,15 +45,15 @@ public class VentaManager {
         }
         return -1;
     }
-    
+
     /**
-     * Consulta todos las ventas almacenados en la base de datos y devuelve
-     * los resultados en un ArrayList de String[].
+     * Consulta todos las ventas almacenados en la base de datos y devuelve los
+     * resultados en un ArrayList de String[].
      *
      * @return ArrayList de String[] con los datos de todos las ventas.
      *
-     * @throws RuntimeException si ocurre un error al consultar las ventas en
-     * la base de datos.
+     * @throws RuntimeException si ocurre un error al consultar las ventas en la
+     * base de datos.
      */
     public ArrayList<String[]> consultarTodos() {
         String sql = "SELECT * FROM vistaVentas;";
@@ -70,7 +69,7 @@ public class VentaManager {
         }
         return resultado;
     }
-    
+
     /**
      * Actualiza el estado de una venta en la base de datos.
      *
@@ -87,10 +86,38 @@ public class VentaManager {
             cs.setString(1, venta.getEstado());
             cs.setInt(2, venta.getIdVenta());
 
-            return cs.executeUpdate() == 1;
+            if (cs.executeUpdate() == 1) {
+                devolverInventario(venta);
+                return true;
+            }
+            return false;
 
         } catch (SQLException ex) {
             throw new RuntimeException("Error al modificar el estado de la venta", ex);
+        }
+    }
+
+    private boolean devolverInventario(Venta venta) {
+        String consulta = "SELECT idProducto, cantidad FROM detalleVenta WHERE idVenta = ?;";
+        String modificar = "UPDATE producto SET stock = stock + ? WHERE idProducto = ?;";
+
+        try (PreparedStatement cs = conexion.getConexion().prepareStatement(consulta)) {
+
+            cs.setInt(1, venta.getIdVenta());
+            ResultSet cursor = cs.executeQuery();
+
+            while (cursor.next()) {
+                PreparedStatement up = conexion.getConexion().prepareStatement(modificar);
+                up.setInt(1, cursor.getInt("cantidad"));
+                System.out.println(cursor.getInt("cantidad"));
+                up.setInt(2, cursor.getInt("idProducto"));
+                System.out.println(cursor.getInt("idProducto"));
+                up.executeUpdate();
+            }
+            return true;
+
+        } catch (SQLException ex) {
+            return false;
         }
     }
 }
