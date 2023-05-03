@@ -37,6 +37,8 @@ public class RegistrarVenta extends javax.swing.JFrame {
         inicializar();
         initTabla();
     }
+    
+    
 
     private void inicializar() {
         FuncionesUtiles tool = new FuncionesUtiles();
