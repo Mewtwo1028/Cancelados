@@ -46,15 +46,6 @@ public class VentaManager {
         return -1;
     }
 
-    /**
-     * Consulta todos las ventas almacenados en la base de datos y devuelve los
-     * resultados en un ArrayList de String[].
-     *
-     * @return ArrayList de String[] con los datos de todos las ventas.
-     *
-     * @throws RuntimeException si ocurre un error al consultar las ventas en la
-     * base de datos.
-     */
     public ArrayList<String[]> consultarTodos() {
         String sql = "SELECT * FROM vistaVentas;";
         ArrayList<String[]> resultado = new ArrayList<>();

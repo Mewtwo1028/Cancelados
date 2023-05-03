@@ -9,7 +9,8 @@ import javax.swing.ImageIcon;
 import javax.swing.JButton;
 import javax.swing.JLabel;
 import javax.swing.SwingConstants;
-
+import java.time.LocalDate;
+import java.time.format.DateTimeFormatter;
 public class FuncionesUtiles {
 
     public FuncionesUtiles() {
@@ -145,4 +146,11 @@ public class FuncionesUtiles {
         
         return cad;
     }
+    
+    public String formatoFecha(){
+    LocalDate fechaActual = LocalDate.now();
+    DateTimeFormatter formato = DateTimeFormatter.ofPattern("yyyy-MM-dd");
+    String fechaFormateada = fechaActual.format(formato);
+    return fechaFormateada;
+}
 }

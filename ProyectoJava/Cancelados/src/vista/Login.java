@@ -15,6 +15,7 @@ import controlador.CredencialManager;
 import java.awt.Dimension;
 import static java.awt.Frame.MAXIMIZED_BOTH;
 import java.awt.Toolkit;
+import java.util.GregorianCalendar;
 
 /**
  *
@@ -23,10 +24,11 @@ import java.awt.Toolkit;
 //Hola bro esto es un cambio
 //Recibido
 public class Login extends javax.swing.JFrame {
-
+    GregorianCalendar a = new GregorianCalendar();
     public Login() {
         initComponents();
         inicializar();
+        System.out.print(a.getTime());
     }
 
     private String encriptaContra(String contrasena) throws NoSuchAlgorithmException {

@@ -1,6 +1,7 @@
 package vista;
 
 import controlador.ClienteManager;
+import controlador.CorteDeCaja;
 import controlador.VentaManager;
 import modelo.Cliente;
 import modelo.FuncionesUtiles;
@@ -185,6 +186,11 @@ public class AdministrarVentasPanel extends javax.swing.JFrame {
         jScrollPane1.setViewportView(tblVenta);
 
         jButton1.setText("REALIZAR CORTE DE CAJA");
+        jButton1.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jButton1ActionPerformed(evt);
+            }
+        });
 
         jButton2.setText("REALIZAR REPORTE DE VENTA");
 
@@ -376,6 +382,15 @@ public class AdministrarVentasPanel extends javax.swing.JFrame {
         //obtenerRenglonTabla();
 
     }//GEN-LAST:event_tblVentaMouseClicked
+
+    private void jButton1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton1ActionPerformed
+       ArrayList<String[]> resultado = new ArrayList<>();
+       CorteDeCaja cj = new CorteDeCaja();
+        System.out.println(cj.consultaDatos("2023-05-02"));
+       
+       
+       
+    }//GEN-LAST:event_jButton1ActionPerformed
 
     private void llenarTabla() {
         modelo.setRowCount(0); //Limpiamos la tabla
