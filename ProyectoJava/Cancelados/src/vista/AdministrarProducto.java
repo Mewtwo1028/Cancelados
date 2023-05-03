@@ -1,5 +1,6 @@
 package vista;
 
+import controlador.Conexion;
 import controlador.ProductoManager;
 import modelo.FuncionesUtiles;
 import modelo.Producto;
@@ -15,6 +16,7 @@ import javax.swing.filechooser.FileNameExtensionFilter;
 import javax.swing.table.DefaultTableModel;
 import javax.swing.*;
 import java.awt.Toolkit;
+import java.sql.ResultSet;
 
 public class AdministrarProducto extends javax.swing.JFrame {
 
@@ -236,6 +238,16 @@ public class AdministrarProducto extends javax.swing.JFrame {
         labelNombre.setText("Nombre");
 
         txtNombre.setText("jTextField1");
+        txtNombre.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                txtNombreActionPerformed(evt);
+            }
+        });
+        txtNombre.addKeyListener(new java.awt.event.KeyAdapter() {
+            public void keyPressed(java.awt.event.KeyEvent evt) {
+                txtNombreKeyPressed(evt);
+            }
+        });
 
         labelDescripcion.setText("Descripcion");
 
@@ -484,7 +496,7 @@ public class AdministrarProducto extends javax.swing.JFrame {
                     .addComponent(jPanelOperaciones, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                     .addComponent(jPanelInformacion, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addComponent(jPanelLinea, javax.swing.GroupLayout.DEFAULT_SIZE, 63, Short.MAX_VALUE)
+                .addComponent(jPanelLinea, javax.swing.GroupLayout.DEFAULT_SIZE, 65, Short.MAX_VALUE)
                 .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
         );
         jPanelPrincipalLayout.setVerticalGroup(
@@ -648,6 +660,17 @@ public class AdministrarProducto extends javax.swing.JFrame {
         obtenerRenglonTabla();
     }//GEN-LAST:event_tblProductoMouseClicked
 
+    private void txtNombreActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_txtNombreActionPerformed
+        // TODO add your handling code here:
+    }//GEN-LAST:event_txtNombreActionPerformed
+
+    private void txtNombreKeyPressed(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_txtNombreKeyPressed
+        // TODO add your handling code here:
+               String buscar = txtNombre.getText();
+        buscarproducto(buscar);
+
+    }//GEN-LAST:event_txtNombreKeyPressed
+
     private void obtenerRenglonTabla() {
         int fila = tblProducto.getSelectedRow();
 
@@ -679,6 +702,40 @@ public class AdministrarProducto extends javax.swing.JFrame {
 
     private boolean validarFormulario() {
         return txtNombre.getText().isBlank() | txtDescripcion.getText().isBlank() | txtPrecioUnitario.getText().isBlank() | btnImagen.getText().isBlank() | txtStock.getText().isBlank() | txtAutor.getText().isBlank();
+    }
+    
+    public void buscarproducto(String texto) {
+        try {
+
+            String[] titulos = {"IdProducto", "Nombre", "Descripcion", "precioUnitario", "Imagen", "Stock", "Autor"};
+            String filtro = "" + texto + "_%";
+
+            String SQL = "SELECT * FROM producto WHERE Nombre like" + '"' + filtro + '"';
+
+            System.out.print(SQL);
+
+            Conexion conexion = new Conexion();
+
+            modelo = new DefaultTableModel(null, titulos);
+            ResultSet rs = conexion.getConexion().prepareStatement(SQL).executeQuery();
+            String[] fila = new String[7];
+            while (rs.next()) {
+                fila[0] = rs.getString("IdProducto");
+                fila[1] = rs.getString("Nombre");
+                fila[2] = rs.getString("Descripcion");
+                fila[3] = rs.getString("precioUnitario");
+                fila[4] = rs.getString("Imagen");
+                fila[5] = rs.getString("Stock");
+                fila[6] = rs.getString("Autor");
+                
+                modelo.addRow(fila);
+
+            }
+            tblProducto.setModel(modelo);
+        } catch (Exception e) {
+            System.err.println("" + e.getMessage());
+        }
+
     }
 
     public static void main(String args[]) {

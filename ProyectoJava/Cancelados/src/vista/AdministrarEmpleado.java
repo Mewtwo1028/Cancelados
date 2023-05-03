@@ -13,6 +13,7 @@ import javax.swing.table.DefaultTableModel;
 import java.security.SecureRandom;
 import java.security.MessageDigest;
 import java.security.NoSuchAlgorithmException;
+import java.sql.ResultSet;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 
@@ -29,6 +30,45 @@ public class AdministrarEmpleado extends javax.swing.JFrame {
         initComponents();
         inicializar();
         initTabla();
+
+    }
+    
+    public void buscarempleado(String texto) {
+        try {
+
+            String[] titulos = {"IdEmpleado", "Nombre", "Apellido Paterno", "Apellido Materno", "Calle", "NoExt", "Colonia", "CP", "RFC", "Municipio","Estado","Roles_idRoles"};
+            String filtro = "" + texto + "_%";
+
+            String SQL = "SELECT * FROM empleado WHERE Nombre like" + '"' + filtro + '"';
+
+            System.out.print(SQL);
+
+            Conexion conexion = new Conexion();
+
+            modelo = new DefaultTableModel(null, titulos);
+            ResultSet rs = conexion.getConexion().prepareStatement(SQL).executeQuery();
+            String[] fila = new String[13];
+            while (rs.next()) {
+                fila[0] = rs.getString("IdEmpleado");
+                fila[1] = rs.getString("Nombre");
+                fila[2] = rs.getString("ApellidoPaterno");
+                fila[3] = rs.getString("ApellidoMaterno");
+                fila[4] = rs.getString("Calle");
+                fila[5] = rs.getString("NoExt");
+                fila[6] = rs.getString("Colonia");
+                fila[7] = rs.getString("CP");
+                fila[8] = rs.getString("CURP");
+                fila[9] = rs.getString("RFC");
+                fila[10] = rs.getString("Municipio");
+                fila[11] = rs.getString("Estado");
+                fila[12] = rs.getString("Roles_idRoles");
+                modelo.addRow(fila);
+
+            }
+            tblEmpleado.setModel(modelo);
+        } catch (Exception e) {
+            System.err.println("" + e.getMessage());
+        }
 
     }
 
@@ -221,6 +261,11 @@ public class AdministrarEmpleado extends javax.swing.JFrame {
         labelNombre.setText("Nombre");
 
         txtNombre.setText("jTextField1");
+        txtNombre.addKeyListener(new java.awt.event.KeyAdapter() {
+            public void keyPressed(java.awt.event.KeyEvent evt) {
+                txtNombreKeyPressed(evt);
+            }
+        });
 
         labelApPaterno.setText("Apellido Paterno");
 
@@ -461,7 +506,7 @@ public class AdministrarEmpleado extends javax.swing.JFrame {
                 .addComponent(btnEliminar, javax.swing.GroupLayout.PREFERRED_SIZE, 35, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addComponent(btnRestaurarContrasena, javax.swing.GroupLayout.PREFERRED_SIZE, 35, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addContainerGap(339, Short.MAX_VALUE))
+                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
         );
 
         javax.swing.GroupLayout jPanelOperacionesLayout = new javax.swing.GroupLayout(jPanelOperaciones);
@@ -663,6 +708,12 @@ public class AdministrarEmpleado extends javax.swing.JFrame {
       limpiarTxtFields();
       
     }//GEN-LAST:event_btnRestaurarContrasenaActionPerformed
+
+    private void txtNombreKeyPressed(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_txtNombreKeyPressed
+        // TODO add your handling code here:
+        String buscar = txtNombre.getText();
+        buscarempleado(buscar);
+    }//GEN-LAST:event_txtNombreKeyPressed
 
     private void llenarTabla() {
         modelo.setRowCount(0); //Limpiamos la tabla
