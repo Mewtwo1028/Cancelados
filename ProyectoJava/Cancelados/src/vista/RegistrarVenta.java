@@ -559,20 +559,16 @@ public class RegistrarVenta extends javax.swing.JFrame {
 
         DialogoEmergente dl = new DialogoEmergente(this, true);
 
-         if (dp.validaPago()){
              
                 
-        if (registrarVenta(venta, listaProductos)) {
+        if (registrarVenta(venta, listaProductos) && dp.validaPago()) {
             dl.setTexto("Venta registrada de\nforma correcta!");
-            dl.setVisible(true);
+           
         } else {
             dl.setTexto("¡ERROR! NO SE PUDO REGISTRAR LA VENTA");
-            dl.setVisible(true);
-        }
-        }else{
-              dl.setTexto("¡ERROR! NO SE PUDO REGISTRAR LA VENTA");
-              dl.setVisible(true);
-         }
+        } 
+        
+         dl.setVisible(true);
     }//GEN-LAST:event_btnRegistrarVentaActionPerformed
 
     private void cbNombreProductoItemStateChanged(java.awt.event.ItemEvent evt) {//GEN-FIRST:event_cbNombreProductoItemStateChanged
