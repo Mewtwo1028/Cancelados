@@ -551,8 +551,7 @@ public class RegistrarVenta extends javax.swing.JFrame {
         int idEmpleado = 1;
         double monto;
 
-        DetallePago dp = new DetallePago();
-        dp.setTotal(total);
+        DetallePago dp = new DetallePago(this,true,total);
         dp.setVisible(true);
         
                 
@@ -560,8 +559,9 @@ public class RegistrarVenta extends javax.swing.JFrame {
 
         DialogoEmergente dl = new DialogoEmergente(this, true);
 
-        
-        
+         if (dp.validaPago()){
+             
+                
         if (registrarVenta(venta, listaProductos)) {
             dl.setTexto("Venta registrada de\nforma correcta!");
             dl.setVisible(true);
@@ -569,6 +569,10 @@ public class RegistrarVenta extends javax.swing.JFrame {
             dl.setTexto("¡ERROR! NO SE PUDO REGISTRAR LA VENTA");
             dl.setVisible(true);
         }
+        }else{
+              dl.setTexto("¡ERROR! NO SE PUDO REGISTRAR LA VENTA");
+              dl.setVisible(true);
+         }
     }//GEN-LAST:event_btnRegistrarVentaActionPerformed
 
     private void cbNombreProductoItemStateChanged(java.awt.event.ItemEvent evt) {//GEN-FIRST:event_cbNombreProductoItemStateChanged
