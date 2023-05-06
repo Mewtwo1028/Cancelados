@@ -30,7 +30,7 @@ public class ProductoManager {
      * productos
      */
     public ArrayList<Producto> consultarProductos() {
-        String consulta = "SELECT idProducto, nombre, descripcion, precioUnitario, stock, autor  FROM producto;";
+        String consulta = "SELECT idProducto, nombre, descripcion, precioUnitario, stock, autor, categoria  FROM producto;";
         ArrayList<Producto> resultado = new ArrayList<>();
 
         try (ResultSet cursor = conexion.getConexion().prepareStatement(consulta).executeQuery()) {
@@ -44,6 +44,7 @@ public class ProductoManager {
                 producto.setPrecioUnitario(cursor.getFloat(4));
                 producto.setStock(cursor.getInt(5));
                 producto.setAutor(cursor.getString(6));
+                producto.setCategoria(cursor.getString(7));
 
                 resultado.add(producto);
             }
@@ -63,7 +64,7 @@ public class ProductoManager {
      * @throws RuntimeException si ocurre un error al modificar el producto.
      */
     public boolean modificarProductoConImagen(Producto producto) {
-        String consulta = "UPDATE producto SET nombre=?, descripcion=?, precioUnitario=?,imagen=?, autor=? WHERE idProducto=?;";
+        String consulta = "UPDATE producto SET nombre=?, descripcion=?, precioUnitario=?,imagen=?, autor=?, categoria=? WHERE idProducto=?;";
 
         try (PreparedStatement ps = conexion.getConexion().prepareStatement(consulta)) {
 
@@ -72,6 +73,7 @@ public class ProductoManager {
             ps.setFloat(3, producto.getPrecioUnitario());
             ps.setBlob(4, new FileInputStream(new File(producto.getImagen())));
             ps.setString(5, producto.getAutor());
+            ps.setString(6, producto.getCategoria());
             ps.setInt(7, producto.getIdProducto());
 
             return ps.executeUpdate() == 1;
@@ -91,7 +93,7 @@ public class ProductoManager {
      * @throws RuntimeException si ocurre un error al modificar el producto.
      */
     public boolean modificarProductoSinImagen(Producto producto) {
-        String consulta = "UPDATE producto SET nombre=?, descripcion=?, precioUnitario=?, autor=? WHERE idProducto=?;";
+        String consulta = "UPDATE producto SET nombre=?, descripcion=?, precioUnitario=?, autor=?, categoria=? WHERE idProducto=?;";
 
         try (PreparedStatement ps = conexion.getConexion().prepareStatement(consulta)) {
 
@@ -99,7 +101,8 @@ public class ProductoManager {
             ps.setString(2, producto.getDescripcion());
             ps.setFloat(3, producto.getPrecioUnitario());
             ps.setString(4, producto.getAutor());
-            ps.setInt(5, producto.getIdProducto());
+            ps.setString(5, producto.getCategoria());
+            ps.setInt(6, producto.getIdProducto());
 
             return ps.executeUpdate() == 1;
 
@@ -225,7 +228,7 @@ public class ProductoManager {
      * la base de datos.
      */
     public boolean insertarProducto(Producto producto) {
-        String consulta = "INSERT INTO producto (nombre,descripcion,PrecioUnitario,Imagen,stock,Autor) VALUES (?,?,?,?,?,?);";
+        String consulta = "INSERT INTO producto (nombre,descripcion,PrecioUnitario,Imagen,stock,Autor,Categoria) VALUES (?,?,?,?,?,?,?);";
 
         try (PreparedStatement ps = conexion.getConexion().prepareStatement(consulta);) {
             ps.setString(1, producto.getNombre());
@@ -234,6 +237,7 @@ public class ProductoManager {
             ps.setBlob(4, new FileInputStream(new File(producto.getImagen())));
             ps.setString(5, String.valueOf(producto.getStock()));
             ps.setString(6, producto.getAutor());
+            ps.setString(7, producto.getCategoria());
 
             return ps.executeUpdate() == 1;
 
@@ -255,6 +259,7 @@ public class ProductoManager {
      */
     public boolean eliminarProducto(Producto producto) {
         String operacion = "DELETE FROM producto WHERE idProducto=?;";
+        System.out.println("hola");
 
         try (PreparedStatement ps = conexion.getConexion().prepareStatement(operacion)) {
 

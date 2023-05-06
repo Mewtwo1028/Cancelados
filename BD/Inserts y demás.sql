@@ -136,3 +136,29 @@ INNER JOIN cliente c ON (v.idCliente = c.idCliente)
 );
 -- **************************************************
 
+-- ********************* 05/05/23 *********************
+ALTER TABLE producto ADD COLUMN categoria VARCHAR(20);
+
+ALTER TABLE cliente DROP COLUMN CURP;
+
+ALTER VIEW vistadetalleventa AS (
+SELECT dv.idDetalleVenta,
+dv.idVenta,
+p.nombre AS producto,
+v.fecha, dv.cantidad,
+dv.precioUnitario,
+dv.importe,
+CONCAT(c.nombre, " ", c.apellidoPaterno, " ", c.apellidoMaterno) AS cliente,
+c.calle,
+c.cp,
+c.colonia,
+c.ciudad,
+c.estado,
+CONCAT(e.nombre, " ", e.apellidoPaterno, " ", e.apellidoMaterno) AS empleado
+FROM detalleVenta dv
+INNER JOIN venta v ON (dv.idVenta = v.idVenta)
+INNER JOIN producto p ON (dv.idProducto = p.idProducto)
+INNER JOIN empleado e ON (v.idEmpleado = e.idEmpleado)
+INNER JOIN cliente c ON (v.idCliente = c.idCliente)
+);
+-- ****************************************************

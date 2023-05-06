@@ -29,7 +29,7 @@ public class ClienteManager {
 
         try (ResultSet cursor = conexion.getConexion().prepareStatement(sql).executeQuery()) {
             while (cursor.next()) {
-                String[] renglon = {cursor.getString(1), cursor.getString(2), cursor.getString(3), cursor.getString(4), cursor.getString(5), cursor.getString(6), cursor.getString(7), cursor.getString(8), cursor.getString(9), cursor.getString(10)};
+                String[] renglon = {cursor.getString(1), cursor.getString(2), cursor.getString(3), cursor.getString(4), cursor.getString(5), cursor.getString(6), cursor.getString(7), cursor.getString(8), cursor.getString(9)};
                 resultado.add(renglon);
             }
         } catch (SQLException ex) {
@@ -74,18 +74,17 @@ public class ClienteManager {
      * @throws RuntimeException si ocurre un error al insertar el cliente.
      */
     public boolean insertarCliente(Cliente cliente) {
-        String consulta = "INSERT INTO cliente VALUES (null, ?, ?, ?, ?, ?, ?, ?, ?, ?)";
+        String consulta = "INSERT INTO cliente VALUES (null, ?, ?, ?, ?, ?, ?, ?, ?)";
 
         try (PreparedStatement ps = conexion.getConexion().prepareStatement(consulta)) {
             ps.setString(1, cliente.getNombre());
             ps.setString(2, cliente.getaPaterno());
             ps.setString(3, cliente.getaMaterno());
-            ps.setString(4, cliente.getCurp());
-            ps.setString(5, cliente.getCalle());
-            ps.setString(6, cliente.getColonia());
-            ps.setString(7, cliente.getCiudad());
-            ps.setString(8, cliente.getEstado());
-            ps.setString(9, cliente.getCp());
+            ps.setString(4, cliente.getCalle());
+            ps.setString(5, cliente.getColonia());
+            ps.setString(6, cliente.getCiudad());
+            ps.setString(7, cliente.getEstado());
+            ps.setString(8, cliente.getCp());
 
             return ps.executeUpdate() == 1;
 
@@ -103,20 +102,19 @@ public class ClienteManager {
      * @throws RuntimeException Si ocurre un error al ejecutar la consulta SQL.
      */
     public boolean modificarCliente(Cliente cliente) {
-        String sql = "UPDATE cliente SET nombre=?, ApellidoPaterno=?, ApellidoMaterno=?, curp=?, calle=?, colonia=?, ciudad=?, estado=?, cp=? WHERE idCliente=?;";
+        String sql = "UPDATE cliente SET nombre=?, ApellidoPaterno=?, ApellidoMaterno=?, calle=?, colonia=?, ciudad=?, estado=?, cp=? WHERE idCliente=?;";
 
         try (PreparedStatement cs = conexion.getConexion().prepareStatement(sql)) {
 
             cs.setString(1, cliente.getNombre());
             cs.setString(2, cliente.getaPaterno());
             cs.setString(3, cliente.getaMaterno());
-            cs.setString(4, cliente.getCurp());
-            cs.setString(5, cliente.getCalle());
-            cs.setString(6, cliente.getColonia());
-            cs.setString(7, cliente.getCiudad());
-            cs.setString(8, cliente.getEstado());
-            cs.setString(9, cliente.getCp());
-            cs.setInt(10, cliente.getIdCliente());
+            cs.setString(4, cliente.getCalle());
+            cs.setString(5, cliente.getColonia());
+            cs.setString(6, cliente.getCiudad());
+            cs.setString(7, cliente.getEstado());
+            cs.setString(8, cliente.getCp());
+            cs.setInt(9, cliente.getIdCliente());
 
             return cs.executeUpdate() == 1;
 
