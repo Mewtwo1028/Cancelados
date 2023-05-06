@@ -6,7 +6,6 @@ public class Cliente {
     private String nombre;
     private String aPaterno;
     private String aMaterno;
-    private String curp;
     private String calle;
     private String colonia;
     private String ciudad;
@@ -21,12 +20,11 @@ public class Cliente {
         this.idCliente = idCliente;
     }
 
-    public Cliente(int idCliente, String nombre, String aPaterno, String aMaterno, String curp, String calle, String colonia, String ciudad, String estado, String cp) {
+    public Cliente(int idCliente, String nombre, String aPaterno, String aMaterno, String calle, String colonia, String ciudad, String estado, String cp) {
         this.idCliente = idCliente;
         this.nombre = nombre;
         this.aPaterno = aPaterno;
         this.aMaterno = aMaterno;
-        this.curp = curp;
         this.calle = calle;
         this.colonia = colonia;
         this.ciudad = ciudad;
@@ -34,11 +32,10 @@ public class Cliente {
         this.cp = cp;
     }
 
-    public Cliente(String nombre, String aPaterno, String aMaterno, String curp, String calle, String colonia, String ciudad, String estado, String cp) {
+    public Cliente(String nombre, String aPaterno, String aMaterno, String calle, String colonia, String ciudad, String estado, String cp) {
         this.nombre = nombre;
         this.aPaterno = aPaterno;
         this.aMaterno = aMaterno;
-        this.curp = curp;
         this.calle = calle;
         this.colonia = colonia;
         this.ciudad = ciudad;
@@ -76,14 +73,6 @@ public class Cliente {
 
     public void setaMaterno(String aMaterno) {
         this.aMaterno = aMaterno;
-    }
-
-    public String getCurp() {
-        return curp;
-    }
-
-    public void setCurp(String curp) {
-        this.curp = curp;
     }
 
     public String getCalle() {

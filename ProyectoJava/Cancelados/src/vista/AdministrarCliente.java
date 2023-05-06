@@ -26,11 +26,11 @@ public class AdministrarCliente extends javax.swing.JFrame {
         inicializar();
         initTabla();
     }
-    
+
     public void buscarcliente(String texto) {
         try {
 
-            String[] titulos = {"ID", "Nombre", "Apellido Paterno", "Apellido Materno", "CURP", "Calle", "Colonia", "Ciudad", "Estado", "CP"};
+            String[] titulos = {"ID", "Nombre", "Apellido Paterno", "Apellido Materno", "Calle", "Colonia", "Ciudad", "Estado", "CP"};
             String filtro = "" + texto + "_%";
 
             String SQL = "SELECT * FROM cliente WHERE Nombre like" + '"' + filtro + '"';
@@ -41,18 +41,17 @@ public class AdministrarCliente extends javax.swing.JFrame {
 
             modelo = new DefaultTableModel(null, titulos);
             ResultSet rs = conexion.getConexion().prepareStatement(SQL).executeQuery();
-            String[] fila = new String[10];
+            String[] fila = new String[9];
             while (rs.next()) {
                 fila[0] = rs.getString("IdCliente");
                 fila[1] = rs.getString("Nombre");
                 fila[2] = rs.getString("ApellidoPaterno");
                 fila[3] = rs.getString("ApellidoMaterno");
-                fila[4] = rs.getString("CURP");
-                fila[5] = rs.getString("Calle");
-                fila[6] = rs.getString("Colonia");
-                fila[7] = rs.getString("Ciudad");
-                fila[8] = rs.getString("Estado");
-                fila[9] = rs.getString("CP");
+                fila[4] = rs.getString("Calle");
+                fila[5] = rs.getString("Colonia");
+                fila[6] = rs.getString("Ciudad");
+                fila[7] = rs.getString("Estado");
+                fila[8] = rs.getString("CP");
                 modelo.addRow(fila);
 
             }
@@ -70,11 +69,11 @@ public class AdministrarCliente extends javax.swing.JFrame {
         this.getContentPane().setBackground(Color.WHITE);
         this.setExtendedState(JFrame.MAXIMIZED_BOTH);
         this.setTitle("Administrar Cliente");
-        this.setMinimumSize(new Dimension(1280,720));
+        this.setMinimumSize(new Dimension(1280, 720));
         double width = Toolkit.getDefaultToolkit().getScreenSize().width;
         double height = Toolkit.getDefaultToolkit().getScreenSize().height;
         //System.out.print((int)(1280*width/100)+","+height);
-        this.setSize((int)(width),(int) height);
+        this.setSize((int) (width), (int) height);
         this.setExtendedState(MAXIMIZED_BOTH);
         //Configurar panel principal
         jPanelPrincipal.setBackground(Color.WHITE);
@@ -118,7 +117,6 @@ public class AdministrarCliente extends javax.swing.JFrame {
         txtNombre.setText("");
         txtApPaterno.setText("");
         txtApMaterno.setText("");
-        txtCURP.setText("");
         txtCalle.setText("");
         txtColonia.setText("");
         txtCiudad.setText("");
@@ -132,7 +130,6 @@ public class AdministrarCliente extends javax.swing.JFrame {
         modelo.addColumn("Nombre");
         modelo.addColumn("Apellido Paterno");
         modelo.addColumn("Apellido Materno");
-        modelo.addColumn("CURP");
         modelo.addColumn("Calle");
         modelo.addColumn("Colonia");
         modelo.addColumn("Ciudad");
@@ -186,8 +183,6 @@ public class AdministrarCliente extends javax.swing.JFrame {
         txtApPaterno = new javax.swing.JTextField();
         labelApMaterno = new javax.swing.JLabel();
         txtApMaterno = new javax.swing.JTextField();
-        labelCURP = new javax.swing.JLabel();
-        txtCURP = new javax.swing.JTextField();
         labelColonia = new javax.swing.JLabel();
         txtColonia = new javax.swing.JTextField();
         labelCiudad = new javax.swing.JLabel();
@@ -276,10 +271,6 @@ public class AdministrarCliente extends javax.swing.JFrame {
 
         txtApMaterno.setText("jTextField3");
 
-        labelCURP.setText("CURP");
-
-        txtCURP.setText("jTextField4");
-
         labelColonia.setText("Colonia");
 
         txtColonia.setText("jTextField5");
@@ -310,34 +301,32 @@ public class AdministrarCliente extends javax.swing.JFrame {
             jPanelFormularioLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(jPanelFormularioLayout.createSequentialGroup()
                 .addContainerGap()
-                .addGroup(jPanelFormularioLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING, false)
-                    .addComponent(labelCalle, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                    .addComponent(labelCURP, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                    .addComponent(labelApPaterno, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                    .addComponent(labelNombre, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                    .addComponent(labelApMaterno, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                .addGroup(jPanelFormularioLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
+                    .addComponent(labelCP, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                    .addComponent(labelCalle, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                    .addComponent(labelApPaterno, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                    .addComponent(labelNombre, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                    .addComponent(labelApMaterno, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addGroup(jPanelFormularioLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
+                    .addComponent(txtCP)
                     .addComponent(txtNombre)
                     .addComponent(txtApMaterno)
                     .addComponent(txtApPaterno)
-                    .addComponent(txtCURP)
                     .addComponent(txtCalle, javax.swing.GroupLayout.DEFAULT_SIZE, 130, Short.MAX_VALUE))
                 .addGap(18, 18, 18)
                 .addGroup(jPanelFormularioLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
-                    .addComponent(labelColonia, javax.swing.GroupLayout.DEFAULT_SIZE, 92, Short.MAX_VALUE)
+                    .addComponent(labelColonia, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                     .addComponent(labelCiudad, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                     .addComponent(labelEstado, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                    .addComponent(labelCP, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                    .addComponent(labelIDCliente, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                    .addComponent(labelIDCliente, javax.swing.GroupLayout.PREFERRED_SIZE, 92, javax.swing.GroupLayout.PREFERRED_SIZE))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addGroup(jPanelFormularioLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
-                    .addComponent(txtColonia, javax.swing.GroupLayout.DEFAULT_SIZE, 130, Short.MAX_VALUE)
+                    .addComponent(txtColonia)
                     .addComponent(txtCiudad)
                     .addComponent(txtEstado)
-                    .addComponent(txtCP)
-                    .addComponent(txtIDCliente))
-                .addContainerGap(252, Short.MAX_VALUE))
+                    .addComponent(txtIDCliente, javax.swing.GroupLayout.PREFERRED_SIZE, 130, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addContainerGap(240, Short.MAX_VALUE))
         );
         jPanelFormularioLayout.setVerticalGroup(
             jPanelFormularioLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -361,17 +350,17 @@ public class AdministrarCliente extends javax.swing.JFrame {
                     .addComponent(labelEstado)
                     .addComponent(txtEstado, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
                 .addGap(18, 18, 18)
-                .addGroup(jPanelFormularioLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(labelCURP)
-                    .addComponent(txtCURP, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(labelCP)
-                    .addComponent(txtCP, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addGroup(jPanelFormularioLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addGroup(jPanelFormularioLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                        .addComponent(labelIDCliente)
+                        .addComponent(txtIDCliente, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                    .addGroup(jPanelFormularioLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                        .addComponent(labelCalle)
+                        .addComponent(txtCalle, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)))
                 .addGap(18, 18, 18)
                 .addGroup(jPanelFormularioLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(labelCalle)
-                    .addComponent(txtCalle, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(labelIDCliente)
-                    .addComponent(txtIDCliente, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                    .addComponent(labelCP)
+                    .addComponent(txtCP, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
                 .addContainerGap(9, Short.MAX_VALUE))
         );
 
@@ -509,14 +498,13 @@ public class AdministrarCliente extends javax.swing.JFrame {
         String nombre = txtNombre.getText();
         String aPaterno = txtApPaterno.getText();
         String aMaterno = txtApMaterno.getText();
-        String curp = txtCURP.getText();
         String calle = txtCalle.getText();
         String colonia = txtColonia.getText();
         String ciudad = txtCiudad.getText();
         String estado = txtEstado.getText();
         String cp = txtCP.getText();
 
-        Cliente cliente = new Cliente(nombre, aPaterno, aMaterno, curp, calle, colonia, ciudad, estado, cp);
+        Cliente cliente = new Cliente(nombre, aPaterno, aMaterno, calle, colonia, ciudad, estado, cp);
 
         if (validarFormulario()) {
             dEmergente.setTexto("ERROR HAY AL MENOS\nUN CAMPO SIN LLENAR");
@@ -542,14 +530,13 @@ public class AdministrarCliente extends javax.swing.JFrame {
         String nombre = txtNombre.getText();
         String apPaterno = txtApPaterno.getText();
         String apMaterno = txtApMaterno.getText();
-        String curp = txtCURP.getText();
         String calle = txtCalle.getText();
         String colonia = txtColonia.getText();
         String ciudad = txtCiudad.getText();
         String estado = txtEstado.getText();
         String cp = txtCP.getText();
 
-        Cliente cliente = new Cliente(idCliente, nombre, apPaterno, apMaterno, curp, calle, colonia, ciudad, estado, cp);
+        Cliente cliente = new Cliente(idCliente, nombre, apPaterno, apMaterno, calle, colonia, ciudad, estado, cp);
 
         if (new ClienteManager().modificarCliente(cliente)) {
             llenarTabla();
@@ -602,12 +589,11 @@ public class AdministrarCliente extends javax.swing.JFrame {
             txtNombre.setText(tblCliente.getValueAt(fila, 1).toString());
             txtApPaterno.setText(tblCliente.getValueAt(fila, 2).toString());
             txtApMaterno.setText(tblCliente.getValueAt(fila, 3).toString());
-            txtCURP.setText(tblCliente.getValueAt(fila, 4).toString());
-            txtCalle.setText(tblCliente.getValueAt(fila, 5).toString());
-            txtColonia.setText(tblCliente.getValueAt(fila, 6).toString());
-            txtCiudad.setText(tblCliente.getValueAt(fila, 7).toString());
-            txtEstado.setText(tblCliente.getValueAt(fila, 8).toString());
-            txtCP.setText(tblCliente.getValueAt(fila, 9).toString());
+            txtCalle.setText(tblCliente.getValueAt(fila, 4).toString());
+            txtColonia.setText(tblCliente.getValueAt(fila, 5).toString());
+            txtCiudad.setText(tblCliente.getValueAt(fila, 6).toString());
+            txtEstado.setText(tblCliente.getValueAt(fila, 7).toString());
+            txtCP.setText(tblCliente.getValueAt(fila, 8).toString());
         }
     }
 
@@ -620,7 +606,7 @@ public class AdministrarCliente extends javax.swing.JFrame {
     }
 
     private boolean validarFormulario() {
-        return txtNombre.getText().isBlank() | txtApPaterno.getText().isBlank() | txtApMaterno.getText().isBlank() | txtCURP.getText().isBlank() | txtCalle.getText().isBlank() | txtColonia.getText().isBlank() | txtCiudad.getText().isBlank() | txtEstado.getText().isBlank() | txtCP.getText().isBlank();
+        return txtNombre.getText().isBlank() | txtApPaterno.getText().isBlank() | txtApMaterno.getText().isBlank() | txtCalle.getText().isBlank() | txtColonia.getText().isBlank() | txtCiudad.getText().isBlank() | txtEstado.getText().isBlank() | txtCP.getText().isBlank();
     }
 
     public static void main(String args[]) {
@@ -672,7 +658,6 @@ public class AdministrarCliente extends javax.swing.JFrame {
     private javax.swing.JLabel labelApMaterno;
     private javax.swing.JLabel labelApPaterno;
     private javax.swing.JLabel labelCP;
-    private javax.swing.JLabel labelCURP;
     private javax.swing.JLabel labelCalle;
     private javax.swing.JLabel labelCiudad;
     private javax.swing.JLabel labelColonia;
@@ -683,7 +668,6 @@ public class AdministrarCliente extends javax.swing.JFrame {
     private javax.swing.JTextField txtApMaterno;
     private javax.swing.JTextField txtApPaterno;
     private javax.swing.JTextField txtCP;
-    private javax.swing.JTextField txtCURP;
     private javax.swing.JTextField txtCalle;
     private javax.swing.JTextField txtCiudad;
     private javax.swing.JTextField txtColonia;
