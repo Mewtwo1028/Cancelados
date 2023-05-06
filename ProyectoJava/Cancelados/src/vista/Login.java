@@ -1,6 +1,5 @@
 package vista;
 
-import controlador.Conexion;
 import modelo.FuncionesUtiles;
 import java.awt.Color;
 import java.awt.Cursor;
@@ -10,21 +9,16 @@ import java.security.MessageDigest;
 import java.security.NoSuchAlgorithmException;
 import java.util.logging.Level;
 import java.util.logging.Logger;
-import javax.swing.JFrame;
 import controlador.CredencialManager;
 import java.awt.Dimension;
 import static java.awt.Frame.MAXIMIZED_BOTH;
-import java.awt.Toolkit;
 import java.util.GregorianCalendar;
+import javax.swing.JOptionPane;
 
-/**
- *
- * @author osmar
- */
-//Hola bro esto es un cambio
-//Recibido
 public class Login extends javax.swing.JFrame {
+
     GregorianCalendar a = new GregorianCalendar();
+
     public Login() {
         initComponents();
         inicializar();
@@ -63,10 +57,8 @@ public class Login extends javax.swing.JFrame {
         //int height = (int) jPanelPrincipal.getHeight();
         //int width = (int) jPanelPrincipal.getWidth() / 2;
         //jLabelLogoDegradado.setBounds(0, 0, width, height);
-
         //Configurar bolitas
         //jLabelBolitas.setBounds((int) jPanelPrincipal.getBounds().getMaxX() - 248, (int) jPanelPrincipal.getBounds().getMaxY() - 231, 248, 231);
-
         int height = (int) this.getBounds().getHeight();
         int width = (int) this.getBounds().getWidth();
         int maxX = (int) this.getBounds().getMaxX();
@@ -84,11 +76,10 @@ public class Login extends javax.swing.JFrame {
         //Imagenes
         new FuncionesUtiles().colocarImagen("/Imagenes/LogoLetrasDegradado.png", jLabelLogoDegradado);
         new FuncionesUtiles().colocarImagen("/Imagenes/bolitas.png", jLabelBolitas);
-        
+
         //Imagenes
         //funcionesUtiles.colocarImagen("/Imagenes/LogoLetrasDegradado.png", jLabelLogoDegradado);
         //funcionesUtiles.colocarImagen("/Imagenes/bolitas.png", jLabelBolitas);
-
         //Boton olvidar contraseña
         funcionesUtiles.confBtn(btnForgottenPassword);
 
@@ -239,9 +230,16 @@ public class Login extends javax.swing.JFrame {
     }//GEN-LAST:event_btnForgottenPasswordMouseEntered
 
     private void btnForgottenPasswordActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnForgottenPasswordActionPerformed
+
+        String nombre = JOptionPane.showInputDialog(this, "Ingresa tu primer nombre", DISPOSE_ON_CLOSE);
+
+        notificarAdmon(nombre);
+
+        /*
         DialogoEmergente t = new DialogoEmergente(this, rootPaneCheckingEnabled);
         t.setTexto("Por favor, solicite a un \nadministrador que le \nrestaure la contraseña");
         t.setVisible(true);
+         */
 
     }//GEN-LAST:event_btnForgottenPasswordActionPerformed
 
@@ -256,7 +254,7 @@ public class Login extends javax.swing.JFrame {
         jPanelPrincipal.setBackground(Color.WHITE);
 
         //Configurar logo
-        jLabelLogoDegradado.setBounds(0, 0, (int) width / 2, height-43);
+        jLabelLogoDegradado.setBounds(0, 0, (int) width / 2, height - 43);
 
         //Configurar bolitas
         jLabelBolitas.setBounds(maxX - 248, maxY - 231, 248, 231);
@@ -312,6 +310,16 @@ public class Login extends javax.swing.JFrame {
         }
     }
 
+    private void notificarAdmon(String nombre) {
+
+        if (new CredencialManager().notificarContra(nombre)) {
+            JOptionPane.showMessageDialog(this, "Se notifico al administrador");
+        } else {
+            JOptionPane.showMessageDialog(this, "ERROR!, EL EMPLEADO NO EXISTE");
+        }
+
+    }
+
     public static void main(String args[]) {
         /* Set the Nimbus look and feel */
         //<editor-fold defaultstate="collapsed" desc=" Look and feel setting code (optional) ">
@@ -337,10 +345,8 @@ public class Login extends javax.swing.JFrame {
         //</editor-fold>
 
         /* Create and display the form */
-        java.awt.EventQueue.invokeLater(new Runnable() {
-            public void run() {
-                new Login().setVisible(true);
-            }
+        java.awt.EventQueue.invokeLater(() -> {
+            new Login().setVisible(true);
         });
     }
 

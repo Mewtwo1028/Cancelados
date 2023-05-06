@@ -161,4 +161,18 @@ INNER JOIN producto p ON (dv.idProducto = p.idProducto)
 INNER JOIN empleado e ON (v.idEmpleado = e.idEmpleado)
 INNER JOIN cliente c ON (v.idCliente = c.idCliente)
 );
+
+CREATE TABLE notificacion(
+idNotificacion INT NOT NULL AUTO_INCREMENT,
+idEmpleado INT NOT NULL,
+CONSTRAINT pk_notificacion PRIMARY KEY (idNotificacion),
+CONSTRAINT fk_notificacion_empleado FOREIGN KEY (idEmpleado) REFERENCES empleado(idEmpleado)
+);
+
+CREATE VIEW vista_not_emp AS (
+SELECT n.idNotificacion, e.Nombre, e.ApellidoPaterno, e.ApellidoMaterno, r.Nombre AS Rol FROM notificacion n
+INNER JOIN empleado e ON (n.idEmpleado = e.idEmpleado)
+INNER JOIN roles r ON (e.Roles_idRoles = r.idRoles)
+);
+
 -- ****************************************************

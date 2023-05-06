@@ -92,6 +92,11 @@ public class AccionesRapidasAdministrador extends javax.swing.JPanel {
         btnReportes.setText("REPORTES");
 
         btnNotificaciones.setText("NOTIFICACIONES");
+        btnNotificaciones.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseClicked(java.awt.event.MouseEvent evt) {
+                btnNotificacionesMouseClicked(evt);
+            }
+        });
 
         btnPagos.setText("PAGOS");
 
@@ -186,6 +191,12 @@ public class AccionesRapidasAdministrador extends javax.swing.JPanel {
     private void btnMenuMouseEntered(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_btnMenuMouseEntered
         btnMenu.setCursor(Cursor.getPredefinedCursor(Cursor.HAND_CURSOR));
     }//GEN-LAST:event_btnMenuMouseEntered
+
+    private void btnNotificacionesMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_btnNotificacionesMouseClicked
+        // TODO add your handling code here:
+        DialogoNotificacion not = new DialogoNotificacion(actual, true);
+        not.setVisible(true);
+    }//GEN-LAST:event_btnNotificacionesMouseClicked
 
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
