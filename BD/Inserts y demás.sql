@@ -183,9 +183,3 @@ ALTER TABLE notificacion MODIFY COLUMN fecha TIMESTAMP DEFAULT CURRENT_TIMESTAMP
 ALTER TABLE empleado ADD COLUMN restContra BOOLEAN;
 
 -- ****************************************************
-
--- ********************* 07/05/23 *********************
-SELECT * FROM notificacion;
-UPDATE empleado SET restContra = false WHERE idEmpleado>=1;
-
--- ****************************************************
