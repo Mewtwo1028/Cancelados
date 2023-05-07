@@ -170,9 +170,16 @@ CONSTRAINT fk_notificacion_empleado FOREIGN KEY (idEmpleado) REFERENCES empleado
 );
 
 CREATE VIEW vista_not_emp AS (
-SELECT n.idNotificacion, e.Nombre, e.ApellidoPaterno, e.ApellidoMaterno, r.Nombre AS Rol FROM notificacion n
+SELECT n.idNotificacion, e.idEmpleado AS idEmpleado, e.Nombre, e.ApellidoPaterno, e.ApellidoMaterno, r.Nombre AS Rol, n.fecha FROM notificacion n
 INNER JOIN empleado e ON (n.idEmpleado = e.idEmpleado)
 INNER JOIN roles r ON (e.Roles_idRoles = r.idRoles)
 );
+
+-- ****************************************************
+
+-- ********************* 06/05/23 *********************
+ALTER TABLE notificacion ADD COLUMN fecha DATETIME;
+ALTER TABLE notificacion MODIFY COLUMN fecha TIMESTAMP DEFAULT CURRENT_TIMESTAMP;
+ALTER TABLE empleado ADD COLUMN restContra BOOLEAN;
 
 -- ****************************************************

@@ -58,7 +58,7 @@ public class CredencialManager {
             return false;
         }
 
-        String SQL = "INSERT INTO notificacion VALUES (null, ?)";
+        String SQL = "INSERT INTO notificacion (idEmpleado) VALUES (?);";
 
         try (PreparedStatement ps = conexion.getConexion().prepareStatement(SQL)) {
 
@@ -80,6 +80,44 @@ public class CredencialManager {
      */
     private int existeEmpleado(String nombreEmpleado) {
         String SQL_verificar = "Select idEmpleado from empleado where nombre=?;";
+
+        try (PreparedStatement ps = conexion.getConexion().prepareStatement(SQL_verificar)) {
+
+            ps.setString(1, nombreEmpleado);
+
+            ResultSet cursor = ps.executeQuery();
+
+            if (cursor.next()) {
+                return cursor.getInt(1);
+            }
+
+        } catch (SQLException ex) {
+            System.out.println(ex);
+        }
+        return -1;
+    }
+
+    public boolean isRestContra(String nombre) {
+        String SQL = "SELECT restContra FROM empleado WHERE nombre=?";
+
+        try (PreparedStatement ps = conexion.getConexion().prepareStatement(SQL)) {
+
+            ps.setString(1, nombre);
+
+            ResultSet cursor = ps.executeQuery();
+
+            if (cursor.next()) {
+                return cursor.getBoolean(1);
+            }
+
+        } catch (SQLException ex) {
+            System.out.println(ex);
+        }
+        return false;
+    }
+
+    public int getidEmpleado(String nombreEmpleado) {
+        String SQL_verificar = "Select idEmpleado from empleado where nombre=? ORDER BY idEmpleado ASC;";
 
         try (PreparedStatement ps = conexion.getConexion().prepareStatement(SQL_verificar)) {
 

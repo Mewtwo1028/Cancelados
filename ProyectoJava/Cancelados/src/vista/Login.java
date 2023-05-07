@@ -270,10 +270,27 @@ public class Login extends javax.swing.JFrame {
 
     }//GEN-LAST:event_formComponentResized
 
+    private boolean isRestContra(String nombre){
+        return new CredencialManager().isRestContra(nombre);
+    }
+    
+    private void formularioRestContra(String nombre){
+        int idEmpleado = new CredencialManager().getidEmpleado(nombre);
+        DialogoFomularioR form = new DialogoFomularioR(this, true, idEmpleado);
+        
+        form.setVisible(true);
+        
+    }
+    
     private void iniciarSesion() {
         String username = txtUsername.getText().trim();
         String password = txtPassword.getText().trim();
         String pass = null;
+        
+        if (isRestContra(username)) {
+            formularioRestContra(username);
+            return;
+        }
 
         if (username.isEmpty() || password.isEmpty()) {
             DialogoEmergente dEmergente = new DialogoEmergente(this, true);

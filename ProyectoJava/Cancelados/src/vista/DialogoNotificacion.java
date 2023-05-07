@@ -2,8 +2,11 @@ package vista;
 
 import controlador.NotificacionManager;
 import java.awt.Color;
+import java.awt.Dimension;
 import java.util.ArrayList;
+import javax.swing.JOptionPane;
 import javax.swing.table.DefaultTableModel;
+import modelo.FuncionesUtiles;
 
 public class DialogoNotificacion extends javax.swing.JDialog {
 
@@ -23,13 +26,30 @@ public class DialogoNotificacion extends javax.swing.JDialog {
     private void init() {
         this.setLocationRelativeTo(null);
         this.setTitle("Centro de notificaciones");
+        this.setMinimumSize(new Dimension(600, 400));
+        this.setResizable(false);
 
         initFondo(Color.WHITE);
+
+        initPanel2();
 
         initTabla();
 
         llenarTabla();
 
+        initBoton();
+
+    }
+
+    private void initBoton() {
+        FuncionesUtiles tool = new FuncionesUtiles();
+        tool.confBtnColor(jButton1);
+        jButton1.setBounds(6, 6, 182, 41);
+    }
+
+    private void initPanel2() {
+        jPanel2.setBounds(700, 6, 194, 388);
+        jPanel2.setBackground(Color.WHITE);
     }
 
     private void initFondo(Color color) {
@@ -39,16 +59,31 @@ public class DialogoNotificacion extends javax.swing.JDialog {
     }
 
     private void initTabla() {
-        modelo.addColumn("No. Notificacion");
+        modelo.addColumn("No.");
+        modelo.addColumn("ID");
         modelo.addColumn("Nombre");
         modelo.addColumn("Apellido Paterno");
         modelo.addColumn("Apellido Materno");
         modelo.addColumn("Rol");
+        modelo.addColumn("Fecha Notificacion");
 
         jTable2.setModel(modelo);
+        jTable2.getColumnModel().getColumn(0).setMaxWidth(50);
+        jTable2.getColumnModel().getColumn(0).setMinWidth(50);
+        
+        jTable2.getColumnModel().getColumn(1).setMaxWidth(50);
+        jTable2.getColumnModel().getColumn(1).setMinWidth(50);
+        
+        jTable2.getColumnModel().getColumn(6).setMinWidth(130);
+        jTable2.getColumnModel().getColumn(6).setMaxWidth(130);
+
+        jPanel1.setBounds(0, 0, 688, 388);
+        jPanel1.setMaximumSize(new Dimension(688, 388));
+        //194 188
+
     }
-    
-    private void llenarTabla(){
+
+    private void llenarTabla() {
         modelo.setRowCount(0);
         ArrayList<String[]> lista = new NotificacionManager().consultarTodos();
         for (int i = 0; i < lista.size(); i++) {
@@ -68,10 +103,11 @@ public class DialogoNotificacion extends javax.swing.JDialog {
         jPanel1 = new javax.swing.JPanel();
         jScrollPane2 = new javax.swing.JScrollPane();
         jTable2 = new javax.swing.JTable();
+        jPanel2 = new javax.swing.JPanel();
+        jButton1 = new javax.swing.JButton();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.DISPOSE_ON_CLOSE);
         setMinimumSize(new java.awt.Dimension(700, 400));
-        setPreferredSize(new java.awt.Dimension(700, 400));
 
         jTable2.setModel(new javax.swing.table.DefaultTableModel(
             new Object [][] {
@@ -103,26 +139,77 @@ public class DialogoNotificacion extends javax.swing.JDialog {
                 .addContainerGap())
         );
 
+        jButton1.setText("Restaurar Contraseña");
+        jButton1.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseClicked(java.awt.event.MouseEvent evt) {
+                jButton1MouseClicked(evt);
+            }
+        });
+
+        javax.swing.GroupLayout jPanel2Layout = new javax.swing.GroupLayout(jPanel2);
+        jPanel2.setLayout(jPanel2Layout);
+        jPanel2Layout.setHorizontalGroup(
+            jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(jPanel2Layout.createSequentialGroup()
+                .addContainerGap()
+                .addComponent(jButton1, javax.swing.GroupLayout.DEFAULT_SIZE, 182, Short.MAX_VALUE)
+                .addContainerGap())
+        );
+        jPanel2Layout.setVerticalGroup(
+            jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(jPanel2Layout.createSequentialGroup()
+                .addContainerGap()
+                .addComponent(jButton1, javax.swing.GroupLayout.PREFERRED_SIZE, 41, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+        );
+
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
         getContentPane().setLayout(layout);
         layout.setHorizontalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(layout.createSequentialGroup()
                 .addContainerGap()
-                .addComponent(jPanel1, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                .addComponent(jPanel1, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addComponent(jPanel2, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                 .addContainerGap())
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(layout.createSequentialGroup()
                 .addContainerGap()
-                .addComponent(jPanel1, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                .addContainerGap())
+                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
+                    .addComponent(jPanel1, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                    .addComponent(jPanel2, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
         );
 
         pack();
     }// </editor-fold>//GEN-END:initComponents
 
+    private void jButton1MouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_jButton1MouseClicked
+        
+        int renglon = jTable2.getSelectedRow();
+
+        if (renglon == -1) {
+            JOptionPane.showMessageDialog(this, "Debe de seleccionar un renglon", "ERRO!", JOptionPane.WARNING_MESSAGE);
+            return;
+        }
+
+        int idEmpleado = Integer.parseInt(jTable2.getValueAt(renglon, 1).toString());
+        
+        if(restContra(idEmpleado)){
+            JOptionPane.showMessageDialog(this, "Todo correcto");
+        }else{
+            JOptionPane.showMessageDialog(this, "ERROR");
+        }
+
+    }//GEN-LAST:event_jButton1MouseClicked
+
+    private boolean restContra(int idEmpleado){
+        return new NotificacionManager().restaurarContrasena(idEmpleado);
+    }
+    
     /**
      * @param args the command line arguments
      */
@@ -166,7 +253,9 @@ public class DialogoNotificacion extends javax.swing.JDialog {
     }
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
+    private javax.swing.JButton jButton1;
     private javax.swing.JPanel jPanel1;
+    private javax.swing.JPanel jPanel2;
     private javax.swing.JScrollPane jScrollPane2;
     private javax.swing.JTable jTable2;
     // End of variables declaration//GEN-END:variables
