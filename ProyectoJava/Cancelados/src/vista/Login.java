@@ -12,6 +12,7 @@ import java.util.logging.Logger;
 import controlador.CredencialManager;
 import java.awt.Dimension;
 import static java.awt.Frame.MAXIMIZED_BOTH;
+import java.util.Arrays;
 import java.util.GregorianCalendar;
 import javax.swing.JOptionPane;
 
@@ -22,7 +23,7 @@ public class Login extends javax.swing.JFrame {
     public Login() {
         initComponents();
         inicializar();
-        System.out.print(a.getTime());
+        //System.out.print(a.getTime());
     }
 
     private String encriptaContra(String contrasena) throws NoSuchAlgorithmException {
@@ -284,7 +285,7 @@ public class Login extends javax.swing.JFrame {
     
     private void iniciarSesion() {
         String username = txtUsername.getText().trim();
-        String password = txtPassword.getText().trim();
+        String password = new String(txtPassword.getPassword());
         String pass = null;
         
         if (isRestContra(username)) {
@@ -300,7 +301,7 @@ public class Login extends javax.swing.JFrame {
         }
 
         try {
-            pass = encriptaContra(txtPassword.getText());
+            pass = encriptaContra(password);
         } catch (NoSuchAlgorithmException ex) {
             Logger.getLogger(Login.class.getName()).log(Level.SEVERE, null, ex);
             System.out.println("¡Error! No se pudo encriptar la contraseña");

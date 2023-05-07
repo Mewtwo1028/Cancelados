@@ -45,6 +45,9 @@ public class DialogoNotificacion extends javax.swing.JDialog {
         FuncionesUtiles tool = new FuncionesUtiles();
         tool.confBtnColor(jButton1);
         jButton1.setBounds(6, 6, 182, 41);
+        
+        tool.confBtnColor(jButton2);
+        tool.confBtnColor(jButton3);
     }
 
     private void initPanel2() {
@@ -70,10 +73,10 @@ public class DialogoNotificacion extends javax.swing.JDialog {
         jTable2.setModel(modelo);
         jTable2.getColumnModel().getColumn(0).setMaxWidth(50);
         jTable2.getColumnModel().getColumn(0).setMinWidth(50);
-        
+
         jTable2.getColumnModel().getColumn(1).setMaxWidth(50);
         jTable2.getColumnModel().getColumn(1).setMinWidth(50);
-        
+
         jTable2.getColumnModel().getColumn(6).setMinWidth(130);
         jTable2.getColumnModel().getColumn(6).setMaxWidth(130);
 
@@ -105,6 +108,8 @@ public class DialogoNotificacion extends javax.swing.JDialog {
         jTable2 = new javax.swing.JTable();
         jPanel2 = new javax.swing.JPanel();
         jButton1 = new javax.swing.JButton();
+        jButton2 = new javax.swing.JButton();
+        jButton3 = new javax.swing.JButton();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.DISPOSE_ON_CLOSE);
         setMinimumSize(new java.awt.Dimension(700, 400));
@@ -146,20 +151,41 @@ public class DialogoNotificacion extends javax.swing.JDialog {
             }
         });
 
+        jButton2.setText("Borrar Notificacion");
+        jButton2.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseClicked(java.awt.event.MouseEvent evt) {
+                jButton2MouseClicked(evt);
+            }
+        });
+
+        jButton3.setText("Consultar");
+        jButton3.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseClicked(java.awt.event.MouseEvent evt) {
+                jButton3MouseClicked(evt);
+            }
+        });
+
         javax.swing.GroupLayout jPanel2Layout = new javax.swing.GroupLayout(jPanel2);
         jPanel2.setLayout(jPanel2Layout);
         jPanel2Layout.setHorizontalGroup(
             jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(jPanel2Layout.createSequentialGroup()
                 .addContainerGap()
-                .addComponent(jButton1, javax.swing.GroupLayout.DEFAULT_SIZE, 182, Short.MAX_VALUE)
+                .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addComponent(jButton1, javax.swing.GroupLayout.DEFAULT_SIZE, 182, Short.MAX_VALUE)
+                    .addComponent(jButton2, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                    .addComponent(jButton3, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
                 .addContainerGap())
         );
         jPanel2Layout.setVerticalGroup(
             jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(jPanel2Layout.createSequentialGroup()
                 .addContainerGap()
+                .addComponent(jButton3, javax.swing.GroupLayout.PREFERRED_SIZE, 41, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addGap(18, 18, 18)
                 .addComponent(jButton1, javax.swing.GroupLayout.PREFERRED_SIZE, 41, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addGap(18, 18, 18)
+                .addComponent(jButton2, javax.swing.GroupLayout.PREFERRED_SIZE, 41, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
         );
 
@@ -188,28 +214,59 @@ public class DialogoNotificacion extends javax.swing.JDialog {
     }// </editor-fold>//GEN-END:initComponents
 
     private void jButton1MouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_jButton1MouseClicked
-        
+
         int renglon = jTable2.getSelectedRow();
 
         if (renglon == -1) {
-            JOptionPane.showMessageDialog(this, "Debe de seleccionar un renglon", "ERRO!", JOptionPane.WARNING_MESSAGE);
+            JOptionPane.showMessageDialog(this, "Debe de seleccionar un renglon", "ERROR!", JOptionPane.WARNING_MESSAGE);
             return;
         }
 
         int idEmpleado = Integer.parseInt(jTable2.getValueAt(renglon, 1).toString());
-        
-        if(restContra(idEmpleado)){
+
+        if (restContra(idEmpleado) && new NotificacionManager().eliminarNotEmpleado(idEmpleado)) {
             JOptionPane.showMessageDialog(this, "Todo correcto");
-        }else{
+        } else {
             JOptionPane.showMessageDialog(this, "ERROR");
         }
 
+        llenarTabla();
+
     }//GEN-LAST:event_jButton1MouseClicked
 
-    private boolean restContra(int idEmpleado){
+    private void jButton3MouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_jButton3MouseClicked
+        // TODO add your handling code here:
+        llenarTabla();
+    }//GEN-LAST:event_jButton3MouseClicked
+
+    private void jButton2MouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_jButton2MouseClicked
+        // TODO add your handling code here:
+        int renglon = jTable2.getSelectedRow();
+
+        if (renglon == -1) {
+            JOptionPane.showMessageDialog(this, "Debe de seleccionar un renglon", "ERROR!", JOptionPane.WARNING_MESSAGE);
+            return;
+        }
+
+        int idNotificacion = Integer.parseInt(jTable2.getValueAt(renglon, 0).toString());
+
+        if (eliminarNotificacion(idNotificacion)) {
+            JOptionPane.showMessageDialog(this, "Todo correcto");
+        } else {
+            JOptionPane.showMessageDialog(this, "ERROR");
+        }
+
+        llenarTabla();
+    }//GEN-LAST:event_jButton2MouseClicked
+
+    private boolean restContra(int idEmpleado) {
         return new NotificacionManager().restaurarContrasena(idEmpleado);
     }
-    
+
+    private boolean eliminarNotificacion(int idNotificacion) {
+        return new NotificacionManager().eliminarNotificacion(idNotificacion);
+    }
+
     /**
      * @param args the command line arguments
      */
@@ -254,6 +311,8 @@ public class DialogoNotificacion extends javax.swing.JDialog {
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JButton jButton1;
+    private javax.swing.JButton jButton2;
+    private javax.swing.JButton jButton3;
     private javax.swing.JPanel jPanel1;
     private javax.swing.JPanel jPanel2;
     private javax.swing.JScrollPane jScrollPane2;

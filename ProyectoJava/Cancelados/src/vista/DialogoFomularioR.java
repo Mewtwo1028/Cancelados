@@ -3,12 +3,15 @@ package vista;
 import controlador.CredencialManager;
 import controlador.EmpleadoManager;
 import controlador.NotificacionManager;
+import java.awt.Color;
 import java.math.BigInteger;
 import java.security.MessageDigest;
 import java.security.NoSuchAlgorithmException;
+import java.util.Arrays;
 import javax.swing.JOptionPane;
 import modelo.Credencial;
 import modelo.Empleado;
+import modelo.FuncionesUtiles;
 
 public class DialogoFomularioR extends javax.swing.JDialog {
 
@@ -27,6 +30,13 @@ public class DialogoFomularioR extends javax.swing.JDialog {
         this.setLocationRelativeTo(null);
         this.setTitle("Formulario Restaurar Contraseña");
         this.setResizable(false);
+        
+        this.getContentPane().setBackground(Color.WHITE);
+        
+        FuncionesUtiles fun = new FuncionesUtiles();
+        
+        fun.confBtnColor(jButton1);
+        
     }
 
     /**
@@ -38,22 +48,18 @@ public class DialogoFomularioR extends javax.swing.JDialog {
     // <editor-fold defaultstate="collapsed" desc="Generated Code">//GEN-BEGIN:initComponents
     private void initComponents() {
 
-        jTextField1 = new javax.swing.JTextField();
         jLabel1 = new javax.swing.JLabel();
         jLabel2 = new javax.swing.JLabel();
-        jTextField2 = new javax.swing.JTextField();
         jLabel3 = new javax.swing.JLabel();
         jButton1 = new javax.swing.JButton();
+        jTextField1 = new javax.swing.JPasswordField();
+        jTextField2 = new javax.swing.JPasswordField();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.DISPOSE_ON_CLOSE);
-
-        jTextField1.setText("jTextField1");
 
         jLabel1.setText("Contraseña nueva");
 
         jLabel2.setText("Repetir contraseña");
-
-        jTextField2.setText("jTextField2");
 
         jLabel3.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
         jLabel3.setText("Restaurar Contraseña");
@@ -64,6 +70,10 @@ public class DialogoFomularioR extends javax.swing.JDialog {
                 jButton1MouseClicked(evt);
             }
         });
+
+        jTextField1.setText("jPasswordField1");
+
+        jTextField2.setText("jPasswordField2");
 
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
         getContentPane().setLayout(layout);
@@ -95,12 +105,12 @@ public class DialogoFomularioR extends javax.swing.JDialog {
                 .addComponent(jLabel3, javax.swing.GroupLayout.PREFERRED_SIZE, 32, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addGap(72, 72, 72)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(jTextField1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(jLabel1, javax.swing.GroupLayout.PREFERRED_SIZE, 22, javax.swing.GroupLayout.PREFERRED_SIZE))
+                    .addComponent(jLabel1, javax.swing.GroupLayout.PREFERRED_SIZE, 22, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(jTextField1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
                 .addGap(15, 15, 15)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(jTextField2, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(jLabel2, javax.swing.GroupLayout.PREFERRED_SIZE, 22, javax.swing.GroupLayout.PREFERRED_SIZE))
+                    .addComponent(jLabel2, javax.swing.GroupLayout.PREFERRED_SIZE, 22, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(jTextField2, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 50, Short.MAX_VALUE)
                 .addComponent(jButton1, javax.swing.GroupLayout.PREFERRED_SIZE, 35, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addGap(46, 46, 46))
@@ -111,8 +121,8 @@ public class DialogoFomularioR extends javax.swing.JDialog {
 
     private void jButton1MouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_jButton1MouseClicked
         // TODO add your handling code here:
-        String contra1 = jTextField1.getText();
-        String contra2 = jTextField2.getText();
+        String contra1 = new String(jTextField1.getPassword());
+        String contra2 = new String(jTextField2.getPassword());
         String pass = "";
 
         if (contra1.isEmpty() || contra2.isEmpty()) {
@@ -139,7 +149,7 @@ public class DialogoFomularioR extends javax.swing.JDialog {
         } else {
             JOptionPane.showMessageDialog(this, "¡Error NO SE PUDO!");
         }
-        
+
         this.dispose();
 
     }//GEN-LAST:event_jButton1MouseClicked
@@ -200,7 +210,7 @@ public class DialogoFomularioR extends javax.swing.JDialog {
     private javax.swing.JLabel jLabel1;
     private javax.swing.JLabel jLabel2;
     private javax.swing.JLabel jLabel3;
-    private javax.swing.JTextField jTextField1;
-    private javax.swing.JTextField jTextField2;
+    private javax.swing.JPasswordField jTextField1;
+    private javax.swing.JPasswordField jTextField2;
     // End of variables declaration//GEN-END:variables
 }

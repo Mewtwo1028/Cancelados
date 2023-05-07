@@ -100,9 +100,9 @@ public class VentaManager {
             while (cursor.next()) {
                 PreparedStatement up = conexion.getConexion().prepareStatement(modificar);
                 up.setInt(1, cursor.getInt("cantidad"));
-                System.out.println(cursor.getInt("cantidad"));
+                //System.out.println(cursor.getInt("cantidad"));
                 up.setInt(2, cursor.getInt("idProducto"));
-                System.out.println(cursor.getInt("idProducto"));
+                //System.out.println(cursor.getInt("idProducto"));
                 up.executeUpdate();
             }
             return true;

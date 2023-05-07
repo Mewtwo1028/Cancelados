@@ -23,20 +23,56 @@ public class NotificacionManager {
         }
         return resultado;
     }
-    
-    public boolean restaurarContrasena(int idEmpleado){
+
+    public boolean restaurarContrasena(int idEmpleado) {
         String sql = "UPDATE empleado SET restContra = true WHERE idEmpleado=?";
 
         try (PreparedStatement p = new Conexion().getConexion().prepareStatement(sql)) {
 
             p.setInt(1, idEmpleado);
-            
+
             return p.executeUpdate() == 1;
-                    
+
         } catch (SQLException ex) {
             System.out.println(ex);
         }
-        
+
+        return false;
+    }
+
+    public boolean eliminarNotEmpleado(int idEmpleado) {
+        String sql = "DELETE FROM notificacion WHERE idEmpleado=?";
+
+        try (PreparedStatement p = new Conexion().getConexion().prepareStatement(sql)) {
+
+            p.setInt(1, idEmpleado);
+
+            p.execute();
+
+            return true;
+
+        } catch (SQLException ex) {
+            System.out.println(ex);
+        }
+
+        return false;
+    }
+
+    public boolean eliminarNotificacion(int idNotificacion) {
+        String sql = "DELETE FROM notificacion WHERE idNotificacion=?";
+
+        try (PreparedStatement p = new Conexion().getConexion().prepareStatement(sql)) {
+
+            p.setInt(1, idNotificacion);
+
+            p.execute();
+
+            return true;
+
+        } catch (SQLException ex) {
+            System.out.println(ex);
+        }
+
         return false;
     }
 
