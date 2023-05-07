@@ -76,4 +76,23 @@ public class NotificacionManager {
         return false;
     }
 
+    public boolean hayNot() {
+        String sql = "SELECT COUNT(*) AS cant FROM notificacion";
+
+        try (PreparedStatement p = new Conexion().getConexion().prepareStatement(sql)) {
+
+            ResultSet c = p.executeQuery();
+
+            if (c.next()) {
+                System.out.println(c.getInt(1));
+                return c.getInt(1)>=1;
+            }
+
+        } catch (SQLException ex) {
+            System.out.println(ex);
+        }
+
+        return false;
+    }
+
 }

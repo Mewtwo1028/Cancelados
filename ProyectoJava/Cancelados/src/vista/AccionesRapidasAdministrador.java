@@ -1,34 +1,35 @@
 package vista;
 
+import controlador.NotificacionManager;
 import modelo.FuncionesUtiles;
 import java.awt.Color;
 import java.awt.Cursor;
 import java.awt.Toolkit;
 import javax.swing.JFrame;
 
-
 public class AccionesRapidasAdministrador extends javax.swing.JPanel {
 
     JFrame actual;
+
     public AccionesRapidasAdministrador(JFrame actual) {
         initComponents();
         inicializar();
         this.actual = actual;
         double width = Toolkit.getDefaultToolkit().getScreenSize().width;
         double height = Toolkit.getDefaultToolkit().getScreenSize().height;
-        this.setSize((int)(1280*width/100),(int) (height*720/100));
+        this.setSize((int) (1280 * width / 100), (int) (height * 720 / 100));
     }
-    
-    private void inicializar(){
+
+    private void inicializar() {
         this.setBounds(0, 0, 266, 650);
         jLabelLogo.setSize(233, 245);
         //Imagenes
         FuncionesUtiles funcionesUtiles = new FuncionesUtiles();
         funcionesUtiles.colocarImagen("/Imagenes/LogoLetras.png", jLabelLogo);
-        
+
         //Configurar jPanelCredenciales
         this.setBackground(Color.WHITE);
-        
+
         //Configurar botones
         FuncionesUtiles funUtil = new FuncionesUtiles();
         funUtil.confBtnMenu(btnMenu);
@@ -39,18 +40,28 @@ public class AccionesRapidasAdministrador extends javax.swing.JPanel {
         funUtil.confBtnMenu(btnConfiguraciones);
         funUtil.confBtnMenu(btnAcercaDe);
         funUtil.confBtnMenu(btnVolver);
-        
+
         //Configurar linea
         jPanelLinea.setBackground(funUtil.getColorCancelados());
-        
+
         //Agregar iconos a los botones
         funUtil.colocarImagen("/Iconos/menu.png", btnMenu);
         funUtil.colocarImagen("/Iconos/pendientes.png", btnPendientes);
         funUtil.colocarImagen("/Iconos/reportes.png", btnReportes);
-        funUtil.colocarImagen("/Iconos/notificaciones.png", btnNotificaciones);
+        imagenNot();
         funUtil.colocarImagen("/Iconos/pagos.png", btnPagos);
         funUtil.colocarImagen("/Iconos/configuraciones.png", btnConfiguraciones);
         funUtil.colocarImagen("/Iconos/acercaDe.png", btnAcercaDe);
+    }
+
+    public void imagenNot() {
+        FuncionesUtiles funUtil = new FuncionesUtiles();
+
+        if (new NotificacionManager().hayNot()) {
+            funUtil.colocarImagen("/Iconos/notificacion.png", btnNotificaciones);
+        } else {
+            funUtil.colocarImagen("/Iconos/notificaciones.png", btnNotificaciones);
+        }
     }
 
     /**
@@ -171,17 +182,18 @@ public class AccionesRapidasAdministrador extends javax.swing.JPanel {
     }// </editor-fold>//GEN-END:initComponents
 
     private void btnMenuActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnMenuActionPerformed
+        imagenNot();
         PanelControlAdministrador menu = new PanelControlAdministrador();
         actual.dispose();
         menu.setVisible(true);
     }//GEN-LAST:event_btnMenuActionPerformed
 
     private void btnVolverActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnVolverActionPerformed
-        if(actual.getTitle().equals("Panel de control")){
+        if (actual.getTitle().equals("Panel de control")) {
             Login login = new Login();
             login.setVisible(true);
             actual.dispose();
-        }else{
+        } else {
             PanelControlAdministrador admon = new PanelControlAdministrador();
             admon.setVisible(true);
             actual.dispose();
@@ -194,6 +206,9 @@ public class AccionesRapidasAdministrador extends javax.swing.JPanel {
 
     private void btnNotificacionesMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_btnNotificacionesMouseClicked
         // TODO add your handling code here:
+        
+        imagenNot();
+        
         DialogoNotificacion not = new DialogoNotificacion(actual, true);
         not.setVisible(true);
     }//GEN-LAST:event_btnNotificacionesMouseClicked
