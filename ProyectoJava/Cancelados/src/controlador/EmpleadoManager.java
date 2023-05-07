@@ -54,7 +54,7 @@ public class EmpleadoManager {
      * credencial
      */
     public boolean insertarEmpleado(Empleado empleado, String contra) {
-        String SQL_insertar = "INSERT INTO empleado VALUES (null, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)";
+        String SQL_insertar = "INSERT INTO empleado VALUES (null, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, false)";
         String SQL_idEmpleado = "select idEmpleado from empleado order by idEmpleado DESC";
         String SQL_insertarCredencial = "INSERT INTO credenciales VALUES (null, ?, ?)";
 
@@ -146,6 +146,22 @@ public class EmpleadoManager {
         } catch (SQLException ex) {
             throw new RuntimeException("Error al modificar el empleado", ex);
         }
+    }
+
+    public boolean eliminarEstado(int idEmpleado) {
+        String sql = "UPDATE empleado SET restContra = false WHERE idEmpleado=?";
+
+        try (PreparedStatement p = new Conexion().getConexion().prepareStatement(sql)) {
+
+            p.setInt(1, idEmpleado);
+
+            return p.executeUpdate() == 1;
+
+        } catch (SQLException ex) {
+            System.out.println(ex);
+        }
+
+        return false;
     }
 
 }

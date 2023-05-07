@@ -41,7 +41,7 @@ public class AdministrarEmpleado extends javax.swing.JFrame {
 
             String SQL = "SELECT * FROM empleado WHERE Nombre like" + '"' + filtro + '"';
 
-            System.out.print(SQL);
+            //System.out.print(SQL);
 
             Conexion conexion = new Conexion();
 
@@ -648,7 +648,7 @@ public class AdministrarEmpleado extends javax.swing.JFrame {
             try {
                 Credencial credencial = new Credencial(encriptaContra(txtContra.getText()), Integer.parseInt(txtIDEmpleado.getText()));
 
-                if (compruebaContra(encriptaContra(txtContra.getText()), encriptaContra(txtRepContrasena.getText()))) {
+                if (compruebaContra(encriptaContra(txtContra.getText()), encriptaContra(new String(txtRepContrasena.getPassword())))) {
 
                     empleado.modificaCredenciales(credencial);
                     dEmergente.setTexto("OK");
@@ -697,7 +697,7 @@ public class AdministrarEmpleado extends javax.swing.JFrame {
     private void btnRestaurarContrasenaActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnRestaurarContrasenaActionPerformed
         String aux[] = new String[2];
         aux[0] = txtContra.getText();
-        aux[1] = txtRepContrasena.getText();
+        aux[1] = new String(txtRepContrasena.getPassword());
         int txtIdRol = String.valueOf(jComboBoxRol.getSelectedItem()).equals("Empleado") ? 2 : 1;
         Empleado empleado = new Empleado(Integer.parseInt(txtIDEmpleado.getText()), txtNombre.getText(), txtApPaterno.getText(), txtApMaterno.getText(), txtCalle.getText(), txtNoExt.getText(), txtColonia.getText(), txtCP.getText(), txtCURP.getText(), txtRFC.getText(), txtMunicipio.getText(), txtEstado.getText(), txtIdRol);
 
@@ -708,7 +708,7 @@ public class AdministrarEmpleado extends javax.swing.JFrame {
         } else {
             try {
                 Credencial credencial = new Credencial(encriptaContra(txtContra.getText()), Integer.parseInt(txtIDEmpleado.getText()));
-                if (compruebaContra(txtRepContrasena.getText(), txtContra.getText())) {
+                if (compruebaContra(new String(txtRepContrasena.getPassword()), txtContra.getText())) {
                     empleado.modificaCredenciales(credencial);
                     a.setTexto("Contraseña restaurada");
                 } else {

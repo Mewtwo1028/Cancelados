@@ -1,6 +1,5 @@
 package vista;
 
-import controlador.Conexion;
 import modelo.FuncionesUtiles;
 import java.awt.Color;
 import java.awt.Cursor;
@@ -10,25 +9,21 @@ import java.security.MessageDigest;
 import java.security.NoSuchAlgorithmException;
 import java.util.logging.Level;
 import java.util.logging.Logger;
-import javax.swing.JFrame;
 import controlador.CredencialManager;
 import java.awt.Dimension;
 import static java.awt.Frame.MAXIMIZED_BOTH;
-import java.awt.Toolkit;
+import java.util.Arrays;
 import java.util.GregorianCalendar;
+import javax.swing.JOptionPane;
 
-/**
- *
- * @author osmar
- */
-//Hola bro esto es un cambio
-//Recibido
 public class Login extends javax.swing.JFrame {
+
     GregorianCalendar a = new GregorianCalendar();
+
     public Login() {
         initComponents();
         inicializar();
-        System.out.print(a.getTime());
+        //System.out.print(a.getTime());
     }
 
     private String encriptaContra(String contrasena) throws NoSuchAlgorithmException {
@@ -63,10 +58,8 @@ public class Login extends javax.swing.JFrame {
         //int height = (int) jPanelPrincipal.getHeight();
         //int width = (int) jPanelPrincipal.getWidth() / 2;
         //jLabelLogoDegradado.setBounds(0, 0, width, height);
-
         //Configurar bolitas
         //jLabelBolitas.setBounds((int) jPanelPrincipal.getBounds().getMaxX() - 248, (int) jPanelPrincipal.getBounds().getMaxY() - 231, 248, 231);
-
         int height = (int) this.getBounds().getHeight();
         int width = (int) this.getBounds().getWidth();
         int maxX = (int) this.getBounds().getMaxX();
@@ -84,11 +77,10 @@ public class Login extends javax.swing.JFrame {
         //Imagenes
         new FuncionesUtiles().colocarImagen("/Imagenes/LogoLetrasDegradado.png", jLabelLogoDegradado);
         new FuncionesUtiles().colocarImagen("/Imagenes/bolitas.png", jLabelBolitas);
-        
+
         //Imagenes
         //funcionesUtiles.colocarImagen("/Imagenes/LogoLetrasDegradado.png", jLabelLogoDegradado);
         //funcionesUtiles.colocarImagen("/Imagenes/bolitas.png", jLabelBolitas);
-
         //Boton olvidar contraseña
         funcionesUtiles.confBtn(btnForgottenPassword);
 
@@ -239,9 +231,16 @@ public class Login extends javax.swing.JFrame {
     }//GEN-LAST:event_btnForgottenPasswordMouseEntered
 
     private void btnForgottenPasswordActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnForgottenPasswordActionPerformed
+
+        String nombre = JOptionPane.showInputDialog(this, "Ingresa tu primer nombre", DISPOSE_ON_CLOSE);
+
+        notificarAdmon(nombre);
+
+        /*
         DialogoEmergente t = new DialogoEmergente(this, rootPaneCheckingEnabled);
         t.setTexto("Por favor, solicite a un \nadministrador que le \nrestaure la contraseña");
         t.setVisible(true);
+         */
 
     }//GEN-LAST:event_btnForgottenPasswordActionPerformed
 
@@ -256,7 +255,7 @@ public class Login extends javax.swing.JFrame {
         jPanelPrincipal.setBackground(Color.WHITE);
 
         //Configurar logo
-        jLabelLogoDegradado.setBounds(0, 0, (int) width / 2, height-43);
+        jLabelLogoDegradado.setBounds(0, 0, (int) width / 2, height - 43);
 
         //Configurar bolitas
         jLabelBolitas.setBounds(maxX - 248, maxY - 231, 248, 231);
@@ -272,10 +271,27 @@ public class Login extends javax.swing.JFrame {
 
     }//GEN-LAST:event_formComponentResized
 
+    private boolean isRestContra(String nombre){
+        return new CredencialManager().isRestContra(nombre);
+    }
+    
+    private void formularioRestContra(String nombre){
+        int idEmpleado = new CredencialManager().getidEmpleado(nombre);
+        DialogoFomularioR form = new DialogoFomularioR(this, true, idEmpleado);
+        
+        form.setVisible(true);
+        
+    }
+    
     private void iniciarSesion() {
         String username = txtUsername.getText().trim();
-        String password = txtPassword.getText().trim();
+        String password = new String(txtPassword.getPassword());
         String pass = null;
+        
+        if (isRestContra(username)) {
+            formularioRestContra(username);
+            return;
+        }
 
         if (username.isEmpty() || password.isEmpty()) {
             DialogoEmergente dEmergente = new DialogoEmergente(this, true);
@@ -285,7 +301,7 @@ public class Login extends javax.swing.JFrame {
         }
 
         try {
-            pass = encriptaContra(txtPassword.getText());
+            pass = encriptaContra(password);
         } catch (NoSuchAlgorithmException ex) {
             Logger.getLogger(Login.class.getName()).log(Level.SEVERE, null, ex);
             System.out.println("¡Error! No se pudo encriptar la contraseña");
@@ -310,6 +326,16 @@ public class Login extends javax.swing.JFrame {
             this.dispose();
             panel.setVisible(true);
         }
+    }
+
+    private void notificarAdmon(String nombre) {
+
+        if (new CredencialManager().notificarContra(nombre)) {
+            JOptionPane.showMessageDialog(this, "Se notifico al administrador");
+        } else {
+            JOptionPane.showMessageDialog(this, "ERROR!, EL EMPLEADO NO EXISTE");
+        }
+
     }
 
     public static void main(String args[]) {
@@ -337,10 +363,8 @@ public class Login extends javax.swing.JFrame {
         //</editor-fold>
 
         /* Create and display the form */
-        java.awt.EventQueue.invokeLater(new Runnable() {
-            public void run() {
-                new Login().setVisible(true);
-            }
+        java.awt.EventQueue.invokeLater(() -> {
+            new Login().setVisible(true);
         });
     }
 

@@ -754,7 +754,7 @@ public class AdministrarProducto extends javax.swing.JFrame {
 
             String SQL = "SELECT * FROM producto WHERE Nombre like" + '"' + filtro + '"';
 
-            System.out.print(SQL);
+            //System.out.print(SQL);
 
             Conexion conexion = new Conexion();
 

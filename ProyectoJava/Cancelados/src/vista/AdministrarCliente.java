@@ -35,7 +35,7 @@ public class AdministrarCliente extends javax.swing.JFrame {
 
             String SQL = "SELECT * FROM cliente WHERE Nombre like" + '"' + filtro + '"';
 
-            System.out.print(SQL);
+            //System.out.print(SQL);
 
             Conexion conexion = new Conexion();
 

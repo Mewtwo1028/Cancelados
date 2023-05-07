@@ -259,7 +259,6 @@ public class ProductoManager {
      */
     public boolean eliminarProducto(Producto producto) {
         String operacion = "DELETE FROM producto WHERE idProducto=?;";
-        System.out.println("hola");
 
         try (PreparedStatement ps = conexion.getConexion().prepareStatement(operacion)) {
 

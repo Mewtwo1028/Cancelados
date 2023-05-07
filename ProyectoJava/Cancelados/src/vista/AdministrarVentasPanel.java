@@ -386,7 +386,7 @@ public class AdministrarVentasPanel extends javax.swing.JFrame {
     private void jButton1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton1ActionPerformed
        ArrayList<String[]> resultado = new ArrayList<>();
        CorteDeCaja cj = new CorteDeCaja();
-        System.out.println(cj.consultaDatos("2023-05-02"));
+        //System.out.println(cj.consultaDatos("2023-05-02"));
        
        
        

@@ -107,7 +107,7 @@ public class FuncionesUtiles {
         Calendar calendario = GregorianCalendar.getInstance();
         String cad = "";
 
-        int hora = calendario.get(Calendar.HOUR_OF_DAY);
+        int hora = calendario.get(Calendar.HOUR_OF_DAY)-1;
 
         if (hora < 10) {
             cad += "0" + hora + ":";
