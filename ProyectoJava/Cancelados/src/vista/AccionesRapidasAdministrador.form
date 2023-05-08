@@ -89,11 +89,17 @@
       <Properties>
         <Property name="text" type="java.lang.String" value="PENDIENTES"/>
       </Properties>
+      <Events>
+        <EventHandler event="mouseEntered" listener="java.awt.event.MouseListener" parameters="java.awt.event.MouseEvent" handler="btnPendientesMouseEntered"/>
+      </Events>
     </Component>
     <Component class="javax.swing.JButton" name="btnReportes">
       <Properties>
         <Property name="text" type="java.lang.String" value="REPORTES"/>
       </Properties>
+      <Events>
+        <EventHandler event="mouseEntered" listener="java.awt.event.MouseListener" parameters="java.awt.event.MouseEvent" handler="btnReportesMouseEntered"/>
+      </Events>
     </Component>
     <Component class="javax.swing.JButton" name="btnNotificaciones">
       <Properties>
@@ -101,12 +107,16 @@
       </Properties>
       <Events>
         <EventHandler event="mouseClicked" listener="java.awt.event.MouseListener" parameters="java.awt.event.MouseEvent" handler="btnNotificacionesMouseClicked"/>
+        <EventHandler event="mouseEntered" listener="java.awt.event.MouseListener" parameters="java.awt.event.MouseEvent" handler="btnNotificacionesMouseEntered"/>
       </Events>
     </Component>
     <Component class="javax.swing.JButton" name="btnPagos">
       <Properties>
         <Property name="text" type="java.lang.String" value="PAGOS"/>
       </Properties>
+      <Events>
+        <EventHandler event="mouseEntered" listener="java.awt.event.MouseListener" parameters="java.awt.event.MouseEvent" handler="btnPagosMouseEntered"/>
+      </Events>
     </Component>
     <Component class="javax.swing.JLabel" name="jLabelLogo">
     </Component>
@@ -116,11 +126,17 @@
       <Properties>
         <Property name="text" type="java.lang.String" value="CONFIGURACIONES"/>
       </Properties>
+      <Events>
+        <EventHandler event="mouseEntered" listener="java.awt.event.MouseListener" parameters="java.awt.event.MouseEvent" handler="btnConfiguracionesMouseEntered"/>
+      </Events>
     </Component>
     <Component class="javax.swing.JButton" name="btnAcercaDe">
       <Properties>
         <Property name="text" type="java.lang.String" value="ACERCA DE"/>
       </Properties>
+      <Events>
+        <EventHandler event="mouseEntered" listener="java.awt.event.MouseListener" parameters="java.awt.event.MouseEvent" handler="btnAcercaDeMouseEntered"/>
+      </Events>
     </Component>
     <Component class="javax.swing.JSeparator" name="jSeparator2">
     </Component>

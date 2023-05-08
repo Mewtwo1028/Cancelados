@@ -69,6 +69,7 @@
         <Property name="text" type="java.lang.String" value="MENU"/>
       </Properties>
       <Events>
+        <EventHandler event="mouseEntered" listener="java.awt.event.MouseListener" parameters="java.awt.event.MouseEvent" handler="btnMenuMouseEntered"/>
         <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="btnMenuActionPerformed"/>
       </Events>
     </Component>
@@ -80,11 +81,17 @@
       <Properties>
         <Property name="text" type="java.lang.String" value="CONFIGURACIONES"/>
       </Properties>
+      <Events>
+        <EventHandler event="mouseEntered" listener="java.awt.event.MouseListener" parameters="java.awt.event.MouseEvent" handler="btnConfiguracionesMouseEntered"/>
+      </Events>
     </Component>
     <Component class="javax.swing.JButton" name="btnAcercaDe">
       <Properties>
         <Property name="text" type="java.lang.String" value="ACERCA DE"/>
       </Properties>
+      <Events>
+        <EventHandler event="mouseEntered" listener="java.awt.event.MouseListener" parameters="java.awt.event.MouseEvent" handler="btnAcercaDeMouseEntered"/>
+      </Events>
     </Component>
     <Component class="javax.swing.JSeparator" name="jSeparator2">
     </Component>
