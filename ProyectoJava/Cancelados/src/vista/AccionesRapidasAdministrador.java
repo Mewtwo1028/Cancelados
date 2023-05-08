@@ -99,21 +99,49 @@ public class AccionesRapidasAdministrador extends javax.swing.JPanel {
         });
 
         btnPendientes.setText("PENDIENTES");
+        btnPendientes.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseEntered(java.awt.event.MouseEvent evt) {
+                btnPendientesMouseEntered(evt);
+            }
+        });
 
         btnReportes.setText("REPORTES");
+        btnReportes.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseEntered(java.awt.event.MouseEvent evt) {
+                btnReportesMouseEntered(evt);
+            }
+        });
 
         btnNotificaciones.setText("NOTIFICACIONES");
         btnNotificaciones.addMouseListener(new java.awt.event.MouseAdapter() {
             public void mouseClicked(java.awt.event.MouseEvent evt) {
                 btnNotificacionesMouseClicked(evt);
             }
+            public void mouseEntered(java.awt.event.MouseEvent evt) {
+                btnNotificacionesMouseEntered(evt);
+            }
         });
 
         btnPagos.setText("PAGOS");
+        btnPagos.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseEntered(java.awt.event.MouseEvent evt) {
+                btnPagosMouseEntered(evt);
+            }
+        });
 
         btnConfiguraciones.setText("CONFIGURACIONES");
+        btnConfiguraciones.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseEntered(java.awt.event.MouseEvent evt) {
+                btnConfiguracionesMouseEntered(evt);
+            }
+        });
 
         btnAcercaDe.setText("ACERCA DE");
+        btnAcercaDe.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseEntered(java.awt.event.MouseEvent evt) {
+                btnAcercaDeMouseEntered(evt);
+            }
+        });
 
         btnVolver.setText("Volver");
         btnVolver.addActionListener(new java.awt.event.ActionListener() {
@@ -212,6 +240,30 @@ public class AccionesRapidasAdministrador extends javax.swing.JPanel {
         DialogoNotificacion not = new DialogoNotificacion(actual, true);
         not.setVisible(true);
     }//GEN-LAST:event_btnNotificacionesMouseClicked
+
+    private void btnPendientesMouseEntered(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_btnPendientesMouseEntered
+        btnPendientes.setCursor(Cursor.getPredefinedCursor(Cursor.HAND_CURSOR));
+    }//GEN-LAST:event_btnPendientesMouseEntered
+
+    private void btnReportesMouseEntered(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_btnReportesMouseEntered
+        btnReportes.setCursor(Cursor.getPredefinedCursor(Cursor.HAND_CURSOR));
+    }//GEN-LAST:event_btnReportesMouseEntered
+
+    private void btnNotificacionesMouseEntered(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_btnNotificacionesMouseEntered
+        btnNotificaciones.setCursor(Cursor.getPredefinedCursor(Cursor.HAND_CURSOR));
+    }//GEN-LAST:event_btnNotificacionesMouseEntered
+
+    private void btnPagosMouseEntered(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_btnPagosMouseEntered
+        btnPagos.setCursor(Cursor.getPredefinedCursor(Cursor.HAND_CURSOR));
+    }//GEN-LAST:event_btnPagosMouseEntered
+
+    private void btnConfiguracionesMouseEntered(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_btnConfiguracionesMouseEntered
+        btnConfiguraciones.setCursor(Cursor.getPredefinedCursor(Cursor.HAND_CURSOR));
+    }//GEN-LAST:event_btnConfiguracionesMouseEntered
+
+    private void btnAcercaDeMouseEntered(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_btnAcercaDeMouseEntered
+        btnAcercaDe.setCursor(Cursor.getPredefinedCursor(Cursor.HAND_CURSOR));
+    }//GEN-LAST:event_btnAcercaDeMouseEntered
 
 
     // Variables declaration - do not modify//GEN-BEGIN:variables

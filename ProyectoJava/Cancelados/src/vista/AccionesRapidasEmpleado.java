@@ -2,6 +2,7 @@ package vista;
 
 import modelo.FuncionesUtiles;
 import java.awt.Color;
+import java.awt.Cursor;
 import javax.swing.JFrame;
 
 public class AccionesRapidasEmpleado extends javax.swing.JPanel {
@@ -58,6 +59,11 @@ public class AccionesRapidasEmpleado extends javax.swing.JPanel {
         jPanelLinea = new javax.swing.JPanel();
 
         btnMenu.setText("MENU");
+        btnMenu.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseEntered(java.awt.event.MouseEvent evt) {
+                btnMenuMouseEntered(evt);
+            }
+        });
         btnMenu.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 btnMenuActionPerformed(evt);
@@ -65,8 +71,18 @@ public class AccionesRapidasEmpleado extends javax.swing.JPanel {
         });
 
         btnConfiguraciones.setText("CONFIGURACIONES");
+        btnConfiguraciones.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseEntered(java.awt.event.MouseEvent evt) {
+                btnConfiguracionesMouseEntered(evt);
+            }
+        });
 
         btnAcercaDe.setText("ACERCA DE");
+        btnAcercaDe.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseEntered(java.awt.event.MouseEvent evt) {
+                btnAcercaDeMouseEntered(evt);
+            }
+        });
 
         btnVolver.setText("Volver");
         btnVolver.addActionListener(new java.awt.event.ActionListener() {
@@ -149,6 +165,18 @@ public class AccionesRapidasEmpleado extends javax.swing.JPanel {
             actual.dispose();
         }
     }//GEN-LAST:event_btnVolverActionPerformed
+
+    private void btnMenuMouseEntered(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_btnMenuMouseEntered
+       btnMenu.setCursor(Cursor.getPredefinedCursor(Cursor.HAND_CURSOR));
+    }//GEN-LAST:event_btnMenuMouseEntered
+
+    private void btnConfiguracionesMouseEntered(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_btnConfiguracionesMouseEntered
+        btnConfiguraciones.setCursor(Cursor.getPredefinedCursor(Cursor.HAND_CURSOR));
+    }//GEN-LAST:event_btnConfiguracionesMouseEntered
+
+    private void btnAcercaDeMouseEntered(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_btnAcercaDeMouseEntered
+        btnAcercaDe.setCursor(Cursor.getPredefinedCursor(Cursor.HAND_CURSOR));
+    }//GEN-LAST:event_btnAcercaDeMouseEntered
 
 
     // Variables declaration - do not modify//GEN-BEGIN:variables

@@ -183,3 +183,25 @@ ALTER TABLE notificacion MODIFY COLUMN fecha TIMESTAMP DEFAULT CURRENT_TIMESTAMP
 ALTER TABLE empleado ADD COLUMN restContra BOOLEAN;
 
 -- ****************************************************
+
+
+-- 1.*Quien recibe? 2.-Domicilio envio 3.-Calle 4.Colonia 5.-num- 6.producto 7.-total 8.-Se envio Por: 9.-Ciudad 10.CP 11.Responsable 12.Peso 13.Fecha Pedido. 14: Envió
+-- ******************07/05/2023***************
+CREATE TABLE Envios(
+idEnvio INT NOT NULL auto_increment,
+Destinatario VARCHAR(50) NOT NULL,
+Domicilio VARCHAR(70) NOT NULL,
+Ciudad VARCHAR(50) NOT NULL,
+Calle VARCHAR(50) NOT NULL,
+Colonia VARCHAR(50) NOT NULL,
+Numero VARCHAR(5) NOT NULL,
+Producto VARCHAR(100) NOT NULL,
+Paqueteria VARCHAR(50) NOT NULL,
+CP VARCHAR(5) NOT NULL,
+Responsable VARCHAR(50) NOT NULL,
+Peso INT,
+Fecha date NOT NULL,
+Remitente VARCHAR(50) NOT NULL,
+constraint pkIdEnvio primary key (idEnvio)
+);
+-- ****************************************************
