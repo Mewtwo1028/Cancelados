@@ -20,26 +20,24 @@ import javax.swing.table.DefaultTableModel;
 import javax.swing.table.TableModel;
 
 public class RegistrarVenta extends javax.swing.JFrame {
-
+    
     DefaultTableModel modelo = new DefaultTableModel() {
         @Override
         public boolean isCellEditable(int row, int column) {
             return false;
         }
     };
-
+    
     ArrayList<Producto> productos = new ProductoManager().consultarNombres();
     ArrayList<Cliente> clientes = new ClienteManager().consultarNombres();
     float subTotal = 0;
-
+    
     public RegistrarVenta() {
         initComponents();
         inicializar();
         initTabla();
     }
     
-    
-
     private void inicializar() {
         FuncionesUtiles tool = new FuncionesUtiles();
         //Configuracion ventana
@@ -82,6 +80,7 @@ public class RegistrarVenta extends javax.swing.JFrame {
         tool.confBtnColor(btnAgregar);
         tool.confBtnColor(btnRegistrarVenta);
         tool.confBtnColor(btnEliminar);
+        tool.confBtnColor(RegistrarEnvio);
 
         //Limpiar txtFields
         limpiarTodosTxtFields();
@@ -104,29 +103,29 @@ public class RegistrarVenta extends javax.swing.JFrame {
         //total
         txtSubtotal.setText(String.valueOf(subTotal));
     }
-
+    
     private void llenarProducto() {
         DefaultComboBoxModel b = new DefaultComboBoxModel();
         b.addElement("SELECCIONA UN PRODUCTO");
-
+        
         for (Producto producto : productos) {
             b.addElement(producto.getNombre());
         }
-
+        
         cbNombreProducto.setModel(b);
     }
-
+    
     private void llenarCliente() {
         DefaultComboBoxModel dl = new DefaultComboBoxModel();
         dl.addElement("SELECCIONA UN CLIENTE");
-
+        
         for (Cliente cliente : clientes) {
             dl.addElement(cliente.getNombre());
         }
-
+        
         cbCliente.setModel(dl);
     }
-
+    
     private void limpiarTxtFields() {
         cbNombreProducto.setSelectedIndex(0);
         cbCantidad.setSelectedIndex(0);
@@ -134,7 +133,7 @@ public class RegistrarVenta extends javax.swing.JFrame {
         txtImporte.setText("");
         txtStock.setText("");
     }
-
+    
     private void limpiarTodosTxtFields() {
         cbNombreProducto.setSelectedIndex(0);
         cbCantidad.setSelectedIndex(0);
@@ -145,7 +144,7 @@ public class RegistrarVenta extends javax.swing.JFrame {
         txtIDProducto.setText("");
         
     }
-
+    
     private void initTabla() {
         modelo.addColumn("ID Producto");
         modelo.addColumn("Producto");
@@ -154,22 +153,22 @@ public class RegistrarVenta extends javax.swing.JFrame {
         modelo.addColumn("Importe");
         tblProducto.setModel(modelo);
     }
-
+    
     public void setEmpleado() {
         //Colocar panel de la izquierda
         AccionesRapidasEmpleado panelBotones = new AccionesRapidasEmpleado(this);
-        panelBotones.setBounds(0, 0, 266, (int) this.getBounds().getHeight()-50);
+        panelBotones.setBounds(0, 0, 266, (int) this.getBounds().getHeight() - 50);
         jPanelIzquierda.removeAll();
         jPanelIzquierda.setMinimumSize(panelBotones.getPreferredSize());
         jPanelIzquierda.add(panelBotones);
         panelBotones.revalidate();
         panelBotones.repaint();
     }
-
+    
     public void setAdmon() {
         //Colocar panel de la izquierda
         AccionesRapidasAdministrador panelBotones = new AccionesRapidasAdministrador(this);
-        panelBotones.setBounds(0, 0, 266, (int) this.getBounds().getHeight()-50);
+        panelBotones.setBounds(0, 0, 266, (int) this.getBounds().getHeight() - 50);
         jPanelIzquierda.removeAll();
         jPanelIzquierda.setMinimumSize(panelBotones.getPreferredSize());
         jPanelIzquierda.add(panelBotones);
@@ -217,6 +216,7 @@ public class RegistrarVenta extends javax.swing.JFrame {
         btnAgregar = new javax.swing.JButton();
         btnRegistrarVenta = new javax.swing.JButton();
         btnEliminar = new javax.swing.JButton();
+        RegistrarEnvio = new javax.swing.JButton();
         cbCantidad = new javax.swing.JComboBox<>();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
@@ -428,7 +428,7 @@ public class RegistrarVenta extends javax.swing.JFrame {
             }
         });
 
-        btnRegistrarVenta.setText("Registrar venta");
+        btnRegistrarVenta.setText("Registrar venta (Local)");
         btnRegistrarVenta.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 btnRegistrarVentaActionPerformed(evt);
@@ -442,6 +442,13 @@ public class RegistrarVenta extends javax.swing.JFrame {
             }
         });
 
+        RegistrarEnvio.setText("Registrar envio (Internacional)");
+        RegistrarEnvio.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseClicked(java.awt.event.MouseEvent evt) {
+                RegistrarEnvioMouseClicked(evt);
+            }
+        });
+
         javax.swing.GroupLayout jPanelAccionesLayout = new javax.swing.GroupLayout(jPanelAcciones);
         jPanelAcciones.setLayout(jPanelAccionesLayout);
         jPanelAccionesLayout.setHorizontalGroup(
@@ -450,8 +457,9 @@ public class RegistrarVenta extends javax.swing.JFrame {
                 .addContainerGap()
                 .addGroup(jPanelAccionesLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addComponent(btnAgregar, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                    .addComponent(btnRegistrarVenta, javax.swing.GroupLayout.DEFAULT_SIZE, 188, Short.MAX_VALUE)
-                    .addComponent(btnEliminar, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                    .addComponent(btnRegistrarVenta, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                    .addComponent(btnEliminar, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                    .addComponent(RegistrarEnvio, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
                 .addContainerGap())
         );
         jPanelAccionesLayout.setVerticalGroup(
@@ -463,7 +471,9 @@ public class RegistrarVenta extends javax.swing.JFrame {
                 .addComponent(btnRegistrarVenta, javax.swing.GroupLayout.PREFERRED_SIZE, 35, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addComponent(btnEliminar, javax.swing.GroupLayout.PREFERRED_SIZE, 35, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addComponent(RegistrarEnvio, javax.swing.GroupLayout.PREFERRED_SIZE, 35, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addContainerGap(15, Short.MAX_VALUE))
         );
 
         jPanelOperaciones.add(jPanelAcciones, new org.netbeans.lib.awtextra.AbsoluteConstraints(549, 6, -1, 179));
@@ -525,10 +535,10 @@ public class RegistrarVenta extends javax.swing.JFrame {
         String importe = txtImporte.getText();
         String producto = cbNombreProducto.getSelectedItem().toString();
         String precioUnitario = txtPrecioUnitario.getText();
-
+        
         subTotal += Float.parseFloat(importe);
         txtSubtotal.setText(String.valueOf(subTotal));
-
+        
         if (existeProductoTabla(idProducto)) {
             actualizarCantidadProducto(idProducto, cantidad, importe);
         } else {
@@ -550,25 +560,22 @@ public class RegistrarVenta extends javax.swing.JFrame {
         int idCliente = obtenerIdCliente(cbCliente.getSelectedItem().toString());
         int idEmpleado = 1;
         double monto;
-
-        DetallePago dp = new DetallePago(this,true,total);
+        
+        DetallePago dp = new DetallePago(this, true, total);
         dp.setVisible(true);
         
-                
         Venta venta = new Venta(total, idCliente, idEmpleado);
-
+        
         DialogoEmergente dl = new DialogoEmergente(this, true);
-
-             
-                
+        
         if (registrarVenta(venta, listaProductos) && dp.validaPago()) {
             dl.setTexto("Venta registrada de\nforma correcta!");
-           
+            
         } else {
             dl.setTexto("¡ERROR! NO SE PUDO REGISTRAR LA VENTA");
-        } 
+        }        
         
-         dl.setVisible(true);
+        dl.setVisible(true);
     }//GEN-LAST:event_btnRegistrarVentaActionPerformed
 
     private void cbNombreProductoItemStateChanged(java.awt.event.ItemEvent evt) {//GEN-FIRST:event_cbNombreProductoItemStateChanged
@@ -603,25 +610,31 @@ public class RegistrarVenta extends javax.swing.JFrame {
         
     }//GEN-LAST:event_txtStockActionPerformed
 
+    private void RegistrarEnvioMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_RegistrarEnvioMouseClicked
+        // TODO add your handling code here:
+        DialogoEnvio de = new DialogoEnvio(this, true);
+        de.setVisible(true);
+    }//GEN-LAST:event_RegistrarEnvioMouseClicked
+    
     private boolean registrarVenta(Venta venta, ArrayList<Producto> productos) {
         int idVenta = new VentaManager().realizarVenta(venta);
-
+        
         if (new DetalleVenta().realizarDetalleVenta(productos, idVenta)) {
             return new ProductoManager().modificarStock(productos);
         }
-
+        
         return false;
     }
-
+    
     private void actualizarCantidadProducto(String idProducto, String cantidad, String importe) {
         for (int i = 0; i < tblProducto.getRowCount(); i++) {
             Object id = tblProducto.getValueAt(i, 0);
             if (id != null && id.toString().equals(idProducto)) {
-
+                
                 int vCantidad = Integer.parseInt(tblProducto.getValueAt(i, 3).toString());
                 int nCantidad = vCantidad + Integer.parseInt(cantidad);
                 tblProducto.setValueAt(nCantidad, i, 3);
-
+                
                 float vImporte = Float.parseFloat(tblProducto.getValueAt(i, 4).toString());
                 float nImporte = vImporte + Float.parseFloat(importe);
                 tblProducto.setValueAt(nImporte, i, 4);
@@ -630,11 +643,11 @@ public class RegistrarVenta extends javax.swing.JFrame {
         }
         tblProducto.repaint();
     }
-
+    
     private boolean existeProductoTabla(String idProducto) {
         ArrayList<Producto> listaProductos = obtenerCarrito();
         int id = Integer.parseInt(idProducto);
-
+        
         for (Producto producto : listaProductos) {
             if (producto.getIdProducto() == id) {
                 return true;
@@ -642,10 +655,10 @@ public class RegistrarVenta extends javax.swing.JFrame {
         }
         return false;
     }
-
+    
     private ArrayList<Producto> obtenerCarrito() {
         ArrayList<Producto> carrito = new ArrayList<>();
-
+        
         for (int i = 0; i < modelo.getRowCount(); i++) {
             Producto producto = new Producto();
             for (int j = 0; j < modelo.getColumnCount(); j++) {
@@ -667,15 +680,15 @@ public class RegistrarVenta extends javax.swing.JFrame {
             }
             carrito.add(producto);
         }
-
+        
         return carrito;
     }
-
+    
     private ArrayList<Producto> obtenerListaProductos() {
         ArrayList<Producto> listaProductos = new ArrayList<>();
         TableModel modelo = tblProducto.getModel();
         Producto producto;
-
+        
         for (int i = 0; i < modelo.getRowCount(); i++) {
             producto = new Producto();
             try {
@@ -684,38 +697,38 @@ public class RegistrarVenta extends javax.swing.JFrame {
                 producto.setPrecioUnitario(Float.parseFloat(modelo.getValueAt(i, 2).toString()));
                 producto.setStock(Integer.parseInt(modelo.getValueAt(i, 3).toString()));
                 producto.setImporte(Float.parseFloat(modelo.getValueAt(i, 4).toString()));
-
+                
                 listaProductos.add(producto);
             } catch (NumberFormatException ex) {
-
+                
             }
         }
-
+        
         return listaProductos;
     }
-
+    
     private void calcularImporte() {
         if (cbCantidad.getSelectedItem() != null) {
             int cantidad = Integer.parseInt(cbCantidad.getSelectedItem().toString());
             float precioUn = Float.parseFloat(txtPrecioUnitario.getText());
-
+            
             float calculo = cantidad * precioUn;
-
+            
             txtImporte.setText(String.valueOf(calculo));
         }
     }
-
+    
     private int obtenerIdCliente(String nombreCliente) {
-
+        
         for (Cliente cliente : clientes) {
             if (cliente.getNombre().equals(nombreCliente)) {
                 return cliente.getIdCliente();
             }
         }
-
+        
         return -1;
     }
-
+    
     private void llenarCantidad(Producto producto) {
         DefaultComboBoxModel dl = new DefaultComboBoxModel();
         for (int i = 1; i <= producto.getStock(); i++) {
@@ -723,16 +736,16 @@ public class RegistrarVenta extends javax.swing.JFrame {
         }
         cbCantidad.setModel(dl);
     }
-
+    
     private void obtenerRenglonTabla() {
         //Aqui va el codigo para eliminar algun productos o para modificarlo
     }
-
+    
     private void agregarTabla(String idProducto, String nombre, String precioUnitario, String cantidad, String importe) {
         String[] renglon = {idProducto, nombre, precioUnitario, cantidad, importe};
         modelo.addRow(renglon);
     }
-
+    
     public static void main(String args[]) {
         /* Set the Nimbus look and feel */
         //<editor-fold defaultstate="collapsed" desc=" Look and feel setting code (optional) ">
@@ -766,6 +779,7 @@ public class RegistrarVenta extends javax.swing.JFrame {
     }
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
+    private javax.swing.JButton RegistrarEnvio;
     private javax.swing.JButton btnAgregar;
     private javax.swing.JButton btnEliminar;
     private javax.swing.JButton btnRegistrarVenta;

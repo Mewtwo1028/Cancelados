@@ -421,8 +421,9 @@
                           <EmptySpace max="-2" attributes="0"/>
                           <Group type="103" groupAlignment="0" attributes="0">
                               <Component id="btnAgregar" max="32767" attributes="0"/>
-                              <Component id="btnRegistrarVenta" alignment="0" pref="188" max="32767" attributes="0"/>
+                              <Component id="btnRegistrarVenta" alignment="0" max="32767" attributes="0"/>
                               <Component id="btnEliminar" alignment="0" max="32767" attributes="0"/>
+                              <Component id="RegistrarEnvio" alignment="0" max="32767" attributes="0"/>
                           </Group>
                           <EmptySpace max="-2" attributes="0"/>
                       </Group>
@@ -437,7 +438,9 @@
                           <Component id="btnRegistrarVenta" min="-2" pref="35" max="-2" attributes="0"/>
                           <EmptySpace max="-2" attributes="0"/>
                           <Component id="btnEliminar" min="-2" pref="35" max="-2" attributes="0"/>
-                          <EmptySpace max="32767" attributes="0"/>
+                          <EmptySpace max="-2" attributes="0"/>
+                          <Component id="RegistrarEnvio" min="-2" pref="35" max="-2" attributes="0"/>
+                          <EmptySpace pref="15" max="32767" attributes="0"/>
                       </Group>
                   </Group>
                 </DimensionLayout>
@@ -453,7 +456,7 @@
                 </Component>
                 <Component class="javax.swing.JButton" name="btnRegistrarVenta">
                   <Properties>
-                    <Property name="text" type="java.lang.String" value="Registrar venta"/>
+                    <Property name="text" type="java.lang.String" value="Registrar venta (Local)"/>
                   </Properties>
                   <Events>
                     <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="btnRegistrarVentaActionPerformed"/>
@@ -465,6 +468,14 @@
                   </Properties>
                   <Events>
                     <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="btnEliminarActionPerformed"/>
+                  </Events>
+                </Component>
+                <Component class="javax.swing.JButton" name="RegistrarEnvio">
+                  <Properties>
+                    <Property name="text" type="java.lang.String" value="Registrar envio (Internacional)"/>
+                  </Properties>
+                  <Events>
+                    <EventHandler event="mouseClicked" listener="java.awt.event.MouseListener" parameters="java.awt.event.MouseEvent" handler="RegistrarEnvioMouseClicked"/>
                   </Events>
                 </Component>
               </SubComponents>
