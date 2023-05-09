@@ -272,6 +272,17 @@ public class PanelControlAdministrador extends javax.swing.JFrame {
         v.setVisible(true);
     }//GEN-LAST:event_btnVenderActionPerformed
 
+    public void setNombre(String nombre){
+        PanelInformacionArriba panelInformacion = new PanelInformacionArriba();
+        panelInformacion.setNombre(nombre);
+        panelInformacion.setBounds(0, 0, (int) jPanelInformacion.getBounds().getWidth(), 110);
+        jPanelInformacion.removeAll();
+        jPanelInformacion.setMinimumSize(panelInformacion.getPreferredSize());
+        jPanelInformacion.add(panelInformacion);
+        panelInformacion.revalidate();
+        panelInformacion.repaint();
+    }
+    
     /**
      * @param args the command line arguments
      */

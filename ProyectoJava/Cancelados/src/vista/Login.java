@@ -319,10 +319,12 @@ public class Login extends javax.swing.JFrame {
 
         if (rolId.equals("1")) {
             PanelControlAdministrador panel = new PanelControlAdministrador();
+            panel.setNombre(username);
             this.dispose();
             panel.setVisible(true);
         } else {
             PanelControlEmpleado panel = new PanelControlEmpleado();
+            panel.setNombre(username);
             this.dispose();
             panel.setVisible(true);
         }

@@ -24,6 +24,10 @@ public class PanelInformacionArriba extends javax.swing.JPanel {
         jLabelHoraActual.setText(tools.getHora());
         jLabelFechaActual.setText(tools.getFecha());
     }
+    
+    public void setNombre(String nombre){
+        jLabelBienvenida.setText(jLabelBienvenida.getText() + " "+nombre);
+    }
 
     /**
      * This method is called from within the constructor to initialize the form.
@@ -44,7 +48,7 @@ public class PanelInformacionArriba extends javax.swing.JPanel {
 
         jLabelBienvenida.setFont(new java.awt.Font("Segoe UI", 0, 18)); // NOI18N
         jLabelBienvenida.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
-        jLabelBienvenida.setText("Bienvenido PENDIENTE");
+        jLabelBienvenida.setText("Bienvenido");
 
         jLabelFechaActual.setFont(new java.awt.Font("Segoe UI", 0, 18)); // NOI18N
         jLabelFechaActual.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
