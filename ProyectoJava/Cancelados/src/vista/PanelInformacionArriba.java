@@ -2,15 +2,10 @@ package vista;
 
 import modelo.FuncionesUtiles;
 import java.awt.Color;
-import java.text.DateFormat;
-import java.time.LocalDateTime;
-import java.util.Date;
 
 public class PanelInformacionArriba extends javax.swing.JPanel {
 
-    /**
-     * Creates new form PanelInformacionArriba
-     */
+    
     public PanelInformacionArriba() {
         initComponents();
         inicializar();
