@@ -2,6 +2,7 @@ package vista;
 
 import controlador.Conexion;
 import controlador.EmpleadoManager;
+import controlador.NotificacionManager;
 import modelo.Credencial;
 import modelo.Empleado;
 import modelo.FuncionesUtiles;
@@ -16,6 +17,8 @@ import java.security.NoSuchAlgorithmException;
 import java.sql.ResultSet;
 import java.util.logging.Level;
 import java.util.logging.Logger;
+import javax.swing.DefaultComboBoxModel;
+import javax.swing.JOptionPane;
 
 public class AdministrarEmpleado extends javax.swing.JFrame {
 
@@ -30,60 +33,6 @@ public class AdministrarEmpleado extends javax.swing.JFrame {
         initComponents();
         inicializar();
         initTabla();
-
-    }
-
-    public void buscarempleado(String texto) {
-        try {
-
-            //String[] titulos = {"IdEmpleado", "Nombre", "Apellido Paterno", "Apellido Materno", "Calle", "NoExt", "Colonia", "CP", "RFC", "Municipio","Estado","Roles_idRoles"};
-            String filtro = "" + texto + "_%";
-
-            String SQL = "SELECT * FROM empleado WHERE Nombre like" + '"' + filtro + '"';
-
-            //System.out.print(SQL);
-
-            Conexion conexion = new Conexion();
-
-            modelo = new DefaultTableModel();
-
-            modelo.addColumn("ID Empleado");
-            modelo.addColumn("Nombre");
-            modelo.addColumn("Apellido Paterno");
-            modelo.addColumn("Apellido Materno");
-            modelo.addColumn("Calle");
-            modelo.addColumn("No. Exterior");
-            modelo.addColumn("Colonia");
-            modelo.addColumn("CP");
-            modelo.addColumn("CURP");
-            modelo.addColumn("RFC");
-            modelo.addColumn("Municipio");
-            modelo.addColumn("Estado");
-            modelo.addColumn("ROL");
-
-            ResultSet rs = conexion.getConexion().prepareStatement(SQL).executeQuery();
-            String[] fila = new String[13];
-            while (rs.next()) {
-                fila[0] = rs.getString("IdEmpleado");
-                fila[1] = rs.getString("Nombre");
-                fila[2] = rs.getString("ApellidoPaterno");
-                fila[3] = rs.getString("ApellidoMaterno");
-                fila[4] = rs.getString("Calle");
-                fila[5] = rs.getString("NoExt");
-                fila[6] = rs.getString("Colonia");
-                fila[7] = rs.getString("CP");
-                fila[8] = rs.getString("CURP");
-                fila[9] = rs.getString("RFC");
-                fila[10] = rs.getString("Municipio");
-                fila[11] = rs.getString("Estado");
-                fila[12] = rs.getString("Roles_idRoles");
-                modelo.addRow(fila);
-
-            }
-            tblEmpleado.setModel(modelo);
-        } catch (Exception e) {
-            System.err.println("" + e.getMessage());
-        }
 
     }
 
@@ -104,8 +53,6 @@ public class AdministrarEmpleado extends javax.swing.JFrame {
         jPanelPrincipal.setBackground(Color.WHITE);
 
         //Colocar panel de la izquierda
-        
-
         //Configurar panel de arriba
         jPanelInformacion.setBackground(Color.WHITE);
         jPanelInformacion.setBounds(278, 6, (int) java.awt.Toolkit.getDefaultToolkit().getScreenSize().getWidth() - (int) jPanelIzquierda.getBounds().getWidth() - (int) jPanelLinea.getBounds().getWidth(), 110);
@@ -137,9 +84,19 @@ public class AdministrarEmpleado extends javax.swing.JFrame {
 
         //Limpiar txtFields
         limpiarTxtFields();
+
+        btnFind.setText("");
+        
+        initFiltro();
     }
     
-    public void setAdmon(String nombre){
+    private void initFiltro() {
+        btnFind.setText("");
+        String[] filtro = {"Nombre", "Apellido Paterno", "Apellido Materno"};
+        jComboBox1.setModel(new DefaultComboBoxModel(filtro));
+    }
+
+    public void setAdmon(String nombre) {
         AccionesRapidasAdministrador panelBotones = new AccionesRapidasAdministrador(this);
         panelBotones.setNombre(nombre);
         panelBotones.setBounds(0, 0, 266, (int) this.getBounds().getHeight() - 80);
@@ -233,14 +190,16 @@ public class AdministrarEmpleado extends javax.swing.JFrame {
         jComboBoxRol = new javax.swing.JComboBox<>();
         jLabel1 = new javax.swing.JLabel();
         txtRepContrasena = new javax.swing.JPasswordField();
-        jScrollPane1 = new javax.swing.JScrollPane();
-        tblEmpleado = new javax.swing.JTable();
+        btnFind = new javax.swing.JTextField();
+        jComboBox1 = new javax.swing.JComboBox<>();
         jPanelAcciones = new javax.swing.JPanel();
         btnConsultar = new javax.swing.JButton();
         btnRegistrar = new javax.swing.JButton();
         btnModificar = new javax.swing.JButton();
         btnEliminar = new javax.swing.JButton();
         btnRestaurarContrasena = new javax.swing.JButton();
+        jScrollPane1 = new javax.swing.JScrollPane();
+        tblEmpleado = new javax.swing.JTable();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
 
@@ -340,23 +299,14 @@ public class AdministrarEmpleado extends javax.swing.JFrame {
 
         jLabel1.setText("Repetir Contraseña");
 
-        tblEmpleado.setModel(new javax.swing.table.DefaultTableModel(
-            new Object [][] {
-                {null, null, null, null},
-                {null, null, null, null},
-                {null, null, null, null},
-                {null, null, null, null}
-            },
-            new String [] {
-                "Title 1", "Title 2", "Title 3", "Title 4"
-            }
-        ));
-        tblEmpleado.addMouseListener(new java.awt.event.MouseAdapter() {
-            public void mouseClicked(java.awt.event.MouseEvent evt) {
-                tblEmpleadoMouseClicked(evt);
+        btnFind.setText("jTextField1");
+        btnFind.addKeyListener(new java.awt.event.KeyAdapter() {
+            public void keyPressed(java.awt.event.KeyEvent evt) {
+                btnFindKeyPressed(evt);
             }
         });
-        jScrollPane1.setViewportView(tblEmpleado);
+
+        jComboBox1.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "Item 1", "Item 2", "Item 3", "Item 4" }));
 
         javax.swing.GroupLayout jPanelFormularioLayout = new javax.swing.GroupLayout(jPanelFormulario);
         jPanelFormulario.setLayout(jPanelFormularioLayout);
@@ -365,6 +315,10 @@ public class AdministrarEmpleado extends javax.swing.JFrame {
             .addGroup(jPanelFormularioLayout.createSequentialGroup()
                 .addContainerGap()
                 .addGroup(jPanelFormularioLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addGroup(jPanelFormularioLayout.createSequentialGroup()
+                        .addComponent(btnFind, javax.swing.GroupLayout.PREFERRED_SIZE, 140, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                        .addComponent(jComboBox1, javax.swing.GroupLayout.PREFERRED_SIZE, 120, javax.swing.GroupLayout.PREFERRED_SIZE))
                     .addGroup(jPanelFormularioLayout.createSequentialGroup()
                         .addGroup(jPanelFormularioLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING, false)
                             .addComponent(labelNoExt, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
@@ -411,10 +365,8 @@ public class AdministrarEmpleado extends javax.swing.JFrame {
                                 .addGap(12, 12, 12)
                                 .addComponent(jLabel1)
                                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                                .addComponent(txtRepContrasena)))
-                        .addGap(0, 5, Short.MAX_VALUE))
-                    .addComponent(jScrollPane1))
-                .addContainerGap())
+                                .addComponent(txtRepContrasena)))))
+                .addContainerGap(11, Short.MAX_VALUE))
         );
         jPanelFormularioLayout.setVerticalGroup(
             jPanelFormularioLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -459,8 +411,11 @@ public class AdministrarEmpleado extends javax.swing.JFrame {
                     .addComponent(txtMunicipio, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addComponent(txtIDEmpleado, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addComponent(labelIDEmpleado))
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 350, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addGroup(jPanelFormularioLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(btnFind, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(jComboBox1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addContainerGap(11, Short.MAX_VALUE))
         );
 
         btnConsultar.setText("Consultar");
@@ -528,13 +483,33 @@ public class AdministrarEmpleado extends javax.swing.JFrame {
                 .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
         );
 
+        tblEmpleado.setModel(new javax.swing.table.DefaultTableModel(
+            new Object [][] {
+                {null, null, null, null},
+                {null, null, null, null},
+                {null, null, null, null},
+                {null, null, null, null}
+            },
+            new String [] {
+                "Title 1", "Title 2", "Title 3", "Title 4"
+            }
+        ));
+        tblEmpleado.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseClicked(java.awt.event.MouseEvent evt) {
+                tblEmpleadoMouseClicked(evt);
+            }
+        });
+        jScrollPane1.setViewportView(tblEmpleado);
+
         javax.swing.GroupLayout jPanelOperacionesLayout = new javax.swing.GroupLayout(jPanelOperaciones);
         jPanelOperaciones.setLayout(jPanelOperacionesLayout);
         jPanelOperacionesLayout.setHorizontalGroup(
             jPanelOperacionesLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(jPanelOperacionesLayout.createSequentialGroup()
                 .addContainerGap()
-                .addComponent(jPanelFormulario, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addGroup(jPanelOperacionesLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addComponent(jPanelFormulario, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(jScrollPane1))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addComponent(jPanelAcciones, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
@@ -544,9 +519,14 @@ public class AdministrarEmpleado extends javax.swing.JFrame {
             .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanelOperacionesLayout.createSequentialGroup()
                 .addContainerGap()
                 .addGroup(jPanelOperacionesLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addComponent(jPanelFormulario, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                    .addComponent(jPanelAcciones, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
-                .addGap(389, 389, 389))
+                    .addGroup(jPanelOperacionesLayout.createSequentialGroup()
+                        .addComponent(jPanelAcciones, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                        .addGap(389, 389, 389))
+                    .addGroup(jPanelOperacionesLayout.createSequentialGroup()
+                        .addComponent(jPanelFormulario, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                        .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 350, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addGap(350, 350, 350))))
         );
 
         javax.swing.GroupLayout jPanelPrincipalLayout = new javax.swing.GroupLayout(jPanelPrincipal);
@@ -700,41 +680,165 @@ public class AdministrarEmpleado extends javax.swing.JFrame {
     }//GEN-LAST:event_btnEliminarActionPerformed
 
     private void btnRestaurarContrasenaActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnRestaurarContrasenaActionPerformed
-        String aux[] = new String[2];
-        aux[0] = txtContra.getText();
-        aux[1] = new String(txtRepContrasena.getPassword());
-        int txtIdRol = String.valueOf(jComboBoxRol.getSelectedItem()).equals("Empleado") ? 2 : 1;
-        Empleado empleado = new Empleado(Integer.parseInt(txtIDEmpleado.getText()), txtNombre.getText(), txtApPaterno.getText(), txtApMaterno.getText(), txtCalle.getText(), txtNoExt.getText(), txtColonia.getText(), txtCP.getText(), txtCURP.getText(), txtRFC.getText(), txtMunicipio.getText(), txtEstado.getText(), txtIdRol);
 
-        DialogoEmergente a = new DialogoEmergente(this, rootPaneCheckingEnabled);
-        if (aux[0].isEmpty() || aux[1].isEmpty()) {
-            a.setTexto("Error. Contraseña vacía");
-
-        } else {
-            try {
-                Credencial credencial = new Credencial(encriptaContra(txtContra.getText()), Integer.parseInt(txtIDEmpleado.getText()));
-                if (compruebaContra(new String(txtRepContrasena.getPassword()), txtContra.getText())) {
-                    empleado.modificaCredenciales(credencial);
-                    a.setTexto("Contraseña restaurada");
-                } else {
-                    a.setTexto("Error. Las contraseñas no coinciden");
-                }
-            } catch (NoSuchAlgorithmException ex) {
-                Logger.getLogger(AdministrarEmpleado.class.getName()).log(Level.SEVERE, null, ex);
-            }
+        if (tblEmpleado.getSelectedRow() == -1) {
+            JOptionPane.showMessageDialog(this, "ERROR, DEBE DE SELECIONAR UN RENGLON de la tabla");
+            return;
         }
-        a.setVisible(true);
+        int idEmpleado = Integer.parseInt(tblEmpleado.getValueAt(tblEmpleado.getSelectedRow(), 0).toString());
+
+        if (restContra(idEmpleado) && new NotificacionManager().eliminarNotEmpleado(idEmpleado)) {
+            JOptionPane.showMessageDialog(this, "Todo correcto");
+        } else {
+            JOptionPane.showMessageDialog(this, "ERROR");
+        }
+
         limpiarTxtFields();
 
     }//GEN-LAST:event_btnRestaurarContrasenaActionPerformed
 
     private void txtNombreKeyPressed(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_txtNombreKeyPressed
-        // TODO add your handling code here:
-        String buscar = txtNombre.getText();
-        buscarempleado(buscar);
+
     }//GEN-LAST:event_txtNombreKeyPressed
 
-    public void setNombre(String nombre){
+    private void btnFindKeyPressed(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_btnFindKeyPressed
+        // TODO add your handling code here:
+        buscarEmpleado(btnFind.getText(), jComboBox1.getSelectedItem());
+    }//GEN-LAST:event_btnFindKeyPressed
+
+    private void buscarEmpleado(String txt, Object filtro) {
+        switch (filtro.toString()) {
+            case "Nombre" ->
+                buscarEmpleadoNombre(txt);
+            case "Apellido Paterno" ->
+                buscarEmpleadoPaterno(txt);
+            case "Apellido Materno" ->
+                buscarEmpleadoMaterno(txt);
+        }
+    }
+    
+    private void buscarEmpleadoMaterno(String texto) {
+        try {
+
+            //String[] titulos = {"IdEmpleado", "Nombre", "Apellido Paterno", "Apellido Materno", "Calle", "NoExt", "Colonia", "CP", "RFC", "Municipio","Estado","Roles_idRoles"};
+            String filtro = "" + texto + "_%";
+
+            String SQL = "SELECT * FROM empleado WHERE apellidoMaterno like" + '"' + filtro + '"';
+
+            //System.out.print(SQL);
+            Conexion conexion = new Conexion();
+
+            modelo.setRowCount(0);
+
+            ResultSet rs = conexion.getConexion().prepareStatement(SQL).executeQuery();
+            String[] fila = new String[13];
+            while (rs.next()) {
+                fila[0] = rs.getString("IdEmpleado");
+                fila[1] = rs.getString("Nombre");
+                fila[2] = rs.getString("ApellidoPaterno");
+                fila[3] = rs.getString("ApellidoMaterno");
+                fila[4] = rs.getString("Calle");
+                fila[5] = rs.getString("NoExt");
+                fila[6] = rs.getString("Colonia");
+                fila[7] = rs.getString("CP");
+                fila[8] = rs.getString("CURP");
+                fila[9] = rs.getString("RFC");
+                fila[10] = rs.getString("Municipio");
+                fila[11] = rs.getString("Estado");
+                fila[12] = rs.getString("Roles_idRoles");
+                modelo.addRow(fila);
+
+            }
+            tblEmpleado.setModel(modelo);
+        } catch (Exception e) {
+            System.err.println("" + e.getMessage());
+        }
+
+    }
+    
+    private void buscarEmpleadoPaterno(String texto) {
+        try {
+
+            //String[] titulos = {"IdEmpleado", "Nombre", "Apellido Paterno", "Apellido Materno", "Calle", "NoExt", "Colonia", "CP", "RFC", "Municipio","Estado","Roles_idRoles"};
+            String filtro = "" + texto + "_%";
+
+            String SQL = "SELECT * FROM empleado WHERE apellidoPaterno like" + '"' + filtro + '"';
+
+            //System.out.print(SQL);
+            Conexion conexion = new Conexion();
+
+            modelo.setRowCount(0);
+
+            ResultSet rs = conexion.getConexion().prepareStatement(SQL).executeQuery();
+            String[] fila = new String[13];
+            while (rs.next()) {
+                fila[0] = rs.getString("IdEmpleado");
+                fila[1] = rs.getString("Nombre");
+                fila[2] = rs.getString("ApellidoPaterno");
+                fila[3] = rs.getString("ApellidoMaterno");
+                fila[4] = rs.getString("Calle");
+                fila[5] = rs.getString("NoExt");
+                fila[6] = rs.getString("Colonia");
+                fila[7] = rs.getString("CP");
+                fila[8] = rs.getString("CURP");
+                fila[9] = rs.getString("RFC");
+                fila[10] = rs.getString("Municipio");
+                fila[11] = rs.getString("Estado");
+                fila[12] = rs.getString("Roles_idRoles");
+                modelo.addRow(fila);
+
+            }
+            tblEmpleado.setModel(modelo);
+        } catch (Exception e) {
+            System.err.println("" + e.getMessage());
+        }
+
+    }
+
+    private void buscarEmpleadoNombre(String texto) {
+        try {
+
+            //String[] titulos = {"IdEmpleado", "Nombre", "Apellido Paterno", "Apellido Materno", "Calle", "NoExt", "Colonia", "CP", "RFC", "Municipio","Estado","Roles_idRoles"};
+            String filtro = "" + texto + "_%";
+
+            String SQL = "SELECT * FROM empleado WHERE Nombre like" + '"' + filtro + '"';
+
+            //System.out.print(SQL);
+            Conexion conexion = new Conexion();
+
+            modelo.setRowCount(0);
+
+            ResultSet rs = conexion.getConexion().prepareStatement(SQL).executeQuery();
+            String[] fila = new String[13];
+            while (rs.next()) {
+                fila[0] = rs.getString("IdEmpleado");
+                fila[1] = rs.getString("Nombre");
+                fila[2] = rs.getString("ApellidoPaterno");
+                fila[3] = rs.getString("ApellidoMaterno");
+                fila[4] = rs.getString("Calle");
+                fila[5] = rs.getString("NoExt");
+                fila[6] = rs.getString("Colonia");
+                fila[7] = rs.getString("CP");
+                fila[8] = rs.getString("CURP");
+                fila[9] = rs.getString("RFC");
+                fila[10] = rs.getString("Municipio");
+                fila[11] = rs.getString("Estado");
+                fila[12] = rs.getString("Roles_idRoles");
+                modelo.addRow(fila);
+
+            }
+            tblEmpleado.setModel(modelo);
+        } catch (Exception e) {
+            System.err.println("" + e.getMessage());
+        }
+
+    }
+
+    private boolean restContra(int idEmpleado) {
+        return new NotificacionManager().restaurarContrasena(idEmpleado);
+    }
+
+    public void setNombre(String nombre) {
         PanelInformacionArriba panelInformacion = new PanelInformacionArriba();
         panelInformacion.setNombre(nombre);
         panelInformacion.setBounds(0, 0, (int) jPanelInformacion.getBounds().getWidth(), 110);
@@ -744,7 +848,7 @@ public class AdministrarEmpleado extends javax.swing.JFrame {
         panelInformacion.revalidate();
         panelInformacion.repaint();
     }
-    
+
     private void llenarTabla() {
         modelo.setRowCount(0); //Limpiamos la tabla
         ArrayList<String[]> lista = new EmpleadoManager().consultarTodos();
@@ -792,9 +896,11 @@ public class AdministrarEmpleado extends javax.swing.JFrame {
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JButton btnConsultar;
     private javax.swing.JButton btnEliminar;
+    private javax.swing.JTextField btnFind;
     private javax.swing.JButton btnModificar;
     private javax.swing.JButton btnRegistrar;
     private javax.swing.JButton btnRestaurarContrasena;
+    private javax.swing.JComboBox<String> jComboBox1;
     private javax.swing.JComboBox<String> jComboBoxRol;
     private javax.swing.JLabel jLabel1;
     private javax.swing.JPanel jPanelAcciones;
