@@ -10,6 +10,7 @@ import javax.swing.JFrame;
 public class AccionesRapidasAdministrador extends javax.swing.JPanel {
 
     JFrame actual;
+    private String nombre = "";
 
     public AccionesRapidasAdministrador(JFrame actual) {
         initComponents();
@@ -212,6 +213,7 @@ public class AccionesRapidasAdministrador extends javax.swing.JPanel {
     private void btnMenuActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnMenuActionPerformed
         imagenNot();
         PanelControlAdministrador menu = new PanelControlAdministrador();
+        menu.setNombre(nombre);
         actual.dispose();
         menu.setVisible(true);
     }//GEN-LAST:event_btnMenuActionPerformed
@@ -223,6 +225,7 @@ public class AccionesRapidasAdministrador extends javax.swing.JPanel {
             actual.dispose();
         } else {
             PanelControlAdministrador admon = new PanelControlAdministrador();
+            admon.setNombre(nombre);
             admon.setVisible(true);
             actual.dispose();
         }
@@ -234,9 +237,9 @@ public class AccionesRapidasAdministrador extends javax.swing.JPanel {
 
     private void btnNotificacionesMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_btnNotificacionesMouseClicked
         // TODO add your handling code here:
-        
+
         imagenNot();
-        
+
         DialogoNotificacion not = new DialogoNotificacion(actual, true);
         not.setVisible(true);
     }//GEN-LAST:event_btnNotificacionesMouseClicked
@@ -265,6 +268,9 @@ public class AccionesRapidasAdministrador extends javax.swing.JPanel {
         btnAcercaDe.setCursor(Cursor.getPredefinedCursor(Cursor.HAND_CURSOR));
     }//GEN-LAST:event_btnAcercaDeMouseEntered
 
+    public void setNombre(String nombre) {
+        this.nombre = nombre;
+    }
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JButton btnAcercaDe;

@@ -83,9 +83,10 @@ public class AdministrarVentasPanel extends javax.swing.JFrame {
         tblVenta.setModel(modelo);
     }
 
-    public void setAdministrador() {
+    public void setAdministrador(String nombre) {
         //Colocar panel de la izquierda
         AccionesRapidasAdministrador panelBotones = new AccionesRapidasAdministrador(this);
+        panelBotones.setNombre(nombre);
         panelBotones.setBounds(0, 0, 266, (int) this.getBounds().getHeight() - 70);
         jPanelIzquierda.removeAll();
         jPanelIzquierda.setMinimumSize(panelBotones.getPreferredSize());
@@ -392,6 +393,17 @@ public class AdministrarVentasPanel extends javax.swing.JFrame {
        
     }//GEN-LAST:event_jButton1ActionPerformed
 
+    public void setNombre(String nombre){
+        PanelInformacionArriba panelInformacion = new PanelInformacionArriba();
+        panelInformacion.setNombre(nombre);
+        panelInformacion.setBounds(0, 0, (int) jPanelInformacion.getBounds().getWidth(), 110);
+        jPanelInformacion.removeAll();
+        jPanelInformacion.setMinimumSize(panelInformacion.getPreferredSize());
+        jPanelInformacion.add(panelInformacion);
+        panelInformacion.revalidate();
+        panelInformacion.repaint();
+    }
+    
     private void llenarTabla() {
         modelo.setRowCount(0); //Limpiamos la tabla
         ArrayList<String[]> lista = new VentaManager().consultarTodos();
