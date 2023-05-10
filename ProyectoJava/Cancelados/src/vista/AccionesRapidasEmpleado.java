@@ -8,32 +8,34 @@ import javax.swing.JFrame;
 public class AccionesRapidasEmpleado extends javax.swing.JPanel {
 
     JFrame actual;
+    private String nombre = "";
+
     public AccionesRapidasEmpleado(JFrame actual) {
         initComponents();
         inicializar();
         this.actual = actual;
     }
-    
-    private void inicializar(){
+
+    private void inicializar() {
         this.setBounds(0, 0, 266, 650);
         jLabelLogo.setSize(233, 245);
         //Imagenes
         FuncionesUtiles funcionesUtiles = new FuncionesUtiles();
         funcionesUtiles.colocarImagen("/Imagenes/LogoLetras.png", jLabelLogo);
-        
+
         //Configurar jPanelCredenciales
         this.setBackground(Color.WHITE);
-        
+
         //Configurar botones
         FuncionesUtiles funUtil = new FuncionesUtiles();
         funUtil.confBtnMenu(btnMenu);
         funUtil.confBtnMenu(btnConfiguraciones);
         funUtil.confBtnMenu(btnAcercaDe);
         funUtil.confBtnMenu(btnVolver);
-        
+
         //Configurar linea
         jPanelLinea.setBackground(funUtil.getColorCancelados());
-        
+
         //Agregar iconos a los botones
         funUtil.colocarImagen("/Iconos/menu.png", btnMenu);
         funUtil.colocarImagen("/Iconos/configuraciones.png", btnConfiguraciones);
@@ -150,24 +152,26 @@ public class AccionesRapidasEmpleado extends javax.swing.JPanel {
 
     private void btnMenuActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnMenuActionPerformed
         PanelControlEmpleado menu = new PanelControlEmpleado();
+        menu.setNombre(nombre);
         actual.dispose();
         menu.setVisible(true);
     }//GEN-LAST:event_btnMenuActionPerformed
 
     private void btnVolverActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnVolverActionPerformed
-        if(actual.getTitle().equals("Panel de control")){
+        if (actual.getTitle().equals("Panel de control")) {
             Login login = new Login();
             login.setVisible(true);
             actual.dispose();
-        }else{
+        } else {
             PanelControlEmpleado admon = new PanelControlEmpleado();
+            admon.setNombre(nombre);
             admon.setVisible(true);
             actual.dispose();
         }
     }//GEN-LAST:event_btnVolverActionPerformed
 
     private void btnMenuMouseEntered(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_btnMenuMouseEntered
-       btnMenu.setCursor(Cursor.getPredefinedCursor(Cursor.HAND_CURSOR));
+        btnMenu.setCursor(Cursor.getPredefinedCursor(Cursor.HAND_CURSOR));
     }//GEN-LAST:event_btnMenuMouseEntered
 
     private void btnConfiguracionesMouseEntered(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_btnConfiguracionesMouseEntered
@@ -178,6 +182,9 @@ public class AccionesRapidasEmpleado extends javax.swing.JPanel {
         btnAcercaDe.setCursor(Cursor.getPredefinedCursor(Cursor.HAND_CURSOR));
     }//GEN-LAST:event_btnAcercaDeMouseEntered
 
+    public void setNombre(String nombre) {
+        this.nombre = nombre;
+    }
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JButton btnAcercaDe;

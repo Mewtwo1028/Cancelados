@@ -5,6 +5,7 @@ import java.awt.Color;
 import javax.swing.JFrame;
 
 public class PanelControlEmpleado extends javax.swing.JFrame {
+    private String nombre="";
 
     public PanelControlEmpleado() {
         initComponents();
@@ -200,7 +201,8 @@ public class PanelControlEmpleado extends javax.swing.JFrame {
 
     private void btnRegistrarClienteActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnRegistrarClienteActionPerformed
         AdministrarCliente win = new AdministrarCliente();
-        win.setEmpleado();
+        win.setNombre(nombre);
+        win.setEmpleado(nombre);
         this.dispose();
         win.setVisible(true);
     }//GEN-LAST:event_btnRegistrarClienteActionPerformed
@@ -208,8 +210,9 @@ public class PanelControlEmpleado extends javax.swing.JFrame {
     private void btnVenderActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnVenderActionPerformed
         // TODO add your handling code here:
         RegistrarVenta win = new RegistrarVenta();
+        win.setNombre(nombre);
         win.setExtendedState(JFrame.MAXIMIZED_BOTH);
-        win.setEmpleado();
+        win.setEmpleado(nombre);
         this.dispose();
         win.setVisible(true);
     }//GEN-LAST:event_btnVenderActionPerformed
@@ -217,12 +220,15 @@ public class PanelControlEmpleado extends javax.swing.JFrame {
     private void btnConsultarInventarioActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnConsultarInventarioActionPerformed
         // TODO add your handling code here:
         AdministrarProducto win = new AdministrarProducto();
-        win.setEmpleado();
+        win.setNombre(nombre);
+        win.setEmpleado(nombre);
         this.dispose();
         win.setVisible(true);
     }//GEN-LAST:event_btnConsultarInventarioActionPerformed
 
     public void setNombre(String nombre){
+        this.nombre = nombre;
+        
         PanelInformacionArriba panelInformacion = new PanelInformacionArriba();
         panelInformacion.setNombre(nombre);
         panelInformacion.setBounds(0, 0, (int) jPanelInformacion.getBounds().getWidth(), 110);

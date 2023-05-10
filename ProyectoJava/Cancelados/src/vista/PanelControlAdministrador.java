@@ -7,9 +7,8 @@ import javax.swing.JFrame;
 import java.awt.Dimension;
 public class PanelControlAdministrador extends javax.swing.JFrame {
 
-    /**
-     * Creates new form PanelControl
-     */
+    private String nombre ="";
+    
     public PanelControlAdministrador() {
         initComponents();
         inicializar();
@@ -240,39 +239,46 @@ public class PanelControlAdministrador extends javax.swing.JFrame {
     private void btnAdmEmpleadosActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnAdmEmpleadosActionPerformed
         // TODO add your handling code here:
         AdministrarEmpleado pAdminEmpl= new AdministrarEmpleado();
+        pAdminEmpl.setNombre(nombre);
+        pAdminEmpl.setAdmon(nombre);
         this.dispose();
         pAdminEmpl.setVisible(true);
     }//GEN-LAST:event_btnAdmEmpleadosActionPerformed
 
     private void btnAdministrarVentasActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnAdministrarVentasActionPerformed
         AdministrarVentasPanel panelV = new AdministrarVentasPanel();
-        panelV.setAdministrador();
+        panelV.setNombre(nombre);
+        panelV.setAdministrador(nombre);
         this.dispose();
         panelV.setVisible(true);
     }//GEN-LAST:event_btnAdministrarVentasActionPerformed
 
     private void btnAdministrarClientesActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnAdministrarClientesActionPerformed
         AdministrarCliente pAdminClien= new AdministrarCliente();
-        pAdminClien.setAdministrador();
+        pAdminClien.setNombre(nombre);
+        pAdminClien.setAdministrador(nombre);
         this.dispose();
         pAdminClien.setVisible(true);
     }//GEN-LAST:event_btnAdministrarClientesActionPerformed
 
     private void btnAdministrarProductosActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnAdministrarProductosActionPerformed
         AdministrarProducto pAdminProduc = new AdministrarProducto();
-        pAdminProduc.setAdmon();
+        pAdminProduc.setNombre(nombre);
+        pAdminProduc.setAdmon(nombre);
         this.dispose();
         pAdminProduc.setVisible(true);
     }//GEN-LAST:event_btnAdministrarProductosActionPerformed
 
     private void btnVenderActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnVenderActionPerformed
         RegistrarVenta v = new RegistrarVenta();
-        v.setAdmon();
+        v.setNombre(nombre);
+        v.setAdmon(nombre);
         this.dispose();
         v.setVisible(true);
     }//GEN-LAST:event_btnVenderActionPerformed
 
     public void setNombre(String nombre){
+        this.nombre = nombre;
         PanelInformacionArriba panelInformacion = new PanelInformacionArriba();
         panelInformacion.setNombre(nombre);
         panelInformacion.setBounds(0, 0, (int) jPanelInformacion.getBounds().getWidth(), 110);

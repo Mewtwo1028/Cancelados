@@ -154,9 +154,10 @@ public class RegistrarVenta extends javax.swing.JFrame {
         tblProducto.setModel(modelo);
     }
     
-    public void setEmpleado() {
+    public void setEmpleado(String nombre) {
         //Colocar panel de la izquierda
         AccionesRapidasEmpleado panelBotones = new AccionesRapidasEmpleado(this);
+        panelBotones.setNombre(nombre);
         panelBotones.setBounds(0, 0, 266, (int) this.getBounds().getHeight() - 50);
         jPanelIzquierda.removeAll();
         jPanelIzquierda.setMinimumSize(panelBotones.getPreferredSize());
@@ -165,9 +166,10 @@ public class RegistrarVenta extends javax.swing.JFrame {
         panelBotones.repaint();
     }
     
-    public void setAdmon() {
+    public void setAdmon(String nombre) {
         //Colocar panel de la izquierda
         AccionesRapidasAdministrador panelBotones = new AccionesRapidasAdministrador(this);
+        panelBotones.setNombre(nombre);
         panelBotones.setBounds(0, 0, 266, (int) this.getBounds().getHeight() - 50);
         jPanelIzquierda.removeAll();
         jPanelIzquierda.setMinimumSize(panelBotones.getPreferredSize());
@@ -682,6 +684,17 @@ public class RegistrarVenta extends javax.swing.JFrame {
         }
         
         return carrito;
+    }
+    
+    public void setNombre(String nombre){
+        PanelInformacionArriba panelInformacion = new PanelInformacionArriba();
+        panelInformacion.setNombre(nombre);
+        panelInformacion.setBounds(0, 0, (int) jPanelInformacion.getBounds().getWidth(), 110);
+        jPanelInformacion.removeAll();
+        jPanelInformacion.setMinimumSize(panelInformacion.getPreferredSize());
+        jPanelInformacion.add(panelInformacion);
+        panelInformacion.revalidate();
+        panelInformacion.repaint();
     }
     
     private ArrayList<Producto> obtenerListaProductos() {

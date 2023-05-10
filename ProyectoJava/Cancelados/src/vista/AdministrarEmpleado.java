@@ -104,13 +104,7 @@ public class AdministrarEmpleado extends javax.swing.JFrame {
         jPanelPrincipal.setBackground(Color.WHITE);
 
         //Colocar panel de la izquierda
-        AccionesRapidasAdministrador panelBotones = new AccionesRapidasAdministrador(this);
-        panelBotones.setBounds(0, 0, 266, (int) this.getBounds().getHeight() - 80);
-        jPanelIzquierda.removeAll();
-        jPanelIzquierda.setMinimumSize(panelBotones.getPreferredSize());
-        jPanelIzquierda.add(panelBotones);
-        panelBotones.revalidate();
-        panelBotones.repaint();
+        
 
         //Configurar panel de arriba
         jPanelInformacion.setBackground(Color.WHITE);
@@ -143,6 +137,17 @@ public class AdministrarEmpleado extends javax.swing.JFrame {
 
         //Limpiar txtFields
         limpiarTxtFields();
+    }
+    
+    public void setAdmon(String nombre){
+        AccionesRapidasAdministrador panelBotones = new AccionesRapidasAdministrador(this);
+        panelBotones.setNombre(nombre);
+        panelBotones.setBounds(0, 0, 266, (int) this.getBounds().getHeight() - 80);
+        jPanelIzquierda.removeAll();
+        jPanelIzquierda.setMinimumSize(panelBotones.getPreferredSize());
+        jPanelIzquierda.add(panelBotones);
+        panelBotones.revalidate();
+        panelBotones.repaint();
     }
 
     private void limpiarTxtFields() {
@@ -729,6 +734,17 @@ public class AdministrarEmpleado extends javax.swing.JFrame {
         buscarempleado(buscar);
     }//GEN-LAST:event_txtNombreKeyPressed
 
+    public void setNombre(String nombre){
+        PanelInformacionArriba panelInformacion = new PanelInformacionArriba();
+        panelInformacion.setNombre(nombre);
+        panelInformacion.setBounds(0, 0, (int) jPanelInformacion.getBounds().getWidth(), 110);
+        jPanelInformacion.removeAll();
+        jPanelInformacion.setMinimumSize(panelInformacion.getPreferredSize());
+        jPanelInformacion.add(panelInformacion);
+        panelInformacion.revalidate();
+        panelInformacion.repaint();
+    }
+    
     private void llenarTabla() {
         modelo.setRowCount(0); //Limpiamos la tabla
         ArrayList<String[]> lista = new EmpleadoManager().consultarTodos();

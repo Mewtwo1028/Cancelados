@@ -11,6 +11,7 @@ import java.util.ArrayList;
 import javax.swing.JFrame;
 import javax.swing.table.DefaultTableModel;
 import java.sql.ResultSet;
+import javax.swing.DefaultComboBoxModel;
 
 public class AdministrarCliente extends javax.swing.JFrame {
 
@@ -25,41 +26,6 @@ public class AdministrarCliente extends javax.swing.JFrame {
         initComponents();
         inicializar();
         initTabla();
-    }
-
-    public void buscarcliente(String texto) {
-        try {
-
-            String[] titulos = {"ID", "Nombre", "Apellido Paterno", "Apellido Materno", "Calle", "Colonia", "Ciudad", "Estado", "CP"};
-            String filtro = "" + texto + "_%";
-
-            String SQL = "SELECT * FROM cliente WHERE Nombre like" + '"' + filtro + '"';
-
-            //System.out.print(SQL);
-
-            Conexion conexion = new Conexion();
-
-            modelo = new DefaultTableModel(null, titulos);
-            ResultSet rs = conexion.getConexion().prepareStatement(SQL).executeQuery();
-            String[] fila = new String[9];
-            while (rs.next()) {
-                fila[0] = rs.getString("IdCliente");
-                fila[1] = rs.getString("Nombre");
-                fila[2] = rs.getString("ApellidoPaterno");
-                fila[3] = rs.getString("ApellidoMaterno");
-                fila[4] = rs.getString("Calle");
-                fila[5] = rs.getString("Colonia");
-                fila[6] = rs.getString("Ciudad");
-                fila[7] = rs.getString("Estado");
-                fila[8] = rs.getString("CP");
-                modelo.addRow(fila);
-
-            }
-            tblCliente.setModel(modelo);
-        } catch (Exception e) {
-            System.err.println("" + e.getMessage());
-        }
-
     }
 
     private void inicializar() {
@@ -111,6 +77,14 @@ public class AdministrarCliente extends javax.swing.JFrame {
 
         //idCliente
         txtIDCliente.setEnabled(false);
+        
+        initFiltro();
+    }
+    
+    private void initFiltro() {
+        btnFind.setText("");
+        String[] filtro = {"Nombre", "Apellido Paterno", "Apellido Materno"};
+        jComboBox1.setModel(new DefaultComboBoxModel(filtro));
     }
 
     private void limpiarTxtFields() {
@@ -138,9 +112,10 @@ public class AdministrarCliente extends javax.swing.JFrame {
         tblCliente.setModel(modelo);
     }
 
-    public void setAdministrador() {
+    public void setAdministrador(String nombre) {
         //Colocar panel de la izquierda
         AccionesRapidasAdministrador panelBotones = new AccionesRapidasAdministrador(this);
+        panelBotones.setNombre(nombre);
         panelBotones.setBounds(0, 0, 266, (int) this.getBounds().getHeight() - 70);
         jPanelIzquierda.removeAll();
         jPanelIzquierda.setMinimumSize(panelBotones.getPreferredSize());
@@ -149,9 +124,10 @@ public class AdministrarCliente extends javax.swing.JFrame {
         panelBotones.repaint();
     }
 
-    public void setEmpleado() {
+    public void setEmpleado(String nombre) {
         //Colocar panel de la izquierda
         AccionesRapidasEmpleado panelBotones = new AccionesRapidasEmpleado(this);
+        panelBotones.setNombre(nombre);
         panelBotones.setBounds(0, 0, 266, (int) this.getBounds().getHeight() - 70);
         jPanelIzquierda.removeAll();
         jPanelIzquierda.setMinimumSize(panelBotones.getPreferredSize());
@@ -195,6 +171,8 @@ public class AdministrarCliente extends javax.swing.JFrame {
         txtCalle = new javax.swing.JTextField();
         labelIDCliente = new javax.swing.JLabel();
         txtIDCliente = new javax.swing.JTextField();
+        btnFind = new javax.swing.JTextField();
+        jComboBox1 = new javax.swing.JComboBox<>();
         jPanelAcciones = new javax.swing.JPanel();
         btnConsultar = new javax.swing.JButton();
         btnRegistrar = new javax.swing.JButton();
@@ -257,11 +235,6 @@ public class AdministrarCliente extends javax.swing.JFrame {
         labelNombre.setText("Nombre");
 
         txtNombre.setText("jTextField1");
-        txtNombre.addKeyListener(new java.awt.event.KeyAdapter() {
-            public void keyPressed(java.awt.event.KeyEvent evt) {
-                txtNombreKeyPressed(evt);
-            }
-        });
 
         labelApPaterno.setText("Apellido Paterno");
 
@@ -295,18 +268,28 @@ public class AdministrarCliente extends javax.swing.JFrame {
 
         txtIDCliente.setText("jTextField1");
 
+        btnFind.setText("jTextField1");
+        btnFind.addKeyListener(new java.awt.event.KeyAdapter() {
+            public void keyPressed(java.awt.event.KeyEvent evt) {
+                btnFindKeyPressed(evt);
+            }
+        });
+
+        jComboBox1.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "Item 1", "Item 2", "Item 3", "Item 4" }));
+
         javax.swing.GroupLayout jPanelFormularioLayout = new javax.swing.GroupLayout(jPanelFormulario);
         jPanelFormulario.setLayout(jPanelFormularioLayout);
         jPanelFormularioLayout.setHorizontalGroup(
             jPanelFormularioLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(jPanelFormularioLayout.createSequentialGroup()
                 .addContainerGap()
-                .addGroup(jPanelFormularioLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
-                    .addComponent(labelCP, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                    .addComponent(labelCalle, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                    .addComponent(labelApPaterno, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                    .addComponent(labelNombre, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                    .addComponent(labelApMaterno, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                .addGroup(jPanelFormularioLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addGroup(jPanelFormularioLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
+                        .addComponent(labelCalle, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                        .addComponent(labelApPaterno, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                        .addComponent(labelNombre, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                        .addComponent(labelApMaterno, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                    .addComponent(labelCP, javax.swing.GroupLayout.PREFERRED_SIZE, 140, javax.swing.GroupLayout.PREFERRED_SIZE))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addGroup(jPanelFormularioLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
                     .addComponent(txtCP)
@@ -315,17 +298,20 @@ public class AdministrarCliente extends javax.swing.JFrame {
                     .addComponent(txtApPaterno)
                     .addComponent(txtCalle, javax.swing.GroupLayout.DEFAULT_SIZE, 130, Short.MAX_VALUE))
                 .addGap(18, 18, 18)
-                .addGroup(jPanelFormularioLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
-                    .addComponent(labelColonia, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                    .addComponent(labelCiudad, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                    .addComponent(labelEstado, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                    .addComponent(labelIDCliente, javax.swing.GroupLayout.PREFERRED_SIZE, 92, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addGroup(jPanelFormularioLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addGroup(jPanelFormularioLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
+                        .addComponent(labelColonia, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                        .addComponent(labelCiudad, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                        .addComponent(labelEstado, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                        .addComponent(labelIDCliente, javax.swing.GroupLayout.DEFAULT_SIZE, 92, Short.MAX_VALUE))
+                    .addComponent(btnFind, javax.swing.GroupLayout.PREFERRED_SIZE, 140, javax.swing.GroupLayout.PREFERRED_SIZE))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addGroup(jPanelFormularioLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
                     .addComponent(txtColonia)
                     .addComponent(txtCiudad)
                     .addComponent(txtEstado)
-                    .addComponent(txtIDCliente, javax.swing.GroupLayout.PREFERRED_SIZE, 130, javax.swing.GroupLayout.PREFERRED_SIZE))
+                    .addComponent(txtIDCliente, javax.swing.GroupLayout.DEFAULT_SIZE, 130, Short.MAX_VALUE)
+                    .addComponent(jComboBox1, 0, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
                 .addContainerGap(240, Short.MAX_VALUE))
         );
         jPanelFormularioLayout.setVerticalGroup(
@@ -360,7 +346,9 @@ public class AdministrarCliente extends javax.swing.JFrame {
                 .addGap(18, 18, 18)
                 .addGroup(jPanelFormularioLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(labelCP)
-                    .addComponent(txtCP, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                    .addComponent(txtCP, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(btnFind, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(jComboBox1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
                 .addContainerGap(9, Short.MAX_VALUE))
         );
 
@@ -574,12 +562,139 @@ public class AdministrarCliente extends javax.swing.JFrame {
         limpiarTxtFields();
     }//GEN-LAST:event_btnEliminarActionPerformed
 
-    private void txtNombreKeyPressed(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_txtNombreKeyPressed
+    private void btnFindKeyPressed(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_btnFindKeyPressed
         // TODO add your handling code here:
-        String buscar = txtNombre.getText();
-        buscarcliente(buscar);
+        buscarProducto(btnFind.getText(), jComboBox1.getSelectedItem());
+    }//GEN-LAST:event_btnFindKeyPressed
 
-    }//GEN-LAST:event_txtNombreKeyPressed
+    public void setNombre(String nombre){
+        PanelInformacionArriba panelInformacion = new PanelInformacionArriba();
+        panelInformacion.setNombre(nombre);
+        panelInformacion.setBounds(0, 0, (int) jPanelInformacion.getBounds().getWidth(), 110);
+        jPanelInformacion.removeAll();
+        jPanelInformacion.setMinimumSize(panelInformacion.getPreferredSize());
+        jPanelInformacion.add(panelInformacion);
+        panelInformacion.revalidate();
+        panelInformacion.repaint();
+    }
+    
+    private void buscarProducto(String txt, Object filtro) {
+        switch (filtro.toString()) {
+            case "Nombre" ->
+                buscarClienteNombre(txt);
+            case "Apellido Paterno" ->
+                buscarClientePaterno(txt);
+            case "Apellido Materno" ->
+                buscarClienteMaterno(txt);
+        }
+    }
+    
+    private void buscarClienteMaterno(String texto) {
+        try {
+
+            //String[] titulos = {"ID", "Nombre", "Apellido Paterno", "Apellido Materno", "Calle", "Colonia", "Ciudad", "Estado", "CP"};
+            String filtro = "" + texto + "_%";
+
+            String SQL = "SELECT * FROM cliente WHERE apellidoMaterno like" + '"' + filtro + '"';
+
+            //System.out.print(SQL);
+
+            Conexion conexion = new Conexion();
+
+            //modelo = new DefaultTableModel();
+            modelo.setRowCount(0);
+            ResultSet rs = conexion.getConexion().prepareStatement(SQL).executeQuery();
+            String[] fila = new String[9];
+            while (rs.next()) {
+                fila[0] = rs.getString("IdCliente");
+                fila[1] = rs.getString("Nombre");
+                fila[2] = rs.getString("ApellidoPaterno");
+                fila[3] = rs.getString("ApellidoMaterno");
+                fila[4] = rs.getString("Calle");
+                fila[5] = rs.getString("Colonia");
+                fila[6] = rs.getString("Ciudad");
+                fila[7] = rs.getString("Estado");
+                fila[8] = rs.getString("CP");
+                modelo.addRow(fila);
+
+            }
+            tblCliente.setModel(modelo);
+        } catch (Exception e) {
+            System.err.println("" + e.getMessage());
+        }
+
+    }
+    
+    private void buscarClientePaterno(String texto) {
+        try {
+
+            //String[] titulos = {"ID", "Nombre", "Apellido Paterno", "Apellido Materno", "Calle", "Colonia", "Ciudad", "Estado", "CP"};
+            String filtro = "" + texto + "_%";
+
+            String SQL = "SELECT * FROM cliente WHERE apellidoPaterno like" + '"' + filtro + '"';
+
+            //System.out.print(SQL);
+
+            Conexion conexion = new Conexion();
+
+            //modelo = new DefaultTableModel();
+            modelo.setRowCount(0);
+            ResultSet rs = conexion.getConexion().prepareStatement(SQL).executeQuery();
+            String[] fila = new String[9];
+            while (rs.next()) {
+                fila[0] = rs.getString("IdCliente");
+                fila[1] = rs.getString("Nombre");
+                fila[2] = rs.getString("ApellidoPaterno");
+                fila[3] = rs.getString("ApellidoMaterno");
+                fila[4] = rs.getString("Calle");
+                fila[5] = rs.getString("Colonia");
+                fila[6] = rs.getString("Ciudad");
+                fila[7] = rs.getString("Estado");
+                fila[8] = rs.getString("CP");
+                modelo.addRow(fila);
+
+            }
+            tblCliente.setModel(modelo);
+        } catch (Exception e) {
+            System.err.println("" + e.getMessage());
+        }
+
+    }
+
+    private void buscarClienteNombre(String texto) {
+        try {
+
+            //String[] titulos = {"ID", "Nombre", "Apellido Paterno", "Apellido Materno", "Calle", "Colonia", "Ciudad", "Estado", "CP"};
+            String filtro = "" + texto + "_%";
+
+            String SQL = "SELECT * FROM cliente WHERE Nombre like" + '"' + filtro + '"';
+
+            //System.out.print(SQL);
+            Conexion conexion = new Conexion();
+
+            //modelo = new DefaultTableModel(null, titulos);
+            modelo.setRowCount(0);
+            ResultSet rs = conexion.getConexion().prepareStatement(SQL).executeQuery();
+            String[] fila = new String[9];
+            while (rs.next()) {
+                fila[0] = rs.getString("IdCliente");
+                fila[1] = rs.getString("Nombre");
+                fila[2] = rs.getString("ApellidoPaterno");
+                fila[3] = rs.getString("ApellidoMaterno");
+                fila[4] = rs.getString("Calle");
+                fila[5] = rs.getString("Colonia");
+                fila[6] = rs.getString("Ciudad");
+                fila[7] = rs.getString("Estado");
+                fila[8] = rs.getString("CP");
+                modelo.addRow(fila);
+
+            }
+            tblCliente.setModel(modelo);
+        } catch (Exception e) {
+            System.err.println("" + e.getMessage());
+        }
+
+    }
 
     private void obtenerRenglonTabla() {
         int fila = tblCliente.getSelectedRow();
@@ -645,8 +760,10 @@ public class AdministrarCliente extends javax.swing.JFrame {
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JButton btnConsultar;
     private javax.swing.JButton btnEliminar;
+    private javax.swing.JTextField btnFind;
     private javax.swing.JButton btnModificar;
     private javax.swing.JButton btnRegistrar;
+    private javax.swing.JComboBox<String> jComboBox1;
     private javax.swing.JPanel jPanelAcciones;
     private javax.swing.JPanel jPanelFormulario;
     private javax.swing.JPanel jPanelInformacion;
