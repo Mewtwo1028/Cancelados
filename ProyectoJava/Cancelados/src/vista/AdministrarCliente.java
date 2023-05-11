@@ -14,6 +14,8 @@ import java.sql.ResultSet;
 import javax.swing.DefaultComboBoxModel;
 
 public class AdministrarCliente extends javax.swing.JFrame {
+    
+    private int idAdmon;
 
     DefaultTableModel modelo = new DefaultTableModel() {
         @Override
@@ -112,9 +114,11 @@ public class AdministrarCliente extends javax.swing.JFrame {
         tblCliente.setModel(modelo);
     }
 
-    public void setAdministrador(String nombre) {
+    public void setAdministrador(String nombre, int idAdmon) {
         //Colocar panel de la izquierda
         AccionesRapidasAdministrador panelBotones = new AccionesRapidasAdministrador(this);
+        this.idAdmon = idAdmon;
+        panelBotones.setIdAdmon(idAdmon);
         panelBotones.setNombre(nombre);
         panelBotones.setBounds(0, 0, 266, (int) this.getBounds().getHeight() - 70);
         jPanelIzquierda.removeAll();

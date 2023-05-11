@@ -5,36 +5,38 @@ import java.awt.Color;
 import java.awt.Toolkit;
 import javax.swing.JFrame;
 import java.awt.Dimension;
+
 public class PanelControlAdministrador extends javax.swing.JFrame {
 
-    private String nombre ="";
-    
+    private String nombre = "";
+    private int idAdmon;
+
     public PanelControlAdministrador() {
         initComponents();
         inicializar();
     }
-    
-    private void inicializar(){
+
+    private void inicializar() {
         FuncionesUtiles tools = new FuncionesUtiles();
         //Configuracion ventana
         this.setLocationRelativeTo(null);
         this.getContentPane().setBackground(Color.WHITE);
         this.setExtendedState(JFrame.MAXIMIZED_BOTH);
         this.setTitle("Panel de control");
-        
+
         //Configurar panel principal
         jPanelPrincipal.setBackground(Color.WHITE);
         jPanelIzquierda.setBackground(Color.WHITE);
-        
+
         //Colocar panel de la izquierda
         AccionesRapidasAdministrador panelBotones = new AccionesRapidasAdministrador(this);
-        panelBotones.setBounds(0, 0, 266, (int) this.getBounds().getHeight()-50);
+        panelBotones.setBounds(0, 0, 266, (int) this.getBounds().getHeight() - 50);
         jPanelIzquierda.removeAll();
         jPanelIzquierda.setMinimumSize(panelBotones.getPreferredSize());
         jPanelIzquierda.add(panelBotones);
         panelBotones.revalidate();
         panelBotones.repaint();
-        
+
         //Configurar panel de arriba
         jPanelInformacion.setBackground(Color.WHITE);
         jPanelInformacion.setBounds(278, 6, (int) java.awt.Toolkit.getDefaultToolkit().getScreenSize().getWidth() - (int) jPanelIzquierda.getBounds().getWidth() - (int) jPanelLinea.getBounds().getWidth(), 110);
@@ -48,14 +50,14 @@ public class PanelControlAdministrador extends javax.swing.JFrame {
         double width = Toolkit.getDefaultToolkit().getScreenSize().width;
         double height = Toolkit.getDefaultToolkit().getScreenSize().height;
         //System.out.print((int)(1280*width/100)+","+height);
-        this.setSize((int)(width),(int) height);
+        this.setSize((int) (width), (int) height);
         this.setExtendedState(MAXIMIZED_BOTH);
         //Panel de las operaciones / botones de acciones
         jPanelOperaciones.setBackground(Color.WHITE);
-        
+
         //Linea
         jPanelLinea.setBackground(tools.getColorCancelados());
-        
+
         //botones
         tools.confBtnColor(btnAdministrarProductos);
         tools.confBtnColor(btnAdministrarVentas);
@@ -238,9 +240,9 @@ public class PanelControlAdministrador extends javax.swing.JFrame {
 
     private void btnAdmEmpleadosActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnAdmEmpleadosActionPerformed
         // TODO add your handling code here:
-        AdministrarEmpleado pAdminEmpl= new AdministrarEmpleado();
+        AdministrarEmpleado pAdminEmpl = new AdministrarEmpleado();
         pAdminEmpl.setNombre(nombre);
-        pAdminEmpl.setAdmon(nombre);
+        pAdminEmpl.setAdmon(nombre, idAdmon);
         this.dispose();
         pAdminEmpl.setVisible(true);
     }//GEN-LAST:event_btnAdmEmpleadosActionPerformed
@@ -248,15 +250,15 @@ public class PanelControlAdministrador extends javax.swing.JFrame {
     private void btnAdministrarVentasActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnAdministrarVentasActionPerformed
         AdministrarVentasPanel panelV = new AdministrarVentasPanel();
         panelV.setNombre(nombre);
-        panelV.setAdministrador(nombre);
+        panelV.setAdministrador(nombre, idAdmon);
         this.dispose();
         panelV.setVisible(true);
     }//GEN-LAST:event_btnAdministrarVentasActionPerformed
 
     private void btnAdministrarClientesActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnAdministrarClientesActionPerformed
-        AdministrarCliente pAdminClien= new AdministrarCliente();
+        AdministrarCliente pAdminClien = new AdministrarCliente();
         pAdminClien.setNombre(nombre);
-        pAdminClien.setAdministrador(nombre);
+        pAdminClien.setAdministrador(nombre, idAdmon);
         this.dispose();
         pAdminClien.setVisible(true);
     }//GEN-LAST:event_btnAdministrarClientesActionPerformed
@@ -264,7 +266,7 @@ public class PanelControlAdministrador extends javax.swing.JFrame {
     private void btnAdministrarProductosActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnAdministrarProductosActionPerformed
         AdministrarProducto pAdminProduc = new AdministrarProducto();
         pAdminProduc.setNombre(nombre);
-        pAdminProduc.setAdmon(nombre);
+        pAdminProduc.setAdmon(nombre, idAdmon);
         this.dispose();
         pAdminProduc.setVisible(true);
     }//GEN-LAST:event_btnAdministrarProductosActionPerformed
@@ -272,12 +274,12 @@ public class PanelControlAdministrador extends javax.swing.JFrame {
     private void btnVenderActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnVenderActionPerformed
         RegistrarVenta v = new RegistrarVenta();
         v.setNombre(nombre);
-        v.setAdmon(nombre);
+        v.setAdmon(nombre, idAdmon);
         this.dispose();
         v.setVisible(true);
     }//GEN-LAST:event_btnVenderActionPerformed
 
-    public void setNombre(String nombre){
+    public void setNombre(String nombre) {
         this.nombre = nombre;
         PanelInformacionArriba panelInformacion = new PanelInformacionArriba();
         panelInformacion.setNombre(nombre);
@@ -288,7 +290,11 @@ public class PanelControlAdministrador extends javax.swing.JFrame {
         panelInformacion.revalidate();
         panelInformacion.repaint();
     }
-    
+
+    public void setIdAdmon(int idAdmon) {
+        this.idAdmon = idAdmon;
+    }
+
     /**
      * @param args the command line arguments
      */

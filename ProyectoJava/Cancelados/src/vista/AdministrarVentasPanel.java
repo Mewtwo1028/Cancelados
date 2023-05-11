@@ -15,6 +15,8 @@ import javax.swing.table.DefaultTableModel;
 import modelo.Venta;
 
 public class AdministrarVentasPanel extends javax.swing.JFrame {
+    
+    private int idAdmon;
 
     DefaultTableModel modelo = new DefaultTableModel() {
         @Override
@@ -83,9 +85,11 @@ public class AdministrarVentasPanel extends javax.swing.JFrame {
         tblVenta.setModel(modelo);
     }
 
-    public void setAdministrador(String nombre) {
+    public void setAdministrador(String nombre, int idAdmon) {
         //Colocar panel de la izquierda
         AccionesRapidasAdministrador panelBotones = new AccionesRapidasAdministrador(this);
+        this.idAdmon = idAdmon;
+        panelBotones.setIdAdmon(idAdmon);
         panelBotones.setNombre(nombre);
         panelBotones.setBounds(0, 0, 266, (int) this.getBounds().getHeight() - 70);
         jPanelIzquierda.removeAll();
@@ -388,9 +392,6 @@ public class AdministrarVentasPanel extends javax.swing.JFrame {
        ArrayList<String[]> resultado = new ArrayList<>();
        CorteDeCaja cj = new CorteDeCaja();
         //System.out.println(cj.consultaDatos("2023-05-02"));
-       
-       
-       
     }//GEN-LAST:event_jButton1ActionPerformed
 
     public void setNombre(String nombre){
