@@ -271,23 +271,23 @@ public class Login extends javax.swing.JFrame {
 
     }//GEN-LAST:event_formComponentResized
 
-    private boolean isRestContra(String nombre){
+    private boolean isRestContra(String nombre) {
         return new CredencialManager().isRestContra(nombre);
     }
-    
-    private void formularioRestContra(String nombre){
+
+    private void formularioRestContra(String nombre) {
         int idEmpleado = new CredencialManager().getidEmpleado(nombre);
         DialogoFomularioR form = new DialogoFomularioR(this, true, idEmpleado);
-        
+
         form.setVisible(true);
-        
+
     }
-    
+
     private void iniciarSesion() {
         String username = txtUsername.getText().trim();
         String password = new String(txtPassword.getPassword());
         String pass = null;
-        
+
         if (isRestContra(username)) {
             formularioRestContra(username);
             return;
@@ -318,7 +318,9 @@ public class Login extends javax.swing.JFrame {
         }
 
         if (rolId.equals("1")) {
+            int idEmpleado = new CredencialManager().getIdEmpleado(username, pass);
             PanelControlAdministrador panel = new PanelControlAdministrador();
+            panel.setIdAdmon(idEmpleado);
             panel.setNombre(username);
             this.dispose();
             panel.setVisible(true);

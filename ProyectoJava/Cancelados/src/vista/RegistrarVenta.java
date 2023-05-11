@@ -21,6 +21,8 @@ import javax.swing.table.TableModel;
 
 public class RegistrarVenta extends javax.swing.JFrame {
     
+    private int idAdmon;
+    
     DefaultTableModel modelo = new DefaultTableModel() {
         @Override
         public boolean isCellEditable(int row, int column) {
@@ -166,9 +168,11 @@ public class RegistrarVenta extends javax.swing.JFrame {
         panelBotones.repaint();
     }
     
-    public void setAdmon(String nombre) {
+    public void setAdmon(String nombre, int idAdmon) {
         //Colocar panel de la izquierda
         AccionesRapidasAdministrador panelBotones = new AccionesRapidasAdministrador(this);
+        this.idAdmon = idAdmon;
+        panelBotones.setIdAdmon(idAdmon);
         panelBotones.setNombre(nombre);
         panelBotones.setBounds(0, 0, 266, (int) this.getBounds().getHeight() - 50);
         jPanelIzquierda.removeAll();

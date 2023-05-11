@@ -11,6 +11,7 @@ public class AccionesRapidasAdministrador extends javax.swing.JPanel {
 
     JFrame actual;
     private String nombre = "";
+    private int idAdmon;
 
     public AccionesRapidasAdministrador(JFrame actual) {
         initComponents();
@@ -213,6 +214,7 @@ public class AccionesRapidasAdministrador extends javax.swing.JPanel {
     private void btnMenuActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnMenuActionPerformed
         imagenNot();
         PanelControlAdministrador menu = new PanelControlAdministrador();
+        menu.setIdAdmon(idAdmon);
         menu.setNombre(nombre);
         actual.dispose();
         menu.setVisible(true);
@@ -225,6 +227,7 @@ public class AccionesRapidasAdministrador extends javax.swing.JPanel {
             actual.dispose();
         } else {
             PanelControlAdministrador admon = new PanelControlAdministrador();
+            admon.setIdAdmon(idAdmon);
             admon.setNombre(nombre);
             admon.setVisible(true);
             actual.dispose();
@@ -270,6 +273,10 @@ public class AccionesRapidasAdministrador extends javax.swing.JPanel {
 
     public void setNombre(String nombre) {
         this.nombre = nombre;
+    }
+    
+    public void setIdAdmon(int idAdmon){
+        this.idAdmon = idAdmon;
     }
 
     // Variables declaration - do not modify//GEN-BEGIN:variables

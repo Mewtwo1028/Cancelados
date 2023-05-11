@@ -134,5 +134,25 @@ public class CredencialManager {
         }
         return -1;
     }
+    
+    public int getIdEmpleado(String nombreEmpleado, String contra) {
+        String SQL_verificar = "Select c.Empleado_idEmpleado from empleado E inner join Credenciales C On (C.Empleado_idEmpleado = E.idEmpleado) where nombre=? and contrasena=?";
+
+        try (PreparedStatement ps = conexion.getConexion().prepareStatement(SQL_verificar)) {
+
+            ps.setString(1, nombreEmpleado);
+            ps.setString(2, contra);
+
+            ResultSet cursor = ps.executeQuery();
+
+            if (cursor.next()) {
+                return cursor.getInt(1);
+            }
+
+        } catch (SQLException ex) {
+            System.out.println(ex);
+        }
+        return -1;
+    }
 
 }

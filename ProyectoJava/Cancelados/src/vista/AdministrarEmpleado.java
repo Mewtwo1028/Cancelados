@@ -11,7 +11,6 @@ import java.math.BigInteger;
 import java.util.ArrayList;
 import javax.swing.JFrame;
 import javax.swing.table.DefaultTableModel;
-import java.security.SecureRandom;
 import java.security.MessageDigest;
 import java.security.NoSuchAlgorithmException;
 import java.sql.ResultSet;
@@ -21,6 +20,8 @@ import javax.swing.DefaultComboBoxModel;
 import javax.swing.JOptionPane;
 
 public class AdministrarEmpleado extends javax.swing.JFrame {
+
+    private int idAdmon;
 
     DefaultTableModel modelo = new DefaultTableModel() {
         @Override
@@ -86,18 +87,20 @@ public class AdministrarEmpleado extends javax.swing.JFrame {
         limpiarTxtFields();
 
         btnFind.setText("");
-        
+
         initFiltro();
     }
-    
+
     private void initFiltro() {
         btnFind.setText("");
         String[] filtro = {"Nombre", "Apellido Paterno", "Apellido Materno"};
         jComboBox1.setModel(new DefaultComboBoxModel(filtro));
     }
 
-    public void setAdmon(String nombre) {
+    public void setAdmon(String nombre, int idAdmon) {
         AccionesRapidasAdministrador panelBotones = new AccionesRapidasAdministrador(this);
+        this.idAdmon = idAdmon;
+        panelBotones.setIdAdmon(idAdmon);
         panelBotones.setNombre(nombre);
         panelBotones.setBounds(0, 0, 266, (int) this.getBounds().getHeight() - 80);
         jPanelIzquierda.removeAll();
@@ -666,7 +669,22 @@ public class AdministrarEmpleado extends javax.swing.JFrame {
     private void btnEliminarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnEliminarActionPerformed
         // ELIMINAR EMPLEADO
         DialogoEmergente dEmergente = new DialogoEmergente(this, true);
-        Empleado empleado = new Empleado(Integer.parseInt(txtIDEmpleado.getText()));
+
+        int idEmpleado;
+
+        try {
+            idEmpleado = Integer.parseInt(txtIDEmpleado.getText());
+        } catch (Exception e) {
+            JOptionPane.showMessageDialog(this, "ERROR!, SELECCIONE UN RENGLON");
+            return;
+        }
+
+        if (idEmpleado == idAdmon) {
+            JOptionPane.showMessageDialog(this, "ERROR! NO PUEDE ELIMINARSE ASI MISMO");
+            return;
+        }
+
+        Empleado empleado = new Empleado(idEmpleado);
 
         if (new EmpleadoManager().eliminarEmpleado(empleado)) {
             llenarTabla();
@@ -716,7 +734,7 @@ public class AdministrarEmpleado extends javax.swing.JFrame {
                 buscarEmpleadoMaterno(txt);
         }
     }
-    
+
     private void buscarEmpleadoMaterno(String texto) {
         try {
 
@@ -755,7 +773,7 @@ public class AdministrarEmpleado extends javax.swing.JFrame {
         }
 
     }
-    
+
     private void buscarEmpleadoPaterno(String texto) {
         try {
 
@@ -855,6 +873,10 @@ public class AdministrarEmpleado extends javax.swing.JFrame {
         for (int i = 0; i < lista.size(); i++) {
             modelo.addRow(lista.get(i));
         }
+    }
+
+    public void setIdAdmon(int idAdmon) {
+        this.idAdmon = idAdmon;
     }
 
     private boolean validarFormulario() {
