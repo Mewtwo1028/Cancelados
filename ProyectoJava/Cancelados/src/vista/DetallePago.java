@@ -5,6 +5,10 @@
 package vista;
 
 import java.awt.Frame;
+import java.text.DecimalFormat;
+import java.text.NumberFormat;
+import java.util.regex.Matcher;
+import java.util.regex.Pattern;
 import javax.swing.JFrame;
 
 /**
@@ -40,12 +44,12 @@ public class DetallePago extends javax.swing.JDialog {
         jLabel2 = new javax.swing.JLabel();
         jLabel3 = new javax.swing.JLabel();
         jButton1 = new javax.swing.JButton();
-        txtMonto = new javax.swing.JTextField();
         txtTotal = new javax.swing.JTextField();
         txtCambio = new javax.swing.JTextField();
         jLabel4 = new javax.swing.JLabel();
         jLabel5 = new javax.swing.JLabel();
         cmbMetodoPago = new javax.swing.JComboBox<>();
+        txtMonto = new javax.swing.JFormattedTextField();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.DISPOSE_ON_CLOSE);
 
@@ -62,28 +66,26 @@ public class DetallePago extends javax.swing.JDialog {
             }
         });
 
-        txtMonto.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                txtMontoActionPerformed(evt);
-            }
-        });
-        txtMonto.addKeyListener(new java.awt.event.KeyAdapter() {
-            public void keyPressed(java.awt.event.KeyEvent evt) {
-                txtMontoKeyPressed(evt);
-            }
-        });
-
         txtTotal.addKeyListener(new java.awt.event.KeyAdapter() {
             public void keyPressed(java.awt.event.KeyEvent evt) {
                 txtTotalKeyPressed(evt);
             }
         });
 
+        txtCambio.setEditable(false);
+
         jLabel4.setText("Detalle de Pago");
 
         jLabel5.setText("Método de Pago");
 
         cmbMetodoPago.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "Efectivo", "TDD", "TDC" }));
+
+        txtMonto.setFormatterFactory(new javax.swing.text.DefaultFormatterFactory(new javax.swing.text.NumberFormatter(new java.text.DecimalFormat("#0.##"))));
+        txtMonto.addKeyListener(new java.awt.event.KeyAdapter() {
+            public void keyReleased(java.awt.event.KeyEvent evt) {
+                txtMontoKeyReleased(evt);
+            }
+        });
 
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
         getContentPane().setLayout(layout);
@@ -112,11 +114,14 @@ public class DetallePago extends javax.swing.JDialog {
                                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                                     .addComponent(jLabel2)
                                     .addComponent(jLabel1))
-                                .addGap(117, 117, 117)
-                                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
-                                    .addComponent(txtMonto)
-                                    .addComponent(txtTotal, javax.swing.GroupLayout.DEFAULT_SIZE, 87, Short.MAX_VALUE))))))
-                .addGap(164, 164, 164))
+                                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                                    .addGroup(layout.createSequentialGroup()
+                                        .addGap(117, 117, 117)
+                                        .addComponent(txtTotal))
+                                    .addGroup(layout.createSequentialGroup()
+                                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                                        .addComponent(txtMonto, javax.swing.GroupLayout.PREFERRED_SIZE, 87, javax.swing.GroupLayout.PREFERRED_SIZE)))))))
+                .addContainerGap(164, Short.MAX_VALUE))
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -151,19 +156,6 @@ public class DetallePago extends javax.swing.JDialog {
         // TODO add your handling code here:
     }//GEN-LAST:event_txtTotalKeyPressed
 
-    private void txtMontoKeyPressed(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_txtMontoKeyPressed
-
-        if (!txtMonto.getText().isBlank()) {
-            monto = Float.parseFloat(txtMonto.getText());
-            cambio = monto - total;
-            txtCambio.setText(String.valueOf(cambio));
-        }
-    }//GEN-LAST:event_txtMontoKeyPressed
-
-    private void txtMontoActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_txtMontoActionPerformed
-        // TODO add your handling code here:
-    }//GEN-LAST:event_txtMontoActionPerformed
-
     public boolean validaPago() {
         return monto - total < 0 ? false : true;
     }
@@ -173,13 +165,32 @@ public class DetallePago extends javax.swing.JDialog {
         if (validaPago()) {
             de.setTexto("OK");
             this.dispose();
-        }else{
-           de.setTexto("Venta no válida"); 
+        } else {
+            de.setTexto("Venta no válida");
         }
         de.setVisible(true);
     }//GEN-LAST:event_jButton1ActionPerformed
 
-    public void inicializar(float total) {
+    private void txtMontoKeyReleased(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_txtMontoKeyReleased
+
+        //Comprobar la cantidad de digitos dentro del txtMonto
+        Pattern pattern1 = Pattern.compile("^\\d+(?:\\.\\d{0,2})?$");
+
+        Matcher matcher = pattern1.matcher(txtMonto.getText());
+
+        if (!matcher.find()) {
+            txtMonto.setText("");
+            return;
+        }
+
+        if (!txtMonto.getText().isBlank()) {
+            monto = Float.parseFloat(txtMonto.getText());
+            cambio = total - monto;
+            txtCambio.setText(String.valueOf(cambio));
+        }
+    }//GEN-LAST:event_txtMontoKeyReleased
+
+    private void inicializar(float total) {
         cmbMetodoPago.setEnabled(false);
         txtTotal.setText(String.valueOf(total));
         cambio = monto - total;
@@ -236,7 +247,7 @@ public class DetallePago extends javax.swing.JDialog {
     private javax.swing.JLabel jLabel4;
     private javax.swing.JLabel jLabel5;
     private javax.swing.JTextField txtCambio;
-    private javax.swing.JTextField txtMonto;
+    private javax.swing.JFormattedTextField txtMonto;
     private javax.swing.JTextField txtTotal;
     // End of variables declaration//GEN-END:variables
 }
