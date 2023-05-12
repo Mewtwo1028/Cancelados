@@ -128,9 +128,11 @@ public class AdministrarCliente extends javax.swing.JFrame {
         panelBotones.repaint();
     }
 
-    public void setEmpleado(String nombre) {
+    public void setEmpleado(String nombre, int idEmpleado) {
         //Colocar panel de la izquierda
         AccionesRapidasEmpleado panelBotones = new AccionesRapidasEmpleado(this);
+        this.idAdmon = idEmpleado;
+        panelBotones.setIdEmpleado(idEmpleado);
         panelBotones.setNombre(nombre);
         panelBotones.setBounds(0, 0, 266, (int) this.getBounds().getHeight() - 70);
         jPanelIzquierda.removeAll();
