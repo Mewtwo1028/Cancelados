@@ -325,7 +325,9 @@ public class Login extends javax.swing.JFrame {
             this.dispose();
             panel.setVisible(true);
         } else {
+            int idEmpleado = new CredencialManager().getIdEmpleado(username, pass);
             PanelControlEmpleado panel = new PanelControlEmpleado();
+            panel.setIdAdmon(idEmpleado);
             panel.setNombre(username);
             this.dispose();
             panel.setVisible(true);

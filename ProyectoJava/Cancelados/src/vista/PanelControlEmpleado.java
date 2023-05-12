@@ -6,10 +6,15 @@ import javax.swing.JFrame;
 
 public class PanelControlEmpleado extends javax.swing.JFrame {
     private String nombre="";
+    private int idEmpleado;
 
     public PanelControlEmpleado() {
         initComponents();
         inicializar();
+    }
+    
+    public void setIdAdmon(int idEmpleado){
+        this.idEmpleado = idEmpleado;
     }
     
     private void inicializar(){
@@ -202,7 +207,7 @@ public class PanelControlEmpleado extends javax.swing.JFrame {
     private void btnRegistrarClienteActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnRegistrarClienteActionPerformed
         AdministrarCliente win = new AdministrarCliente();
         win.setNombre(nombre);
-        win.setEmpleado(nombre);
+        win.setEmpleado(nombre, idEmpleado);
         this.dispose();
         win.setVisible(true);
     }//GEN-LAST:event_btnRegistrarClienteActionPerformed
@@ -212,7 +217,7 @@ public class PanelControlEmpleado extends javax.swing.JFrame {
         RegistrarVenta win = new RegistrarVenta();
         win.setNombre(nombre);
         win.setExtendedState(JFrame.MAXIMIZED_BOTH);
-        win.setEmpleado(nombre);
+        win.setEmpleado(nombre, idEmpleado);
         this.dispose();
         win.setVisible(true);
     }//GEN-LAST:event_btnVenderActionPerformed
@@ -221,7 +226,7 @@ public class PanelControlEmpleado extends javax.swing.JFrame {
         // TODO add your handling code here:
         AdministrarProducto win = new AdministrarProducto();
         win.setNombre(nombre);
-        win.setEmpleado(nombre);
+        win.setEmpleado(nombre, idEmpleado);
         this.dispose();
         win.setVisible(true);
     }//GEN-LAST:event_btnConsultarInventarioActionPerformed

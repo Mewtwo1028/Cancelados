@@ -9,11 +9,16 @@ public class AccionesRapidasEmpleado extends javax.swing.JPanel {
 
     JFrame actual;
     private String nombre = "";
+    private int idEmpleado;
 
     public AccionesRapidasEmpleado(JFrame actual) {
         initComponents();
         inicializar();
         this.actual = actual;
+    }
+    
+    public void setIdEmpleado(int idEmpleado){
+        this.idEmpleado = idEmpleado;
     }
 
     private void inicializar() {
@@ -153,6 +158,7 @@ public class AccionesRapidasEmpleado extends javax.swing.JPanel {
     private void btnMenuActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnMenuActionPerformed
         PanelControlEmpleado menu = new PanelControlEmpleado();
         menu.setNombre(nombre);
+        menu.setIdAdmon(idEmpleado);
         actual.dispose();
         menu.setVisible(true);
     }//GEN-LAST:event_btnMenuActionPerformed
@@ -164,6 +170,7 @@ public class AccionesRapidasEmpleado extends javax.swing.JPanel {
             actual.dispose();
         } else {
             PanelControlEmpleado admon = new PanelControlEmpleado();
+            admon.setIdAdmon(idEmpleado);
             admon.setNombre(nombre);
             admon.setVisible(true);
             actual.dispose();

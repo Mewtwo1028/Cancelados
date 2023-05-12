@@ -4,8 +4,11 @@
  */
 package vista;
 
+import java.awt.Color;
 import java.awt.Frame;
-import javax.swing.JFrame;
+import java.util.regex.Matcher;
+import java.util.regex.Pattern;
+import modelo.FuncionesUtiles;
 
 /**
  *
@@ -25,6 +28,11 @@ public class DetallePago extends javax.swing.JDialog {
         inicializar(total);
         this.total = total;
         this.ref = parent;
+        this.setLocationRelativeTo(null);
+        this.getContentPane().setBackground(Color.WHITE);
+        
+        FuncionesUtiles tool = new FuncionesUtiles();
+        tool.confBtnColor(jButton1);
     }
     DialogoEmergente de = new DialogoEmergente(this.ref, true);
 
@@ -40,19 +48,22 @@ public class DetallePago extends javax.swing.JDialog {
         jLabel2 = new javax.swing.JLabel();
         jLabel3 = new javax.swing.JLabel();
         jButton1 = new javax.swing.JButton();
-        txtMonto = new javax.swing.JTextField();
         txtTotal = new javax.swing.JTextField();
         txtCambio = new javax.swing.JTextField();
         jLabel4 = new javax.swing.JLabel();
         jLabel5 = new javax.swing.JLabel();
         cmbMetodoPago = new javax.swing.JComboBox<>();
+        txtMonto = new javax.swing.JFormattedTextField();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.DISPOSE_ON_CLOSE);
 
+        jLabel1.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
         jLabel1.setText("Monto");
 
+        jLabel2.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
         jLabel2.setText("Total");
 
+        jLabel3.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
         jLabel3.setText("Cambio");
 
         jButton1.setText("Registrar venta");
@@ -62,28 +73,28 @@ public class DetallePago extends javax.swing.JDialog {
             }
         });
 
-        txtMonto.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                txtMontoActionPerformed(evt);
-            }
-        });
-        txtMonto.addKeyListener(new java.awt.event.KeyAdapter() {
-            public void keyPressed(java.awt.event.KeyEvent evt) {
-                txtMontoKeyPressed(evt);
-            }
-        });
-
+        txtTotal.setEditable(false);
         txtTotal.addKeyListener(new java.awt.event.KeyAdapter() {
             public void keyPressed(java.awt.event.KeyEvent evt) {
                 txtTotalKeyPressed(evt);
             }
         });
 
+        txtCambio.setEditable(false);
+
         jLabel4.setText("Detalle de Pago");
 
+        jLabel5.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
         jLabel5.setText("Método de Pago");
 
         cmbMetodoPago.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "Efectivo", "TDD", "TDC" }));
+
+        txtMonto.setFormatterFactory(new javax.swing.text.DefaultFormatterFactory(new javax.swing.text.NumberFormatter(new java.text.DecimalFormat("#0.##"))));
+        txtMonto.addKeyListener(new java.awt.event.KeyAdapter() {
+            public void keyReleased(java.awt.event.KeyEvent evt) {
+                txtMontoKeyReleased(evt);
+            }
+        });
 
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
         getContentPane().setLayout(layout);
@@ -92,38 +103,38 @@ public class DetallePago extends javax.swing.JDialog {
             .addGroup(layout.createSequentialGroup()
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addGroup(layout.createSequentialGroup()
-                        .addGap(210, 210, 210)
-                        .addComponent(jLabel4))
-                    .addGroup(layout.createSequentialGroup()
-                        .addGap(160, 160, 160)
-                        .addComponent(jButton1))
-                    .addGroup(layout.createSequentialGroup()
-                        .addGap(109, 109, 109)
+                        .addGap(77, 77, 77)
                         .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
                             .addGroup(layout.createSequentialGroup()
-                                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                                    .addComponent(jLabel3)
-                                    .addComponent(jLabel5))
+                                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
+                                    .addComponent(jLabel5, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                                    .addComponent(jLabel3, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
                                 .addGap(65, 65, 65)
-                                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
+                                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                                     .addComponent(cmbMetodoPago, 0, 87, Short.MAX_VALUE)
                                     .addComponent(txtCambio)))
                             .addGroup(layout.createSequentialGroup()
                                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                                    .addComponent(jLabel2)
-                                    .addComponent(jLabel1))
-                                .addGap(117, 117, 117)
+                                    .addComponent(jLabel2, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                                    .addComponent(jLabel1, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                                .addGap(65, 65, 65)
                                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
-                                    .addComponent(txtMonto)
-                                    .addComponent(txtTotal, javax.swing.GroupLayout.DEFAULT_SIZE, 87, Short.MAX_VALUE))))))
-                .addGap(164, 164, 164))
+                                    .addComponent(txtTotal, javax.swing.GroupLayout.DEFAULT_SIZE, 87, Short.MAX_VALUE)
+                                    .addComponent(txtMonto)))))
+                    .addGroup(layout.createSequentialGroup()
+                        .addGap(147, 147, 147)
+                        .addComponent(jLabel4))
+                    .addGroup(layout.createSequentialGroup()
+                        .addGap(137, 137, 137)
+                        .addComponent(jButton1, javax.swing.GroupLayout.PREFERRED_SIZE, 119, javax.swing.GroupLayout.PREFERRED_SIZE)))
+                .addContainerGap(84, Short.MAX_VALUE))
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(layout.createSequentialGroup()
-                .addGap(29, 29, 29)
+                .addGap(32, 32, 32)
                 .addComponent(jLabel4)
-                .addGap(44, 44, 44)
+                .addGap(41, 41, 41)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(jLabel1)
                     .addComponent(txtMonto, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
@@ -139,8 +150,8 @@ public class DetallePago extends javax.swing.JDialog {
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(jLabel5)
                     .addComponent(cmbMetodoPago, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 38, Short.MAX_VALUE)
-                .addComponent(jButton1)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 26, Short.MAX_VALUE)
+                .addComponent(jButton1, javax.swing.GroupLayout.PREFERRED_SIZE, 35, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addGap(20, 20, 20))
         );
 
@@ -151,35 +162,42 @@ public class DetallePago extends javax.swing.JDialog {
         // TODO add your handling code here:
     }//GEN-LAST:event_txtTotalKeyPressed
 
-    private void txtMontoKeyPressed(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_txtMontoKeyPressed
+    public boolean validaPago() {
+        return cambio >= 0 && !txtMonto.getText().isBlank();
+    }
+
+    private void jButton1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton1ActionPerformed
+
+        if (!validaPago()) {
+            de.setTexto("Venta no válida");
+            de.setVisible(true);
+            return;
+        }
+
+        this.dispose();
+    }//GEN-LAST:event_jButton1ActionPerformed
+
+    private void txtMontoKeyReleased(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_txtMontoKeyReleased
+
+        //Comprobar la cantidad de digitos dentro del txtMonto
+        Pattern pattern1 = Pattern.compile("^\\d+(?:\\.\\d{0,2})?$");
+
+        Matcher matcher = pattern1.matcher(txtMonto.getText());
+
+        if (!matcher.find()) {
+            txtCambio.setText("");
+            txtMonto.setText("");
+            return;
+        }
 
         if (!txtMonto.getText().isBlank()) {
             monto = Float.parseFloat(txtMonto.getText());
             cambio = monto - total;
             txtCambio.setText(String.valueOf(cambio));
         }
-    }//GEN-LAST:event_txtMontoKeyPressed
+    }//GEN-LAST:event_txtMontoKeyReleased
 
-    private void txtMontoActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_txtMontoActionPerformed
-        // TODO add your handling code here:
-    }//GEN-LAST:event_txtMontoActionPerformed
-
-    public boolean validaPago() {
-        return monto - total < 0 ? false : true;
-    }
-
-    private void jButton1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton1ActionPerformed
-
-        if (validaPago()) {
-            de.setTexto("OK");
-            this.dispose();
-        }else{
-           de.setTexto("Venta no válida"); 
-        }
-        de.setVisible(true);
-    }//GEN-LAST:event_jButton1ActionPerformed
-
-    public void inicializar(float total) {
+    private void inicializar(float total) {
         cmbMetodoPago.setEnabled(false);
         txtTotal.setText(String.valueOf(total));
         cambio = monto - total;
@@ -236,7 +254,7 @@ public class DetallePago extends javax.swing.JDialog {
     private javax.swing.JLabel jLabel4;
     private javax.swing.JLabel jLabel5;
     private javax.swing.JTextField txtCambio;
-    private javax.swing.JTextField txtMonto;
+    private javax.swing.JFormattedTextField txtMonto;
     private javax.swing.JTextField txtTotal;
     // End of variables declaration//GEN-END:variables
 }
