@@ -8,7 +8,19 @@ public class Venta {
     private int idCliente;
     private int idEmpleado;
     private String estado;
+    private char tipoVenta;
 
+    public Venta(char tipoVenta) {
+        this.tipoVenta = tipoVenta;
+    }
+
+    public void setTipoVenta(char tipoVenta) {
+        this.tipoVenta = tipoVenta;
+    }
+
+    public char getTipoVenta() {
+        return tipoVenta;
+    }
     public Venta() {
 
     }

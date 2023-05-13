@@ -22,8 +22,8 @@ public class VentaManager {
      *
      * @return el ID de la venta recién creada, o -1 si se produce un error
      */
-    public int realizarVenta(Venta venta) {
-        String consulta1 = "INSERT INTO venta (total, idCliente, idEmpleado, estado) VALUES (?,?,?,?);";
+    public int realizarVenta(Venta venta,char tipoVenta) {
+        String consulta1 = "INSERT INTO venta (total, idCliente, idEmpleado, estado,TipoVenta) VALUES (?,?,?,?,?);";
         String consulta2 = "SELECT idVenta FROM venta ORDER BY idVenta DESC LIMIT 1;";
 
         try (PreparedStatement ps = conexion.getConexion().prepareStatement(consulta1); PreparedStatement ps2 = conexion.getConexion().prepareStatement(consulta2)) {
@@ -32,6 +32,7 @@ public class VentaManager {
             ps.setInt(2, venta.getIdCliente());
             ps.setInt(3, venta.getIdEmpleado());
             ps.setString(4, "VENDIDO");
+            ps.setString(5, String.valueOf(tipoVenta));
             ps.execute();
 
             ResultSet cursor = ps2.executeQuery();

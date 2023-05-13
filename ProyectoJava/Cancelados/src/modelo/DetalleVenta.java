@@ -31,8 +31,8 @@ public class DetalleVenta {
         this.idProducto = idProducto;
     }
 
-    public boolean realizarDetalleVenta(ArrayList<Producto> productos, int idVenta) {
-        String consulta = "INSERT INTO detalleVenta VALUES (null,?,?,?,?,?);";
+    public boolean realizarDetalleVenta(ArrayList<Producto> productos, int idVenta,char tipoVenta) {
+        String consulta = "INSERT INTO detalleVenta VALUES (null,?,?,?,?,?,?);";
         Conexion con;
         CallableStatement cs;
 
@@ -46,6 +46,7 @@ public class DetalleVenta {
                 cs.setFloat(3, producto.getPrecioUnitario());
                 cs.setFloat(4, producto.getImporte());
                 cs.setInt(5, producto.getIdProducto());
+                cs.setString(6, String.valueOf(tipoVenta));
                 cs.execute();
             }
 

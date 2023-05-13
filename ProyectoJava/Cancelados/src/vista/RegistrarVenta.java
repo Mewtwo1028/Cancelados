@@ -109,12 +109,12 @@ public class RegistrarVenta extends javax.swing.JFrame {
     private void llenarProducto() {
         DefaultComboBoxModel b = new DefaultComboBoxModel();
         b.addElement("SELECCIONA UN PRODUCTO");
-
         for (Producto producto : productos) {
             b.addElement(producto.getNombre());
         }
 
         cbNombreProducto.setModel(b);
+        
     }
 
     private void llenarCliente() {
@@ -456,6 +456,11 @@ public class RegistrarVenta extends javax.swing.JFrame {
                 RegistrarEnvioMouseClicked(evt);
             }
         });
+        RegistrarEnvio.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                RegistrarEnvioActionPerformed(evt);
+            }
+        });
 
         javax.swing.GroupLayout jPanelAccionesLayout = new javax.swing.GroupLayout(jPanelAcciones);
         jPanelAcciones.setLayout(jPanelAccionesLayout);
@@ -576,7 +581,7 @@ public class RegistrarVenta extends javax.swing.JFrame {
 
         DialogoEmergente dl = new DialogoEmergente(this, true);
 
-        if (registrarVenta(venta, listaProductos) && dp.validaPago()) {
+        if (registrarVenta(venta, listaProductos,'V') && dp.validaPago()) {
             dl.setTexto("Venta registrada de\nforma correcta!");
         } else {
             dl.setTexto("¡ERROR! NO SE PUDO REGISTRAR LA VENTA");
@@ -623,10 +628,15 @@ public class RegistrarVenta extends javax.swing.JFrame {
         de.setVisible(true);
     }//GEN-LAST:event_RegistrarEnvioMouseClicked
 
-    private boolean registrarVenta(Venta venta, ArrayList<Producto> productos) {
-        int idVenta = new VentaManager().realizarVenta(venta);
+    private void RegistrarEnvioActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_RegistrarEnvioActionPerformed
+        // TODO add your handling code here:
+    }//GEN-LAST:event_RegistrarEnvioActionPerformed
 
-        if (new DetalleVenta().realizarDetalleVenta(productos, idVenta)) {
+    private boolean registrarVenta(Venta venta, ArrayList<Producto> productos, char tipoVenta) {
+        int idVenta = new VentaManager().realizarVenta(venta,tipoVenta);
+        
+
+        if (new DetalleVenta().realizarDetalleVenta(productos, idVenta,tipoVenta)) {
             return new ProductoManager().modificarStock(productos);
         }
 

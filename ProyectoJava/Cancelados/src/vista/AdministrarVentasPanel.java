@@ -198,6 +198,11 @@ public class AdministrarVentasPanel extends javax.swing.JFrame {
         });
 
         jButton2.setText("REALIZAR REPORTE DE VENTA");
+        jButton2.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jButton2ActionPerformed(evt);
+            }
+        });
 
         javax.swing.GroupLayout jPanelFormularioLayout = new javax.swing.GroupLayout(jPanelFormulario);
         jPanelFormulario.setLayout(jPanelFormularioLayout);
@@ -393,6 +398,13 @@ public class AdministrarVentasPanel extends javax.swing.JFrame {
        CorteDeCaja cj = new CorteDeCaja();
         //System.out.println(cj.consultaDatos("2023-05-02"));
     }//GEN-LAST:event_jButton1ActionPerformed
+
+    private void jButton2ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton2ActionPerformed
+
+        ReporteVenta a = new ReporteVenta();
+        a.setVisible(true);
+        
+    }//GEN-LAST:event_jButton2ActionPerformed
 
     public void setNombre(String nombre){
         PanelInformacionArriba panelInformacion = new PanelInformacionArriba();
