@@ -205,3 +205,43 @@ Remitente VARCHAR(50) NOT NULL,
 constraint pkIdEnvio primary key (idEnvio)
 );
 -- ****************************************************
+
+-- **********************12/05/2023*********************
+DROP TABLE Envios;
+
+
+CREATE TABLE Envios(
+idEnvio INT NOT NULL ,
+Destinatario VARCHAR(50) NOT NULL,
+Domicilio VARCHAR(70) NOT NULL,
+Ciudad VARCHAR(50) NOT NULL,
+Calle VARCHAR(50) NOT NULL,
+Colonia VARCHAR(50) NOT NULL,
+Numero VARCHAR(5) NOT NULL,
+Producto VARCHAR(100) NOT NULL,
+Paqueteria VARCHAR(50) NOT NULL,
+CP VARCHAR(5) NOT NULL,
+Responsable VARCHAR(50) NOT NULL,
+Peso INT,
+Fecha date NOT NULL,
+Remitente VARCHAR(50) NOT NULL,
+constraint fkIdEnvio foreign key (idEnvio) REFERENCES venta(idVenta)
+);
+
+ALTER TABLE venta ADD COLUMN TipoVenta char NOT NULL;
+ALTER TABLE detalleventa ADD COLUMN tipoVenta char;
+
+
+
+UPDATE `cancelados`.`cliente` SET `Nombre` = 'Público', `ApellidoPaterno` = 'En', `ApellidoMaterno` = 'General', `Calle` = 'Desconocido', `Colonia` = 'Desconocido', `CP` = '63000' WHERE (`idCliente` = '1');
+
+
+CREATE VIEW vistaVentaEnvios AS(
+SELECT total,fecha,tipoVenta from venta
+);
+
+SELECT total,fecha,tipoVenta from venta;
+-- Consultas de prueba para reporte de venta
+SELECT * FROM venta WHERE venta.fecha like '%2023-05-03%';
+SELECT SUM(total) from venta where fecha like '%2023-05-03%';
+SELECT * FROM envios WHERE envios.fecha like '%2023-05-03%';
