@@ -1,12 +1,9 @@
 package vista;
 
-import controlador.ClienteManager;
 import controlador.CorteDeCaja;
 import controlador.VentaManager;
-import modelo.Cliente;
 import modelo.FuncionesUtiles;
 import java.awt.Color;
-import java.awt.Dimension;
 import java.awt.Toolkit;
 import java.util.ArrayList;
 import javax.swing.JFrame;

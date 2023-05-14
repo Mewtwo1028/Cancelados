@@ -304,12 +304,17 @@ public class AdministrarEmpleado extends javax.swing.JFrame {
 
         btnFind.setText("jTextField1");
         btnFind.addKeyListener(new java.awt.event.KeyAdapter() {
-            public void keyPressed(java.awt.event.KeyEvent evt) {
-                btnFindKeyPressed(evt);
+            public void keyTyped(java.awt.event.KeyEvent evt) {
+                btnFindKeyTyped(evt);
             }
         });
 
         jComboBox1.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "Item 1", "Item 2", "Item 3", "Item 4" }));
+        jComboBox1.addItemListener(new java.awt.event.ItemListener() {
+            public void itemStateChanged(java.awt.event.ItemEvent evt) {
+                jComboBox1ItemStateChanged(evt);
+            }
+        });
 
         javax.swing.GroupLayout jPanelFormularioLayout = new javax.swing.GroupLayout(jPanelFormulario);
         jPanelFormulario.setLayout(jPanelFormularioLayout);
@@ -719,137 +724,34 @@ public class AdministrarEmpleado extends javax.swing.JFrame {
 
     }//GEN-LAST:event_txtNombreKeyPressed
 
-    private void btnFindKeyPressed(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_btnFindKeyPressed
+    private void btnFindKeyTyped(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_btnFindKeyTyped
         // TODO add your handling code here:
         buscarEmpleado(btnFind.getText(), jComboBox1.getSelectedItem());
-    }//GEN-LAST:event_btnFindKeyPressed
+    }//GEN-LAST:event_btnFindKeyTyped
+
+    private void jComboBox1ItemStateChanged(java.awt.event.ItemEvent evt) {//GEN-FIRST:event_jComboBox1ItemStateChanged
+        // TODO add your handling code here:
+        buscarEmpleado(btnFind.getText(), jComboBox1.getSelectedItem());
+    }//GEN-LAST:event_jComboBox1ItemStateChanged
 
     private void buscarEmpleado(String txt, Object filtro) {
+        modelo.setRowCount(0);
         switch (filtro.toString()) {
             case "Nombre" ->
-                buscarEmpleadoNombre(txt);
+                llenarTabla(new EmpleadoManager().buscarEmpleadoNombre(txt));
             case "Apellido Paterno" ->
-                buscarEmpleadoPaterno(txt);
+                llenarTabla(new EmpleadoManager().buscarEmpleadoPaterno(txt));
             case "Apellido Materno" ->
-                buscarEmpleadoMaterno(txt);
+                llenarTabla(new EmpleadoManager().buscarEmpleadoMaterno(txt));
         }
+        tblEmpleado.repaint();
+        tblEmpleado.revalidate();
     }
 
-    private void buscarEmpleadoMaterno(String texto) {
-        try {
-
-            //String[] titulos = {"IdEmpleado", "Nombre", "Apellido Paterno", "Apellido Materno", "Calle", "NoExt", "Colonia", "CP", "RFC", "Municipio","Estado","Roles_idRoles"};
-            String filtro = "" + texto + "_%";
-
-            String SQL = "SELECT * FROM empleado WHERE apellidoMaterno like" + '"' + filtro + '"';
-
-            //System.out.print(SQL);
-            Conexion conexion = new Conexion();
-
-            modelo.setRowCount(0);
-
-            ResultSet rs = conexion.getConexion().prepareStatement(SQL).executeQuery();
-            String[] fila = new String[13];
-            while (rs.next()) {
-                fila[0] = rs.getString("IdEmpleado");
-                fila[1] = rs.getString("Nombre");
-                fila[2] = rs.getString("ApellidoPaterno");
-                fila[3] = rs.getString("ApellidoMaterno");
-                fila[4] = rs.getString("Calle");
-                fila[5] = rs.getString("NoExt");
-                fila[6] = rs.getString("Colonia");
-                fila[7] = rs.getString("CP");
-                fila[8] = rs.getString("CURP");
-                fila[9] = rs.getString("RFC");
-                fila[10] = rs.getString("Municipio");
-                fila[11] = rs.getString("Estado");
-                fila[12] = rs.getString("Roles_idRoles");
-                modelo.addRow(fila);
-
-            }
-            tblEmpleado.setModel(modelo);
-        } catch (Exception e) {
-            System.err.println("" + e.getMessage());
+    private void llenarTabla(ArrayList<String[]> lista) {
+        for (int i = 0; i < lista.size(); i++) {
+            modelo.addRow(lista.get(i));
         }
-
-    }
-
-    private void buscarEmpleadoPaterno(String texto) {
-        try {
-
-            //String[] titulos = {"IdEmpleado", "Nombre", "Apellido Paterno", "Apellido Materno", "Calle", "NoExt", "Colonia", "CP", "RFC", "Municipio","Estado","Roles_idRoles"};
-            String filtro = "" + texto + "_%";
-
-            String SQL = "SELECT * FROM empleado WHERE apellidoPaterno like" + '"' + filtro + '"';
-
-            //System.out.print(SQL);
-            Conexion conexion = new Conexion();
-
-            modelo.setRowCount(0);
-
-            ResultSet rs = conexion.getConexion().prepareStatement(SQL).executeQuery();
-            String[] fila = new String[13];
-            while (rs.next()) {
-                fila[0] = rs.getString("IdEmpleado");
-                fila[1] = rs.getString("Nombre");
-                fila[2] = rs.getString("ApellidoPaterno");
-                fila[3] = rs.getString("ApellidoMaterno");
-                fila[4] = rs.getString("Calle");
-                fila[5] = rs.getString("NoExt");
-                fila[6] = rs.getString("Colonia");
-                fila[7] = rs.getString("CP");
-                fila[8] = rs.getString("CURP");
-                fila[9] = rs.getString("RFC");
-                fila[10] = rs.getString("Municipio");
-                fila[11] = rs.getString("Estado");
-                fila[12] = rs.getString("Roles_idRoles");
-                modelo.addRow(fila);
-
-            }
-            tblEmpleado.setModel(modelo);
-        } catch (Exception e) {
-            System.err.println("" + e.getMessage());
-        }
-
-    }
-
-    private void buscarEmpleadoNombre(String texto) {
-        try {
-
-            //String[] titulos = {"IdEmpleado", "Nombre", "Apellido Paterno", "Apellido Materno", "Calle", "NoExt", "Colonia", "CP", "RFC", "Municipio","Estado","Roles_idRoles"};
-            String filtro = "" + texto + "_%";
-
-            String SQL = "SELECT * FROM empleado WHERE Nombre like" + '"' + filtro + '"';
-
-            //System.out.print(SQL);
-            Conexion conexion = new Conexion();
-
-            modelo.setRowCount(0);
-
-            ResultSet rs = conexion.getConexion().prepareStatement(SQL).executeQuery();
-            String[] fila = new String[13];
-            while (rs.next()) {
-                fila[0] = rs.getString("IdEmpleado");
-                fila[1] = rs.getString("Nombre");
-                fila[2] = rs.getString("ApellidoPaterno");
-                fila[3] = rs.getString("ApellidoMaterno");
-                fila[4] = rs.getString("Calle");
-                fila[5] = rs.getString("NoExt");
-                fila[6] = rs.getString("Colonia");
-                fila[7] = rs.getString("CP");
-                fila[8] = rs.getString("CURP");
-                fila[9] = rs.getString("RFC");
-                fila[10] = rs.getString("Municipio");
-                fila[11] = rs.getString("Estado");
-                fila[12] = rs.getString("Roles_idRoles");
-                modelo.addRow(fila);
-
-            }
-            tblEmpleado.setModel(modelo);
-        } catch (Exception e) {
-            System.err.println("" + e.getMessage());
-        }
-
     }
 
     private boolean restContra(int idEmpleado) {

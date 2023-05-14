@@ -1,6 +1,7 @@
 package vista;
 
 import controlador.Conexion;
+import controlador.EmpleadoManager;
 import controlador.ProductoManager;
 import modelo.FuncionesUtiles;
 import modelo.Producto;
@@ -19,7 +20,7 @@ import java.awt.Toolkit;
 import java.sql.ResultSet;
 
 public class AdministrarProducto extends javax.swing.JFrame {
-    
+
     private int idAdmon;
 
     DefaultTableModel modelo = new DefaultTableModel() {
@@ -126,7 +127,7 @@ public class AdministrarProducto extends javax.swing.JFrame {
         txtAutor.setText("");
         txtIDProducto.setText("");
         labelProductoImagen.setIcon(null);
-        spnStock.setValue(0);
+        spnStock.setValue(1);
         jComboBox1.setSelectedIndex(0);
         labelProductoImagen.revalidate();
 
@@ -322,6 +323,7 @@ public class AdministrarProducto extends javax.swing.JFrame {
         txtImagePath.setText("jTextField1");
         txtImagePath.setMinimumSize(new java.awt.Dimension(64, 25));
 
+        spnStock.setModel(new javax.swing.SpinnerNumberModel(1, 1, null, 1));
         spnStock.setMinimumSize(new java.awt.Dimension(64, 25));
         spnStock.setPreferredSize(new java.awt.Dimension(64, 25));
         spnStock.addMouseListener(new java.awt.event.MouseAdapter() {
@@ -352,9 +354,9 @@ public class AdministrarProducto extends javax.swing.JFrame {
         });
 
         jComboBox2.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "Item 1", "Item 2", "Item 3", "Item 4" }));
-        jComboBox2.addMouseListener(new java.awt.event.MouseAdapter() {
-            public void mouseClicked(java.awt.event.MouseEvent evt) {
-                jComboBox2MouseClicked(evt);
+        jComboBox2.addItemListener(new java.awt.event.ItemListener() {
+            public void itemStateChanged(java.awt.event.ItemEvent evt) {
+                jComboBox2ItemStateChanged(evt);
             }
         });
 
@@ -702,19 +704,31 @@ public class AdministrarProducto extends javax.swing.JFrame {
     }//GEN-LAST:event_btnConsultarActionPerformed
 
     private void btnStockActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnStockActionPerformed
-        int respuesta = JOptionPane.showConfirmDialog(this, "¿Seguro que deseas modificar\nel stock de este producto?");
 
         DialogoEmergente dEmergente = new DialogoEmergente(this, true);
-        Producto producto;
+
+        int renglon = tblProducto.getSelectedRow();
+
+        if (renglon == -1) {
+            dEmergente.setTexto("ERROR! DEBE DE\nSELECCIONAR UN\nRENGLON!");
+            dEmergente.setVisible(true);
+            return;
+        }
+
+        int respuesta = JOptionPane.showConfirmDialog(this, "¿Seguro que deseas modificar\nel stock de este producto?");
+
         int nuevoStock = Integer.parseInt(spnStock.getValue().toString());
-        String categoria = jComboBox1.getSelectedItem().toString();
-        producto = new Producto(Integer.parseInt(txtIDProducto.getText()), txtNombre.getText(), txtDescripcion.getText(), Float.parseFloat(txtPrecioUnitario.getText()), Integer.parseInt(txtStock.getText()) + nuevoStock, txtAutor.getText(), categoria);
+        int viejoStock = Integer.parseInt(tblProducto.getValueAt(renglon, 4).toString());
+        int idProducto = Integer.parseInt(tblProducto.getValueAt(renglon, 0).toString());
+
+        Producto producto = new Producto();
+        producto.setStock(viejoStock + nuevoStock);
+        producto.setIdProducto(idProducto);
 
         String mensajeDeTexto = "";
 
         if (respuesta == 0) {
-            // Actualiza el producto sin imagen
-            if (new ProductoManager().modificarProductoSinImagen(producto)) {
+            if (new ProductoManager().incrementarStock(producto)) {
                 llenarTabla();
                 mensajeDeTexto = "El Stock se modificó de\nforma correcta.";
             } else {
@@ -727,7 +741,6 @@ public class AdministrarProducto extends javax.swing.JFrame {
         dEmergente.setTexto(mensajeDeTexto);
         dEmergente.setVisible(true);
         limpiarTxtFields();
-
     }//GEN-LAST:event_btnStockActionPerformed
 
     private void spnStockMouseEntered(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_spnStockMouseEntered
@@ -773,12 +786,12 @@ public class AdministrarProducto extends javax.swing.JFrame {
         buscarProducto(btnFind.getText(), jComboBox2.getSelectedItem());
     }//GEN-LAST:event_btnFindKeyTyped
 
-    private void jComboBox2MouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_jComboBox2MouseClicked
+    private void jComboBox2ItemStateChanged(java.awt.event.ItemEvent evt) {//GEN-FIRST:event_jComboBox2ItemStateChanged
         // TODO add your handling code here:
         buscarProducto(btnFind.getText(), jComboBox2.getSelectedItem());
-    }//GEN-LAST:event_jComboBox2MouseClicked
+    }//GEN-LAST:event_jComboBox2ItemStateChanged
 
-    public void setNombre(String nombre){
+    public void setNombre(String nombre) {
         PanelInformacionArriba panelInformacion = new PanelInformacionArriba();
         panelInformacion.setNombre(nombre);
         panelInformacion.setBounds(0, 0, (int) jPanelInformacion.getBounds().getWidth(), 110);
@@ -788,7 +801,7 @@ public class AdministrarProducto extends javax.swing.JFrame {
         panelInformacion.revalidate();
         panelInformacion.repaint();
     }
-    
+
     private void obtenerRenglonTabla() {
         int fila = tblProducto.getSelectedRow();
 
@@ -824,138 +837,23 @@ public class AdministrarProducto extends javax.swing.JFrame {
     }
 
     public void buscarProducto(String txt, Object filtro) {
+        modelo.setRowCount(0);
         switch (filtro.toString()) {
             case "Nombre" ->
-                buscarProductoNombre(txt);
+                llenarTabla(new ProductoManager().buscarProductoNombre(txt));
             case "Autor" ->
-                buscarProductoAutor(txt);
+                llenarTabla(new ProductoManager().buscarProductoAutor(txt));
             case "Categoria" ->
-                buscarProductoCategoria(txt);
+                llenarTabla(new ProductoManager().buscarProductoCategoria(txt));
         }
+        tblProducto.repaint();
+        tblProducto.revalidate();
     }
 
-    public void buscarProductoAutor(String texto) {
-        try {
-
-            //String[] titulos = {"IdProducto", "Nombre", "Descripcion", "precioUnitario", "Stock", "Autor"};
-            String filtro = "" + texto + "_%";
-
-            String SQL = "SELECT * FROM producto WHERE autor like" + '"' + filtro + '"';
-
-            //System.out.print(SQL);
-            Conexion conexion = new Conexion();
-
-            modelo = new DefaultTableModel();
-
-            modelo.addColumn("ID");
-            modelo.addColumn("Nombre");
-            modelo.addColumn("Descripcion");
-            modelo.addColumn("Precio Unitario");
-            modelo.addColumn("Stock");
-            modelo.addColumn("Autor");
-            modelo.addColumn("Categoria");
-
-            ResultSet rs = conexion.getConexion().prepareStatement(SQL).executeQuery();
-            String[] fila = new String[8];
-            while (rs.next()) {
-                fila[0] = rs.getString("IdProducto");
-                fila[1] = rs.getString("Nombre");
-                fila[2] = rs.getString("Descripcion");
-                fila[3] = rs.getString("precioUnitario");
-                fila[4] = rs.getString("Stock");
-                fila[5] = rs.getString("Autor");
-                fila[6] = rs.getString("Categoria");
-
-                modelo.addRow(fila);
-
-            }
-            tblProducto.setModel(modelo);
-        } catch (Exception e) {
-            System.err.println("" + e.getMessage());
+    private void llenarTabla(ArrayList<String[]> lista) {
+        for (int i = 0; i < lista.size(); i++) {
+            modelo.addRow(lista.get(i));
         }
-    }
-
-    public void buscarProductoCategoria(String texto) {
-        try {
-
-            //String[] titulos = {"IdProducto", "Nombre", "Descripcion", "precioUnitario", "Stock", "Autor"};
-            String filtro = "" + texto + "_%";
-
-            String SQL = "SELECT * FROM producto WHERE categoria like" + '"' + filtro + '"';
-
-            //System.out.print(SQL);
-            Conexion conexion = new Conexion();
-
-            modelo = new DefaultTableModel();
-
-            modelo.addColumn("ID");
-            modelo.addColumn("Nombre");
-            modelo.addColumn("Descripcion");
-            modelo.addColumn("Precio Unitario");
-            modelo.addColumn("Stock");
-            modelo.addColumn("Autor");
-            modelo.addColumn("Categoria");
-
-            ResultSet rs = conexion.getConexion().prepareStatement(SQL).executeQuery();
-            String[] fila = new String[8];
-            while (rs.next()) {
-                fila[0] = rs.getString("IdProducto");
-                fila[1] = rs.getString("Nombre");
-                fila[2] = rs.getString("Descripcion");
-                fila[3] = rs.getString("precioUnitario");
-                fila[4] = rs.getString("Stock");
-                fila[5] = rs.getString("Autor");
-                fila[6] = rs.getString("Categoria");
-
-                modelo.addRow(fila);
-
-            }
-            tblProducto.setModel(modelo);
-        } catch (Exception e) {
-            System.err.println("" + e.getMessage());
-        }
-    }
-
-    public void buscarProductoNombre(String texto) {
-        try {
-
-            //String[] titulos = {"IdProducto", "Nombre", "Descripcion", "precioUnitario", "Stock", "Autor"};
-            String filtro = "" + texto + "_%";
-
-            String SQL = "SELECT * FROM producto WHERE Nombre like" + '"' + filtro + '"';
-
-            //System.out.print(SQL);
-            Conexion conexion = new Conexion();
-
-            modelo = new DefaultTableModel();
-
-            modelo.addColumn("ID");
-            modelo.addColumn("Nombre");
-            modelo.addColumn("Descripcion");
-            modelo.addColumn("Precio Unitario");
-            modelo.addColumn("Stock");
-            modelo.addColumn("Autor");
-            modelo.addColumn("Categoria");
-
-            ResultSet rs = conexion.getConexion().prepareStatement(SQL).executeQuery();
-            String[] fila = new String[8];
-            while (rs.next()) {
-                fila[0] = rs.getString("IdProducto");
-                fila[1] = rs.getString("Nombre");
-                fila[2] = rs.getString("Descripcion");
-                fila[3] = rs.getString("precioUnitario");
-                fila[4] = rs.getString("Stock");
-                fila[5] = rs.getString("Autor");
-                fila[6] = rs.getString("Categoria");
-
-                modelo.addRow(fila);
-
-            }
-            tblProducto.setModel(modelo);
-        } catch (Exception e) {
-            System.err.println("" + e.getMessage());
-        }
-
     }
 
     public static void main(String args[]) {
