@@ -126,7 +126,9 @@ public class RegistrarVenta extends javax.swing.JFrame {
         DefaultComboBoxModel b = new DefaultComboBoxModel();
         b.addElement("SELECCIONA UN PRODUCTO");
         for (Producto producto : productos) {
-            b.addElement(producto.getNombre());
+            if (producto.getStock() >= 1) {
+                b.addElement(producto.getNombre());
+            }
         }
 
         cbNombreProducto.setModel(b);
@@ -140,10 +142,11 @@ public class RegistrarVenta extends javax.swing.JFrame {
 
     private void limpiarTxtFields() {
         cbNombreProducto.setSelectedIndex(0);
-        spnCantidad.setValue(1);
+        spnCantidad.setModel(new SpinnerNumberModel(1, 1, 1, 1));
         txtPrecioUnitario.setText("");
         txtImporte.setText("");
-        txtStock.setText("");
+        //txtStock.setText("");
+        txtIDProducto.setText("");
     }
 
     private void limpiarTodosTxtFields() {
@@ -340,12 +343,6 @@ public class RegistrarVenta extends javax.swing.JFrame {
 
         jLabel3.setText("Stock");
 
-        txtStock.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                txtStockActionPerformed(evt);
-            }
-        });
-
         jButton1.setText("SELECCIONAR UN CLIENTE");
         jButton1.addMouseListener(new java.awt.event.MouseAdapter() {
             public void mouseClicked(java.awt.event.MouseEvent evt) {
@@ -474,11 +471,6 @@ public class RegistrarVenta extends javax.swing.JFrame {
                 RegistrarEnvioMouseClicked(evt);
             }
         });
-        RegistrarEnvio.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                RegistrarEnvioActionPerformed(evt);
-            }
-        });
 
         javax.swing.GroupLayout jPanelAccionesLayout = new javax.swing.GroupLayout(jPanelAcciones);
         jPanelAcciones.setLayout(jPanelAccionesLayout);
@@ -560,6 +552,7 @@ public class RegistrarVenta extends javax.swing.JFrame {
         }
 
         String idProducto = txtIDProducto.getText();
+
         String cantidad = spnCantidad.getValue().toString();
         String importe = txtImporte.getText();
         String producto = cbNombreProducto.getSelectedItem().toString();
@@ -574,6 +567,34 @@ public class RegistrarVenta extends javax.swing.JFrame {
         } else {
             agregarTabla(idProducto, producto, precioUnitario, cantidad, importe);
         }
+
+        int id = Integer.parseInt(idProducto);
+
+        //calcular la nueva cantidad, tomar la que hay en el arreglo de productos
+        //y restarle la cantidad que acabamos de ingresar a la tabla
+        Producto proc = obtenerProducto(id);
+        int nStock = proc.getStock() - Integer.parseInt(cantidad);
+
+        //bajar la cantidad en stock en la variable de productos
+        try {
+            for (Producto p : productos) {
+                if (p.getIdProducto() == id) {
+                    if (nStock == 0 || proc == null) {
+                        productos.remove(p);
+                        llenarProducto();
+                    } else {
+                        p.setStock(nStock);
+                    }
+                }
+            }
+        } catch (Exception e) {
+            System.out.println(e.getMessage());
+        }
+
+        limpiarTxtFields();
+
+        //bajar la cantidad en stock en el jspinner
+        //System.out.println(tblProducto.getValueAt(tblProducto.getRowCount() - 1, 0));
     }//GEN-LAST:event_btnAgregarActionPerformed
 
     private void tblProductoMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_tblProductoMouseClicked
@@ -635,19 +656,11 @@ public class RegistrarVenta extends javax.swing.JFrame {
         return 1;
     }
 
-    private void txtStockActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_txtStockActionPerformed
-
-    }//GEN-LAST:event_txtStockActionPerformed
-
     private void RegistrarEnvioMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_RegistrarEnvioMouseClicked
         // TODO add your handling code here:
         DialogoEnvio de = new DialogoEnvio(this, true);
         de.setVisible(true);
     }//GEN-LAST:event_RegistrarEnvioMouseClicked
-
-    private void RegistrarEnvioActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_RegistrarEnvioActionPerformed
-        // TODO add your handling code here:
-    }//GEN-LAST:event_RegistrarEnvioActionPerformed
 
     private void spnCantidadStateChanged(javax.swing.event.ChangeEvent evt) {//GEN-FIRST:event_spnCantidadStateChanged
         // TODO add your handling code here:
@@ -659,6 +672,15 @@ public class RegistrarVenta extends javax.swing.JFrame {
         DialogoSeleccionarCliente dCliente = new DialogoSeleccionarCliente(this, true);
         dCliente.setVisible(true);
     }//GEN-LAST:event_jButton1MouseClicked
+
+    private Producto obtenerProducto(int idProducto) {
+        for (Producto producto : productos) {
+            if (producto.getIdProducto() == idProducto) {
+                return producto;
+            }
+        }
+        return null;
+    }
 
     private boolean validarFormulario() {
         return cbNombreProducto.getSelectedIndex() == 0 || txtIdCliente.getText().isEmpty();
