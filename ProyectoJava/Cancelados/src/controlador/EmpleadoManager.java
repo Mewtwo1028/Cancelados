@@ -164,4 +164,94 @@ public class EmpleadoManager {
         return false;
     }
 
+    /**
+     * Busca los empleados cuyo apellido materno comience con el texto
+     * especificado.
+     *
+     * @param texto El texto a buscar.
+     *
+     * @return Una lista de matrices de cadenas que representan a los empleados
+     * encontrados, o una lista vacía si no se encontró ningún empleado.
+     */
+    public ArrayList<String[]> buscarEmpleadoMaterno(String texto) {
+        String filtro = texto + "%";
+        String SQL = "SELECT * FROM empleado WHERE apellidoMaterno like" + '"' + filtro + '"';
+        ArrayList<String[]> resultado = new ArrayList<>();
+
+        try {
+            ResultSet rs = conexion.getConexion().prepareStatement(SQL).executeQuery();
+
+            while (rs.next()) {
+                String[] renglon = {rs.getString(1), rs.getString(2), rs.getString(3), rs.getString(4), rs.getString(5), rs.getString(6), rs.getString(7), rs.getString(8), rs.getString(9), rs.getString(10), rs.getString(11), rs.getString(12), rs.getString(13)};
+                resultado.add(renglon);
+            }
+
+            return resultado;
+
+        } catch (Exception e) {
+            System.err.println("" + e.getMessage());
+        }
+        return resultado;
+    }
+    
+    /**
+     * Busca los empleados cuyo apellido paterno comience con el texto
+     * especificado.
+     *
+     * @param texto El texto a buscar.
+     *
+     * @return Una lista de matrices de cadenas que representan a los empleados
+     * encontrados, o una lista vacía si no se encontró ningún empleado.
+     */
+    public ArrayList<String[]> buscarEmpleadoPaterno(String texto) {
+        String filtro = texto + "%";
+        String SQL = "SELECT * FROM empleado WHERE apellidoPaterno like" + '"' + filtro + '"';
+        ArrayList<String[]> resultado = new ArrayList<>();
+
+        try {
+            ResultSet rs = conexion.getConexion().prepareStatement(SQL).executeQuery();
+
+            while (rs.next()) {
+                String[] renglon = {rs.getString(1), rs.getString(2), rs.getString(3), rs.getString(4), rs.getString(5), rs.getString(6), rs.getString(7), rs.getString(8), rs.getString(9), rs.getString(10), rs.getString(11), rs.getString(12), rs.getString(13)};
+                resultado.add(renglon);
+            }
+
+            return resultado;
+
+        } catch (Exception e) {
+            System.err.println("" + e.getMessage());
+        }
+        return resultado;
+    }
+    
+    /**
+     * Busca los empleados cuyo nombre comience con el texto
+     * especificado.
+     *
+     * @param texto El texto a buscar.
+     *
+     * @return Una lista de matrices de cadenas que representan a los empleados
+     * encontrados, o una lista vacía si no se encontró ningún empleado.
+     */
+    public ArrayList<String[]> buscarEmpleadoNombre(String texto) {
+        String filtro = texto + "%";
+        String SQL = "SELECT * FROM empleado WHERE nombre like" + '"' + filtro + '"';
+        ArrayList<String[]> resultado = new ArrayList<>();
+
+        try {
+            ResultSet rs = conexion.getConexion().prepareStatement(SQL).executeQuery();
+
+            while (rs.next()) {
+                String[] renglon = {rs.getString(1), rs.getString(2), rs.getString(3), rs.getString(4), rs.getString(5), rs.getString(6), rs.getString(7), rs.getString(8), rs.getString(9), rs.getString(10), rs.getString(11), rs.getString(12), rs.getString(13)};
+                resultado.add(renglon);
+            }
+
+            return resultado;
+
+        } catch (Exception e) {
+            System.err.println("" + e.getMessage());
+        }
+        return resultado;
+    }
+
 }

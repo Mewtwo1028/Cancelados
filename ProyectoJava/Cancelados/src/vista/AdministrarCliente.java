@@ -14,7 +14,7 @@ import java.sql.ResultSet;
 import javax.swing.DefaultComboBoxModel;
 
 public class AdministrarCliente extends javax.swing.JFrame {
-    
+
     private int idAdmon;
 
     DefaultTableModel modelo = new DefaultTableModel() {
@@ -79,10 +79,10 @@ public class AdministrarCliente extends javax.swing.JFrame {
 
         //idCliente
         txtIDCliente.setEnabled(false);
-        
+
         initFiltro();
     }
-    
+
     private void initFiltro() {
         btnFind.setText("");
         String[] filtro = {"Nombre", "Apellido Paterno", "Apellido Materno"};
@@ -276,12 +276,17 @@ public class AdministrarCliente extends javax.swing.JFrame {
 
         btnFind.setText("jTextField1");
         btnFind.addKeyListener(new java.awt.event.KeyAdapter() {
-            public void keyPressed(java.awt.event.KeyEvent evt) {
-                btnFindKeyPressed(evt);
+            public void keyTyped(java.awt.event.KeyEvent evt) {
+                btnFindKeyTyped(evt);
             }
         });
 
         jComboBox1.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "Item 1", "Item 2", "Item 3", "Item 4" }));
+        jComboBox1.addItemListener(new java.awt.event.ItemListener() {
+            public void itemStateChanged(java.awt.event.ItemEvent evt) {
+                jComboBox1ItemStateChanged(evt);
+            }
+        });
 
         javax.swing.GroupLayout jPanelFormularioLayout = new javax.swing.GroupLayout(jPanelFormulario);
         jPanelFormulario.setLayout(jPanelFormularioLayout);
@@ -568,12 +573,17 @@ public class AdministrarCliente extends javax.swing.JFrame {
         limpiarTxtFields();
     }//GEN-LAST:event_btnEliminarActionPerformed
 
-    private void btnFindKeyPressed(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_btnFindKeyPressed
+    private void btnFindKeyTyped(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_btnFindKeyTyped
         // TODO add your handling code here:
         buscarProducto(btnFind.getText(), jComboBox1.getSelectedItem());
-    }//GEN-LAST:event_btnFindKeyPressed
+    }//GEN-LAST:event_btnFindKeyTyped
 
-    public void setNombre(String nombre){
+    private void jComboBox1ItemStateChanged(java.awt.event.ItemEvent evt) {//GEN-FIRST:event_jComboBox1ItemStateChanged
+        // TODO add your handling code here:
+        buscarProducto(btnFind.getText(), jComboBox1.getSelectedItem());
+    }//GEN-LAST:event_jComboBox1ItemStateChanged
+
+    public void setNombre(String nombre) {
         PanelInformacionArriba panelInformacion = new PanelInformacionArriba();
         panelInformacion.setNombre(nombre);
         panelInformacion.setBounds(0, 0, (int) jPanelInformacion.getBounds().getWidth(), 110);
@@ -583,123 +593,25 @@ public class AdministrarCliente extends javax.swing.JFrame {
         panelInformacion.revalidate();
         panelInformacion.repaint();
     }
-    
+
     private void buscarProducto(String txt, Object filtro) {
+        modelo.setRowCount(0);
         switch (filtro.toString()) {
             case "Nombre" ->
-                buscarClienteNombre(txt);
+                llenarTabla(new ClienteManager().buscarClienteNombre(txt));
             case "Apellido Paterno" ->
-                buscarClientePaterno(txt);
+                llenarTabla(new ClienteManager().buscarClientePaterno(txt));
             case "Apellido Materno" ->
-                buscarClienteMaterno(txt);
+                llenarTabla(new ClienteManager().buscarClienteMaterno(txt));
         }
-    }
-    
-    private void buscarClienteMaterno(String texto) {
-        try {
-
-            //String[] titulos = {"ID", "Nombre", "Apellido Paterno", "Apellido Materno", "Calle", "Colonia", "Ciudad", "Estado", "CP"};
-            String filtro = "" + texto + "_%";
-
-            String SQL = "SELECT * FROM cliente WHERE apellidoMaterno like" + '"' + filtro + '"';
-
-            //System.out.print(SQL);
-
-            Conexion conexion = new Conexion();
-
-            //modelo = new DefaultTableModel();
-            modelo.setRowCount(0);
-            ResultSet rs = conexion.getConexion().prepareStatement(SQL).executeQuery();
-            String[] fila = new String[9];
-            while (rs.next()) {
-                fila[0] = rs.getString("IdCliente");
-                fila[1] = rs.getString("Nombre");
-                fila[2] = rs.getString("ApellidoPaterno");
-                fila[3] = rs.getString("ApellidoMaterno");
-                fila[4] = rs.getString("Calle");
-                fila[5] = rs.getString("Colonia");
-                fila[6] = rs.getString("Ciudad");
-                fila[7] = rs.getString("Estado");
-                fila[8] = rs.getString("CP");
-                modelo.addRow(fila);
-
-            }
-            tblCliente.setModel(modelo);
-        } catch (Exception e) {
-            System.err.println("" + e.getMessage());
-        }
-
-    }
-    
-    private void buscarClientePaterno(String texto) {
-        try {
-
-            //String[] titulos = {"ID", "Nombre", "Apellido Paterno", "Apellido Materno", "Calle", "Colonia", "Ciudad", "Estado", "CP"};
-            String filtro = "" + texto + "_%";
-
-            String SQL = "SELECT * FROM cliente WHERE apellidoPaterno like" + '"' + filtro + '"';
-
-            //System.out.print(SQL);
-
-            Conexion conexion = new Conexion();
-
-            //modelo = new DefaultTableModel();
-            modelo.setRowCount(0);
-            ResultSet rs = conexion.getConexion().prepareStatement(SQL).executeQuery();
-            String[] fila = new String[9];
-            while (rs.next()) {
-                fila[0] = rs.getString("IdCliente");
-                fila[1] = rs.getString("Nombre");
-                fila[2] = rs.getString("ApellidoPaterno");
-                fila[3] = rs.getString("ApellidoMaterno");
-                fila[4] = rs.getString("Calle");
-                fila[5] = rs.getString("Colonia");
-                fila[6] = rs.getString("Ciudad");
-                fila[7] = rs.getString("Estado");
-                fila[8] = rs.getString("CP");
-                modelo.addRow(fila);
-
-            }
-            tblCliente.setModel(modelo);
-        } catch (Exception e) {
-            System.err.println("" + e.getMessage());
-        }
-
+        tblCliente.repaint();
+        tblCliente.revalidate();
     }
 
-    private void buscarClienteNombre(String texto) {
-        try {
-
-            //String[] titulos = {"ID", "Nombre", "Apellido Paterno", "Apellido Materno", "Calle", "Colonia", "Ciudad", "Estado", "CP"};
-            String filtro = "" + texto + "_%";
-
-            String SQL = "SELECT * FROM cliente WHERE Nombre like" + '"' + filtro + '"';
-
-            //System.out.print(SQL);
-            Conexion conexion = new Conexion();
-
-            //modelo = new DefaultTableModel(null, titulos);
-            modelo.setRowCount(0);
-            ResultSet rs = conexion.getConexion().prepareStatement(SQL).executeQuery();
-            String[] fila = new String[9];
-            while (rs.next()) {
-                fila[0] = rs.getString("IdCliente");
-                fila[1] = rs.getString("Nombre");
-                fila[2] = rs.getString("ApellidoPaterno");
-                fila[3] = rs.getString("ApellidoMaterno");
-                fila[4] = rs.getString("Calle");
-                fila[5] = rs.getString("Colonia");
-                fila[6] = rs.getString("Ciudad");
-                fila[7] = rs.getString("Estado");
-                fila[8] = rs.getString("CP");
-                modelo.addRow(fila);
-
-            }
-            tblCliente.setModel(modelo);
-        } catch (Exception e) {
-            System.err.println("" + e.getMessage());
+    private void llenarTabla(ArrayList<String[]> lista) {
+        for (int i = 0; i < lista.size(); i++) {
+            modelo.addRow(lista.get(i));
         }
-
     }
 
     private void obtenerRenglonTabla() {

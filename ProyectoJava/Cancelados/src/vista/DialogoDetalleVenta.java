@@ -16,7 +16,7 @@ import javax.swing.JOptionPane;
 import javax.swing.table.DefaultTableModel;
 import modelo.FuncionesUtiles;
 
-public class DialogoDetalleVenta extends javax.swing.JDialog implements Printable{
+public class DialogoDetalleVenta extends javax.swing.JDialog implements Printable {
 
     DefaultTableModel modelo = new DefaultTableModel() {
         @Override
@@ -52,6 +52,8 @@ public class DialogoDetalleVenta extends javax.swing.JDialog implements Printabl
         txtFecha.setEditable(false);
         txtCliente.setEditable(false);
         txtEmpleado.setEditable(false);
+        txtTotal.setEditable(false);
+        txtEstado.setEditable(false);
         limpiarFields();
         llenarDatos(idVenta, total, estado);
     }
@@ -70,17 +72,17 @@ public class DialogoDetalleVenta extends javax.swing.JDialog implements Printabl
             modelo.addRow(lista.get(i));
         }
     }
-    
-    private void limpiarFields(){
+
+    private void limpiarFields() {
         txtFecha.setText("");
         txtCliente.setText("");
         txtEmpleado.setText("");
     }
-    
-    private void llenarDatos(int idVenta, float total, String estado){
-        
+
+    private void llenarDatos(int idVenta, float total, String estado) {
+
         ArrayList<String> resultado = new DetalleVentaManager().consultarTodo(idVenta);
-        
+
         txtFecha.setText(resultado.get(0));
         txtCliente.setText(resultado.get(1));
         txtEmpleado.setText(resultado.get(2));
@@ -277,22 +279,22 @@ public class DialogoDetalleVenta extends javax.swing.JDialog implements Printabl
 
     private void txtImprimirActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_txtImprimirActionPerformed
         // TODO add your handling code here:
-        
-        PrinterJob job=PrinterJob.getPrinterJob();
+
+        PrinterJob job = PrinterJob.getPrinterJob();
         job.setPrintable(this);
-        
-        if (job.printDialog()){
-            
+
+        if (job.printDialog()) {
+
             try {
                 job.print();
             } catch (PrinterException ex) {
                 Logger.getLogger(DialogoDetalleVenta.class.getName()).log(Level.SEVERE, null, ex);
             }
-        }else{
-                   JOptionPane.showMessageDialog(this, "La impresion se cancelo" );
-                    }
-        
-        
+        } else {
+            JOptionPane.showMessageDialog(this, "La impresion se cancelo");
+        }
+
+
     }//GEN-LAST:event_txtImprimirActionPerformed
 
     /**
@@ -358,16 +360,15 @@ public class DialogoDetalleVenta extends javax.swing.JDialog implements Printabl
 
     @Override
     public int print(Graphics graphics, PageFormat pageFormat, int pageIndex) throws PrinterException {
-        if(pageIndex==0){
-            Graphics2D graphics2d=(Graphics2D)graphics;
+        if (pageIndex == 0) {
+            Graphics2D graphics2d = (Graphics2D) graphics;
             graphics2d.translate(pageFormat.getImageableX(), pageFormat.getImageableX());
             printAll(graphics2d);
             return PAGE_EXISTS;
-    }       else {
-           return NO_SUCH_PAGE; 
-           
-}
-        
-        
+        } else {
+            return NO_SUCH_PAGE;
+
+        }
+
     }
 }

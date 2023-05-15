@@ -19,10 +19,11 @@ public class VentaManager {
      * Realiza una venta e inserta los datos en la base de datos.
      *
      * @param venta un objeto de tipo Venta que contiene los datos de la venta
+     * @param tipoVenta el tipo de la venta
      *
      * @return el ID de la venta recién creada, o -1 si se produce un error
      */
-    public int realizarVenta(Venta venta,char tipoVenta) {
+    public int realizarVenta(Venta venta, char tipoVenta) {
         String consulta1 = "INSERT INTO venta (total, idCliente, idEmpleado, estado,TipoVenta) VALUES (?,?,?,?,?);";
         String consulta2 = "SELECT idVenta FROM venta ORDER BY idVenta DESC LIMIT 1;";
 

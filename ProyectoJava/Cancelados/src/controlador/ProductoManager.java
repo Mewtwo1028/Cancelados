@@ -111,6 +111,23 @@ public class ProductoManager {
         }
     }
 
+    public boolean incrementarStock(Producto producto) {
+        String consulta = "UPDATE producto SET stock = ? where idProducto = ?";
+
+        try (PreparedStatement ps = conexion.getConexion().prepareStatement(consulta)) {
+
+            ps.setInt(1, producto.getStock());
+            ps.setInt(2, producto.getIdProducto());
+
+            ps.execute();
+
+            return true;
+
+        } catch (SQLException ex) {
+            return false;
+        }
+    }
+
     public boolean modificarStock(ArrayList<Producto> productos) {
         String consulta = "UPDATE producto SET stock = stock - ? where idProducto = ?";
 
@@ -264,12 +281,102 @@ public class ProductoManager {
 
             ps.setInt(1, producto.getIdProducto());
             ps.executeUpdate();
-            
+
             return true;
 
         } catch (SQLException ex) {
             return false;
         }
+    }
+    
+    /**
+     * Busca los productos cuyo nombre comience con el texto
+     * especificado.
+     *
+     * @param texto El texto a buscar.
+     *
+     * @return Una lista de matrices de cadenas que representan a los productos
+     * encontrados, o una lista vacía si no se encontró ningún producto.
+     */
+    public ArrayList<String[]> buscarProductoNombre(String texto) {
+        String filtro = texto + "%";
+        String SQL = "SELECT idProducto, nombre, descripcion, precioUnitario, stock, Autor, Categoria FROM producto WHERE nombre like" + '"' + filtro + '"';
+        ArrayList<String[]> resultado = new ArrayList<>();
+
+        try {
+            ResultSet rs = conexion.getConexion().prepareStatement(SQL).executeQuery();
+
+            while (rs.next()) {
+                String[] renglon = {rs.getString(1), rs.getString(2), rs.getString(3), rs.getString(4), rs.getString(5), rs.getString(6), rs.getString(7)};
+                resultado.add(renglon);
+            }
+
+            return resultado;
+
+        } catch (Exception e) {
+            System.err.println("" + e.getMessage());
+        }
+        return resultado;
+    }
+    
+    /**
+     * Busca los productos cuyo autor comience con el texto
+     * especificado.
+     *
+     * @param texto El texto a buscar.
+     *
+     * @return Una lista de matrices de cadenas que representan a los productos
+     * encontrados, o una lista vacía si no se encontró ningún producto.
+     */
+    public ArrayList<String[]> buscarProductoAutor(String texto) {
+        String filtro = texto + "%";
+        String SQL = "SELECT idProducto, nombre, descripcion, precioUnitario, stock, Autor, Categoria FROM producto WHERE autor like" + '"' + filtro + '"';
+        ArrayList<String[]> resultado = new ArrayList<>();
+
+        try {
+            ResultSet rs = conexion.getConexion().prepareStatement(SQL).executeQuery();
+
+            while (rs.next()) {
+                String[] renglon = {rs.getString(1), rs.getString(2), rs.getString(3), rs.getString(4), rs.getString(5), rs.getString(6), rs.getString(7)};
+                resultado.add(renglon);
+            }
+
+            return resultado;
+
+        } catch (Exception e) {
+            System.err.println("" + e.getMessage());
+        }
+        return resultado;
+    }
+    
+    /**
+     * Busca los productos cuya categoria comience con el texto
+     * especificado.
+     *
+     * @param texto El texto a buscar.
+     *
+     * @return Una lista de matrices de cadenas que representan a los productos
+     * encontrados, o una lista vacía si no se encontró ningún producto.
+     */
+    public ArrayList<String[]> buscarProductoCategoria(String texto) {
+        String filtro = texto + "%";
+        String SQL = "SELECT idProducto, nombre, descripcion, precioUnitario, stock, Autor, Categoria FROM producto WHERE categoria like" + '"' + filtro + '"';
+        ArrayList<String[]> resultado = new ArrayList<>();
+
+        try {
+            ResultSet rs = conexion.getConexion().prepareStatement(SQL).executeQuery();
+
+            while (rs.next()) {
+                String[] renglon = {rs.getString(1), rs.getString(2), rs.getString(3), rs.getString(4), rs.getString(5), rs.getString(6), rs.getString(7)};
+                resultado.add(renglon);
+            }
+
+            return resultado;
+
+        } catch (Exception e) {
+            System.err.println("" + e.getMessage());
+        }
+        return resultado;
     }
 
 }
