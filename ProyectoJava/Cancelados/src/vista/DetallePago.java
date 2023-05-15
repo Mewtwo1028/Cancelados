@@ -21,16 +21,18 @@ public class DetallePago extends javax.swing.JDialog {
      */
     Frame ref;
 
-    public DetallePago(java.awt.Frame parent, boolean modal, float total) {
+    private RegistrarVenta rf;
 
+    public DetallePago(RegistrarVenta parent, boolean modal, float total) {
         super(parent, modal);
         initComponents();
         inicializar(total);
         this.total = total;
         this.ref = parent;
+        this.rf = parent;
         this.setLocationRelativeTo(null);
         this.getContentPane().setBackground(Color.WHITE);
-        
+
         FuncionesUtiles tool = new FuncionesUtiles();
         tool.confBtnColor(jButton1);
     }
@@ -173,7 +175,7 @@ public class DetallePago extends javax.swing.JDialog {
             de.setVisible(true);
             return;
         }
-
+        this.rf.setCambio(cambio);
         this.dispose();
     }//GEN-LAST:event_jButton1ActionPerformed
 
@@ -233,7 +235,7 @@ public class DetallePago extends javax.swing.JDialog {
         /* Create and display the dialog */
         java.awt.EventQueue.invokeLater(new Runnable() {
             public void run() {
-                DetallePago dialog = new DetallePago(new javax.swing.JFrame(), true, 0);
+                DetallePago dialog = new DetallePago(new RegistrarVenta(), true, 0);
                 dialog.addWindowListener(new java.awt.event.WindowAdapter() {
                     @Override
                     public void windowClosing(java.awt.event.WindowEvent e) {

@@ -141,10 +141,9 @@ public class ClienteManager {
             throw new RuntimeException("Error al eliminar el cliente", ex);
         }
     }
-    
+
     /**
-     * Busca los clientes cuyo nombre comience con el texto
-     * especificado.
+     * Busca los clientes cuyo nombre comience con el texto especificado.
      *
      * @param texto El texto a buscar.
      *
@@ -171,7 +170,37 @@ public class ClienteManager {
         }
         return resultado;
     }
-    
+
+    /**
+     * Busca el nombre, apellido paterno, apellido materno, calle y colonia de
+     * los clientes cuyo nombre comience con el texto especificado.
+     *
+     * @param texto El texto a buscar.
+     *
+     * @return Una lista de matrices de cadenas que representan a los clientes
+     * encontrados, o una lista vacía si no se encontró ningún cliente.
+     */
+    public ArrayList<String[]> buscarClienteNombreEx(String texto) {
+        String filtro = texto + "%";
+        String SQL = "SELECT idCliente, nombre, apellidoPaterno, apellidoMaterno, calle, colonia FROM cliente WHERE nombre like" + '"' + filtro + '"';
+        ArrayList<String[]> resultado = new ArrayList<>();
+
+        try {
+            ResultSet rs = conexion.getConexion().prepareStatement(SQL).executeQuery();
+
+            while (rs.next()) {
+                String[] renglon = {rs.getString(1), rs.getString(2), rs.getString(3), rs.getString(4), rs.getString(5), rs.getString(6)};
+                resultado.add(renglon);
+            }
+
+            return resultado;
+
+        } catch (Exception e) {
+            System.err.println("" + e.getMessage());
+        }
+        return resultado;
+    }
+
     /**
      * Busca los clientes cuyo apellido paterno comience con el texto
      * especificado.
@@ -201,7 +230,37 @@ public class ClienteManager {
         }
         return resultado;
     }
-    
+
+    /**
+     * Busca el nombre, apellido paterno, apellido materno, calle y colonia de
+     * los clientes cuyo apellido paterno comience con el texto especificado.
+     *
+     * @param texto El texto a buscar.
+     *
+     * @return Una lista de matrices de cadenas que representan a los clientes
+     * encontrados, o una lista vacía si no se encontró ningún cliente.
+     */
+    public ArrayList<String[]> buscarClientePaternoEx(String texto) {
+        String filtro = texto + "%";
+        String SQL = "SELECT idCliente, nombre, apellidoPaterno, apellidoMaterno, calle, colonia FROM cliente WHERE apellidoPaterno like" + '"' + filtro + '"';
+        ArrayList<String[]> resultado = new ArrayList<>();
+
+        try {
+            ResultSet rs = conexion.getConexion().prepareStatement(SQL).executeQuery();
+
+            while (rs.next()) {
+                String[] renglon = {rs.getString(1), rs.getString(2), rs.getString(3), rs.getString(4), rs.getString(5), rs.getString(6)};
+                resultado.add(renglon);
+            }
+
+            return resultado;
+
+        } catch (Exception e) {
+            System.err.println("" + e.getMessage());
+        }
+        return resultado;
+    }
+
     /**
      * Busca los clientes cuyo apellido materno comience con el texto
      * especificado.
@@ -221,6 +280,36 @@ public class ClienteManager {
 
             while (rs.next()) {
                 String[] renglon = {rs.getString(1), rs.getString(2), rs.getString(3), rs.getString(4), rs.getString(5), rs.getString(6), rs.getString(7), rs.getString(8), rs.getString(9)};
+                resultado.add(renglon);
+            }
+
+            return resultado;
+
+        } catch (Exception e) {
+            System.err.println("" + e.getMessage());
+        }
+        return resultado;
+    }
+
+    /**
+     * Busca el nombre, apellido paterno, apellido materno, calle y colonia de
+     * los clientes cuyo apellido materno comience con el texto especificado.
+     *
+     * @param texto El texto a buscar.
+     *
+     * @return Una lista de matrices de cadenas que representan a los clientes
+     * encontrados, o una lista vacía si no se encontró ningún cliente.
+     */
+    public ArrayList<String[]> buscarClienteMaternoEx(String texto) {
+        String filtro = texto + "%";
+        String SQL = "SELECT idCliente, nombre, apellidoPaterno, apellidoMaterno, calle, colonia FROM cliente WHERE apellidoMaterno like" + '"' + filtro + '"';
+        ArrayList<String[]> resultado = new ArrayList<>();
+
+        try {
+            ResultSet rs = conexion.getConexion().prepareStatement(SQL).executeQuery();
+
+            while (rs.next()) {
+                String[] renglon = {rs.getString(1), rs.getString(2), rs.getString(3), rs.getString(4), rs.getString(5), rs.getString(6)};
                 resultado.add(renglon);
             }
 

@@ -25,6 +25,7 @@ import javax.swing.table.TableModel;
 public class RegistrarVenta extends javax.swing.JFrame {
 
     private int idAdmon;
+    private float cambio;
 
     DefaultTableModel modelo = new DefaultTableModel() {
         @Override
@@ -33,15 +34,25 @@ public class RegistrarVenta extends javax.swing.JFrame {
         }
     };
 
-
-    ArrayList<Producto> productos = new ProductoManager().consultarNombres();
-    ArrayList<Cliente> clientes = new ClienteManager().consultarNombres();
+    ArrayList<Producto> productos = new ArrayList<>();
+    //ArrayList<Cliente> clientes = new ClienteManager().consultarNombres();
     float subTotal = 0;
 
     public RegistrarVenta() {
         initComponents();
+        initProductos();
         inicializar();
         initTabla();
+    }
+
+    private void initProductos() {
+        ArrayList<Producto> pr = new ProductoManager().consultarNombres();
+
+        for (Producto e : pr) {
+            if (e.getStock() >= 1) {
+                productos.add(e);
+            }
+        }
     }
 
     private void inicializar() {
@@ -98,6 +109,8 @@ public class RegistrarVenta extends javax.swing.JFrame {
         txtTotal.setEnabled(false);
         txtIDProducto.setEnabled(false);
         txtStock.setEnabled(false);
+        txtIdCliente.setEnabled(false);
+        txtNombreCliente.setEnabled(false);
 
         //Llenar comboBox
         llenarProducto();
@@ -121,14 +134,8 @@ public class RegistrarVenta extends javax.swing.JFrame {
     }
 
     private void llenarCliente() {
-        DefaultComboBoxModel dl = new DefaultComboBoxModel();
-        dl.addElement("SELECCIONA UN CLIENTE");
-
-        for (Cliente cliente : clientes) {
-            dl.addElement(cliente.getNombre());
-        }
-
-        cbCliente.setModel(dl);
+        txtIdCliente.setText("1");
+        txtNombreCliente.setText("Publico En General");
     }
 
     private void limpiarTxtFields() {
@@ -147,7 +154,9 @@ public class RegistrarVenta extends javax.swing.JFrame {
         txtSubtotal.setText("");
         txtTotal.setText("");
         txtIDProducto.setText("");
-
+        txtIdCliente.setText("1");
+        txtNombreCliente.setText("Publico En General");
+        modelo.setRowCount(0);
     }
 
     private void initTabla() {
@@ -211,7 +220,6 @@ public class RegistrarVenta extends javax.swing.JFrame {
         labelimporte = new javax.swing.JLabel();
         txtImporte = new javax.swing.JTextField();
         cbNombreProducto = new javax.swing.JComboBox<>();
-        cbCliente = new javax.swing.JComboBox<>();
         labelSubtotal = new javax.swing.JLabel();
         txtSubtotal = new javax.swing.JTextField();
         labelTotal = new javax.swing.JLabel();
@@ -222,6 +230,8 @@ public class RegistrarVenta extends javax.swing.JFrame {
         jLabel3 = new javax.swing.JLabel();
         txtStock = new javax.swing.JTextField();
         jButton1 = new javax.swing.JButton();
+        txtIdCliente = new javax.swing.JTextField();
+        txtNombreCliente = new javax.swing.JTextField();
         jPanelAcciones = new javax.swing.JPanel();
         btnAgregar = new javax.swing.JButton();
         btnRegistrarVenta = new javax.swing.JButton();
@@ -309,8 +319,6 @@ public class RegistrarVenta extends javax.swing.JFrame {
             }
         });
 
-        cbCliente.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "Item 1", "Item 2", "Item 3", "Item 4" }));
-
         labelSubtotal.setText("Subtotal");
 
         txtSubtotal.setText("jTextField1");
@@ -339,6 +347,15 @@ public class RegistrarVenta extends javax.swing.JFrame {
         });
 
         jButton1.setText("SELECCIONAR UN CLIENTE");
+        jButton1.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseClicked(java.awt.event.MouseEvent evt) {
+                jButton1MouseClicked(evt);
+            }
+        });
+
+        txtIdCliente.setText("jTextField1");
+
+        txtNombreCliente.setText("jTextField1");
 
         javax.swing.GroupLayout jPanelFormularioLayout = new javax.swing.GroupLayout(jPanelFormulario);
         jPanelFormulario.setLayout(jPanelFormularioLayout);
@@ -346,33 +363,28 @@ public class RegistrarVenta extends javax.swing.JFrame {
             jPanelFormularioLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(jPanelFormularioLayout.createSequentialGroup()
                 .addContainerGap()
-                .addGroup(jPanelFormularioLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addGroup(jPanelFormularioLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
-                        .addGroup(jPanelFormularioLayout.createSequentialGroup()
-                            .addGroup(jPanelFormularioLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                                .addGroup(jPanelFormularioLayout.createSequentialGroup()
-                                    .addComponent(labelProducto, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                                    .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED))
-                                .addGroup(jPanelFormularioLayout.createSequentialGroup()
-                                    .addComponent(labelCantidad, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                                    .addGap(6, 6, 6)))
-                            .addGroup(jPanelFormularioLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
-                                .addComponent(cbNombreProducto, 0, 130, Short.MAX_VALUE)
-                                .addComponent(spnCantidad)))
-                        .addGroup(jPanelFormularioLayout.createSequentialGroup()
-                            .addGroup(jPanelFormularioLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
-                                .addComponent(labelPrecioUnitario, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                                .addComponent(labelimporte, javax.swing.GroupLayout.PREFERRED_SIZE, 92, javax.swing.GroupLayout.PREFERRED_SIZE))
-                            .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                            .addGroup(jPanelFormularioLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
-                                .addComponent(txtPrecioUnitario)
-                                .addComponent(txtImporte, javax.swing.GroupLayout.PREFERRED_SIZE, 130, javax.swing.GroupLayout.PREFERRED_SIZE))))
-                    .addComponent(jButton1))
-                .addGroup(jPanelFormularioLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanelFormularioLayout.createSequentialGroup()
-                        .addGap(116, 116, 116)
-                        .addComponent(cbCliente, javax.swing.GroupLayout.PREFERRED_SIZE, 130, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addGroup(jPanelFormularioLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
                     .addGroup(jPanelFormularioLayout.createSequentialGroup()
+                        .addGroup(jPanelFormularioLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
+                            .addGroup(jPanelFormularioLayout.createSequentialGroup()
+                                .addGroup(jPanelFormularioLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                                    .addGroup(jPanelFormularioLayout.createSequentialGroup()
+                                        .addComponent(labelProducto, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED))
+                                    .addGroup(jPanelFormularioLayout.createSequentialGroup()
+                                        .addComponent(labelCantidad, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                                        .addGap(6, 6, 6)))
+                                .addGroup(jPanelFormularioLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
+                                    .addComponent(cbNombreProducto, 0, 130, Short.MAX_VALUE)
+                                    .addComponent(spnCantidad)))
+                            .addGroup(jPanelFormularioLayout.createSequentialGroup()
+                                .addGroup(jPanelFormularioLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
+                                    .addComponent(labelPrecioUnitario, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                                    .addComponent(labelimporte, javax.swing.GroupLayout.PREFERRED_SIZE, 92, javax.swing.GroupLayout.PREFERRED_SIZE))
+                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                                .addGroup(jPanelFormularioLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
+                                    .addComponent(txtPrecioUnitario)
+                                    .addComponent(txtImporte, javax.swing.GroupLayout.PREFERRED_SIZE, 130, javax.swing.GroupLayout.PREFERRED_SIZE))))
                         .addGap(18, 18, 18)
                         .addGroup(jPanelFormularioLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                             .addGroup(jPanelFormularioLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
@@ -385,7 +397,13 @@ public class RegistrarVenta extends javax.swing.JFrame {
                             .addComponent(txtSubtotal, javax.swing.GroupLayout.DEFAULT_SIZE, 130, Short.MAX_VALUE)
                             .addComponent(txtTotal)
                             .addComponent(txtIDProducto)
-                            .addComponent(txtStock))))
+                            .addComponent(txtStock)))
+                    .addGroup(jPanelFormularioLayout.createSequentialGroup()
+                        .addComponent(jButton1)
+                        .addGap(18, 18, 18)
+                        .addComponent(txtIdCliente, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addGap(18, 18, 18)
+                        .addComponent(txtNombreCliente)))
                 .addContainerGap(57, Short.MAX_VALUE))
         );
         jPanelFormularioLayout.setVerticalGroup(
@@ -420,9 +438,10 @@ public class RegistrarVenta extends javax.swing.JFrame {
                     .addComponent(jLabel3)
                     .addComponent(txtStock, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
                 .addGap(18, 18, 18)
-                .addGroup(jPanelFormularioLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
-                    .addComponent(cbCliente, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(jButton1))
+                .addGroup(jPanelFormularioLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(jButton1)
+                    .addComponent(txtIdCliente, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(txtNombreCliente, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
                 .addContainerGap())
         );
 
@@ -566,11 +585,17 @@ public class RegistrarVenta extends javax.swing.JFrame {
     }//GEN-LAST:event_btnEliminarActionPerformed
 
     private void btnRegistrarVentaActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnRegistrarVentaActionPerformed
+
+        if (validarFormulario()) {
+            JOptionPane.showMessageDialog(this, "ERROR! Debe de llenar el formulario");
+            return;
+        }
+
         ArrayList<Producto> listaProductos = obtenerListaProductos();
         float total = Float.parseFloat(txtSubtotal.getText());
-        int idCliente = obtenerIdCliente(cbCliente.getSelectedItem().toString());
+        int idCliente = Integer.parseInt(txtIdCliente.getText());
         int idEmpleado = idAdmon;
-        //double monto;
+        //double cambio;
 
         DetallePago dp = new DetallePago(this, true, total);
         dp.setVisible(true);
@@ -580,7 +605,8 @@ public class RegistrarVenta extends javax.swing.JFrame {
         DialogoEmergente dl = new DialogoEmergente(this, true);
 
         if (registrarVenta(venta, listaProductos, 'V') && dp.validaPago()) {
-            dl.setTexto("Venta registrada de\nforma correcta!");
+            dl.setTexto("Venta registrada de\nforma correcta!\nSu Cambio es de: " + cambio);
+            limpiarTodosTxtFields();
         } else {
             dl.setTexto("¡ERROR! NO SE PUDO REGISTRAR LA VENTA");
         }
@@ -628,10 +654,24 @@ public class RegistrarVenta extends javax.swing.JFrame {
         calcularImporte();
     }//GEN-LAST:event_spnCantidadStateChanged
 
+    private void jButton1MouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_jButton1MouseClicked
+        // TODO add your handling code here:
+        DialogoSeleccionarCliente dCliente = new DialogoSeleccionarCliente(this, true);
+        dCliente.setVisible(true);
+    }//GEN-LAST:event_jButton1MouseClicked
+
     private boolean validarFormulario() {
-        return cbNombreProducto.getSelectedIndex() == 0 || cbCliente.getSelectedIndex() == 0;
+        return cbNombreProducto.getSelectedIndex() == 0 || txtIdCliente.getText().isEmpty();
     }
-    
+
+    public void setIdCliente(int idCliente, String nombreCliente) {
+        this.txtIdCliente.setText(String.valueOf(idCliente));
+        this.txtNombreCliente.setText(nombreCliente);
+    }
+
+    public void setCambio(float cambio) {
+        this.cambio = cambio;
+    }
 
     private boolean registrarVenta(Venta venta, ArrayList<Producto> productos, char tipoVenta) {
         int idVenta = new VentaManager().realizarVenta(venta, tipoVenta);
@@ -745,17 +785,6 @@ public class RegistrarVenta extends javax.swing.JFrame {
 
     }
 
-    private int obtenerIdCliente(String nombreCliente) {
-
-        for (Cliente cliente : clientes) {
-            if (cliente.getNombre().equals(nombreCliente)) {
-                return cliente.getIdCliente();
-            }
-        }
-
-        return -1;
-    }
-
     private void llenarCantidad(Producto producto) {
         spnCantidad.setModel(new SpinnerNumberModel(1, 1, producto.getStock(), 1));
     }
@@ -806,7 +835,6 @@ public class RegistrarVenta extends javax.swing.JFrame {
     private javax.swing.JButton btnAgregar;
     private javax.swing.JButton btnEliminar;
     private javax.swing.JButton btnRegistrarVenta;
-    private javax.swing.JComboBox<String> cbCliente;
     private javax.swing.JComboBox<String> cbNombreProducto;
     private javax.swing.JButton jButton1;
     private javax.swing.JLabel jLabel2;
@@ -828,7 +856,9 @@ public class RegistrarVenta extends javax.swing.JFrame {
     private javax.swing.JSpinner spnCantidad;
     private javax.swing.JTable tblProducto;
     private javax.swing.JTextField txtIDProducto;
+    private javax.swing.JTextField txtIdCliente;
     private javax.swing.JTextField txtImporte;
+    private javax.swing.JTextField txtNombreCliente;
     private javax.swing.JTextField txtPrecioUnitario;
     private javax.swing.JTextField txtStock;
     private javax.swing.JTextField txtSubtotal;
