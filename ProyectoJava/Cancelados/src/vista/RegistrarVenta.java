@@ -23,38 +23,38 @@ import javax.swing.table.DefaultTableModel;
 import javax.swing.table.TableModel;
 
 public class RegistrarVenta extends javax.swing.JFrame {
-
+    
     private int idAdmon;
     private float cambio;
-
+    
     DefaultTableModel modelo = new DefaultTableModel() {
         @Override
         public boolean isCellEditable(int row, int column) {
             return false;
         }
     };
-
+    
     ArrayList<Producto> productos = new ArrayList<>();
     //ArrayList<Cliente> clientes = new ClienteManager().consultarNombres();
     float subTotal = 0;
-
+    
     public RegistrarVenta() {
         initComponents();
         initProductos();
         inicializar();
         initTabla();
     }
-
+    
     private void initProductos() {
         ArrayList<Producto> pr = new ProductoManager().consultarNombres();
-
+        
         for (Producto e : pr) {
             if (e.getStock() >= 1) {
                 productos.add(e);
             }
         }
     }
-
+    
     private void inicializar() {
         FuncionesUtiles tool = new FuncionesUtiles();
         //Configuracion ventana
@@ -121,7 +121,7 @@ public class RegistrarVenta extends javax.swing.JFrame {
         //total
         txtSubtotal.setText(String.valueOf(subTotal));
     }
-
+    
     private void llenarProducto() {
         DefaultComboBoxModel b = new DefaultComboBoxModel();
         b.addElement("SELECCIONA UN PRODUCTO");
@@ -130,16 +130,16 @@ public class RegistrarVenta extends javax.swing.JFrame {
                 b.addElement(producto.getNombre());
             }
         }
-
+        
         cbNombreProducto.setModel(b);
-
+        
     }
-
+    
     private void llenarCliente() {
         txtIdCliente.setText("1");
         txtNombreCliente.setText("Publico En General");
     }
-
+    
     private void limpiarTxtFields() {
         cbNombreProducto.setSelectedIndex(0);
         spnCantidad.setModel(new SpinnerNumberModel(1, 1, 1, 1));
@@ -148,7 +148,7 @@ public class RegistrarVenta extends javax.swing.JFrame {
         //txtStock.setText("");
         txtIDProducto.setText("");
     }
-
+    
     private void limpiarTodosTxtFields() {
         cbNombreProducto.setSelectedIndex(0);
         spnCantidad.setValue(1);
@@ -161,7 +161,7 @@ public class RegistrarVenta extends javax.swing.JFrame {
         txtNombreCliente.setText("Publico En General");
         modelo.setRowCount(0);
     }
-
+    
     private void initTabla() {
         modelo.addColumn("ID Producto");
         modelo.addColumn("Producto");
@@ -170,7 +170,7 @@ public class RegistrarVenta extends javax.swing.JFrame {
         modelo.addColumn("Importe");
         tblProducto.setModel(modelo);
     }
-
+    
     public void setEmpleado(String nombre, int idEmpleado) {
         //Colocar panel de la izquierda
         AccionesRapidasEmpleado panelBotones = new AccionesRapidasEmpleado(this);
@@ -184,7 +184,7 @@ public class RegistrarVenta extends javax.swing.JFrame {
         panelBotones.revalidate();
         panelBotones.repaint();
     }
-
+    
     public void setAdmon(String nombre, int idAdmon) {
         //Colocar panel de la izquierda
         AccionesRapidasAdministrador panelBotones = new AccionesRapidasAdministrador(this);
@@ -545,29 +545,29 @@ public class RegistrarVenta extends javax.swing.JFrame {
     }// </editor-fold>//GEN-END:initComponents
 
     private void btnAgregarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnAgregarActionPerformed
-
+        
         if (validarFormulario()) {
             JOptionPane.showMessageDialog(this, "ERROR! Debe de llenar el formulario!");
             return;
         }
-
+        
         String idProducto = txtIDProducto.getText();
-
+        
         String cantidad = spnCantidad.getValue().toString();
         String importe = txtImporte.getText();
         String producto = cbNombreProducto.getSelectedItem().toString();
         String precioUnitario = txtPrecioUnitario.getText();
-
+        
         subTotal += Float.parseFloat(importe);
         txtSubtotal.setText(String.valueOf(subTotal));
         txtTotal.setText(txtSubtotal.getText());
-
+        
         if (existeProductoTabla(idProducto)) {
             actualizarCantidadProducto(idProducto, cantidad, importe);
         } else {
             agregarTabla(idProducto, producto, precioUnitario, cantidad, importe);
         }
-
+        
         int id = Integer.parseInt(idProducto);
 
         //calcular la nueva cantidad, tomar la que hay en el arreglo de productos
@@ -590,7 +590,7 @@ public class RegistrarVenta extends javax.swing.JFrame {
         } catch (Exception e) {
             System.out.println(e.getMessage());
         }
-
+        
         limpiarTxtFields();
 
         //bajar la cantidad en stock en el jspinner
@@ -602,16 +602,60 @@ public class RegistrarVenta extends javax.swing.JFrame {
     }//GEN-LAST:event_tblProductoMouseClicked
 
     private void btnEliminarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnEliminarActionPerformed
+        int renglon = tblProducto.getSelectedRow();
+        
+        if (renglon == -1) {
+            JOptionPane.showMessageDialog(this, "ERROR! DEBE DE SELECCIONAR UN RENGLON DE LA TABLA");
+            return;
+        }
+        
+        int idProducto = Integer.parseInt(tblProducto.getValueAt(renglon, 0).toString());
+        String nombre = tblProducto.getValueAt(renglon, 1).toString();
+        float precioUnitario = Float.parseFloat(tblProducto.getValueAt(renglon, 2).toString());
+        int stock = Integer.parseInt(tblProducto.getValueAt(renglon, 3).toString());
+        
+        Producto producto = new Producto();
+        
+        producto.setIdProducto(idProducto);
+        producto.setNombre(nombre);
+        producto.setPrecioUnitario(precioUnitario);
+        producto.setStock(stock);
+        
+        for (Producto p : productos) {
+            if (p.getIdProducto() == producto.getIdProducto()) {
+                p.setStock(p.getStock() + producto.getStock());
+            } else {
+                productos.add(producto);
+            }
+        }
+        
+        float importeProduc = Float.parseFloat(tblProducto.getValueAt(renglon, 4).toString());
+        float subTotal = Float.parseFloat(txtSubtotal.getText());
+        float total = subTotal - importeProduc;
+        
+        txtSubtotal.setText(String.valueOf(total));
+        txtTotal.setText(String.valueOf(total));
+        
+        DefaultTableModel m = (DefaultTableModel) tblProducto.getModel();
+        
+        m.removeRow(renglon);
+        
+        tblProducto.setModel(m);
+        
+        cbNombreProducto.setSelectedIndex(0);
+        spnCantidad.setModel(new SpinnerNumberModel(1, 1, 1, 1));
+        txtPrecioUnitario.setText("");
+        txtIDProducto.setText("");
 
     }//GEN-LAST:event_btnEliminarActionPerformed
 
     private void btnRegistrarVentaActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnRegistrarVentaActionPerformed
-
+        
         if (validarFormulario()) {
             JOptionPane.showMessageDialog(this, "ERROR! Debe de llenar el formulario");
             return;
         }
-
+        
         ArrayList<Producto> listaProductos = obtenerListaProductos();
         float total = Float.parseFloat(txtSubtotal.getText());
         int idCliente = Integer.parseInt(txtIdCliente.getText());
@@ -620,18 +664,18 @@ public class RegistrarVenta extends javax.swing.JFrame {
 
         DetallePago dp = new DetallePago(this, true, total);
         dp.setVisible(true);
-
+        
         Venta venta = new Venta(total, idCliente, idEmpleado);
-
+        
         DialogoEmergente dl = new DialogoEmergente(this, true);
-
+        
         if (registrarVenta(venta, listaProductos, 'V') && dp.validaPago()) {
             dl.setTexto("Venta registrada de\nforma correcta!\nSu Cambio es de: " + cambio);
             limpiarTodosTxtFields();
         } else {
             dl.setTexto("¡ERROR! NO SE PUDO REGISTRAR LA VENTA");
         }
-
+        
         dl.setVisible(true);
     }//GEN-LAST:event_btnRegistrarVentaActionPerformed
 
@@ -672,7 +716,7 @@ public class RegistrarVenta extends javax.swing.JFrame {
         DialogoSeleccionarCliente dCliente = new DialogoSeleccionarCliente(this, true);
         dCliente.setVisible(true);
     }//GEN-LAST:event_jButton1MouseClicked
-
+    
     private Producto obtenerProducto(int idProducto) {
         for (Producto producto : productos) {
             if (producto.getIdProducto() == idProducto) {
@@ -681,39 +725,39 @@ public class RegistrarVenta extends javax.swing.JFrame {
         }
         return null;
     }
-
+    
     private boolean validarFormulario() {
         return cbNombreProducto.getSelectedIndex() == 0 || txtIdCliente.getText().isEmpty();
     }
-
+    
     public void setIdCliente(int idCliente, String nombreCliente) {
         this.txtIdCliente.setText(String.valueOf(idCliente));
         this.txtNombreCliente.setText(nombreCliente);
     }
-
+    
     public void setCambio(float cambio) {
         this.cambio = cambio;
     }
-
+    
     private boolean registrarVenta(Venta venta, ArrayList<Producto> productos, char tipoVenta) {
         int idVenta = new VentaManager().realizarVenta(venta, tipoVenta);
-
+        
         if (new DetalleVenta().realizarDetalleVenta(productos, idVenta, tipoVenta)) {
             return new ProductoManager().modificarStock(productos);
         }
-
+        
         return false;
     }
-
+    
     private void actualizarCantidadProducto(String idProducto, String cantidad, String importe) {
         for (int i = 0; i < tblProducto.getRowCount(); i++) {
             Object id = tblProducto.getValueAt(i, 0);
             if (id != null && id.toString().equals(idProducto)) {
-
+                
                 int vCantidad = Integer.parseInt(tblProducto.getValueAt(i, 3).toString());
                 int nCantidad = vCantidad + Integer.parseInt(cantidad);
                 tblProducto.setValueAt(nCantidad, i, 3);
-
+                
                 float vImporte = Float.parseFloat(tblProducto.getValueAt(i, 4).toString());
                 float nImporte = vImporte + Float.parseFloat(importe);
                 tblProducto.setValueAt(nImporte, i, 4);
@@ -722,11 +766,11 @@ public class RegistrarVenta extends javax.swing.JFrame {
         }
         tblProducto.repaint();
     }
-
+    
     private boolean existeProductoTabla(String idProducto) {
         ArrayList<Producto> listaProductos = obtenerCarrito();
         int id = Integer.parseInt(idProducto);
-
+        
         for (Producto producto : listaProductos) {
             if (producto.getIdProducto() == id) {
                 return true;
@@ -734,10 +778,10 @@ public class RegistrarVenta extends javax.swing.JFrame {
         }
         return false;
     }
-
+    
     private ArrayList<Producto> obtenerCarrito() {
         ArrayList<Producto> carrito = new ArrayList<>();
-
+        
         for (int i = 0; i < modelo.getRowCount(); i++) {
             Producto producto = new Producto();
             for (int j = 0; j < modelo.getColumnCount(); j++) {
@@ -759,10 +803,10 @@ public class RegistrarVenta extends javax.swing.JFrame {
             }
             carrito.add(producto);
         }
-
+        
         return carrito;
     }
-
+    
     public void setNombre(String nombre) {
         PanelInformacionArriba panelInformacion = new PanelInformacionArriba();
         panelInformacion.setNombre(nombre);
@@ -773,12 +817,12 @@ public class RegistrarVenta extends javax.swing.JFrame {
         panelInformacion.revalidate();
         panelInformacion.repaint();
     }
-
+    
     private ArrayList<Producto> obtenerListaProductos() {
         ArrayList<Producto> listaProductos = new ArrayList<>();
         TableModel modelo = tblProducto.getModel();
         Producto producto;
-
+        
         for (int i = 0; i < modelo.getRowCount(); i++) {
             producto = new Producto();
             try {
@@ -787,39 +831,39 @@ public class RegistrarVenta extends javax.swing.JFrame {
                 producto.setPrecioUnitario(Float.parseFloat(modelo.getValueAt(i, 2).toString()));
                 producto.setStock(Integer.parseInt(modelo.getValueAt(i, 3).toString()));
                 producto.setImporte(Float.parseFloat(modelo.getValueAt(i, 4).toString()));
-
+                
                 listaProductos.add(producto);
             } catch (NumberFormatException ex) {
-
+                
             }
         }
-
+        
         return listaProductos;
     }
-
+    
     private void calcularImporte() {
         int cantidad = Integer.parseInt(spnCantidad.getValue().toString());
         float precioUnitrario = Float.parseFloat(txtPrecioUnitario.getText());
-
+        
         float calculo = cantidad * precioUnitrario;
-
+        
         txtImporte.setText(String.valueOf(calculo));
-
+        
     }
-
+    
     private void llenarCantidad(Producto producto) {
         spnCantidad.setModel(new SpinnerNumberModel(1, 1, producto.getStock(), 1));
     }
-
+    
     private void obtenerRenglonTabla() {
         //Aqui va el codigo para eliminar algun productos o para modificarlo
     }
-
+    
     private void agregarTabla(String idProducto, String nombre, String precioUnitario, String cantidad, String importe) {
         String[] renglon = {idProducto, nombre, precioUnitario, cantidad, importe};
         modelo.addRow(renglon);
     }
-
+    
     public static void main(String args[]) {
         /* Set the Nimbus look and feel */
         //<editor-fold defaultstate="collapsed" desc=" Look and feel setting code (optional) ">
