@@ -245,3 +245,8 @@ SELECT total,fecha,tipoVenta from venta;
 SELECT * FROM venta WHERE venta.fecha like '%2023-05-03%';
 SELECT SUM(total) from venta where fecha like '%2023-05-03%';
 SELECT * FROM envios WHERE envios.fecha like '%2023-05-03%';
+
+
+-- *******************15/15/2023*******************
+UPDATE empleado SET restContra = false WHERE idEmpleado>=1;
+-- ************************************************
