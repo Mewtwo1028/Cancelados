@@ -55,10 +55,10 @@ public class PanelControlEmpleado extends javax.swing.JFrame {
         jPanelLinea.setBackground(tools.getColorCancelados());
         
         //botones
-        tools.confBtnColor(btnVender);
+        tools.confBtnColor(btnAbrirCaja);
         tools.confBtnColor(btnRegistrarCliente);
         tools.confBtnColor(btnConsultarInventario);
-        tools.confBtnColor(btnVender);
+        tools.confBtnColor(btnAbrirCaja);
     }
 
     /**
@@ -74,9 +74,11 @@ public class PanelControlEmpleado extends javax.swing.JFrame {
         jPanelIzquierda = new javax.swing.JPanel();
         jPanelInformacion = new javax.swing.JPanel();
         jPanelOperaciones = new javax.swing.JPanel();
-        btnVender = new javax.swing.JButton();
+        btnAbrirCaja = new javax.swing.JButton();
         btnRegistrarCliente = new javax.swing.JButton();
         btnConsultarInventario = new javax.swing.JButton();
+        btnCerrarCaja = new javax.swing.JButton();
+        btnVender2 = new javax.swing.JButton();
         jPanelLinea = new javax.swing.JPanel();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
@@ -105,10 +107,10 @@ public class PanelControlEmpleado extends javax.swing.JFrame {
             .addGap(0, 112, Short.MAX_VALUE)
         );
 
-        btnVender.setText("VENDER");
-        btnVender.addActionListener(new java.awt.event.ActionListener() {
+        btnAbrirCaja.setText("Abrir Caja");
+        btnAbrirCaja.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
-                btnVenderActionPerformed(evt);
+                btnAbrirCajaActionPerformed(evt);
             }
         });
 
@@ -126,28 +128,52 @@ public class PanelControlEmpleado extends javax.swing.JFrame {
             }
         });
 
+        btnCerrarCaja.setText("Cerrar Caja");
+        btnCerrarCaja.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnCerrarCajaActionPerformed(evt);
+            }
+        });
+
+        btnVender2.setText("VENDER");
+        btnVender2.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnVender2ActionPerformed(evt);
+            }
+        });
+
         javax.swing.GroupLayout jPanelOperacionesLayout = new javax.swing.GroupLayout(jPanelOperaciones);
         jPanelOperaciones.setLayout(jPanelOperacionesLayout);
         jPanelOperacionesLayout.setHorizontalGroup(
             jPanelOperacionesLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(jPanelOperacionesLayout.createSequentialGroup()
-                .addContainerGap()
-                .addComponent(btnVender, javax.swing.GroupLayout.PREFERRED_SIZE, 277, javax.swing.GroupLayout.PREFERRED_SIZE)
+            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanelOperacionesLayout.createSequentialGroup()
+                .addContainerGap(23, Short.MAX_VALUE)
+                .addComponent(btnVender2, javax.swing.GroupLayout.PREFERRED_SIZE, 277, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addGap(18, 18, 18)
                 .addComponent(btnRegistrarCliente, javax.swing.GroupLayout.PREFERRED_SIZE, 277, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addGap(18, 18, 18)
+                .addGap(28, 28, 28)
                 .addComponent(btnConsultarInventario, javax.swing.GroupLayout.PREFERRED_SIZE, 277, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addContainerGap(47, Short.MAX_VALUE))
+                .addGap(20, 20, 20))
+            .addGroup(jPanelOperacionesLayout.createSequentialGroup()
+                .addGap(80, 80, 80)
+                .addComponent(btnAbrirCaja, javax.swing.GroupLayout.PREFERRED_SIZE, 362, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addGap(46, 46, 46)
+                .addComponent(btnCerrarCaja, javax.swing.GroupLayout.PREFERRED_SIZE, 362, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
         );
         jPanelOperacionesLayout.setVerticalGroup(
             jPanelOperacionesLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(jPanelOperacionesLayout.createSequentialGroup()
                 .addContainerGap()
-                .addGroup(jPanelOperacionesLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addComponent(btnVender, javax.swing.GroupLayout.PREFERRED_SIZE, 150, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addGroup(jPanelOperacionesLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(btnConsultarInventario, javax.swing.GroupLayout.PREFERRED_SIZE, 150, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addComponent(btnRegistrarCliente, javax.swing.GroupLayout.PREFERRED_SIZE, 150, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(btnConsultarInventario, javax.swing.GroupLayout.PREFERRED_SIZE, 150, javax.swing.GroupLayout.PREFERRED_SIZE))
-                .addContainerGap(434, Short.MAX_VALUE))
+                    .addComponent(btnVender2, javax.swing.GroupLayout.PREFERRED_SIZE, 150, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addGap(105, 105, 105)
+                .addGroup(jPanelOperacionesLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(btnCerrarCaja, javax.swing.GroupLayout.PREFERRED_SIZE, 150, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(btnAbrirCaja, javax.swing.GroupLayout.PREFERRED_SIZE, 150, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addContainerGap(179, Short.MAX_VALUE))
         );
 
         javax.swing.GroupLayout jPanelLineaLayout = new javax.swing.GroupLayout(jPanelLinea);
@@ -212,15 +238,10 @@ public class PanelControlEmpleado extends javax.swing.JFrame {
         win.setVisible(true);
     }//GEN-LAST:event_btnRegistrarClienteActionPerformed
 
-    private void btnVenderActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnVenderActionPerformed
+    private void btnAbrirCajaActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnAbrirCajaActionPerformed
         // TODO add your handling code here:
-        RegistrarVenta win = new RegistrarVenta();
-        win.setNombre(nombre);
-        win.setExtendedState(JFrame.MAXIMIZED_BOTH);
-        win.setEmpleado(nombre, idEmpleado);
-        this.dispose();
-        win.setVisible(true);
-    }//GEN-LAST:event_btnVenderActionPerformed
+       AbrirCaja ac = new AbrirCaja(this,true);
+    }//GEN-LAST:event_btnAbrirCajaActionPerformed
 
     private void btnConsultarInventarioActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnConsultarInventarioActionPerformed
         // TODO add your handling code here:
@@ -230,6 +251,15 @@ public class PanelControlEmpleado extends javax.swing.JFrame {
         this.dispose();
         win.setVisible(true);
     }//GEN-LAST:event_btnConsultarInventarioActionPerformed
+
+    private void btnCerrarCajaActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnCerrarCajaActionPerformed
+        CerrarCaja cc = new CerrarCaja(this, true);
+        cc.setVisible(true);
+    }//GEN-LAST:event_btnCerrarCajaActionPerformed
+
+    private void btnVender2ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnVender2ActionPerformed
+        // TODO add your handling code here:
+    }//GEN-LAST:event_btnVender2ActionPerformed
 
     public void setNombre(String nombre){
         this.nombre = nombre;
@@ -295,9 +325,11 @@ public class PanelControlEmpleado extends javax.swing.JFrame {
     }
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
+    private javax.swing.JButton btnAbrirCaja;
+    private javax.swing.JButton btnCerrarCaja;
     private javax.swing.JButton btnConsultarInventario;
     private javax.swing.JButton btnRegistrarCliente;
-    private javax.swing.JButton btnVender;
+    private javax.swing.JButton btnVender2;
     private javax.swing.JPanel jPanelInformacion;
     private javax.swing.JPanel jPanelIzquierda;
     private javax.swing.JPanel jPanelLinea;

@@ -224,6 +224,9 @@ public class Login extends javax.swing.JFrame {
 
     private void btnIngresarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnIngresarActionPerformed
         iniciarSesion();
+        DialogoEmergente de = new DialogoEmergente(this, true);
+        de.setTexto("Recuerda aperturar la caja al iniciar sesión");
+        de.setVisible(true);
     }//GEN-LAST:event_btnIngresarActionPerformed
 
     private void btnForgottenPasswordMouseEntered(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_btnForgottenPasswordMouseEntered
@@ -316,21 +319,21 @@ public class Login extends javax.swing.JFrame {
             dEmergente.setVisible(true);
             return;
         }
-
+        
         if (rolId.equals("1")) {
             int idEmpleado = new CredencialManager().getIdEmpleado(username, pass);
             PanelControlAdministrador panel = new PanelControlAdministrador();
             panel.setIdAdmon(idEmpleado);
             panel.setNombre(username);
             this.dispose();
-            panel.setVisible(true);
+            panel.setVisible(true); 
         } else {
             int idEmpleado = new CredencialManager().getIdEmpleado(username, pass);
             PanelControlEmpleado panel = new PanelControlEmpleado();
             panel.setIdAdmon(idEmpleado);
             panel.setNombre(username);
             this.dispose();
-            panel.setVisible(true);
+            panel.setVisible(true);  
         }
     }
 
