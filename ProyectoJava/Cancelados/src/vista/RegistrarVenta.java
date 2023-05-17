@@ -17,6 +17,7 @@ import javax.swing.DefaultComboBoxModel;
 import javax.swing.JFrame;
 import javax.swing.JOptionPane;
 import javax.swing.JTextField;
+import javax.swing.SpinnerModel;
 import javax.swing.SpinnerNumberModel;
 import javax.swing.event.ChangeEvent;
 import javax.swing.table.DefaultTableModel;
@@ -558,9 +559,12 @@ public class RegistrarVenta extends javax.swing.JFrame {
         String producto = cbNombreProducto.getSelectedItem().toString();
         String precioUnitario = txtPrecioUnitario.getText();
 
+        /*
         subTotal += Float.parseFloat(importe);
         txtSubtotal.setText(String.valueOf(subTotal));
         txtTotal.setText(txtSubtotal.getText());
+         */
+        
 
         if (existeProductoTabla(idProducto)) {
             actualizarCantidadProducto(idProducto, cantidad, importe);
@@ -592,9 +596,7 @@ public class RegistrarVenta extends javax.swing.JFrame {
         }
 
         limpiarTxtFields();
-
-        //bajar la cantidad en stock en el jspinner
-        //System.out.println(tblProducto.getValueAt(tblProducto.getRowCount() - 1, 0));
+        calcularTotal();
     }//GEN-LAST:event_btnAgregarActionPerformed
 
     private void tblProductoMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_tblProductoMouseClicked
@@ -612,7 +614,7 @@ public class RegistrarVenta extends javax.swing.JFrame {
         int idProducto = Integer.parseInt(tblProducto.getValueAt(renglon, 0).toString());
         String nombre = tblProducto.getValueAt(renglon, 1).toString();
         float precioUnitario = Float.parseFloat(tblProducto.getValueAt(renglon, 2).toString());
-        int stock = Integer.parseInt(tblProducto.getValueAt(renglon, 3).toString());
+        int stock = 1;
 
         Producto producto = new Producto();
 
@@ -621,10 +623,29 @@ public class RegistrarVenta extends javax.swing.JFrame {
         producto.setPrecioUnitario(precioUnitario);
         producto.setStock(stock);
 
+        float precioUnitarioTabla = Float.parseFloat(tblProducto.getValueAt(renglon, 2).toString());
+        int cantidadTabla = Integer.parseInt(tblProducto.getValueAt(renglon, 3).toString());
+
+        DefaultTableModel m = (DefaultTableModel) tblProducto.getModel();
+
+        if (Integer.parseInt(tblProducto.getValueAt(renglon, 3).toString()) > 1) {
+            int valor = Integer.parseInt(tblProducto.getValueAt(renglon, 3).toString()) - 1;
+            tblProducto.setValueAt(valor, renglon, 3);
+
+            float imp = Float.parseFloat(tblProducto.getValueAt(renglon, 2).toString()) * Float.parseFloat(tblProducto.getValueAt(renglon, 3).toString());
+
+            tblProducto.setValueAt(imp, renglon, 4);
+
+        } else {
+            m.removeRow(renglon);
+        }
+
+        tblProducto.setModel(m);
+
         if (existeProducto(productos, producto)) {
             for (int i = 0; i < productos.size(); i++) {
                 if (productos.get(i).getIdProducto() == producto.getIdProducto()) {
-                    productos.get(i).setStock(productos.get(i).getStock() + producto.getStock());
+                    productos.get(i).setStock(productos.get(i).getStock() + 1);
                 }
             }
         } else {
@@ -632,16 +653,7 @@ public class RegistrarVenta extends javax.swing.JFrame {
             llenarProducto();
         }
 
-        float importeProduc = Float.parseFloat(tblProducto.getValueAt(renglon, 4).toString());
-        float subTotal = Float.parseFloat(txtSubtotal.getText());
-        float total = subTotal - importeProduc;
-
-        txtSubtotal.setText(String.valueOf(total));
-        txtTotal.setText(String.valueOf(total));
-
-        DefaultTableModel m = (DefaultTableModel) tblProducto.getModel();
-        m.removeRow(renglon);
-        tblProducto.setModel(m);
+        calcularTotal();
 
         cbNombreProducto.setSelectedIndex(0);
         spnCantidad.setModel(new SpinnerNumberModel(1, 1, 1, 1));
@@ -717,6 +729,16 @@ public class RegistrarVenta extends javax.swing.JFrame {
         DialogoSeleccionarCliente dCliente = new DialogoSeleccionarCliente(this, true);
         dCliente.setVisible(true);
     }//GEN-LAST:event_jButton1MouseClicked
+
+    private void calcularTotal() {
+        float total = 0;
+        for (int i = 0; i < tblProducto.getRowCount(); i++) {
+            total += Float.parseFloat(tblProducto.getValueAt(i, 4).toString());
+        }
+
+        txtSubtotal.setText(String.valueOf(total));
+        txtTotal.setText(String.valueOf(total));
+    }
 
     private Producto obtenerProducto(int idProducto) {
         for (Producto producto : productos) {
