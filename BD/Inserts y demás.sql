@@ -250,3 +250,6 @@ SELECT * FROM envios WHERE envios.fecha like '%2023-05-03%';
 -- *******************15/15/2023*******************
 UPDATE empleado SET restContra = false WHERE idEmpleado>=1;
 -- ************************************************
+-- 19/05/2023
+ALTER TABLE envios ADD column tipoEnvio Varchar(300);
+ALTER TABLE envios ADD COLUMN pais Varchar(30);

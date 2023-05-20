@@ -301,7 +301,11 @@ public class PanelControlAdministrador extends javax.swing.JFrame {
     }//GEN-LAST:event_btnCerrarCajaActionPerformed
 
     private void btnVender1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnVender1ActionPerformed
-        // TODO add your handling code here:
+        RegistrarVenta v = new RegistrarVenta();
+        v.setNombre(nombre);
+        v.setAdmon(nombre, idAdmon);
+        this.dispose();
+        v.setVisible(true);
     }//GEN-LAST:event_btnVender1ActionPerformed
 
     private void btnAbrirCajaActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnAbrirCajaActionPerformed

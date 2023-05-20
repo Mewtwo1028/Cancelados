@@ -136,10 +136,12 @@ public class ClienteManager {
 
         try (PreparedStatement cs = conexion.getConexion().prepareStatement(sql)) {
             cs.setInt(1, cliente.getIdCliente());
-            return cs.executeUpdate() == 1;
+            cs.execute();
+            return true;
         } catch (SQLException ex) {
-            throw new RuntimeException("Error al eliminar el cliente", ex);
+            System.out.print(ex.getMessage());            
         }
+        return false;
     }
 
     /**

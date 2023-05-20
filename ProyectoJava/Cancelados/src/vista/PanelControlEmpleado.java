@@ -258,7 +258,12 @@ public class PanelControlEmpleado extends javax.swing.JFrame {
     }//GEN-LAST:event_btnCerrarCajaActionPerformed
 
     private void btnVender2ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnVender2ActionPerformed
-        // TODO add your handling code here:
+       RegistrarVenta win = new RegistrarVenta();
+        win.setNombre(nombre);
+        win.setExtendedState(JFrame.MAXIMIZED_BOTH);
+        win.setEmpleado(nombre, idEmpleado);
+        this.dispose();
+        win.setVisible(true);
     }//GEN-LAST:event_btnVender2ActionPerformed
 
     public void setNombre(String nombre){
