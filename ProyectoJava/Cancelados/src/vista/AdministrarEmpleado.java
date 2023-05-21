@@ -638,11 +638,6 @@ public class AdministrarEmpleado extends javax.swing.JFrame {
             return;
         }
 
-        if (idEmpleado == 1) {
-            JOptionPane.showMessageDialog(this, "NO SE PUEDE ELIMINAR AL DUEÑO DE LA EMPRESA", "ERROR!", JOptionPane.ERROR_MESSAGE);
-            return;
-        }
-
         if (idEmpleado == idAdmon) {
             JOptionPane.showMessageDialog(this, "NO PUEDE ELIMINARSE ASI MISMO", "ERROR!", JOptionPane.ERROR_MESSAGE);
             return;
