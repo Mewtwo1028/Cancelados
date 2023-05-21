@@ -1,10 +1,12 @@
 package vista;
 
+import controlador.CajaManager;
 import modelo.FuncionesUtiles;
 import java.awt.Color;
 import java.awt.Toolkit;
 import javax.swing.JFrame;
 import java.awt.Dimension;
+import controlador.Conexion;
 
 public class PanelControlAdministrador extends javax.swing.JFrame {
 
@@ -16,7 +18,7 @@ public class PanelControlAdministrador extends javax.swing.JFrame {
         inicializar();
     }
 
-    private void inicializar() {
+    public void inicializar() {
         FuncionesUtiles tools = new FuncionesUtiles();
         //Configuracion ventana
         this.setLocationRelativeTo(null);
@@ -298,6 +300,17 @@ public class PanelControlAdministrador extends javax.swing.JFrame {
     private void btnCerrarCajaActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnCerrarCajaActionPerformed
        CerrarCaja cc = new CerrarCaja(this,true);
        cc.setVisible(true);
+       CajaManager cm = new CajaManager();
+        
+        String hora = fu.formatoFecha()+" "+fu.getHora();
+        if(!cc.verifica()){
+           javax.swing.JOptionPane.showMessageDialog(this, "Error", "Error", 1); 
+        }else{
+            cm.cierraCaja("Cerrada", cc.monto, hora,idAdmon);
+            btnCerrarCaja.setEnabled(false);
+            btnAbrirCaja.setEnabled(true);
+        }
+       
     }//GEN-LAST:event_btnCerrarCajaActionPerformed
 
     private void btnVender1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnVender1ActionPerformed
@@ -308,9 +321,20 @@ public class PanelControlAdministrador extends javax.swing.JFrame {
         v.setVisible(true);
     }//GEN-LAST:event_btnVender1ActionPerformed
 
+        FuncionesUtiles fu = new FuncionesUtiles();
     private void btnAbrirCajaActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnAbrirCajaActionPerformed
         AbrirCaja ac = new AbrirCaja(this,true);
         ac.setVisible(true);
+        CajaManager cm = new CajaManager();
+        
+        String hora = fu.formatoFecha()+" "+fu.getHora();
+        if(!ac.verifica()){
+           javax.swing.JOptionPane.showMessageDialog(this, "Error", "Error", 1); 
+        }else{
+            cm.insertarCaja(hora, idAdmon, ac.monto, "Abierta");
+            btnAbrirCaja.setEnabled(false);
+            btnCerrarCaja.setEnabled(true);
+        }
     }//GEN-LAST:event_btnAbrirCajaActionPerformed
 
     public void setNombre(String nombre) {

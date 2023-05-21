@@ -30,16 +30,18 @@ public class AbrirCaja extends javax.swing.JDialog {
         jLabel1 = new javax.swing.JLabel();
         jLabel2 = new javax.swing.JLabel();
         btnAbirCaja = new javax.swing.JButton();
-        jTextField1 = new javax.swing.JTextField();
+        txtMontoCaja = new javax.swing.JTextField();
         jLabel3 = new javax.swing.JLabel();
-        jCheckBox1 = new javax.swing.JCheckBox();
+        cbFeria = new javax.swing.JCheckBox();
         jLabel4 = new javax.swing.JLabel();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.DISPOSE_ON_CLOSE);
+        setMinimumSize(new java.awt.Dimension(600, 600));
+        setPreferredSize(new java.awt.Dimension(560, 470));
         getContentPane().setLayout(new org.netbeans.lib.awtextra.AbsoluteLayout());
 
         jLabel1.setText("Apertura de Caja");
-        getContentPane().add(jLabel1, new org.netbeans.lib.awtextra.AbsoluteConstraints(314, 42, -1, -1));
+        getContentPane().add(jLabel1, new org.netbeans.lib.awtextra.AbsoluteConstraints(230, 30, -1, -1));
 
         jLabel2.setText("Monto en Caja");
         getContentPane().add(jLabel2, new org.netbeans.lib.awtextra.AbsoluteConstraints(100, 150, 90, -1));
@@ -51,22 +53,44 @@ public class AbrirCaja extends javax.swing.JDialog {
             }
         });
         getContentPane().add(btnAbirCaja, new org.netbeans.lib.awtextra.AbsoluteConstraints(250, 370, -1, -1));
-        getContentPane().add(jTextField1, new org.netbeans.lib.awtextra.AbsoluteConstraints(340, 150, 100, -1));
+        getContentPane().add(txtMontoCaja, new org.netbeans.lib.awtextra.AbsoluteConstraints(340, 150, 100, -1));
 
         jLabel3.setText("Suficiente feria");
         getContentPane().add(jLabel3, new org.netbeans.lib.awtextra.AbsoluteConstraints(100, 200, 100, -1));
 
-        jCheckBox1.setText("Sí");
-        getContentPane().add(jCheckBox1, new org.netbeans.lib.awtextra.AbsoluteConstraints(340, 200, 64, -1));
+        cbFeria.setText("Sí");
+        getContentPane().add(cbFeria, new org.netbeans.lib.awtextra.AbsoluteConstraints(340, 200, 64, -1));
 
         jLabel4.setText("$");
         getContentPane().add(jLabel4, new org.netbeans.lib.awtextra.AbsoluteConstraints(320, 150, -1, -1));
 
         pack();
     }// </editor-fold>//GEN-END:initComponents
+    double monto = 0.0;
+    public boolean verifica() {
+       
+
+        try {
+            monto = Double.parseDouble(txtMontoCaja.getText());
+        } catch (NumberFormatException e) {
+
+            javax.swing.JOptionPane.showMessageDialog(this, "Ingrese un monto numérico", "Error", 1);
+        }
+        if (!cbFeria.isSelected() || monto < 500) {
+            javax.swing.JOptionPane.showMessageDialog(this, "Verifique los campos", "Error", 1);
+            return false;
+        } else {
+            javax.swing.JOptionPane.showMessageDialog(this, "Caja aperturada", "Correcto", 1);
+            this.dispose();
+            return true;
+
+        }
+
+    }
+
 
     private void btnAbirCajaActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnAbirCajaActionPerformed
-        // TODO add your handling code here:
+        verifica();
     }//GEN-LAST:event_btnAbirCajaActionPerformed
 
     /**
@@ -113,11 +137,11 @@ public class AbrirCaja extends javax.swing.JDialog {
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JButton btnAbirCaja;
-    private javax.swing.JCheckBox jCheckBox1;
+    private javax.swing.JCheckBox cbFeria;
     private javax.swing.JLabel jLabel1;
     private javax.swing.JLabel jLabel2;
     private javax.swing.JLabel jLabel3;
     private javax.swing.JLabel jLabel4;
-    private javax.swing.JTextField jTextField1;
+    private javax.swing.JTextField txtMontoCaja;
     // End of variables declaration//GEN-END:variables
 }

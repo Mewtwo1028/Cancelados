@@ -147,6 +147,11 @@ public class FuncionesUtiles {
         return cad;
     }
     
+    /**
+ * Retorna la fecha actual formateada como una cadena en el formato "yyyy-MM-dd".
+ *
+ * @return La fecha actual formateada como una cadena.
+ */
     public String formatoFecha(){
     LocalDate fechaActual = LocalDate.now();
     DateTimeFormatter formato = DateTimeFormatter.ofPattern("yyyy-MM-dd");
