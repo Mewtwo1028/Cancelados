@@ -48,17 +48,17 @@ public class EmpleadoManager {
      *
      * @param empleado el objeto Empleado que contiene los datos del empleado a
      * insertar
-     * @param contra la contraseña a asociar a la nueva credencial
      * @return true si se insertó correctamente el registro del empleado y se
      * creó la credencial, false si no se pudo insertar el registro o crear la
      * credencial
      */
-    public boolean insertarEmpleado(Empleado empleado, String contra) {
+    public boolean insertarEmpleado(Empleado empleado) {
         String SQL_insertar = "INSERT INTO empleado VALUES (null, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, false)";
         String SQL_idEmpleado = "select idEmpleado from empleado order by idEmpleado DESC";
         String SQL_insertarCredencial = "INSERT INTO credenciales VALUES (null, ?, ?)";
+        String SQL_empleado = "UPDATE empleado SET restContra = true WHERE idEmpleado = ?";
 
-        try (PreparedStatement psInsertar = conexion.getConexion().prepareStatement(SQL_insertar); PreparedStatement psIdEmpleado = conexion.getConexion().prepareStatement(SQL_idEmpleado); PreparedStatement psInsertarCredencial = conexion.getConexion().prepareStatement(SQL_insertarCredencial)) {
+        try (PreparedStatement psInsertar = conexion.getConexion().prepareStatement(SQL_insertar); PreparedStatement psIdEmpleado = conexion.getConexion().prepareStatement(SQL_idEmpleado); PreparedStatement psInsertarCredencial = conexion.getConexion().prepareStatement(SQL_insertarCredencial);PreparedStatement psContra = conexion.getConexion().prepareStatement(SQL_empleado)) {
             psInsertar.setString(1, empleado.getNombre());
             psInsertar.setString(2, empleado.getaPaterno());
             psInsertar.setString(3, empleado.getaMaterno());
@@ -77,9 +77,12 @@ public class EmpleadoManager {
             cursor.next();
             int idEmpleado = cursor.getInt(1);
 
-            psInsertarCredencial.setString(1, contra);
+            psInsertarCredencial.setString(1, "");
             psInsertarCredencial.setInt(2, idEmpleado);
             psInsertarCredencial.execute();
+            
+            psContra.setInt(1, idEmpleado);
+            psContra.execute();
 
             return true;
         } catch (SQLException ex) {
