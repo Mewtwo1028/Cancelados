@@ -129,6 +129,14 @@ public class AdministrarCliente extends javax.swing.JFrame {
     }
 
     public void setEmpleado(String nombre, int idEmpleado) {
+
+        //Desactivar botones de, modificar, consultar y eliminar
+        btnEliminar.setVisible(false);
+        btnConsultar.setVisible(false);
+        btnModificar.setVisible(false);
+        btnFind.setVisible(false);
+        jComboBox1.setVisible(false);
+
         //Colocar panel de la izquierda
         AccionesRapidasEmpleado panelBotones = new AccionesRapidasEmpleado(this);
         this.idAdmon = idEmpleado;
