@@ -199,29 +199,17 @@
                                       <Component id="txtRFC" max="32767" attributes="0"/>
                                       <Component id="txtMunicipio" pref="130" max="32767" attributes="0"/>
                                   </Group>
+                                  <EmptySpace type="separate" max="-2" attributes="0"/>
                                   <Group type="103" groupAlignment="0" max="-2" attributes="0">
-                                      <Group type="102" attributes="0">
-                                          <EmptySpace type="separate" max="-2" attributes="0"/>
-                                          <Group type="103" groupAlignment="0" max="-2" attributes="0">
-                                              <Component id="labelEstadp" max="32767" attributes="0"/>
-                                              <Component id="labelRol" pref="92" max="32767" attributes="0"/>
-                                              <Component id="labelContra" max="32767" attributes="0"/>
-                                              <Component id="labelIDEmpleado" max="32767" attributes="0"/>
-                                          </Group>
-                                          <EmptySpace max="-2" attributes="0"/>
-                                          <Group type="103" groupAlignment="0" max="-2" attributes="0">
-                                              <Component id="txtEstado" max="32767" attributes="0"/>
-                                              <Component id="txtContra" pref="130" max="32767" attributes="0"/>
-                                              <Component id="txtIDEmpleado" max="32767" attributes="0"/>
-                                              <Component id="jComboBoxRol" max="32767" attributes="0"/>
-                                          </Group>
-                                      </Group>
-                                      <Group type="102" attributes="0">
-                                          <EmptySpace min="-2" pref="12" max="-2" attributes="0"/>
-                                          <Component id="jLabel1" min="-2" max="-2" attributes="0"/>
-                                          <EmptySpace max="-2" attributes="0"/>
-                                          <Component id="txtRepContrasena" max="32767" attributes="0"/>
-                                      </Group>
+                                      <Component id="labelEstadp" max="32767" attributes="0"/>
+                                      <Component id="labelRol" pref="92" max="32767" attributes="0"/>
+                                      <Component id="labelIDEmpleado" max="32767" attributes="0"/>
+                                  </Group>
+                                  <EmptySpace max="-2" attributes="0"/>
+                                  <Group type="103" groupAlignment="0" max="-2" attributes="0">
+                                      <Component id="txtEstado" max="32767" attributes="0"/>
+                                      <Component id="txtIDEmpleado" max="32767" attributes="0"/>
+                                      <Component id="jComboBoxRol" pref="130" max="32767" attributes="0"/>
                                   </Group>
                               </Group>
                           </Group>
@@ -256,8 +244,6 @@
                               <Component id="txtApMaterno" alignment="3" min="-2" max="-2" attributes="0"/>
                               <Component id="labelCURP" alignment="3" min="-2" max="-2" attributes="0"/>
                               <Component id="txtCURP" alignment="3" min="-2" max="-2" attributes="0"/>
-                              <Component id="labelContra" alignment="3" min="-2" max="-2" attributes="0"/>
-                              <Component id="txtContra" alignment="3" min="-2" max="-2" attributes="0"/>
                           </Group>
                           <EmptySpace type="separate" max="-2" attributes="0"/>
                           <Group type="103" groupAlignment="3" attributes="0">
@@ -265,8 +251,6 @@
                               <Component id="txtCalle" alignment="3" min="-2" max="-2" attributes="0"/>
                               <Component id="labelRFC" alignment="3" min="-2" max="-2" attributes="0"/>
                               <Component id="txtRFC" alignment="3" min="-2" max="-2" attributes="0"/>
-                              <Component id="jLabel1" alignment="3" min="-2" max="-2" attributes="0"/>
-                              <Component id="txtRepContrasena" alignment="3" min="-2" max="-2" attributes="0"/>
                           </Group>
                           <EmptySpace type="separate" max="-2" attributes="0"/>
                           <Group type="103" groupAlignment="3" attributes="0">
@@ -406,16 +390,6 @@
                     <Property name="text" type="java.lang.String" value="Rol"/>
                   </Properties>
                 </Component>
-                <Component class="javax.swing.JLabel" name="labelContra">
-                  <Properties>
-                    <Property name="text" type="java.lang.String" value="Contrase&#xf1;a"/>
-                  </Properties>
-                </Component>
-                <Component class="javax.swing.JTextField" name="txtContra">
-                  <Properties>
-                    <Property name="text" type="java.lang.String" value="jTextField13"/>
-                  </Properties>
-                </Component>
                 <Component class="javax.swing.JLabel" name="labelIDEmpleado">
                   <Properties>
                     <Property name="text" type="java.lang.String" value="ID. Empleado"/>
@@ -438,13 +412,6 @@
                   <AuxValues>
                     <AuxValue name="JavaCodeGenerator_TypeParameters" type="java.lang.String" value="&lt;String&gt;"/>
                   </AuxValues>
-                </Component>
-                <Component class="javax.swing.JLabel" name="jLabel1">
-                  <Properties>
-                    <Property name="text" type="java.lang.String" value="Repetir Contrase&#xf1;a"/>
-                  </Properties>
-                </Component>
-                <Component class="javax.swing.JPasswordField" name="txtRepContrasena">
                 </Component>
                 <Component class="javax.swing.JTextField" name="btnFind">
                   <Properties>
