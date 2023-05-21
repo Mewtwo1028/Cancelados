@@ -6,33 +6,26 @@ import java.awt.Component;
 import java.awt.Dimension;
 import java.awt.GridLayout;
 import java.awt.Image;
-import java.awt.Point;
 import java.util.ArrayList;
-import javax.swing.BorderFactory;
+import java.util.regex.Matcher;
+import java.util.regex.Pattern;
 import javax.swing.BoxLayout;
 import javax.swing.DefaultComboBoxModel;
 import javax.swing.ImageIcon;
 import javax.swing.JLabel;
 import javax.swing.SwingConstants;
-import javax.swing.border.Border;
-import javax.swing.border.EmptyBorder;
-import modelo.FuncionesUtiles;
 import modelo.Producto;
 
 public class DialogoSeleccionProducto extends javax.swing.JDialog {
 
     private RegistrarVenta fr;
-    private String nAnterior = "";
-    private int nAnteriorX;
-    private int nAnteriorY;
-    Point punto;
+    private ArrayList<Producto> productos;
 
-    private JLabel labelClicked;
-    
-    public DialogoSeleccionProducto(RegistrarVenta parent, boolean modal) {
+    public DialogoSeleccionProducto(RegistrarVenta parent, boolean modal, ArrayList<Producto> productos) {
         super(parent, modal);
         initComponents();
         this.fr = parent;
+        this.productos = productos;
         initDialog();
         initCombo();
     }
@@ -62,10 +55,23 @@ public class DialogoSeleccionProducto extends javax.swing.JDialog {
 
         switch (filtro.toString()) {
             case "Nombre" ->
-                llenarTabla(new ProductoManager().buscarProductoNombreEx(txt));
-            case "Categoria" ->
-                llenarTabla(new ProductoManager().buscarProductoCategoriaEx(txt));
+                llenarTabla(buscarProductoNombre(txt));
         }
+    }
+
+    private ArrayList<Producto> buscarProductoNombre(String txt) {
+        ArrayList<Producto> resultados = new ArrayList<>();
+
+        Pattern pattern = Pattern.compile(txt, Pattern.CASE_INSENSITIVE);
+        for (Producto producto : productos) {
+            String nombre = producto.getNombre();
+            Matcher matcher = pattern.matcher(nombre);
+            if (matcher.find()) {
+                resultados.add(producto);
+            }
+        }
+
+        return resultados;
     }
 
     private void clearTbl() {
@@ -91,6 +97,11 @@ public class DialogoSeleccionProducto extends javax.swing.JDialog {
             JLabel label = new JLabel();
             label.setSize(200, 200);
             label.setName(String.valueOf(producto.getIdProducto()));
+
+            if (producto.getStock() == 0) {
+                label.setForeground(Color.RED);
+            }
+
             label.setText(producto.getNombre());
 
             Image img = new ProductoManager().obtenerImagen(producto);
@@ -216,43 +227,17 @@ public class DialogoSeleccionProducto extends javax.swing.JDialog {
 
         if (component instanceof JLabel clickedLabel) {
 
-            if (nAnterior.isBlank()) {
-                labelClicked = clickedLabel;
-                
-                nAnterior = clickedLabel.getName();
-                nAnteriorX = evt.getX();
-                nAnteriorY = evt.getX();
-            }
-            
-            String nActual = clickedLabel.getName();
-
-            if (!nAnterior.equals(nActual)) {
-                //si es diferente quiere decir que se dio click en otro label,
-                //entonces hay que quitarle el borde al label anterior y
-                //ponerle un borde al label actual
-                
-                //QUITAR BORDE A ANTERIOR
-                labelClicked.setBorder(new EmptyBorder(0, 0, 0, 0));
-
-                //PONER BORDE A ACTUAL
-                Border border = BorderFactory.createLineBorder(new FuncionesUtiles().getColorCancelados(), 2);
-                clickedLabel.setBorder(border);
-
-                //actualizar anterior con el name de actual
-                nAnterior = nActual;
-                nAnteriorX = evt.getX();
-                nAnteriorY = evt.getX();
-            }
             //System.out.println("Se hizo clic en el JLabel: " + clickedLabel.getText() + ". ID: " + clickedLabel.getName());
-
             //retornar aqui el id del producto, que esta guardado en el nombre del label
+            fr.cbNombreProducto.setSelectedItem(clickedLabel.getText());
+
             //y cerrar el dialogo
-            
+            this.dispose();
         }
-        
+
         jPanel2.repaint();
         jPanel2.revalidate();
-            
+
     }//GEN-LAST:event_jPanel2MouseClicked
 
     /**
@@ -285,7 +270,7 @@ public class DialogoSeleccionProducto extends javax.swing.JDialog {
         /* Create and display the dialog */
         java.awt.EventQueue.invokeLater(new Runnable() {
             public void run() {
-                DialogoSeleccionProducto dialog = new DialogoSeleccionProducto(new RegistrarVenta(), true);
+                DialogoSeleccionProducto dialog = new DialogoSeleccionProducto(new RegistrarVenta(), true, new ArrayList<>());
                 dialog.addWindowListener(new java.awt.event.WindowAdapter() {
                     @Override
                     public void windowClosing(java.awt.event.WindowEvent e) {
