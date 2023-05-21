@@ -242,9 +242,15 @@ public class PanelControlEmpleado extends javax.swing.JFrame {
     private void btnAbrirCajaActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnAbrirCajaActionPerformed
         // TODO add your handling code here:
        AbrirCaja ac = new AbrirCaja(this,true);
-       ac.setVisible(true);
        CajaManager cm = new CajaManager();
-        
+      
+        if(!cm.consultaEstadoCaja(idEmpleado)){
+            ac.setVisible(true);
+            btnCerrarCaja.setEnabled(false);
+        }else{
+            btnCerrarCaja.setEnabled(true);
+            btnAbrirCaja.setEnabled(false);
+        }
         String hora = fu.formatoFecha()+" "+fu.getHora();
         if(!ac.verifica()){
            javax.swing.JOptionPane.showMessageDialog(this, "Error", "Error", 1); 
@@ -267,9 +273,14 @@ public class PanelControlEmpleado extends javax.swing.JFrame {
 
     private void btnCerrarCajaActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnCerrarCajaActionPerformed
        CerrarCaja cc = new CerrarCaja(this,true);
-       cc.setVisible(true);
        CajaManager cm = new CajaManager();
-        
+       if(cm.consultaEstadoCaja(idEmpleado)){
+            cc.setVisible(true);
+            btnCerrarCaja.setEnabled(false);
+        }else{
+            btnCerrarCaja.setEnabled(true);
+            btnAbrirCaja.setEnabled(false);
+        }
         String hora = fu.formatoFecha()+" "+fu.getHora();
         if(!cc.verifica()){
            javax.swing.JOptionPane.showMessageDialog(this, "Error", "Error", 1); 

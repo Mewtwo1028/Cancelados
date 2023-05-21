@@ -17,19 +17,27 @@
     <DimensionLayout dim="0">
       <Group type="103" groupAlignment="0" attributes="0">
           <Group type="102" alignment="0" attributes="0">
-              <EmptySpace max="-2" attributes="0"/>
-              <Group type="103" groupAlignment="0" max="-2" attributes="0">
-                  <Component id="btnMenu" alignment="0" max="32767" attributes="0"/>
-                  <Component id="btnPendientes" alignment="0" max="32767" attributes="0"/>
-                  <Component id="btnReportes" alignment="0" max="32767" attributes="0"/>
-                  <Component id="btnNotificaciones" alignment="0" pref="233" max="32767" attributes="0"/>
-                  <Component id="btnPagos" alignment="0" max="32767" attributes="0"/>
-                  <Component id="jLabelLogo" alignment="0" max="32767" attributes="0"/>
-                  <Component id="jSeparator1" alignment="0" max="32767" attributes="0"/>
-                  <Component id="btnConfiguraciones" max="32767" attributes="0"/>
-                  <Component id="btnAcercaDe" max="32767" attributes="0"/>
-                  <Component id="jSeparator2" max="32767" attributes="0"/>
-                  <Component id="btnVolver" max="32767" attributes="0"/>
+              <Group type="103" groupAlignment="0" attributes="0">
+                  <Group type="102" attributes="0">
+                      <EmptySpace max="-2" attributes="0"/>
+                      <Group type="103" groupAlignment="0" max="-2" attributes="0">
+                          <Component id="btnMenu" alignment="0" max="32767" attributes="0"/>
+                          <Component id="btnPendientes" alignment="0" max="32767" attributes="0"/>
+                          <Component id="btnReportes" alignment="0" max="32767" attributes="0"/>
+                          <Component id="btnNotificaciones" alignment="0" pref="233" max="32767" attributes="0"/>
+                          <Component id="btnPagos" alignment="0" max="32767" attributes="0"/>
+                          <Component id="jLabelLogo" alignment="0" max="32767" attributes="0"/>
+                          <Component id="jSeparator1" alignment="0" max="32767" attributes="0"/>
+                          <Component id="btnConfiguraciones" max="32767" attributes="0"/>
+                          <Component id="btnAcercaDe" max="32767" attributes="0"/>
+                          <Component id="jSeparator2" max="32767" attributes="0"/>
+                          <Component id="btnVolver" max="32767" attributes="0"/>
+                      </Group>
+                  </Group>
+                  <Group type="102" alignment="0" attributes="0">
+                      <EmptySpace min="-2" pref="81" max="-2" attributes="0"/>
+                      <Component id="jLabel1" min="-2" pref="85" max="-2" attributes="0"/>
+                  </Group>
               </Group>
               <EmptySpace max="-2" attributes="0"/>
               <Component id="jPanelLinea" min="-2" max="-2" attributes="0"/>
@@ -62,12 +70,14 @@
                       <Component id="btnAcercaDe" min="-2" max="-2" attributes="0"/>
                       <EmptySpace type="separate" max="-2" attributes="0"/>
                       <Component id="jSeparator2" min="-2" pref="10" max="-2" attributes="0"/>
-                      <EmptySpace pref="79" max="32767" attributes="0"/>
+                      <EmptySpace pref="54" max="32767" attributes="0"/>
+                      <Component id="jLabel1" min="-2" pref="50" max="-2" attributes="0"/>
+                      <EmptySpace type="unrelated" max="-2" attributes="0"/>
                       <Component id="btnVolver" min="-2" max="-2" attributes="0"/>
                       <EmptySpace min="-2" pref="14" max="-2" attributes="0"/>
                   </Group>
                   <Group type="102" attributes="0">
-                      <Component id="jPanelLinea" pref="638" max="32767" attributes="0"/>
+                      <Component id="jPanelLinea" max="32767" attributes="0"/>
                       <EmptySpace max="-2" attributes="0"/>
                   </Group>
               </Group>
@@ -157,5 +167,15 @@
 
       <Layout class="org.netbeans.modules.form.compat2.layouts.DesignBorderLayout"/>
     </Container>
+    <Component class="javax.swing.JLabel" name="jLabel1">
+      <Properties>
+        <Property name="icon" type="javax.swing.Icon" editor="org.netbeans.modules.form.editors2.IconEditor">
+          <Image iconType="2" name="C:\Users\osmar\OneDrive\Documentos\GitHub\Cancelados\ProyectoJava\Arrow Icon.png"/>
+        </Property>
+      </Properties>
+      <Events>
+        <EventHandler event="mouseClicked" listener="java.awt.event.MouseListener" parameters="java.awt.event.MouseEvent" handler="jLabel1MouseClicked"/>
+      </Events>
+    </Component>
   </SubComponents>
 </Form>
