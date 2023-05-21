@@ -299,8 +299,15 @@ public class PanelControlAdministrador extends javax.swing.JFrame {
 
     private void btnCerrarCajaActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnCerrarCajaActionPerformed
        CerrarCaja cc = new CerrarCaja(this,true);
-       cc.setVisible(true);
+  
        CajaManager cm = new CajaManager();
+       if(cm.consultaEstadoCaja(idAdmon)){
+            cc.setVisible(true);
+            btnCerrarCaja.setEnabled(false);
+        }else{
+            btnCerrarCaja.setEnabled(true);
+            btnAbrirCaja.setEnabled(false);
+        }
         
         String hora = fu.formatoFecha()+" "+fu.getHora();
         if(!cc.verifica()){
@@ -323,10 +330,17 @@ public class PanelControlAdministrador extends javax.swing.JFrame {
 
         FuncionesUtiles fu = new FuncionesUtiles();
     private void btnAbrirCajaActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnAbrirCajaActionPerformed
+       CajaManager cm = new CajaManager();
         AbrirCaja ac = new AbrirCaja(this,true);
-        ac.setVisible(true);
-        CajaManager cm = new CajaManager();
+        if(!cm.consultaEstadoCaja(idAdmon)){
+            ac.setVisible(true);
+            btnCerrarCaja.setEnabled(false);
+        }else{
+            btnCerrarCaja.setEnabled(true);
+            btnAbrirCaja.setEnabled(false);
+        }
         
+
         String hora = fu.formatoFecha()+" "+fu.getHora();
         if(!ac.verifica()){
            javax.swing.JOptionPane.showMessageDialog(this, "Error", "Error", 1); 
