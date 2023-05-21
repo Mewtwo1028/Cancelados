@@ -232,6 +232,25 @@ public class ProductoManager {
         }
         return false;
     }
+    
+    public Image obtenerImagen(Producto producto) {
+        String consulta = "SELECT Imagen FROM producto WHERE idProducto=?;";
+
+        try (PreparedStatement cs = conexion.getConexion().prepareStatement(consulta)) {
+            cs.setInt(1, producto.getIdProducto());
+            ResultSet cursor = cs.executeQuery();
+
+            if (cursor.next()) {
+                byte[] imageData = cursor.getBytes("Imagen");
+                ImageIcon format = new ImageIcon(imageData);
+                return format.getImage();
+            }
+
+        } catch (SQLException ex) {
+            throw new RuntimeException("Error al obtener la imagen del producto", ex);
+        }
+        return new ImageIcon().getImage();
+    }
 
     /**
      * Inserta un nuevo producto en la base de datos.
@@ -288,10 +307,9 @@ public class ProductoManager {
             return false;
         }
     }
-    
+
     /**
-     * Busca los productos cuyo nombre comience con el texto
-     * especificado.
+     * Busca los productos cuyo nombre comience con el texto especificado.
      *
      * @param texto El texto a buscar.
      *
@@ -318,10 +336,45 @@ public class ProductoManager {
         }
         return resultado;
     }
-    
+
     /**
-     * Busca los productos cuyo autor comience con el texto
-     * especificado.
+     * Busca los productos cuyo nombre comience con el texto especificado.
+     *
+     * @param texto El texto a buscar.
+     *
+     * @return Una lista de matrices de cadenas que representan a los productos
+     * encontrados, o una lista vacía si no se encontró ningún producto.
+     */
+    public ArrayList<Producto> buscarProductoNombreEx(String texto) {
+        String filtro = texto + "%";
+        String SQL = "SELECT idProducto, nombre, precioUnitario, Categoria FROM producto WHERE nombre like" + '"' + filtro + '"';
+        ArrayList<Producto> resultado = new ArrayList<>();
+
+        try {
+            ResultSet rs = conexion.getConexion().prepareStatement(SQL).executeQuery();
+            Producto producto;
+            while (rs.next()) {
+                producto = new Producto();
+
+                producto.setIdProducto(rs.getInt(1));
+                producto.setNombre(rs.getString(2));
+                producto.setPrecioUnitario(rs.getFloat(3));
+                producto.setCategoria(rs.getString(4));
+
+                resultado.add(producto);
+
+            }
+
+            return resultado;
+
+        } catch (Exception e) {
+            System.err.println("" + e.getMessage());
+        }
+        return resultado;
+    }
+
+    /**
+     * Busca los productos cuyo autor comience con el texto especificado.
      *
      * @param texto El texto a buscar.
      *
@@ -348,10 +401,9 @@ public class ProductoManager {
         }
         return resultado;
     }
-    
+
     /**
-     * Busca los productos cuya categoria comience con el texto
-     * especificado.
+     * Busca los productos cuya categoria comience con el texto especificado.
      *
      * @param texto El texto a buscar.
      *
@@ -369,6 +421,43 @@ public class ProductoManager {
             while (rs.next()) {
                 String[] renglon = {rs.getString(1), rs.getString(2), rs.getString(3), rs.getString(4), rs.getString(5), rs.getString(6), rs.getString(7)};
                 resultado.add(renglon);
+            }
+
+            return resultado;
+
+        } catch (Exception e) {
+            System.err.println("" + e.getMessage());
+        }
+        return resultado;
+    }
+
+    /**
+     * Busca los productos cuya categoria comience con el texto especificado.
+     *
+     * @param texto El texto a buscar.
+     *
+     * @return Una lista de matrices de cadenas que representan a los productos
+     * encontrados, o una lista vacía si no se encontró ningún producto.
+     */
+    public ArrayList<Producto> buscarProductoCategoriaEx(String texto) {
+        String filtro = texto + "%";
+        String SQL = "SELECT idProducto, nombre, precioUnitario, Categoria FROM producto WHERE categoria like" + '"' + filtro + '"';
+        ArrayList<Producto> resultado = new ArrayList<>();
+
+        try {
+            ResultSet rs = conexion.getConexion().prepareStatement(SQL).executeQuery();
+            
+            Producto producto;
+            
+            while (rs.next()) {
+                producto = new Producto();
+
+                producto.setIdProducto(rs.getInt(1));
+                producto.setNombre(rs.getString(2));
+                producto.setPrecioUnitario(rs.getFloat(3));
+                producto.setCategoria(rs.getString(4));
+
+                resultado.add(producto);
             }
 
             return resultado;

@@ -58,7 +58,7 @@ public class DialogoSeleccionarCliente extends javax.swing.JDialog {
         //jTable1.setSelectionBackground(tool.getColorCancelados());
     }
 
-    private void buscarProducto(String txt, Object filtro) {
+    private void buscarCliente(String txt, Object filtro) {
         clearTbl();
 
         switch (filtro.toString()) {
@@ -189,7 +189,7 @@ public class DialogoSeleccionarCliente extends javax.swing.JDialog {
     }//GEN-LAST:event_jTextField1FocusGained
 
     private void jTextField1KeyReleased(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_jTextField1KeyReleased
-        buscarProducto(jTextField1.getText().trim(), jComboBox1.getSelectedItem());
+        buscarCliente(jTextField1.getText().trim(), jComboBox1.getSelectedItem());
     }//GEN-LAST:event_jTextField1KeyReleased
 
     private void jTextField1FocusLost(java.awt.event.FocusEvent evt) {//GEN-FIRST:event_jTextField1FocusLost
@@ -199,7 +199,7 @@ public class DialogoSeleccionarCliente extends javax.swing.JDialog {
     }//GEN-LAST:event_jTextField1FocusLost
 
     private void jComboBox1ItemStateChanged(java.awt.event.ItemEvent evt) {//GEN-FIRST:event_jComboBox1ItemStateChanged
-        buscarProducto(jTextField1.getText().trim(), jComboBox1.getSelectedItem());
+        buscarCliente(jTextField1.getText().trim(), jComboBox1.getSelectedItem());
     }//GEN-LAST:event_jComboBox1ItemStateChanged
 
     private void jButton1MouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_jButton1MouseClicked

@@ -1,5 +1,6 @@
 package vista;
 
+import controlador.CajaManager;
 import modelo.FuncionesUtiles;
 import java.awt.Color;
 import javax.swing.JFrame;
@@ -237,10 +238,22 @@ public class PanelControlEmpleado extends javax.swing.JFrame {
         this.dispose();
         win.setVisible(true);
     }//GEN-LAST:event_btnRegistrarClienteActionPerformed
-
+    FuncionesUtiles fu = new FuncionesUtiles();
     private void btnAbrirCajaActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnAbrirCajaActionPerformed
         // TODO add your handling code here:
        AbrirCaja ac = new AbrirCaja(this,true);
+       ac.setVisible(true);
+       CajaManager cm = new CajaManager();
+        
+        String hora = fu.formatoFecha()+" "+fu.getHora();
+        if(!ac.verifica()){
+           javax.swing.JOptionPane.showMessageDialog(this, "Error", "Error", 1); 
+        }else{
+            cm.insertarCaja(hora, idEmpleado, ac.monto, "Abierta");
+            btnAbrirCaja.setEnabled(false);
+            btnCerrarCaja.setEnabled(true);
+        }
+       
     }//GEN-LAST:event_btnAbrirCajaActionPerformed
 
     private void btnConsultarInventarioActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnConsultarInventarioActionPerformed
@@ -253,12 +266,27 @@ public class PanelControlEmpleado extends javax.swing.JFrame {
     }//GEN-LAST:event_btnConsultarInventarioActionPerformed
 
     private void btnCerrarCajaActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnCerrarCajaActionPerformed
-        CerrarCaja cc = new CerrarCaja(this, true);
-        cc.setVisible(true);
+       CerrarCaja cc = new CerrarCaja(this,true);
+       cc.setVisible(true);
+       CajaManager cm = new CajaManager();
+        
+        String hora = fu.formatoFecha()+" "+fu.getHora();
+        if(!cc.verifica()){
+           javax.swing.JOptionPane.showMessageDialog(this, "Error", "Error", 1); 
+        }else{
+            cm.cierraCaja("Cerrada", cc.monto, hora,idEmpleado);
+            btnCerrarCaja.setEnabled(false);
+            btnAbrirCaja.setEnabled(true);
+        }
     }//GEN-LAST:event_btnCerrarCajaActionPerformed
 
     private void btnVender2ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnVender2ActionPerformed
-        // TODO add your handling code here:
+       RegistrarVenta win = new RegistrarVenta();
+        win.setNombre(nombre);
+        win.setExtendedState(JFrame.MAXIMIZED_BOTH);
+        win.setEmpleado(nombre, idEmpleado);
+        this.dispose();
+        win.setVisible(true);
     }//GEN-LAST:event_btnVender2ActionPerformed
 
     public void setNombre(String nombre){
