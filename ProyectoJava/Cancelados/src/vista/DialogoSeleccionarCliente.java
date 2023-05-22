@@ -7,6 +7,7 @@ import java.util.ArrayList;
 import javax.swing.DefaultComboBoxModel;
 import javax.swing.JOptionPane;
 import javax.swing.table.DefaultTableModel;
+import modelo.Cliente;
 import modelo.FuncionesUtiles;
 
 public class DialogoSeleccionarCliente extends javax.swing.JDialog {
@@ -79,14 +80,32 @@ public class DialogoSeleccionarCliente extends javax.swing.JDialog {
         jTable1.setModel(modelo);
     }
 
-    private void llenarTabla(ArrayList<String[]> lista) {
+    private void llenarTabla(ArrayList<Cliente> clientes) {
         DefaultTableModel modelo = (DefaultTableModel) jTable1.getModel();
 
-        for (int i = 0; i < lista.size(); i++) {
-            modelo.addRow(lista.get(i));
+        for (Cliente cliente : clientes) {
+
+            if (cliente.getEstadoCliente().equals("ABIERTO")) {
+                modelo.addRow(llenarModelo(cliente));
+            }
+
         }
 
         jTable1.setModel(modelo);
+    }
+
+    private String[] llenarModelo(Cliente cliente) {
+
+        String idCliente = String.valueOf(cliente.getIdCliente());
+        String nombre = cliente.getNombre();
+        String aPaterno = cliente.getaPaterno();
+        String aMaterno = cliente.getaMaterno();
+        String calle = cliente.getCalle();
+        String colonia = cliente.getColonia();
+
+        String[] datosCliente = {idCliente, nombre, aPaterno, aMaterno, calle, colonia};
+
+        return datosCliente;
     }
 
     /**
@@ -213,7 +232,7 @@ public class DialogoSeleccionarCliente extends javax.swing.JDialog {
         String nombreCliente = jTable1.getValueAt(jTable1.getSelectedRow(), 1).toString();
 
         this.fr.setIdCliente(idCliente, nombreCliente);
-        
+
         this.dispose();
     }//GEN-LAST:event_jButton1MouseClicked
 

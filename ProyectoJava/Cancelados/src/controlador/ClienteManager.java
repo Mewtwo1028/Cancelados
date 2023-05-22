@@ -14,6 +14,34 @@ public class ClienteManager {
         conexion = new Conexion();
     }
 
+    public ArrayList<Cliente> consultarTodosEx() {
+        String sql = "SELECT idCliente, nombre, apellidoPaterno, apellidoMaterno, calle, colonia, ciudad, estado, cp, estadoCliente FROM cliente;";
+        ArrayList<Cliente> resultado = new ArrayList<>();
+
+        try (ResultSet cursor = conexion.getConexion().prepareStatement(sql).executeQuery()) {
+            while (cursor.next()) {
+
+                Cliente cliente = new Cliente();
+
+                cliente.setIdCliente(cursor.getInt(1));
+                cliente.setNombre(cursor.getString(2));
+                cliente.setaPaterno(cursor.getString(3));
+                cliente.setaMaterno(cursor.getString(4));
+                cliente.setCalle(cursor.getString(5));
+                cliente.setColonia(cursor.getString(6));
+                cliente.setCiudad(cursor.getString(7));
+                cliente.setEstado(cursor.getString(8));
+                cliente.setCp(cursor.getString(9));
+                cliente.setEstadoCliente(cursor.getString(10));
+
+                resultado.add(cliente);
+            }
+        } catch (SQLException ex) {
+            throw new RuntimeException("Error al consultar a los clientes", ex);
+        }
+        return resultado;
+    }
+
     /**
      * Consulta todos los clientes almacenados en la base de datos y devuelve
      * los resultados en un ArrayList de String[].
@@ -24,7 +52,7 @@ public class ClienteManager {
      * la base de datos.
      */
     public ArrayList<String[]> consultarTodos() {
-        String sql = "SELECT * FROM cliente;";
+        String sql = "SELECT idCliente, nombre, apellidoPaterno, apellidoMaterno, calle, colonia, ciudad, estado, cp FROM cliente;";
         ArrayList<String[]> resultado = new ArrayList<>();
 
         try (ResultSet cursor = conexion.getConexion().prepareStatement(sql).executeQuery()) {
@@ -74,7 +102,7 @@ public class ClienteManager {
      * @throws RuntimeException si ocurre un error al insertar el cliente.
      */
     public boolean insertarCliente(Cliente cliente) {
-        String consulta = "INSERT INTO cliente VALUES (null, ?, ?, ?, ?, ?, ?, ?, ?)";
+        String consulta = "INSERT INTO cliente VALUES (null, ?, ?, ?, ?, ?, ?, ?, ?, 'ABIERTO')";
 
         try (PreparedStatement ps = conexion.getConexion().prepareStatement(consulta)) {
             ps.setString(1, cliente.getNombre());
@@ -132,14 +160,14 @@ public class ClienteManager {
      * @throws RuntimeException Si ocurre un error al eliminar el cliente.
      */
     public boolean eliminarCliente(Cliente cliente) {
-        String sql = "DELETE FROM cliente WHERE idCliente=?;";
+        String sql = "UPDATE cliente SET estadoCliente = 'ELIMINADO' WHERE idCliente=?;";
 
         try (PreparedStatement cs = conexion.getConexion().prepareStatement(sql)) {
             cs.setInt(1, cliente.getIdCliente());
             cs.execute();
             return true;
         } catch (SQLException ex) {
-            System.out.print(ex.getMessage());            
+            System.out.print(ex.getMessage());
         }
         return false;
     }
@@ -182,22 +210,31 @@ public class ClienteManager {
      * @return Una lista de matrices de cadenas que representan a los clientes
      * encontrados, o una lista vacía si no se encontró ningún cliente.
      */
-    public ArrayList<String[]> buscarClienteNombreEx(String texto) {
+    public ArrayList<Cliente> buscarClienteNombreEx(String texto) {
         String filtro = texto + "%";
-        String SQL = "SELECT idCliente, nombre, apellidoPaterno, apellidoMaterno, calle, colonia FROM cliente WHERE nombre like" + '"' + filtro + '"';
-        ArrayList<String[]> resultado = new ArrayList<>();
+        String SQL = "SELECT idCliente, nombre, apellidoPaterno, apellidoMaterno, calle, colonia, estadoCliente FROM cliente WHERE nombre like" + '"' + filtro + '"';
+        ArrayList<Cliente> resultado = new ArrayList<>();
 
         try {
             ResultSet rs = conexion.getConexion().prepareStatement(SQL).executeQuery();
 
             while (rs.next()) {
-                String[] renglon = {rs.getString(1), rs.getString(2), rs.getString(3), rs.getString(4), rs.getString(5), rs.getString(6)};
-                resultado.add(renglon);
+                Cliente cliente = new Cliente();
+
+                cliente.setIdCliente(rs.getInt(1));
+                cliente.setNombre(rs.getString(2));
+                cliente.setaPaterno(rs.getString(3));
+                cliente.setaMaterno(rs.getString(4));
+                cliente.setCalle(rs.getString(5));
+                cliente.setColonia(rs.getString(6));
+                cliente.setEstadoCliente(rs.getString(7));
+
+                resultado.add(cliente);
             }
 
             return resultado;
 
-        } catch (Exception e) {
+        } catch (SQLException e) {
             System.err.println("" + e.getMessage());
         }
         return resultado;
@@ -242,22 +279,31 @@ public class ClienteManager {
      * @return Una lista de matrices de cadenas que representan a los clientes
      * encontrados, o una lista vacía si no se encontró ningún cliente.
      */
-    public ArrayList<String[]> buscarClientePaternoEx(String texto) {
+    public ArrayList<Cliente> buscarClientePaternoEx(String texto) {
         String filtro = texto + "%";
-        String SQL = "SELECT idCliente, nombre, apellidoPaterno, apellidoMaterno, calle, colonia FROM cliente WHERE apellidoPaterno like" + '"' + filtro + '"';
-        ArrayList<String[]> resultado = new ArrayList<>();
+        String SQL = "SELECT idCliente, nombre, apellidoPaterno, apellidoMaterno, calle, colonia, estadoCliente FROM cliente WHERE apellidoPaterno like" + '"' + filtro + '"';
+        ArrayList<Cliente> resultado = new ArrayList<>();
 
         try {
             ResultSet rs = conexion.getConexion().prepareStatement(SQL).executeQuery();
 
             while (rs.next()) {
-                String[] renglon = {rs.getString(1), rs.getString(2), rs.getString(3), rs.getString(4), rs.getString(5), rs.getString(6)};
-                resultado.add(renglon);
+                Cliente cliente = new Cliente();
+
+                cliente.setIdCliente(rs.getInt(1));
+                cliente.setNombre(rs.getString(2));
+                cliente.setaPaterno(rs.getString(3));
+                cliente.setaMaterno(rs.getString(4));
+                cliente.setCalle(rs.getString(5));
+                cliente.setColonia(rs.getString(6));
+                cliente.setEstadoCliente(rs.getString(7));
+
+                resultado.add(cliente);
             }
 
             return resultado;
 
-        } catch (Exception e) {
+        } catch (SQLException e) {
             System.err.println("" + e.getMessage());
         }
         return resultado;
@@ -302,22 +348,31 @@ public class ClienteManager {
      * @return Una lista de matrices de cadenas que representan a los clientes
      * encontrados, o una lista vacía si no se encontró ningún cliente.
      */
-    public ArrayList<String[]> buscarClienteMaternoEx(String texto) {
+    public ArrayList<Cliente> buscarClienteMaternoEx(String texto) {
         String filtro = texto + "%";
-        String SQL = "SELECT idCliente, nombre, apellidoPaterno, apellidoMaterno, calle, colonia FROM cliente WHERE apellidoMaterno like" + '"' + filtro + '"';
-        ArrayList<String[]> resultado = new ArrayList<>();
+        String SQL = "SELECT idCliente, nombre, apellidoPaterno, apellidoMaterno, calle, colonia, estadoCliente FROM cliente WHERE apellidoMaterno like" + '"' + filtro + '"';
+        ArrayList<Cliente> resultado = new ArrayList<>();
 
         try {
             ResultSet rs = conexion.getConexion().prepareStatement(SQL).executeQuery();
 
             while (rs.next()) {
-                String[] renglon = {rs.getString(1), rs.getString(2), rs.getString(3), rs.getString(4), rs.getString(5), rs.getString(6)};
-                resultado.add(renglon);
+                Cliente cliente = new Cliente();
+
+                cliente.setIdCliente(rs.getInt(1));
+                cliente.setNombre(rs.getString(2));
+                cliente.setaPaterno(rs.getString(3));
+                cliente.setaMaterno(rs.getString(4));
+                cliente.setCalle(rs.getString(5));
+                cliente.setColonia(rs.getString(6));
+                cliente.setEstadoCliente(rs.getString(7));
+
+                resultado.add(cliente);
             }
 
             return resultado;
 
-        } catch (Exception e) {
+        } catch (SQLException e) {
             System.err.println("" + e.getMessage());
         }
         return resultado;

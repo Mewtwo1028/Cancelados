@@ -169,18 +169,18 @@ CONSTRAINT pk_notificacion PRIMARY KEY (idNotificacion),
 CONSTRAINT fk_notificacion_empleado FOREIGN KEY (idEmpleado) REFERENCES empleado(idEmpleado)
 );
 
-CREATE VIEW vista_not_emp AS (
-SELECT n.idNotificacion, e.idEmpleado AS idEmpleado, e.Nombre, e.ApellidoPaterno, e.ApellidoMaterno, r.Nombre AS Rol, n.fecha FROM notificacion n
-INNER JOIN empleado e ON (n.idEmpleado = e.idEmpleado)
-INNER JOIN roles r ON (e.Roles_idRoles = r.idRoles)
-);
-
 -- ****************************************************
 
 -- ********************* 06/05/23 *********************
 ALTER TABLE notificacion ADD COLUMN fecha DATETIME;
 ALTER TABLE notificacion MODIFY COLUMN fecha TIMESTAMP DEFAULT CURRENT_TIMESTAMP;
 ALTER TABLE empleado ADD COLUMN restContra BOOLEAN;
+
+CREATE VIEW vista_not_emp AS (
+SELECT n.idNotificacion, e.idEmpleado AS idEmpleado, e.Nombre, e.ApellidoPaterno, e.ApellidoMaterno, r.Nombre AS Rol, n.fecha FROM notificacion n
+INNER JOIN empleado e ON (n.idEmpleado = e.idEmpleado)
+INNER JOIN roles r ON (e.Roles_idRoles = r.idRoles)
+);
 
 -- ****************************************************
 
@@ -233,18 +233,19 @@ ALTER TABLE detalleventa ADD COLUMN tipoVenta char;
 
 
 
-UPDATE `cancelados`.`cliente` SET `Nombre` = 'Público', `ApellidoPaterno` = 'En', `ApellidoMaterno` = 'General', `Calle` = 'Desconocido', `Colonia` = 'Desconocido', `CP` = '63000' WHERE (`idCliente` = '1');
+UPDATE `cancelados`.`cliente` SET `Nombre` = 'Público', `ApellidoPaterno` = 'En', `ApellidoMaterno` = 'General', `Calle` = 'Desconocido', `Colonia` = 'Desconocido', `CP` = '63000' WHERE (`idCliente` = '2');
 
 
 CREATE VIEW vistaVentaEnvios AS(
 SELECT total,fecha,tipoVenta from venta
 );
 
-SELECT total,fecha,tipoVenta from venta;
+
+-- SELECT total,fecha,tipoVenta from venta;
 -- Consultas de prueba para reporte de venta
-SELECT * FROM venta WHERE venta.fecha like '%2023-05-03%';
-SELECT SUM(total) from venta where fecha like '%2023-05-03%';
-SELECT * FROM envios WHERE envios.fecha like '%2023-05-03%';
+-- SELECT * FROM venta WHERE venta.fecha like '%2023-05-03%';
+-- SELECT SUM(total) from venta where fecha like '%2023-05-03%';
+-- SELECT * FROM envios WHERE envios.fecha like '%2023-05-03%';
 
 
 -- *******************15/15/2023*******************
@@ -265,3 +266,16 @@ CREATE TABLE Caja (
     horaFin datetime,
     PRIMARY KEY (idApertura)
 );
+
+
+-- ******************* 21/05/2023 *******************
+
+
+-- modificar la tabla de cliente para agregar una nueva columna llamada "estadoCliente", cuando un actor quiera eliminar un cliente,
+-- que el estado cambie de "abierto" a "eliminado"
+-- en el programa de java crear un if en jframe de registra venta, para que filtre los clientes por los "abierto" solamente.
+
+ALTER TABLE cliente ADD COLUMN estadoCliente VARCHAR(15);
+UPDATE cliente SET estadoCliente = "ABIERTO" WhERE idCliente >= 1;
+
+-- **************************************************
