@@ -640,10 +640,32 @@ public class AdministrarCliente extends javax.swing.JFrame {
 
     private void llenarTabla() {
         modelo.setRowCount(0); //Limpiamos la tabla
-        ArrayList<String[]> lista = new ClienteManager().consultarTodos();
-        for (int i = 0; i < lista.size(); i++) {
-            modelo.addRow(lista.get(i));
+        ArrayList<Cliente> clientes = new ClienteManager().consultarTodosEx();
+        for (Cliente cliente : clientes) {
+
+            if (cliente.getEstadoCliente().equals("ABIERTO")) {
+                modelo.addRow(llenarModelo(cliente));
+            }
+
         }
+    }
+
+    private String[] llenarModelo(Cliente cliente) {
+
+        String idCliente = String.valueOf(cliente.getIdCliente());
+        String nombre = cliente.getNombre();
+        String aPaterno = cliente.getaPaterno();
+        String aMaterno = cliente.getaMaterno();
+        String calle = cliente.getCalle();
+        String colonia = cliente.getColonia();
+        String ciudad = cliente.getCiudad();
+        String estado = cliente.getEstado();
+        String cp = cliente.getCp();
+        String estadoCliente = cliente.getEstadoCliente();
+
+        String[] datosCliente = {idCliente, nombre, aPaterno, aMaterno, calle, colonia, ciudad, estado, cp, estadoCliente};
+
+        return datosCliente;
     }
 
     private boolean validarFormulario() {

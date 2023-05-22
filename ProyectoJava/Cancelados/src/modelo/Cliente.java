@@ -11,6 +11,7 @@ public class Cliente {
     private String ciudad;
     private String estado;
     private String cp;
+    private String estadoCliente;
 
     public Cliente() {
 
@@ -113,6 +114,14 @@ public class Cliente {
 
     public void setCp(String cp) {
         this.cp = cp;
+    }
+
+    public String getEstadoCliente() {
+        return estadoCliente;
+    }
+
+    public void setEstadoCliente(String estadoCliente) {
+        this.estadoCliente = estadoCliente;
     }
 
 }
