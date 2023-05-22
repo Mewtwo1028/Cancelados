@@ -279,3 +279,45 @@ ALTER TABLE cliente ADD COLUMN estadoCliente VARCHAR(15);
 UPDATE cliente SET estadoCliente = "ABIERTO" WhERE idCliente >= 1;
 
 -- **************************************************
+
+
+-- ******************* 22/05/2023 *******************
+DROP TABLE categoria;
+
+CREATE TABLE categoria(
+	idCategoria INT NOT NULL AUTO_INCREMENT,
+    nombre VARCHAR(50),
+    PRIMARY KEY (idCategoria)
+);
+
+INSERT INTO categoria (nombre) VALUES
+("Pulseras"),
+("Collares"),
+("Cruces"),
+("Decenario"),
+("Frascos"),
+("Imagen bulto"),
+("Medallas"),
+("Rosarios"),
+("Cirios");
+
+ALTER TABLE producto DROP COLUMN categoria;
+ALTER TABLE producto ADD COLUMN categoria INT;
+
+ALTER TABLE producto ADD CONSTRAINT fk_categoria_producto FOREIGN KEY (categoria) REFERENCES categoria(idCategoria);
+
+INSERT INTO producto (idProducto, Nombre, Descripcion, PrecioUnitario, Stock, autor, categoria) VALUES (null, 'Biblia Sagrada', 'Biblia Sagrada versión Reina-Valera', 25.99, 100, 'Anónimo', 1);
+INSERT INTO producto (idProducto, Nombre, Descripcion, PrecioUnitario, Stock, autor, categoria) VALUES (null, 'Crucifijo de plata', 'Crucifijo de plata con detalle en oro', 35.99, 25, 'Anónimo', 2);
+INSERT INTO producto (idProducto, Nombre, Descripcion, PrecioUnitario, Stock, autor, categoria) VALUES (null, 'Imagen de la Virgen', 'Imagen de la Virgen María de porcelana', 45.99, 15, 'Anónimo', 3);
+
+
+CREATE VIEW vista_productos AS(
+	SELECT p.idProducto, p.nombre, p.descripcion, p.precioUnitario, p.stock, p.autor, c.nombre AS categoria FROM producto p
+    INNER JOIN categoria c ON (c.idCategoria = p.categoria)
+    ORDER BY idProducto ASC
+);
+
+select * from producto;
+update producto set categoria = 1 where idProducto = 14;
+
+-- **************************************************

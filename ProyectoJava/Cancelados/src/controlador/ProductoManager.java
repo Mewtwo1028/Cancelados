@@ -30,7 +30,7 @@ public class ProductoManager {
      * productos
      */
     public ArrayList<Producto> consultarProductos() {
-        String consulta = "SELECT idProducto, nombre, descripcion, precioUnitario, stock, autor, categoria  FROM producto;";
+        String consulta = "SELECT idProducto, nombre, descripcion, precioUnitario, stock, autor, categoria  FROM vista_productos;";
         ArrayList<Producto> resultado = new ArrayList<>();
 
         try (ResultSet cursor = conexion.getConexion().prepareStatement(consulta).executeQuery()) {
@@ -101,14 +101,15 @@ public class ProductoManager {
             ps.setString(2, producto.getDescripcion());
             ps.setFloat(3, producto.getPrecioUnitario());
             ps.setString(4, producto.getAutor());
-            ps.setString(5, producto.getCategoria());
+            ps.setInt(5, Integer.parseInt(producto.getCategoria()));
             ps.setInt(6, producto.getIdProducto());
 
             return ps.executeUpdate() == 1;
 
         } catch (SQLException ex) {
-            throw new RuntimeException("Error al modificar el producto", ex);
+            System.out.println("Error al modificar el producto" + ex.getMessage());
         }
+        return false;
     }
 
     public boolean incrementarStock(Producto producto) {
@@ -227,12 +228,12 @@ public class ProductoManager {
                 return true;
             }
 
-        } catch (SQLException ex) {
-            throw new RuntimeException("Error al obtener la imagen del producto", ex);
+        } catch (Exception ex) {
+            System.out.println("Error al obtener la imagen del producto" + ex.getMessage());
         }
         return false;
     }
-    
+
     public Image obtenerImagen(Producto producto) {
         String consulta = "SELECT Imagen FROM producto WHERE idProducto=?;";
 
@@ -273,13 +274,15 @@ public class ProductoManager {
             ps.setBlob(4, new FileInputStream(new File(producto.getImagen())));
             ps.setString(5, String.valueOf(producto.getStock()));
             ps.setString(6, producto.getAutor());
-            ps.setString(7, producto.getCategoria());
+            ps.setInt(7, Integer.parseInt(producto.getCategoria()));
 
             return ps.executeUpdate() == 1;
 
         } catch (SQLException | FileNotFoundException ex) {
-            throw new RuntimeException("Error al insertar el producto", ex);
+            System.out.println("Error al insertar el producto" + ex.getMessage());
         }
+
+        return false;
     }
 
     /**
@@ -318,7 +321,7 @@ public class ProductoManager {
      */
     public ArrayList<String[]> buscarProductoNombre(String texto) {
         String filtro = texto + "%";
-        String SQL = "SELECT idProducto, nombre, descripcion, precioUnitario, stock, Autor, Categoria FROM producto WHERE nombre like" + '"' + filtro + '"';
+        String SQL = "SELECT idProducto, nombre, descripcion, precioUnitario, stock, Autor, Categoria FROM vista_productos WHERE nombre like" + '"' + filtro + '"';
         ArrayList<String[]> resultado = new ArrayList<>();
 
         try {
@@ -347,7 +350,7 @@ public class ProductoManager {
      */
     public ArrayList<Producto> buscarProductoNombreEx(String texto) {
         String filtro = texto + "%";
-        String SQL = "SELECT idProducto, nombre, precioUnitario, Categoria FROM producto WHERE nombre like" + '"' + filtro + '"';
+        String SQL = "SELECT idProducto, nombre, precioUnitario, Categoria FROM vista_productos WHERE nombre like" + '"' + filtro + '"';
         ArrayList<Producto> resultado = new ArrayList<>();
 
         try {
@@ -383,7 +386,7 @@ public class ProductoManager {
      */
     public ArrayList<String[]> buscarProductoAutor(String texto) {
         String filtro = texto + "%";
-        String SQL = "SELECT idProducto, nombre, descripcion, precioUnitario, stock, Autor, Categoria FROM producto WHERE autor like" + '"' + filtro + '"';
+        String SQL = "SELECT idProducto, nombre, descripcion, precioUnitario, stock, Autor, Categoria FROM vista_productos WHERE autor like" + '"' + filtro + '"';
         ArrayList<String[]> resultado = new ArrayList<>();
 
         try {
@@ -412,7 +415,7 @@ public class ProductoManager {
      */
     public ArrayList<String[]> buscarProductoCategoria(String texto) {
         String filtro = texto + "%";
-        String SQL = "SELECT idProducto, nombre, descripcion, precioUnitario, stock, Autor, Categoria FROM producto WHERE categoria like" + '"' + filtro + '"';
+        String SQL = "SELECT idProducto, nombre, descripcion, precioUnitario, stock, Autor, Categoria FROM vista_productos WHERE categoria like" + '"' + filtro + '"';
         ArrayList<String[]> resultado = new ArrayList<>();
 
         try {
@@ -441,14 +444,14 @@ public class ProductoManager {
      */
     public ArrayList<Producto> buscarProductoCategoriaEx(String texto) {
         String filtro = texto + "%";
-        String SQL = "SELECT idProducto, nombre, precioUnitario, Categoria FROM producto WHERE categoria like" + '"' + filtro + '"';
+        String SQL = "SELECT idProducto, nombre, precioUnitario, Categoria FROM vista_productos WHERE categoria like" + '"' + filtro + '"';
         ArrayList<Producto> resultado = new ArrayList<>();
 
         try {
             ResultSet rs = conexion.getConexion().prepareStatement(SQL).executeQuery();
-            
+
             Producto producto;
-            
+
             while (rs.next()) {
                 producto = new Producto();
 
