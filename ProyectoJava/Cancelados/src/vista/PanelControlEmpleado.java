@@ -3,41 +3,43 @@ package vista;
 import controlador.CajaManager;
 import modelo.FuncionesUtiles;
 import java.awt.Color;
+import javax.swing.JButton;
 import javax.swing.JFrame;
 
 public class PanelControlEmpleado extends javax.swing.JFrame {
-    private String nombre="";
+
+    private String nombre = "";
     private int idEmpleado;
 
     public PanelControlEmpleado() {
         initComponents();
         inicializar();
     }
-    
-    public void setIdAdmon(int idEmpleado){
+
+    public void setIdAdmon(int idEmpleado) {
         this.idEmpleado = idEmpleado;
     }
-    
-    private void inicializar(){
+
+    private void inicializar() {
         FuncionesUtiles tools = new FuncionesUtiles();
         //Configuracion ventana
         this.setLocationRelativeTo(null);
         this.getContentPane().setBackground(Color.WHITE);
         this.setExtendedState(JFrame.MAXIMIZED_BOTH);
         this.setTitle("Panel de control");
-        
+
         //Configurar panel principal
         jPanelPrincipal.setBackground(Color.WHITE);
-        
+
         //Colocar panel de la izquierda
         AccionesRapidasEmpleado panelBotones = new AccionesRapidasEmpleado(this);
-        panelBotones.setBounds(0, 0, 266, (int) this.getBounds().getHeight()-50);
+        panelBotones.setBounds(0, 0, 266, (int) this.getBounds().getHeight() - 50);
         jPanelIzquierda.removeAll();
         jPanelIzquierda.setMinimumSize(panelBotones.getPreferredSize());
         jPanelIzquierda.add(panelBotones);
         panelBotones.revalidate();
         panelBotones.repaint();
-        
+
         //Configurar panel de arriba
         jPanelInformacion.setBackground(Color.WHITE);
         jPanelInformacion.setBounds(278, 6, (int) java.awt.Toolkit.getDefaultToolkit().getScreenSize().getWidth() - (int) jPanelIzquierda.getBounds().getWidth() - (int) jPanelLinea.getBounds().getWidth(), 110);
@@ -48,18 +50,30 @@ public class PanelControlEmpleado extends javax.swing.JFrame {
         jPanelInformacion.add(panelInformacion);
         panelInformacion.revalidate();
         panelInformacion.repaint();
-        
+
         //Panel de las operaciones / botones de acciones
         jPanelOperaciones.setBackground(Color.WHITE);
-        
+
         //Linea
         jPanelLinea.setBackground(tools.getColorCancelados());
-        
+
         //botones
         tools.confBtnColor(btnAbrirCaja);
         tools.confBtnColor(btnRegistrarCliente);
         tools.confBtnColor(btnConsultarInventario);
         tools.confBtnColor(btnAbrirCaja);
+        tools.confBtnColor(btnCerrarCaja);
+        tools.confBtnColor(btnVender2);
+        CajaManager cm = new CajaManager();
+        /*if (cm.consultaEstadoCaja(idEmpleado)) {
+            btnAbrirCaja.setEnabled(false);
+            btnCerrarCaja.setEnabled(true);
+            abreBotones(true);
+        } else {
+            btnCerrarCaja.setEnabled(false);
+            btnAbrirCaja.setEnabled(true);
+            abreBotones(false);
+        }*/
     }
 
     /**
@@ -230,7 +244,13 @@ public class PanelControlEmpleado extends javax.swing.JFrame {
 
         pack();
     }// </editor-fold>//GEN-END:initComponents
+public void abreBotones(boolean estado) {
+        JButton[] botones = {btnVender2, btnRegistrarCliente, btnConsultarInventario, btnAbrirCaja, btnCerrarCaja};
 
+        for (JButton boton : botones) {
+            boton.setEnabled(estado);
+        }
+    }
     private void btnRegistrarClienteActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnRegistrarClienteActionPerformed
         AdministrarCliente win = new AdministrarCliente();
         win.setNombre(nombre);
@@ -241,25 +261,25 @@ public class PanelControlEmpleado extends javax.swing.JFrame {
     FuncionesUtiles fu = new FuncionesUtiles();
     private void btnAbrirCajaActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnAbrirCajaActionPerformed
         // TODO add your handling code here:
-       AbrirCaja ac = new AbrirCaja(this,true);
-       CajaManager cm = new CajaManager();
-      
-        if(!cm.consultaEstadoCaja(idEmpleado)){
+        AbrirCaja ac = new AbrirCaja(this, true);
+        CajaManager cm = new CajaManager();
+
+        if (!cm.consultaEstadoCaja(idEmpleado)) {
             ac.setVisible(true);
             btnCerrarCaja.setEnabled(false);
-        }else{
+        } else {
             btnCerrarCaja.setEnabled(true);
             btnAbrirCaja.setEnabled(false);
         }
-        String hora = fu.formatoFecha()+" "+fu.getHora();
-        if(!ac.verifica()){
-           javax.swing.JOptionPane.showMessageDialog(this, "Error", "Error", 1); 
-        }else{
+        String hora = fu.formatoFecha() + " " + fu.getHora();
+        if (!ac.verifica()) {
+            javax.swing.JOptionPane.showMessageDialog(this, "Error", "Error", 1);
+        } else {
             cm.insertarCaja(hora, idEmpleado, ac.monto, "Abierta");
             btnAbrirCaja.setEnabled(false);
             btnCerrarCaja.setEnabled(true);
         }
-       
+
     }//GEN-LAST:event_btnAbrirCajaActionPerformed
 
     private void btnConsultarInventarioActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnConsultarInventarioActionPerformed
@@ -272,27 +292,27 @@ public class PanelControlEmpleado extends javax.swing.JFrame {
     }//GEN-LAST:event_btnConsultarInventarioActionPerformed
 
     private void btnCerrarCajaActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnCerrarCajaActionPerformed
-       CerrarCaja cc = new CerrarCaja(this,true);
-       CajaManager cm = new CajaManager();
-       if(cm.consultaEstadoCaja(idEmpleado)){
+        CerrarCaja cc = new CerrarCaja(this, true);
+        CajaManager cm = new CajaManager();
+        if (cm.consultaEstadoCaja(idEmpleado)) {
             cc.setVisible(true);
             btnCerrarCaja.setEnabled(false);
-        }else{
+        } else {
             btnCerrarCaja.setEnabled(true);
             btnAbrirCaja.setEnabled(false);
         }
-        String hora = fu.formatoFecha()+" "+fu.getHora();
-        if(!cc.verifica()){
-           javax.swing.JOptionPane.showMessageDialog(this, "Error", "Error", 1); 
-        }else{
-            cm.cierraCaja("Cerrada", cc.monto, hora,idEmpleado);
+        String hora = fu.formatoFecha() + " " + fu.getHora();
+        if (!cc.verifica()) {
+            javax.swing.JOptionPane.showMessageDialog(this, "Error", "Error", 1);
+        } else {
+            cm.cierraCaja("Cerrada", cc.monto, hora, idEmpleado);
             btnCerrarCaja.setEnabled(false);
             btnAbrirCaja.setEnabled(true);
         }
     }//GEN-LAST:event_btnCerrarCajaActionPerformed
 
     private void btnVender2ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnVender2ActionPerformed
-       RegistrarVenta win = new RegistrarVenta();
+        RegistrarVenta win = new RegistrarVenta();
         win.setNombre(nombre);
         win.setExtendedState(JFrame.MAXIMIZED_BOTH);
         win.setEmpleado(nombre, idEmpleado);
@@ -300,9 +320,9 @@ public class PanelControlEmpleado extends javax.swing.JFrame {
         win.setVisible(true);
     }//GEN-LAST:event_btnVender2ActionPerformed
 
-    public void setNombre(String nombre){
+    public void setNombre(String nombre) {
         this.nombre = nombre;
-        
+
         PanelInformacionArriba panelInformacion = new PanelInformacionArriba();
         panelInformacion.setNombre(nombre);
         panelInformacion.setBounds(0, 0, (int) jPanelInformacion.getBounds().getWidth(), 110);
@@ -312,7 +332,7 @@ public class PanelControlEmpleado extends javax.swing.JFrame {
         panelInformacion.revalidate();
         panelInformacion.repaint();
     }
-    
+
     /**
      * @param args the command line arguments
      */

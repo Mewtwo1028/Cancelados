@@ -67,20 +67,20 @@ public class PanelControlAdministrador extends javax.swing.JFrame {
         tools.confBtnColor(btnAdministrarClientes);
         tools.confBtnColor(btnAdmEmpleados);
         tools.confBtnColor(btnCerrarCaja);
-        //tools.confBtnColor(btnVender1);
-       // tools.confBtn(btnAbrirCaja);
-        
+        tools.confBtnColor(btnVender1);
+        tools.confBtnColor(btnAbrirCaja);
+
         CajaManager cm = new CajaManager();
-        if(cm.consultaEstadoCaja(idAdmon)){
+        if (cm.consultaEstadoCaja(idAdmon)) {
             btnAbrirCaja.setEnabled(false);
             btnCerrarCaja.setEnabled(true);
             abreBotones(true);
-        }else{
+        } else {
             btnCerrarCaja.setEnabled(false);
             btnAbrirCaja.setEnabled(true);
             abreBotones(false);
         }
-  
+
     }
 
     /**
@@ -313,39 +313,39 @@ public class PanelControlAdministrador extends javax.swing.JFrame {
     }//GEN-LAST:event_btnAdministrarProductosActionPerformed
 
     private void btnCerrarCajaActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnCerrarCajaActionPerformed
-       CerrarCaja cc = new CerrarCaja(this,true);
-  
-       CajaManager cm = new CajaManager();
-       if(cm.consultaEstadoCaja(idAdmon)){
+        CerrarCaja cc = new CerrarCaja(this, true);
+
+        CajaManager cm = new CajaManager();
+        if (cm.consultaEstadoCaja(idAdmon)) {
             cc.setVisible(true);
             btnCerrarCaja.setEnabled(true);
             btnAbrirCaja.setEnabled(false);
             abreBotones(true);
-        }else{
+        } else {
             btnCerrarCaja.setEnabled(false);
             btnAbrirCaja.setEnabled(true);
             abreBotones(false);
         }
-        
-        String hora = fu.formatoFecha()+" "+fu.getHora();
-        if(!cc.verifica()){
-           javax.swing.JOptionPane.showMessageDialog(this, "Error", "Error", 1); 
-        }else{
-            cm.cierraCaja("Cerrada", cc.monto, hora,idAdmon);
+
+        String hora = fu.formatoFecha() + " " + fu.getHora();
+        if (!cc.verifica()) {
+            javax.swing.JOptionPane.showMessageDialog(this, "Error", "Error", 1);
+        } else {
+            cm.cierraCaja("Cerrada", cc.monto, hora, idAdmon);
             btnCerrarCaja.setEnabled(false);
             btnAbrirCaja.setEnabled(true);
         }
-       
+
     }//GEN-LAST:event_btnCerrarCajaActionPerformed
 
-        public void abreBotones(boolean estado) {
-    JButton[] botones = {btnVender1, btnAdmEmpleados, btnAdministrarClientes, btnAdministrarVentas, btnAdministrarProductos};
+    public void abreBotones(boolean estado) {
+        JButton[] botones = {btnVender1, btnAdmEmpleados, btnAdministrarClientes, btnAdministrarVentas, btnAdministrarProductos};
 
-    for (JButton boton : botones) {
-        boton.setEnabled(estado);
+        for (JButton boton : botones) {
+            boton.setEnabled(estado);
+        }
     }
-}
-    
+
     private void btnVender1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnVender1ActionPerformed
         RegistrarVenta v = new RegistrarVenta();
         v.setNombre(nombre);
@@ -354,26 +354,25 @@ public class PanelControlAdministrador extends javax.swing.JFrame {
         v.setVisible(true);
     }//GEN-LAST:event_btnVender1ActionPerformed
 
-        FuncionesUtiles fu = new FuncionesUtiles();
+    FuncionesUtiles fu = new FuncionesUtiles();
     private void btnAbrirCajaActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnAbrirCajaActionPerformed
-       CajaManager cm = new CajaManager();
-        AbrirCaja ac = new AbrirCaja(this,true);
-        if(!cm.consultaEstadoCaja(idAdmon)){
+        CajaManager cm = new CajaManager();
+        AbrirCaja ac = new AbrirCaja(this, true);
+        if (!cm.consultaEstadoCaja(idAdmon)) {
             ac.setVisible(true);
             btnAbrirCaja.setEnabled(true);
             btnCerrarCaja.setEnabled(false);
             abreBotones(false);
-        }else{
+        } else {
             btnCerrarCaja.setEnabled(true);
             btnAbrirCaja.setEnabled(false);
             abreBotones(true);
         }
-        
 
-        String hora = fu.formatoFecha()+" "+fu.getHora();
-        if(!ac.verifica()){
-           javax.swing.JOptionPane.showMessageDialog(this, "Error", "Error", 1); 
-        }else{
+        String hora = fu.formatoFecha() + " " + fu.getHora();
+        if (!ac.verifica()) {
+            javax.swing.JOptionPane.showMessageDialog(this, "Error", "Error", 1);
+        } else {
             cm.insertarCaja(hora, idAdmon, ac.monto, "Abierta");
             btnAbrirCaja.setEnabled(false);
             btnCerrarCaja.setEnabled(true);
