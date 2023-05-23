@@ -1,6 +1,28 @@
 <?xml version="1.0" encoding="UTF-8" ?>
 
 <Form version="1.5" maxVersion="1.9" type="org.netbeans.modules.form.forminfo.JFrameFormInfo">
+  <NonVisualComponents>
+    <Container class="javax.swing.JPopupMenu" name="jPopupMenu1">
+      <Events>
+        <EventHandler event="popupMenuWillBecomeVisible" listener="javax.swing.event.PopupMenuListener" parameters="javax.swing.event.PopupMenuEvent" handler="jPopupMenu1PopupMenuWillBecomeVisible"/>
+      </Events>
+
+      <Layout class="org.netbeans.modules.form.compat2.layouts.DesignAbsoluteLayout">
+        <Property name="useNullLayout" type="boolean" value="true"/>
+      </Layout>
+      <SubComponents>
+        <MenuItem class="javax.swing.JMenuItem" name="jMenuItem1">
+          <Properties>
+            <Property name="text" type="java.lang.String" value="jMenuItem1"/>
+          </Properties>
+          <Events>
+            <EventHandler event="mouseClicked" listener="java.awt.event.MouseListener" parameters="java.awt.event.MouseEvent" handler="jMenuItem1MouseClicked"/>
+            <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="jMenuItem1ActionPerformed"/>
+          </Events>
+        </MenuItem>
+      </SubComponents>
+    </Container>
+  </NonVisualComponents>
   <Properties>
     <Property name="defaultCloseOperation" type="int" value="3"/>
     <Property name="minimumSize" type="java.awt.Dimension" editor="org.netbeans.beaninfo.editors.DimensionEditor">
@@ -196,22 +218,28 @@
                           <EmptySpace max="-2" attributes="0"/>
                           <Group type="103" groupAlignment="0" attributes="0">
                               <Group type="102" attributes="0">
-                                  <Group type="103" groupAlignment="1" max="-2" attributes="0">
-                                      <Component id="labelStock" max="32767" attributes="0"/>
-                                      <Component id="labelImagen" max="32767" attributes="0"/>
-                                      <Component id="labelDescripcion" alignment="1" max="32767" attributes="0"/>
-                                      <Component id="labelNombre" alignment="1" max="32767" attributes="0"/>
-                                      <Component id="labelPrecioUnitario" alignment="1" max="32767" attributes="0"/>
-                                  </Group>
-                                  <EmptySpace max="-2" attributes="0"/>
                                   <Group type="103" groupAlignment="0" max="-2" attributes="0">
-                                      <Component id="txtNombre" alignment="0" pref="130" max="32767" attributes="0"/>
-                                      <Component id="txtPrecioUnitario" alignment="0" pref="65" max="32767" attributes="0"/>
-                                      <Component id="txtDescripcion" pref="65" max="32767" attributes="0"/>
-                                      <Component id="btnImagen" pref="130" max="32767" attributes="0"/>
-                                      <Component id="txtStock" pref="65" max="32767" attributes="0"/>
+                                      <Group type="102" attributes="0">
+                                          <Group type="103" groupAlignment="1" max="-2" attributes="0">
+                                              <Component id="labelImagen" max="32767" attributes="0"/>
+                                              <Component id="labelDescripcion" alignment="1" max="32767" attributes="0"/>
+                                              <Component id="labelNombre" alignment="1" max="32767" attributes="0"/>
+                                              <Component id="labelPrecioUnitario" alignment="1" max="32767" attributes="0"/>
+                                          </Group>
+                                          <EmptySpace max="-2" attributes="0"/>
+                                          <Group type="103" groupAlignment="0" max="-2" attributes="0">
+                                              <Component id="txtNombre" alignment="0" pref="130" max="32767" attributes="0"/>
+                                              <Component id="txtPrecioUnitario" alignment="0" pref="65" max="32767" attributes="0"/>
+                                              <Component id="txtDescripcion" pref="65" max="32767" attributes="0"/>
+                                              <Component id="btnImagen" pref="130" max="32767" attributes="0"/>
+                                          </Group>
+                                          <EmptySpace type="separate" max="-2" attributes="0"/>
+                                      </Group>
+                                      <Group type="102" attributes="0">
+                                          <Component id="labelStock" max="32767" attributes="0"/>
+                                          <EmptySpace min="-2" pref="132" max="-2" attributes="0"/>
+                                      </Group>
                                   </Group>
-                                  <EmptySpace type="separate" max="-2" attributes="0"/>
                                   <Group type="103" groupAlignment="0" attributes="0">
                                       <Group type="102" alignment="0" attributes="0">
                                           <Group type="103" groupAlignment="1" max="-2" attributes="0">
@@ -297,11 +325,10 @@
                                   </Group>
                                   <Group type="103" groupAlignment="3" attributes="0">
                                       <Component id="labelStock" alignment="3" min="-2" max="-2" attributes="0"/>
-                                      <Component id="txtStock" alignment="3" min="-2" pref="25" max="-2" attributes="0"/>
                                       <Component id="btnFind" alignment="3" min="-2" max="-2" attributes="0"/>
                                       <Component id="jComboBox2" alignment="3" min="-2" max="-2" attributes="0"/>
                                   </Group>
-                                  <EmptySpace min="-2" pref="5" max="-2" attributes="0"/>
+                                  <EmptySpace min="-2" pref="7" max="-2" attributes="0"/>
                                   <Group type="103" groupAlignment="3" attributes="0">
                                       <Component id="spnStock" alignment="3" min="-2" max="-2" attributes="0"/>
                                       <Component id="btnStock" alignment="3" min="-2" max="-2" attributes="0"/>
@@ -435,13 +462,6 @@
                     <EventHandler event="mouseEntered" listener="java.awt.event.MouseListener" parameters="java.awt.event.MouseEvent" handler="spnStockMouseEntered"/>
                   </Events>
                 </Component>
-                <Component class="javax.swing.JTextField" name="txtStock">
-                  <Properties>
-                    <Property name="minimumSize" type="java.awt.Dimension" editor="org.netbeans.beaninfo.editors.DimensionEditor">
-                      <Dimension value="[64, 25]"/>
-                    </Property>
-                  </Properties>
-                </Component>
                 <Component class="javax.swing.JButton" name="btnStock">
                   <Properties>
                     <Property name="text" type="java.lang.String" value="Agregar"/>
@@ -469,6 +489,9 @@
                         <StringItem index="7" value="Rosarios"/>
                         <StringItem index="8" value="Cirios"/>
                       </StringArray>
+                    </Property>
+                    <Property name="componentPopupMenu" type="javax.swing.JPopupMenu" editor="org.netbeans.modules.form.ComponentChooserEditor">
+                      <ComponentRef name="jPopupMenu1"/>
                     </Property>
                     <Property name="minimumSize" type="java.awt.Dimension" editor="org.netbeans.beaninfo.editors.DimensionEditor">
                       <Dimension value="[160, 25]"/>
