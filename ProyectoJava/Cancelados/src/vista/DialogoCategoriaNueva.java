@@ -37,8 +37,7 @@ public class DialogoCategoriaNueva extends javax.swing.JDialog {
     }
 
     private boolean registrarCategoria(String nombreCategoria) {
-        return false;
-        //return new CategoriaManager().registrarCategoria(nombreCategoria);
+        return new CategoriaManager().registrarCategoria(nombreCategoria);
     }
 
     /**
@@ -110,7 +109,11 @@ public class DialogoCategoriaNueva extends javax.swing.JDialog {
         if (registrarCategoria(nuevaCategoria)) {
             JOptionPane.showMessageDialog(this, "Se registro de forma correcta");
             this.dispose();
+            return;
         }
+
+        JOptionPane.showMessageDialog(this, "ERROR AL REGISTRAR LA CATEGORIA");
+
     }//GEN-LAST:event_jButton1MouseClicked
 
     /**

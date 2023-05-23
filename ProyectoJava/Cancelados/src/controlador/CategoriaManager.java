@@ -28,6 +28,21 @@ public class CategoriaManager {
         return resultado.toArray();
 
     }
+    
+    public boolean registrarCategoria(String nombreCategoria){
+        String sql = "INSERT INTO categoria VALUES (null, ?);";
+
+        try (PreparedStatement p = conexion.getConexion().prepareStatement(sql)) {
+
+            p.setString(1, nombreCategoria);
+
+            return p.executeUpdate() == 1;
+
+        } catch (SQLException ex) {
+            System.out.println("Error al consultar a las categorias" + ex.getMessage());
+        }
+        return false;
+    }
 
     public int getIdCategoria(String nombreCategoria) {
         String sql = "SELECT idCategoria FROM categoria WHERE nombre = ?;";
@@ -38,7 +53,9 @@ public class CategoriaManager {
 
             ResultSet c = p.executeQuery();
 
-            return c.getInt(1);
+            if (c.next()) {
+                return c.getInt(1);
+            }
 
         } catch (SQLException ex) {
             System.out.println("Error al consultar a las categorias" + ex.getMessage());

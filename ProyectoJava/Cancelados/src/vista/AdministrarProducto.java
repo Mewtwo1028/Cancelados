@@ -675,6 +675,7 @@ public class AdministrarProducto extends javax.swing.JFrame {
         
         producto = new Producto(Integer.parseInt(txtIDProducto.getText()), txtNombre.getText(), txtDescripcion.getText(), Float.parseFloat(txtPrecioUnitario.getText()), txtAutor.getText(), categoria.trim());
         
+        System.out.println(categoria+"");
         String mensajeDeTexto = "";
 
         // Verifica si la ruta de la imagen está en blanco
