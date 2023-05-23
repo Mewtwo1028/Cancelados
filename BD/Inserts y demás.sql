@@ -316,8 +316,4 @@ CREATE VIEW vista_productos AS(
     INNER JOIN categoria c ON (c.idCategoria = p.categoria)
     ORDER BY idProducto ASC
 );
-
-select * from producto;
-update producto set categoria = 1 where idProducto = 14;
-
 -- **************************************************
