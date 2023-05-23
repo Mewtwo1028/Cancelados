@@ -7,6 +7,7 @@ import java.awt.Toolkit;
 import javax.swing.JFrame;
 import java.awt.Dimension;
 import controlador.Conexion;
+import javax.swing.JButton;
 
 public class PanelControlAdministrador extends javax.swing.JFrame {
 
@@ -66,6 +67,20 @@ public class PanelControlAdministrador extends javax.swing.JFrame {
         tools.confBtnColor(btnAdministrarClientes);
         tools.confBtnColor(btnAdmEmpleados);
         tools.confBtnColor(btnCerrarCaja);
+        //tools.confBtnColor(btnVender1);
+       // tools.confBtn(btnAbrirCaja);
+        
+        CajaManager cm = new CajaManager();
+        if(cm.consultaEstadoCaja(idAdmon)){
+            btnAbrirCaja.setEnabled(false);
+            btnCerrarCaja.setEnabled(true);
+            abreBotones(true);
+        }else{
+            btnCerrarCaja.setEnabled(false);
+            btnAbrirCaja.setEnabled(true);
+            abreBotones(false);
+        }
+  
     }
 
     /**
@@ -303,10 +318,13 @@ public class PanelControlAdministrador extends javax.swing.JFrame {
        CajaManager cm = new CajaManager();
        if(cm.consultaEstadoCaja(idAdmon)){
             cc.setVisible(true);
-            btnCerrarCaja.setEnabled(false);
-        }else{
             btnCerrarCaja.setEnabled(true);
             btnAbrirCaja.setEnabled(false);
+            abreBotones(true);
+        }else{
+            btnCerrarCaja.setEnabled(false);
+            btnAbrirCaja.setEnabled(true);
+            abreBotones(false);
         }
         
         String hora = fu.formatoFecha()+" "+fu.getHora();
@@ -320,6 +338,14 @@ public class PanelControlAdministrador extends javax.swing.JFrame {
        
     }//GEN-LAST:event_btnCerrarCajaActionPerformed
 
+        public void abreBotones(boolean estado) {
+    JButton[] botones = {btnVender1, btnAdmEmpleados, btnAdministrarClientes, btnAdministrarVentas, btnAdministrarProductos};
+
+    for (JButton boton : botones) {
+        boton.setEnabled(estado);
+    }
+}
+    
     private void btnVender1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnVender1ActionPerformed
         RegistrarVenta v = new RegistrarVenta();
         v.setNombre(nombre);
@@ -334,10 +360,13 @@ public class PanelControlAdministrador extends javax.swing.JFrame {
         AbrirCaja ac = new AbrirCaja(this,true);
         if(!cm.consultaEstadoCaja(idAdmon)){
             ac.setVisible(true);
+            btnAbrirCaja.setEnabled(true);
             btnCerrarCaja.setEnabled(false);
+            abreBotones(false);
         }else{
             btnCerrarCaja.setEnabled(true);
             btnAbrirCaja.setEnabled(false);
+            abreBotones(true);
         }
         
 
@@ -348,6 +377,7 @@ public class PanelControlAdministrador extends javax.swing.JFrame {
             cm.insertarCaja(hora, idAdmon, ac.monto, "Abierta");
             btnAbrirCaja.setEnabled(false);
             btnCerrarCaja.setEnabled(true);
+            abreBotones(true);
         }
     }//GEN-LAST:event_btnAbrirCajaActionPerformed
 
