@@ -5,11 +5,13 @@ import modelo.FuncionesUtiles;
 import java.awt.Color;
 import javax.swing.JButton;
 import javax.swing.JFrame;
+import modelo.GsonManejador;
+import modelo.ManejoArchivo;
 
 public class PanelControlEmpleado extends javax.swing.JFrame {
-
-    private String nombre = "";
-    private int idEmpleado;
+    
+    private String nombre = new ManejoArchivo().leerClaveValor("nombreusuario").toString();
+    private int idEmpleado = Integer.parseInt(new ManejoArchivo().leerClaveValor("idEmpleado").toString());
 
     public PanelControlEmpleado() {
         initComponents();
@@ -17,7 +19,7 @@ public class PanelControlEmpleado extends javax.swing.JFrame {
     }
 
     public void setIdAdmon(int idEmpleado) {
-        this.idEmpleado = idEmpleado;
+        //this.idEmpleado = idEmpleado;
     }
 
     private void inicializar() {
@@ -320,8 +322,8 @@ public void abreBotones(boolean estado) {
         win.setVisible(true);
     }//GEN-LAST:event_btnVender2ActionPerformed
 
-    public void setNombre(String nombre) {
-        this.nombre = nombre;
+    public void setNombre(String n) {
+        //this.nombre = nombre;
 
         PanelInformacionArriba panelInformacion = new PanelInformacionArriba();
         panelInformacion.setNombre(nombre);

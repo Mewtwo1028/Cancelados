@@ -16,6 +16,7 @@ import java.util.logging.Level;
 import java.util.logging.Logger;
 import javax.swing.DefaultComboBoxModel;
 import javax.swing.JOptionPane;
+import modelo.ManejoArchivo;
 
 public class AdministrarEmpleado extends javax.swing.JFrame {
 
@@ -95,11 +96,12 @@ public class AdministrarEmpleado extends javax.swing.JFrame {
         jComboBox1.setModel(new DefaultComboBoxModel(filtro));
     }
 
-    public void setAdmon(String nombre, int idAdmon) {
+    public void setAdmon(String nombre, int id) {
+        
+        this.idAdmon = id;
+        
         AccionesRapidasAdministrador panelBotones = new AccionesRapidasAdministrador(this);
-        this.idAdmon = idAdmon;
-        panelBotones.setIdAdmon(idAdmon);
-        panelBotones.setNombre(nombre);
+
         panelBotones.setBounds(0, 0, 266, (int) this.getBounds().getHeight() - 80);
         jPanelIzquierda.removeAll();
         jPanelIzquierda.setMinimumSize(panelBotones.getPreferredSize());
@@ -729,10 +731,6 @@ public class AdministrarEmpleado extends javax.swing.JFrame {
         for (int i = 0; i < lista.size(); i++) {
             modelo.addRow(lista.get(i));
         }
-    }
-
-    public void setIdAdmon(int idAdmon) {
-        this.idAdmon = idAdmon;
     }
 
     private boolean validarFormulario() {

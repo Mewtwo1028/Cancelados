@@ -11,6 +11,7 @@ import javax.swing.JLabel;
 import javax.swing.SwingConstants;
 import java.time.LocalDate;
 import java.time.format.DateTimeFormatter;
+import javax.swing.JTextField;
 public class FuncionesUtiles {
 
     public FuncionesUtiles() {
