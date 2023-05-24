@@ -15,6 +15,8 @@ import static java.awt.Frame.MAXIMIZED_BOTH;
 import java.util.Arrays;
 import java.util.GregorianCalendar;
 import javax.swing.JOptionPane;
+import modelo.GsonManejador;
+import modelo.ManejoArchivo;
 
 public class Login extends javax.swing.JFrame {
 
@@ -117,10 +119,9 @@ public class Login extends javax.swing.JFrame {
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
         setMinimumSize(new java.awt.Dimension(1280, 720));
-        setPreferredSize(new java.awt.Dimension(1280, 720));
-        addComponentListener(new java.awt.event.ComponentAdapter() {
-            public void componentResized(java.awt.event.ComponentEvent evt) {
-                formComponentResized(evt);
+        addWindowListener(new java.awt.event.WindowAdapter() {
+            public void windowClosing(java.awt.event.WindowEvent evt) {
+                formWindowClosing(evt);
             }
         });
 
@@ -247,32 +248,10 @@ public class Login extends javax.swing.JFrame {
 
     }//GEN-LAST:event_btnForgottenPasswordActionPerformed
 
-    private void formComponentResized(java.awt.event.ComponentEvent evt) {//GEN-FIRST:event_formComponentResized
-
-        int height = (int) this.getBounds().getHeight();
-        int width = (int) this.getBounds().getWidth();
-        int maxX = (int) this.getBounds().getMaxX();
-        int maxY = (int) this.getBounds().getMaxY();
-
-        jPanelPrincipal.setBounds(0, 0, width, height);
-        jPanelPrincipal.setBackground(Color.WHITE);
-
-        //Configurar logo
-        jLabelLogoDegradado.setBounds(0, 0, (int) width / 2, height - 43);
-
-        //Configurar bolitas
-        jLabelBolitas.setBounds(maxX - 248, maxY - 231, 248, 231);
-
-        //Imagenes
-        new FuncionesUtiles().colocarImagen("/Imagenes/LogoLetrasDegradado.png", jLabelLogoDegradado);
-        new FuncionesUtiles().colocarImagen("/Imagenes/bolitas.png", jLabelBolitas);
-
-        this.repaint();
-        jPanelPrincipal.repaint();
-        jLabelLogoDegradado.repaint();
-        jLabelBolitas.repaint();
-
-    }//GEN-LAST:event_formComponentResized
+    private void formWindowClosing(java.awt.event.WindowEvent evt) {//GEN-FIRST:event_formWindowClosing
+        // TODO add your handling code here:
+        System.out.println("se cerro la ventana");
+    }//GEN-LAST:event_formWindowClosing
 
     private boolean isRestContra(String nombre) {
         return new CredencialManager().isRestContra(nombre);
@@ -319,21 +298,35 @@ public class Login extends javax.swing.JFrame {
             dEmergente.setVisible(true);
             return;
         }
-        
+
+        ManejoArchivo gm = new ManejoArchivo();
+
         if (rolId.equals("1")) {
             int idEmpleado = new CredencialManager().getIdEmpleado(username, pass);
+
+            gm.escribirClaveValor("nombreusuario", username);
+            gm.escribirClaveValor("idEmpleado", String.valueOf(idEmpleado));
+
             PanelControlAdministrador panel = new PanelControlAdministrador();
+
+            //System.out.println(gm.leerClaveValor("nombreusuario"));
             panel.setIdAdmon(idEmpleado);
             panel.setNombre(username);
             this.dispose();
-            panel.setVisible(true); 
+            panel.setVisible(true);
         } else {
             int idEmpleado = new CredencialManager().getIdEmpleado(username, pass);
+
+            gm.escribirClaveValor("nombreusuario", username);
+            gm.escribirClaveValor("idEmpleado", String.valueOf(idEmpleado));
+
             PanelControlEmpleado panel = new PanelControlEmpleado();
+
+            //System.out.println(gm.leerClaveValor("nombreusuario"));
             panel.setIdAdmon(idEmpleado);
             panel.setNombre(username);
             this.dispose();
-            panel.setVisible(true);  
+            panel.setVisible(true);
         }
     }
 

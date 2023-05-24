@@ -6,13 +6,14 @@ import java.awt.Color;
 import java.awt.Toolkit;
 import javax.swing.JFrame;
 import java.awt.Dimension;
-import controlador.Conexion;
 import javax.swing.JButton;
+import modelo.GsonManejador;
+import modelo.ManejoArchivo;
 
 public class PanelControlAdministrador extends javax.swing.JFrame {
 
-    private String nombre = "";
-    private int idAdmon;
+    private String nombre = new ManejoArchivo().leerClaveValor("nombreusuario").toString();
+    private int idAdmon = Integer.parseInt(new ManejoArchivo().leerClaveValor("idEmpleado").toString());
 
     public PanelControlAdministrador() {
         initComponents();
@@ -380,8 +381,8 @@ public class PanelControlAdministrador extends javax.swing.JFrame {
         }
     }//GEN-LAST:event_btnAbrirCajaActionPerformed
 
-    public void setNombre(String nombre) {
-        this.nombre = nombre;
+    public void setNombre(String n) {
+        //this.nombre = nombre;
         PanelInformacionArriba panelInformacion = new PanelInformacionArriba();
         panelInformacion.setNombre(nombre);
         panelInformacion.setBounds(0, 0, (int) jPanelInformacion.getBounds().getWidth(), 110);
@@ -393,7 +394,7 @@ public class PanelControlAdministrador extends javax.swing.JFrame {
     }
 
     public void setIdAdmon(int idAdmon) {
-        this.idAdmon = idAdmon;
+        //this.idAdmon = idAdmon;
     }
 
     /**
