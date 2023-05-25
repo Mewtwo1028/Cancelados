@@ -1,7 +1,9 @@
 package vista;
 
 import java.awt.Color;
+import javax.swing.JFrame;
 import modelo.FuncionesUtiles;
+import vista.*;
 
 public class DialogoEnvio extends javax.swing.JDialog {
 
@@ -358,7 +360,8 @@ public class DialogoEnvio extends javax.swing.JDialog {
     }//GEN-LAST:event_jButton1ActionPerformed
 
     private void btnBuscarDireccionActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnBuscarDireccionActionPerformed
-        
+        Direccion ed = new Direccion();
+        ed.setVisible(true);
     }//GEN-LAST:event_btnBuscarDireccionActionPerformed
 
     /**

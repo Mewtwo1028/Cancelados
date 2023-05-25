@@ -1,5 +1,6 @@
 package vista;
 
+import controlador.CajaManager;
 import controlador.NotificacionManager;
 import modelo.FuncionesUtiles;
 import java.awt.Color;
@@ -285,12 +286,19 @@ public class AccionesRapidasAdministrador extends javax.swing.JPanel {
     private void btnAcercaDeMouseEntered(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_btnAcercaDeMouseEntered
         btnAcercaDe.setCursor(Cursor.getPredefinedCursor(Cursor.HAND_CURSOR));
     }//GEN-LAST:event_btnAcercaDeMouseEntered
-
+    CajaManager cm = new CajaManager();
     private void jLabel1MouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_jLabel1MouseClicked
         if (actual.getTitle().equals("Panel de control")) {
+           
+            if(cm.consultaEstadoCaja(idAdmon)){
+            javax.swing.JOptionPane.showMessageDialog(this, "Hay Caja abierta. Favor de \n cerrar antes de salir");
+               return;
+           } 
+            else if(!cm.consultaEstadoCaja(idAdmon)){
             Login login = new Login();
             login.setVisible(true);
             actual.dispose();
+            }
         } else {
             PanelControlAdministrador admon = new PanelControlAdministrador();
             admon.setIdAdmon(idAdmon);
