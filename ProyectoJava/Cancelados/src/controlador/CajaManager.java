@@ -14,10 +14,10 @@ import modelo.Empleado;
  * @author osmar
  */
 public class CajaManager {
-
+    
     public int idCaja;
     Conexion conexion = new Conexion();
-
+    
     public boolean insertarCaja(String horaInicio, int idEmpleado, double montoInicial, String estado) {
         String SQL_insertar = "INSERT INTO Caja (horaInicio, idEmpleado , montoInicial, estado) VALUES (?, ?, ?, ?)";
         String SQL_idEmpleado = "select idEmpleado from empleado order by idEmpleado DESC";
@@ -27,13 +27,13 @@ public class CajaManager {
             psInsertar.setDouble(3, montoInicial);
             psInsertar.setString(4, estado);
             psInsertar.execute();
-
+            
             return true;
         } catch (SQLException ex) {
             return false;
         }
     }
-
+    
     public int consultaId() {
         String consulta = "SELECT COUNT(*) FROM cancelados.caja;";
         try (ResultSet cursor = new Conexion().getConexion().prepareStatement(consulta).executeQuery()) {
@@ -45,30 +45,51 @@ public class CajaManager {
         }
         return idCaja;
     }
-
-    public boolean consultaEstadoCaja(int idEmp) {
-    String consulta = "SELECT Estado FROM cancelados.caja WHERE IdEmpleado= ? AND idApertura=?;";
-    String estado = "";
-    try (PreparedStatement statement = new Conexion().getConexion().prepareStatement(consulta)) {
-       statement.setInt(1, idEmp);
-       statement.setInt(2, consultaId());
-        try (ResultSet cursor = statement.executeQuery()) {
-            if (cursor.next()) {
-                estado = cursor.getString(1);
+    
+    public boolean isCajaCerrada(int idEmpleado) {
+        String consulta = "SELECT idApertura, estado FROM caja WHERE idEmpleado = ? ORDER BY idApertura DESC LIMIT 1;";
+        
+        try (PreparedStatement statement = new Conexion().getConexion().prepareStatement(consulta)) {
+            statement.setInt(1, idEmpleado);
+            
+            try (ResultSet cursor = statement.executeQuery()) {
+                if (cursor.next()) {
+                    return cursor.getString("estado").equals("Cerrada");
+                }else{
+                    return true;
+                }
             }
+        } catch (SQLException ex) {
+            System.out.println("ERROR AL TRATAR DE CONSULTAR: isCajaCerrada - " + ex.getMessage());
         }
-    } catch (SQLException ex) {
-        throw new RuntimeException("Error al consultar la caja", ex);
+        
+        return false;
+        
     }
-
-    return estado.equals("Abierta");
-}
-
+    
+    public boolean consultaEstadoCaja(int idEmp) {
+        String consulta = "SELECT Estado FROM cancelados.caja WHERE IdEmpleado= ? AND idApertura=?;";
+        String estado = "";
+        try (PreparedStatement statement = new Conexion().getConexion().prepareStatement(consulta)) {
+            statement.setInt(1, idEmp);
+            statement.setInt(2, consultaId());
+            try (ResultSet cursor = statement.executeQuery()) {
+                if (cursor.next()) {
+                    estado = cursor.getString(1);
+                }
+            }
+        } catch (SQLException ex) {
+            throw new RuntimeException("Error al consultar la caja", ex);
+        }
+        
+        return estado.equals("Abierta");
+    }
+    
     public boolean cierraCaja(String estado, Double montoF, String horaFin, int idEmp) {
         String SQL_actualizar = "UPDATE Caja SET estado=?, montoFinal=?, horaFin=? WHERE idEmpleado=? AND estado = 'Abierta';";
-
+        
         try (PreparedStatement cs = conexion.getConexion().prepareStatement(SQL_actualizar)) {
-
+            
             cs.setString(1, estado);
             cs.setDouble(2, montoF);
             cs.setString(3, horaFin);
@@ -77,12 +98,12 @@ public class CajaManager {
 
             cs.execute();
             return true;
-
+            
         } catch (SQLException ex) {
             throw new RuntimeException("Error al cerrar caja", ex);
-
+            
         }
-
+        
     }
-
+    
 }

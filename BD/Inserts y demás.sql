@@ -306,14 +306,14 @@ ALTER TABLE producto ADD COLUMN categoria INT;
 
 ALTER TABLE producto ADD CONSTRAINT fk_categoria_producto FOREIGN KEY (categoria) REFERENCES categoria(idCategoria);
 
-INSERT INTO producto (idProducto, Nombre, Descripcion, PrecioUnitario, Stock, autor, categoria) VALUES (null, 'Biblia Sagrada', 'Biblia Sagrada versión Reina-Valera', 25.99, 100, 'Anónimo', 1);
-INSERT INTO producto (idProducto, Nombre, Descripcion, PrecioUnitario, Stock, autor, categoria) VALUES (null, 'Crucifijo de plata', 'Crucifijo de plata con detalle en oro', 35.99, 25, 'Anónimo', 2);
-INSERT INTO producto (idProducto, Nombre, Descripcion, PrecioUnitario, Stock, autor, categoria) VALUES (null, 'Imagen de la Virgen', 'Imagen de la Virgen María de porcelana', 45.99, 15, 'Anónimo', 3);
-
-
 CREATE VIEW vista_productos AS(
 	SELECT p.idProducto, p.nombre, p.descripcion, p.precioUnitario, p.stock, p.autor, c.nombre AS categoria FROM producto p
     INNER JOIN categoria c ON (c.idCategoria = p.categoria)
     ORDER BY idProducto ASC
 );
+-- **************************************************
+
+-- ******************* 25/05/2023 *******************
+ALTER TABLE empleado ADD COLUMN estadoEmpleado VARCHAR(30) DEFAULT "ACTIVO";
+UPDATE empleado SET estadoEmpleado = "ACTIVO" WHERE idEmpleado>=1;
 -- **************************************************

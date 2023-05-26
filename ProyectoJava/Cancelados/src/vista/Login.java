@@ -1,5 +1,6 @@
 package vista;
 
+import controlador.CajaManager;
 import modelo.FuncionesUtiles;
 import java.awt.Color;
 import java.awt.Cursor;
@@ -225,9 +226,6 @@ public class Login extends javax.swing.JFrame {
 
     private void btnIngresarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnIngresarActionPerformed
         iniciarSesion();
-        DialogoEmergente de = new DialogoEmergente(this, true);
-        de.setTexto("Recuerda aperturar la caja al iniciar sesión");
-        de.setVisible(true);
     }//GEN-LAST:event_btnIngresarActionPerformed
 
     private void btnForgottenPasswordMouseEntered(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_btnForgottenPasswordMouseEntered
@@ -301,8 +299,16 @@ public class Login extends javax.swing.JFrame {
 
         ManejoArchivo gm = new ManejoArchivo();
 
+        int idEmpleado = new CredencialManager().getIdEmpleado(username, pass);
+
+        if (new CredencialManager().isEmpleadoEstadoEliminado(idEmpleado)) {
+            DialogoEmergente dEmergente = new DialogoEmergente(this, true);
+            dEmergente.setTexto("¡Error! Usuario o\ncontraseña no válidos");
+            dEmergente.setVisible(true);
+            return;
+        }
+
         if (rolId.equals("1")) {
-            int idEmpleado = new CredencialManager().getIdEmpleado(username, pass);
 
             gm.escribirClaveValor("nombreusuario", username);
             gm.escribirClaveValor("idEmpleado", String.valueOf(idEmpleado));
@@ -312,10 +318,16 @@ public class Login extends javax.swing.JFrame {
             //System.out.println(gm.leerClaveValor("nombreusuario"));
             panel.setIdAdmon(idEmpleado);
             panel.setNombre(username);
+
+            if (hayCajaCerrada(idEmpleado)) {
+                DialogoEmergente de = new DialogoEmergente(this, true);
+                de.setTexto("Recuerda aperturar la caja al iniciar sesión");
+                de.setVisible(true);
+            }
+
             this.dispose();
             panel.setVisible(true);
         } else {
-            int idEmpleado = new CredencialManager().getIdEmpleado(username, pass);
 
             gm.escribirClaveValor("nombreusuario", username);
             gm.escribirClaveValor("idEmpleado", String.valueOf(idEmpleado));
@@ -325,9 +337,20 @@ public class Login extends javax.swing.JFrame {
             //System.out.println(gm.leerClaveValor("nombreusuario"));
             panel.setIdAdmon(idEmpleado);
             panel.setNombre(username);
+
+            if (hayCajaCerrada(idEmpleado)) {
+                DialogoEmergente de = new DialogoEmergente(this, true);
+                de.setTexto("Recuerda aperturar la caja al iniciar sesión");
+                de.setVisible(true);
+            }
+
             this.dispose();
             panel.setVisible(true);
         }
+    }
+
+    private boolean hayCajaCerrada(int idEmpleado) {
+        return new CajaManager().isCajaCerrada(idEmpleado);
     }
 
     private void notificarAdmon(String nombre) {
