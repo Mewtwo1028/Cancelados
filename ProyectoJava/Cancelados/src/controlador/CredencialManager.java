@@ -13,6 +13,32 @@ public class CredencialManager {
     }
 
     /**
+     * Verifica que el campo estadoEmpleado del empleado sea 'ELIMINADO'.
+     *
+     * @param idEmpleado el id del empleado a verificar
+     * @return true si el campo estadoEmpleado esta 'ELIMINADO', false en
+     * cualquier otro caso.
+     */
+    public boolean isEmpleadoEstadoEliminado(int idEmpleado) {
+        String SQL_verificar = "Select estadoEmpleado from empleado where idEmpleado=?;";
+
+        try (PreparedStatement ps = conexion.getConexion().prepareStatement(SQL_verificar)) {
+
+            ps.setInt(1, idEmpleado);
+
+            ResultSet cursor = ps.executeQuery();
+
+            if (cursor.next()) {
+                return cursor.getString(1).equals("ELIMINADO");
+            }
+
+        } catch (SQLException ex) {
+            System.out.println(ex);
+        }
+        return false;
+    }
+
+    /**
      * Verifica si un usuario puede iniciar sesión en el sistema.
      *
      * @param nombreCredencial el nombre del usuario que intenta iniciar sesión.
@@ -134,7 +160,7 @@ public class CredencialManager {
         }
         return -1;
     }
-    
+
     public int getIdEmpleado(String nombreEmpleado, String contra) {
         String SQL_verificar = "Select c.Empleado_idEmpleado from empleado E inner join Credenciales C On (C.Empleado_idEmpleado = E.idEmpleado) where nombre=? and contrasena=?";
 

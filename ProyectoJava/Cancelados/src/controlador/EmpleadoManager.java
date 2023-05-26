@@ -25,7 +25,7 @@ public class EmpleadoManager {
      * la base de datos.
      */
     public ArrayList<String[]> consultarTodos() {
-        String sql = "SELECT * FROM empleado";
+        String sql = "SELECT * FROM empleado WHERE estadoEmpleado = 'ACTIVO'";
         ArrayList<String[]> resultado = new ArrayList<>();
 
         try {
@@ -53,12 +53,12 @@ public class EmpleadoManager {
      * credencial
      */
     public boolean insertarEmpleado(Empleado empleado) {
-        String SQL_insertar = "INSERT INTO empleado VALUES (null, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, false)";
+        String SQL_insertar = "INSERT INTO empleado VALUES (null, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, false, 'ACTIVO')";
         String SQL_idEmpleado = "select idEmpleado from empleado order by idEmpleado DESC";
         String SQL_insertarCredencial = "INSERT INTO credenciales VALUES (null, ?, ?)";
         String SQL_empleado = "UPDATE empleado SET restContra = true WHERE idEmpleado = ?";
 
-        try (PreparedStatement psInsertar = conexion.getConexion().prepareStatement(SQL_insertar); PreparedStatement psIdEmpleado = conexion.getConexion().prepareStatement(SQL_idEmpleado); PreparedStatement psInsertarCredencial = conexion.getConexion().prepareStatement(SQL_insertarCredencial);PreparedStatement psContra = conexion.getConexion().prepareStatement(SQL_empleado)) {
+        try (PreparedStatement psInsertar = conexion.getConexion().prepareStatement(SQL_insertar); PreparedStatement psIdEmpleado = conexion.getConexion().prepareStatement(SQL_idEmpleado); PreparedStatement psInsertarCredencial = conexion.getConexion().prepareStatement(SQL_insertarCredencial); PreparedStatement psContra = conexion.getConexion().prepareStatement(SQL_empleado)) {
             psInsertar.setString(1, empleado.getNombre());
             psInsertar.setString(2, empleado.getaPaterno());
             psInsertar.setString(3, empleado.getaMaterno());
@@ -80,7 +80,7 @@ public class EmpleadoManager {
             psInsertarCredencial.setString(1, "");
             psInsertarCredencial.setInt(2, idEmpleado);
             psInsertarCredencial.execute();
-            
+
             psContra.setInt(1, idEmpleado);
             psContra.execute();
 
@@ -101,12 +101,10 @@ public class EmpleadoManager {
      * @throws RuntimeException si ocurre un error al eliminar al empleado
      */
     public boolean eliminarEmpleado(Empleado empleado) {
-        String SQL_borrarCredencial = "DELETE FROM credenciales WHERE Empleado_idEmpleado=?;";
-        String SQL_borrarEmpleado = "DELETE FROM empleado WHERE idEmpleado=?;";
+        //String SQL_borrarCredencial = "DELETE FROM credenciales WHERE Empleado_idEmpleado=?;";
+        String SQL_borrarEmpleado = "UPDATE empleado SET estadoEmpleado = 'ELIMINADO' WHERE idEmpleado=?;";
 
-        try (PreparedStatement psBorrarCredencial = conexion.getConexion().prepareStatement(SQL_borrarCredencial); PreparedStatement psBorrarEmpleado = conexion.getConexion().prepareStatement(SQL_borrarEmpleado);) {
-            psBorrarCredencial.setInt(1, empleado.getIdEmpledo());
-            psBorrarCredencial.execute();
+        try (PreparedStatement psBorrarEmpleado = conexion.getConexion().prepareStatement(SQL_borrarEmpleado);) {
 
             psBorrarEmpleado.setInt(1, empleado.getIdEmpledo());
             psBorrarEmpleado.execute();
@@ -196,7 +194,7 @@ public class EmpleadoManager {
         }
         return resultado;
     }
-    
+
     /**
      * Busca los empleados cuyo apellido paterno comience con el texto
      * especificado.
@@ -226,10 +224,9 @@ public class EmpleadoManager {
         }
         return resultado;
     }
-    
+
     /**
-     * Busca los empleados cuyo nombre comience con el texto
-     * especificado.
+     * Busca los empleados cuyo nombre comience con el texto especificado.
      *
      * @param texto El texto a buscar.
      *
