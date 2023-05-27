@@ -18,29 +18,29 @@ import javax.swing.*;
 import java.awt.Toolkit;
 
 public class AdministrarProducto extends javax.swing.JFrame {
-    
+
     private int idAdmon;
-    
+
     DefaultTableModel modelo = new DefaultTableModel() {
         @Override
         public boolean isCellEditable(int row, int column) {
             return false;
         }
     };
-    
+
     File f = null;
     String path = null;
     private ImageIcon format = null;
     String fname = null;
     int s = 0;
     byte[] pimage = null;
-    
+
     public AdministrarProducto() {
         initComponents();
         inicializar();
         initTabla();
     }
-    
+
     private void inicializar() {
         FuncionesUtiles tool = new FuncionesUtiles();
         //Configuracion ventana
@@ -56,7 +56,7 @@ public class AdministrarProducto extends javax.swing.JFrame {
         this.setExtendedState(MAXIMIZED_BOTH);
         //Configurar panel principal
         jPanelPrincipal.setBackground(Color.WHITE);
-        
+
         jPanel1.setBackground(Color.WHITE);
 
         //Configurar panel de arriba
@@ -103,24 +103,24 @@ public class AdministrarProducto extends javax.swing.JFrame {
         //String[] categorias = {"SELECCIONA UNO", "Pulseras", "Collares, Cruces", "Decenario", "Frascos", "Imagen bulto", "Llaveros", "Medallas", "Rosarios", "Cirios"};
         //jComboBox1.setModel(new DefaultComboBoxModel(categorias));
         llenarCategoria();
-        
+
         btnFind.setText("");
-        
+
         initFiltro();
-        
+
     }
-    
+
     private void llenarCategoria() {
         jComboBox1.removeAllItems();
         Object[] categorias = new CategoriaManager().getCategorias();
         jComboBox1.setModel(new DefaultComboBoxModel(categorias));
     }
-    
+
     private void initFiltro() {
         String[] filtro = {"Nombre", "Autor", "Categoria"};
         jComboBox2.setModel(new DefaultComboBoxModel(filtro));
     }
-    
+
     private void limpiarTxtFields() {
         btnFind.setText("");
         txtNombre.setText("");
@@ -134,9 +134,9 @@ public class AdministrarProducto extends javax.swing.JFrame {
         spnStock.setValue(1);
         jComboBox1.setSelectedIndex(0);
         labelProductoImagen.revalidate();
-        
+
     }
-    
+
     private void initTabla() {
         modelo.addColumn("ID");
         modelo.addColumn("Nombre");
@@ -147,7 +147,7 @@ public class AdministrarProducto extends javax.swing.JFrame {
         modelo.addColumn("Categoria");
         tblProducto.setModel(modelo);
     }
-    
+
     public void setAdmon(String nombre, int idAdmon) {
         //Colocar panel de la izquierda
         AccionesRapidasAdministrador panelBotones = new AccionesRapidasAdministrador(this);
@@ -163,7 +163,7 @@ public class AdministrarProducto extends javax.swing.JFrame {
         panelBotones.repaint();
         jPanelIzquierda.setBackground(Color.WHITE);
     }
-    
+
     public void setEmpleado(String nombre, int idEmpleado) {
         //Colocar panel de la izquierda
         AccionesRapidasEmpleado panelBotones = new AccionesRapidasEmpleado(this);
@@ -183,6 +183,15 @@ public class AdministrarProducto extends javax.swing.JFrame {
         btnRegistrar.setVisible(false);
         btnModificar.setVisible(false);
         btnEliminar.setVisible(false);
+        btnStock.setVisible(false);
+        spnStock.setVisible(false);
+        labelStock.setVisible(false);
+        btnImagen.setEnabled(false);
+        txtNombre.setEnabled(false);
+        txtDescripcion.setEnabled(false);
+        txtPrecioUnitario.setEnabled(false);
+        txtAutor.setEnabled(false);
+        jComboBox1.setEnabled(false);
     }
 
     /**
@@ -654,7 +663,7 @@ public class AdministrarProducto extends javax.swing.JFrame {
         DialogoEmergente dEmergente = new DialogoEmergente(this, true);
         Producto producto = new Producto();
         producto.setIdProducto(Integer.parseInt(txtIDProducto.getText()));
-        
+
         if (new ProductoManager().eliminarProducto(producto)) {
             llenarTabla();
             dEmergente.setTexto("El producto se elimino de\nforma correcta");
@@ -668,14 +677,14 @@ public class AdministrarProducto extends javax.swing.JFrame {
     private void btnModificarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnModificarActionPerformed
         DialogoEmergente dEmergente = new DialogoEmergente(this, true);
         Producto producto;
-        
+
         String categoria = jComboBox1.getSelectedItem().toString();
-        
+
         categoria = String.valueOf(new CategoriaManager().getIdCategoria(categoria));
-        
+
         producto = new Producto(Integer.parseInt(txtIDProducto.getText()), txtNombre.getText(), txtDescripcion.getText(), Float.parseFloat(txtPrecioUnitario.getText()), txtAutor.getText(), categoria.trim());
-        
-        System.out.println(categoria+"");
+
+        System.out.println(categoria + "");
         String mensajeDeTexto = "";
 
         // Verifica si la ruta de la imagen está en blanco
@@ -704,13 +713,13 @@ public class AdministrarProducto extends javax.swing.JFrame {
 
     private void btnRegistrarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnRegistrarActionPerformed
         DialogoEmergente dEmergente = new DialogoEmergente(this, true);
-        
+
         if (validarFormulario()) {
             dEmergente.setTexto("ERROR HAY AL MENOS\nUN CAMPO SIN LLENAR");
             dEmergente.setVisible(true);
             return;
         }
-        
+
         String nombre = txtNombre.getText();
         String descripcion = txtDescripcion.getText();
         Float precioUnitario = Float.valueOf(txtPrecioUnitario.getText());
@@ -718,13 +727,13 @@ public class AdministrarProducto extends javax.swing.JFrame {
         int stock = Integer.parseInt(spnStock.getValue().toString());
         String autor = txtAutor.getText();
         String categoria = jComboBox1.getSelectedItem().toString();
-        
+
         categoria = String.valueOf(new CategoriaManager().getIdCategoria(categoria));
-        
+
         System.out.println(categoria);
-        
+
         Producto producto = new Producto(nombre, descripcion, precioUnitario, imagen, stock, autor, categoria);
-        
+
         if (new ProductoManager().insertarProducto(producto)) {
             llenarTabla();
             dEmergente.setTexto("El producto se registro de\nforma correcta");
@@ -741,29 +750,29 @@ public class AdministrarProducto extends javax.swing.JFrame {
     }//GEN-LAST:event_btnConsultarActionPerformed
 
     private void btnStockActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnStockActionPerformed
-        
+
         DialogoEmergente dEmergente = new DialogoEmergente(this, true);
-        
+
         int renglon = tblProducto.getSelectedRow();
-        
+
         if (renglon == -1) {
             dEmergente.setTexto("ERROR! DEBE DE\nSELECCIONAR UN\nRENGLON!");
             dEmergente.setVisible(true);
             return;
         }
-        
+
         int respuesta = JOptionPane.showConfirmDialog(this, "¿Seguro que deseas modificar\nel stock de este producto?");
-        
+
         int nuevoStock = Integer.parseInt(spnStock.getValue().toString());
         int viejoStock = Integer.parseInt(tblProducto.getValueAt(renglon, 4).toString());
         int idProducto = Integer.parseInt(tblProducto.getValueAt(renglon, 0).toString());
-        
+
         Producto producto = new Producto();
         producto.setStock(viejoStock + nuevoStock);
         producto.setIdProducto(idProducto);
-        
+
         String mensajeDeTexto = "";
-        
+
         if (respuesta == 0) {
             if (new ProductoManager().incrementarStock(producto)) {
                 llenarTabla();
@@ -789,7 +798,7 @@ public class AdministrarProducto extends javax.swing.JFrame {
         FileNameExtensionFilter filtro = new FileNameExtensionFilter("PNG AND JPG", "PNG", "JPG");
         fileChooser.addChoosableFileFilter(filtro);
         int load = fileChooser.showOpenDialog(null);
-        
+
         if (load == JFileChooser.APPROVE_OPTION) {
             f = fileChooser.getSelectedFile();
             path = f.getAbsolutePath();
@@ -844,7 +853,7 @@ public class AdministrarProducto extends javax.swing.JFrame {
         llenarCategoria();
         //La interfaz debe de validar que la categoria nueva no exista (sea de verdad nueva!).
     }//GEN-LAST:event_jMenuItem1ActionPerformed
-    
+
     public void setNombre(String nombre) {
         PanelInformacionArriba panelInformacion = new PanelInformacionArriba();
         panelInformacion.setNombre(nombre);
@@ -855,10 +864,10 @@ public class AdministrarProducto extends javax.swing.JFrame {
         panelInformacion.revalidate();
         panelInformacion.repaint();
     }
-    
+
     private void obtenerRenglonTabla() {
         int fila = tblProducto.getSelectedRow();
-        
+
         if (fila >= 0) {
             txtIDProducto.setText(tblProducto.getValueAt(fila, 0).toString());
             txtNombre.setText(tblProducto.getValueAt(fila, 1).toString());
@@ -876,7 +885,7 @@ public class AdministrarProducto extends javax.swing.JFrame {
             jComboBox1.setSelectedItem(tblProducto.getValueAt(fila, 6).toString());
         }
     }
-    
+
     private void llenarTabla() {
         modelo.setRowCount(0); //Limpiamos la tabla
         ArrayList<Producto> lista = new ProductoManager().consultarProductos();
@@ -886,11 +895,11 @@ public class AdministrarProducto extends javax.swing.JFrame {
         }
         tblProducto.repaint();
     }
-    
+
     private boolean validarFormulario() {
         return txtNombre.getText().isBlank() | txtDescripcion.getText().isBlank() | txtPrecioUnitario.getText().isBlank() | txtImagePath.getText().isBlank() | txtAutor.getText().isBlank() | jComboBox1.getSelectedItem().equals("SELECCIONA UNO");
     }
-    
+
     public void buscarProducto(String txt, Object filtro) {
         modelo.setRowCount(0);
         switch (filtro.toString()) {
@@ -904,13 +913,13 @@ public class AdministrarProducto extends javax.swing.JFrame {
         tblProducto.repaint();
         tblProducto.revalidate();
     }
-    
+
     private void llenarTabla(ArrayList<String[]> lista) {
         for (int i = 0; i < lista.size(); i++) {
             modelo.addRow(lista.get(i));
         }
     }
-    
+
     public static void main(String args[]) {
         /* Set the Nimbus look and feel */
         //<editor-fold defaultstate="collapsed" desc=" Look and feel setting code (optional) ">
