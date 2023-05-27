@@ -229,7 +229,7 @@ public class ProductoManager {
             }
 
         } catch (Exception ex) {
-            System.out.println("Error al obtener la imagen del producto" + ex.getMessage());
+            System.out.println("Error al obtener la imagen del producto: " + ex.getMessage());
         }
         return false;
     }
