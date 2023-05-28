@@ -1,6 +1,6 @@
 package vista;
 
-import modelo.FuncionesUtiles;
+import Util.FuncionesUtiles;
 import java.awt.Color;
 import java.awt.Cursor;
 import javax.swing.JFrame;

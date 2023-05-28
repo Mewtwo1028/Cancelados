@@ -6,7 +6,7 @@ import java.awt.Dimension;
 import java.util.ArrayList;
 import javax.swing.JOptionPane;
 import javax.swing.table.DefaultTableModel;
-import modelo.FuncionesUtiles;
+import Util.FuncionesUtiles;
 
 public class DialogoNotificacion extends javax.swing.JDialog {
 

@@ -2,7 +2,7 @@ package vista;
 
 import controlador.CajaManager;
 import controlador.NotificacionManager;
-import modelo.FuncionesUtiles;
+import Util.FuncionesUtiles;
 import java.awt.Color;
 import java.awt.Cursor;
 import java.awt.Toolkit;

@@ -1,14 +1,14 @@
 package vista;
 
 import controlador.CajaManager;
-import modelo.FuncionesUtiles;
+import Util.FuncionesUtiles;
 import java.awt.Color;
 import java.awt.Toolkit;
 import javax.swing.JFrame;
 import java.awt.Dimension;
 import javax.swing.JButton;
-import modelo.GsonManejador;
-import modelo.ManejoArchivo;
+import Util.GsonManejador;
+import Util.ManejoArchivo;
 
 public class PanelControlAdministrador extends javax.swing.JFrame {
 

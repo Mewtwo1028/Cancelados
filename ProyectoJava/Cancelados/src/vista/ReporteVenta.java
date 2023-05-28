@@ -6,7 +6,7 @@ package vista;
 
 import com.mysql.cj.xdevapi.Statement;
 import controlador.Conexion;
-import modelo.FuncionesUtiles;
+import Util.FuncionesUtiles;
 import java.util.ArrayList;
 import javax.swing.JTable;
 import javax.swing.table.DefaultTableModel;

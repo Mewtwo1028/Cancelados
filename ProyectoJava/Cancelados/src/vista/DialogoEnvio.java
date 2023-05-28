@@ -2,7 +2,7 @@ package vista;
 
 import java.awt.Color;
 import javax.swing.JFrame;
-import modelo.FuncionesUtiles;
+import Util.FuncionesUtiles;
 import vista.*;
 
 public class DialogoEnvio extends javax.swing.JDialog {

@@ -11,7 +11,7 @@ import java.util.Arrays;
 import javax.swing.JOptionPane;
 import modelo.Credencial;
 import modelo.Empleado;
-import modelo.FuncionesUtiles;
+import Util.FuncionesUtiles;
 
 public class DialogoFomularioR extends javax.swing.JDialog {
 

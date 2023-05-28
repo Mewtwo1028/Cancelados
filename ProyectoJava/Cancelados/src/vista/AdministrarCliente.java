@@ -3,7 +3,7 @@ package vista;
 import controlador.ClienteManager;
 import controlador.Conexion;
 import modelo.Cliente;
-import modelo.FuncionesUtiles;
+import Util.FuncionesUtiles;
 import java.awt.Color;
 import java.awt.Dimension;
 import java.awt.Toolkit;
