@@ -11,6 +11,7 @@ import javax.swing.JFrame;
 import javax.swing.table.DefaultTableModel;
 import java.security.MessageDigest;
 import java.security.NoSuchAlgorithmException;
+import java.util.Arrays;
 import javax.swing.DefaultComboBoxModel;
 import javax.swing.JOptionPane;
 
@@ -84,6 +85,15 @@ public class AdministrarEmpleado extends javax.swing.JFrame {
         btnFind.setText("");
 
         initFiltro();
+
+        initEstado();
+    }
+
+    private void initEstado() {
+        Object[] estados = new FuncionesUtiles().getEstados();
+
+        //String[] estados = {"Aguascalientes", "Baja California", "Baja California Sur"};
+        txtEstado.setModel(new DefaultComboBoxModel(estados));
     }
 
     private void initFiltro() {
@@ -117,7 +127,7 @@ public class AdministrarEmpleado extends javax.swing.JFrame {
         txtCURP.setText("");
         txtRFC.setText("");
         txtMunicipio.setText("");
-        txtEstado.setText("");
+        txtEstado.setSelectedIndex(0);
         jComboBoxRol.setSelectedIndex(0);
         txtIDEmpleado.setText("");
     }
@@ -173,7 +183,6 @@ public class AdministrarEmpleado extends javax.swing.JFrame {
         labelRFC = new javax.swing.JLabel();
         txtRFC = new javax.swing.JTextField();
         labelEstadp = new javax.swing.JLabel();
-        txtEstado = new javax.swing.JTextField();
         labelNoExt = new javax.swing.JLabel();
         txtNoExt = new javax.swing.JTextField();
         labelMunicipio = new javax.swing.JLabel();
@@ -184,6 +193,7 @@ public class AdministrarEmpleado extends javax.swing.JFrame {
         jComboBoxRol = new javax.swing.JComboBox<>();
         btnFind = new javax.swing.JTextField();
         jComboBox1 = new javax.swing.JComboBox<>();
+        txtEstado = new javax.swing.JComboBox<>();
         jPanelAcciones = new javax.swing.JPanel();
         btnConsultar = new javax.swing.JButton();
         btnRegistrar = new javax.swing.JButton();
@@ -267,8 +277,6 @@ public class AdministrarEmpleado extends javax.swing.JFrame {
 
         labelEstadp.setText("Estado");
 
-        txtEstado.setText("jTextField9");
-
         labelNoExt.setText("No. Exterior");
 
         txtNoExt.setText("jTextField10");
@@ -298,6 +306,8 @@ public class AdministrarEmpleado extends javax.swing.JFrame {
                 jComboBox1ItemStateChanged(evt);
             }
         });
+
+        txtEstado.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "Item 1", "Item 2", "Item 3", "Item 4" }));
 
         javax.swing.GroupLayout jPanelFormularioLayout = new javax.swing.GroupLayout(jPanelFormulario);
         jPanelFormulario.setLayout(jPanelFormularioLayout);
@@ -345,9 +355,9 @@ public class AdministrarEmpleado extends javax.swing.JFrame {
                             .addComponent(labelIDEmpleado, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                         .addGroup(jPanelFormularioLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
-                            .addComponent(txtEstado)
                             .addComponent(txtIDEmpleado)
-                            .addComponent(jComboBoxRol, 0, 130, Short.MAX_VALUE))))
+                            .addComponent(jComboBoxRol, 0, 130, Short.MAX_VALUE)
+                            .addComponent(txtEstado, 0, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))))
                 .addContainerGap(11, Short.MAX_VALUE))
         );
         jPanelFormularioLayout.setVerticalGroup(
@@ -567,7 +577,14 @@ public class AdministrarEmpleado extends javax.swing.JFrame {
         String curp = txtCURP.getText();
         String rfc = txtRFC.getText();
         String municipio = txtMunicipio.getText();
-        String estado = txtEstado.getText();
+
+        String estado = String.valueOf(txtEstado.getSelectedItem());
+
+        if (estado.equals("SELECCIONE UN ESTADO")) {
+            JOptionPane.showMessageDialog(this, "ERROR Seleccione una entidad federativa");
+            return;
+        }
+
         String rol = String.valueOf(jComboBoxRol.getSelectedItem());
         int idRol = rol.equals("Empleado") ? 2 : 1;
 
@@ -581,6 +598,29 @@ public class AdministrarEmpleado extends javax.swing.JFrame {
 
         //Valida el rfc y que la edad minima y maxima sean las especificadas
         if (!new FuncionesUtiles().validarRFC(empleado, 18, 65, this)) {
+            return;
+        }
+
+        //Valida la curp y que la edad minima y maxima sean las especificadas
+        if (!new FuncionesUtiles().validarCurp(empleado, 18, 65, this)) {
+            return;
+        }
+
+        //Validar que los 4 primeros caracteres del rfc y curp sea la misma
+        char[] rfcV = empleado.getRfc().substring(0, 4).toCharArray();
+        char[] curpV = empleado.getCurp().substring(0, 4).toCharArray();
+
+        if (!Arrays.equals(rfcV, curpV)) {
+            JOptionPane.showMessageDialog(this, "ERROR los primeros 4 caracteres de la CURP y del RFC no concuerdan");
+            return;
+        }
+
+        //Validar que la fecha de nacimiento del rfc y curp sea la misma
+        char[] rfcV2 = empleado.getRfc().substring(4, 10).toCharArray();
+        char[] curpV2 = empleado.getCurp().substring(4, 10).toCharArray();
+
+        if (!Arrays.equals(rfcV2, curpV2)) {
+            JOptionPane.showMessageDialog(this, "ERROR la fecha de nacimiento de la CURP y del RFC no concuerdan");
             return;
         }
 
@@ -608,13 +648,44 @@ public class AdministrarEmpleado extends javax.swing.JFrame {
     private void btnModificarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnModificarActionPerformed
         DialogoEmergente dEmergente = new DialogoEmergente(this, true);
         int txtIdRol = String.valueOf(jComboBoxRol.getSelectedItem()).equals("Empleado") ? 2 : 1;
-        Empleado empleado = new Empleado(Integer.parseInt(txtIDEmpleado.getText()), txtNombre.getText(), txtApPaterno.getText(), txtApMaterno.getText(), txtCalle.getText(), txtNoExt.getText(), txtColonia.getText(), txtCP.getText(), txtCURP.getText(), txtRFC.getText(), txtMunicipio.getText(), txtEstado.getText(), txtIdRol);
+
+        String estado = String.valueOf(txtEstado.getSelectedItem());
+
+        if (estado.equals("SELECCIONE UN ESTADO")) {
+            JOptionPane.showMessageDialog(this, "ERROR Seleccione una entidad federativa");
+            return;
+        }
+
+        Empleado empleado = new Empleado(Integer.parseInt(txtIDEmpleado.getText()), txtNombre.getText(), txtApPaterno.getText(), txtApMaterno.getText(), txtCalle.getText(), txtNoExt.getText(), txtColonia.getText(), txtCP.getText(), txtCURP.getText(), txtRFC.getText(), txtMunicipio.getText(), estado, txtIdRol);
 
         //Valida el rfc y que la edad minima y maxima sean las especificadas
         if (!new FuncionesUtiles().validarRFC(empleado, 18, 65, this)) {
             return;
         }
-        
+
+        //Valida la curp y que la edad minima y maxima sean las especificadas
+        if (!new FuncionesUtiles().validarCurp(empleado, 18, 65, this)) {
+            return;
+        }
+
+        //Validar que los 4 primeros caracteres del rfc y curp sea la misma
+        char[] rfcV = empleado.getRfc().substring(0, 4).toCharArray();
+        char[] curpV = empleado.getCurp().substring(0, 4).toCharArray();
+
+        if (!Arrays.equals(rfcV, curpV)) {
+            JOptionPane.showMessageDialog(this, "ERROR los primeros 4 caracteres de la CURP y del RFC no concuerdan");
+            return;
+        }
+
+        //Validar que la fecha de nacimiento del rfc y curp sea la misma
+        char[] rfcV2 = empleado.getRfc().substring(4, 10).toCharArray();
+        char[] curpV2 = empleado.getCurp().substring(4, 10).toCharArray();
+
+        if (!Arrays.equals(rfcV2, curpV2)) {
+            JOptionPane.showMessageDialog(this, "ERROR la fecha de nacimiento de la CURP y del RFC no concuerdan");
+            return;
+        }
+
         if (new EmpleadoManager().modificarEmpleado(empleado)) {
             llenarTabla();
             dEmergente.setTexto("El empleado se modificó de forma correcta");
@@ -739,7 +810,7 @@ public class AdministrarEmpleado extends javax.swing.JFrame {
     }
 
     private boolean validarFormulario() {
-        return txtNombre.getText().isBlank() | txtApPaterno.getText().isBlank() | txtApMaterno.getText().isBlank() | txtCalle.getText().isBlank() | txtNoExt.getText().isBlank() | txtColonia.getText().isBlank() | txtCP.getText().isBlank() | txtCURP.getText().isBlank() | txtRFC.getText().isBlank() | txtMunicipio.getText().isBlank() | txtEstado.getText().isBlank();
+        return txtNombre.getText().isBlank() | txtApPaterno.getText().isBlank() | txtApMaterno.getText().isBlank() | txtCalle.getText().isBlank() | txtNoExt.getText().isBlank() | txtColonia.getText().isBlank() | txtCP.getText().isBlank() | txtCURP.getText().isBlank() | txtRFC.getText().isBlank() | txtMunicipio.getText().isBlank() | txtEstado.getSelectedItem().toString().equals("SELECCIONE UN ESTADO");
     }
 
     public static void main(String args[]) {
@@ -811,7 +882,7 @@ public class AdministrarEmpleado extends javax.swing.JFrame {
     private javax.swing.JTextField txtCURP;
     private javax.swing.JTextField txtCalle;
     private javax.swing.JTextField txtColonia;
-    private javax.swing.JTextField txtEstado;
+    private javax.swing.JComboBox<String> txtEstado;
     private javax.swing.JTextField txtIDEmpleado;
     private javax.swing.JTextField txtMunicipio;
     private javax.swing.JTextField txtNoExt;
