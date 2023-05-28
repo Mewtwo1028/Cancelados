@@ -317,3 +317,15 @@ CREATE VIEW vista_productos AS(
 ALTER TABLE empleado ADD COLUMN estadoEmpleado VARCHAR(30) DEFAULT "ACTIVO";
 UPDATE empleado SET estadoEmpleado = "ACTIVO" WHERE idEmpleado>=1;
 -- **************************************************
+
+UPDATE `cancelados`.`producto` SET `Imagen` = ? WHERE (`idProducto` = '2');
+UPDATE `cancelados`.`producto` SET `Imagen` = ? WHERE (`idProducto` = '3');
+UPDATE `cancelados`.`producto` SET `Imagen` = ? WHERE (`idProducto` = '4');
+UPDATE `cancelados`.`producto` SET `Imagen` = ? WHERE (`idProducto` = '5');
+UPDATE `cancelados`.`producto` SET `Imagen` = ? WHERE (`idProducto` = '6');
+UPDATE `cancelados`.`producto` SET `Imagen` = ? WHERE (`idProducto` = '7');
+UPDATE `cancelados`.`producto` SET `Imagen` = ? WHERE (`idProducto` = '8');
+UPDATE `cancelados`.`producto` SET `Imagen` = ? WHERE (`idProducto` = '9');
+UPDATE `cancelados`.`producto` SET `Imagen` = ? WHERE (`idProducto` = '10');
+UPDATE `cancelados`.`producto` SET `Imagen` = ? WHERE (`idProducto` = '11');
+UPDATE `cancelados`.`producto` SET `Imagen` = ? WHERE (`idProducto` = '12');

@@ -471,6 +471,11 @@ public class RegistrarVenta extends javax.swing.JFrame {
                 RegistrarEnvioMouseClicked(evt);
             }
         });
+        RegistrarEnvio.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                RegistrarEnvioActionPerformed(evt);
+            }
+        });
 
         javax.swing.GroupLayout jPanelAccionesLayout = new javax.swing.GroupLayout(jPanelAcciones);
         jPanelAcciones.setLayout(jPanelAccionesLayout);
@@ -738,6 +743,10 @@ public class RegistrarVenta extends javax.swing.JFrame {
         DialogoSeleccionProducto dp = new DialogoSeleccionProducto(this, true, productos);
         dp.setVisible(true);
     }//GEN-LAST:event_jButton2MouseClicked
+
+    private void RegistrarEnvioActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_RegistrarEnvioActionPerformed
+        // TODO add your handling code here:
+    }//GEN-LAST:event_RegistrarEnvioActionPerformed
     
     private void calcularTotal() {
         float total = 0;
