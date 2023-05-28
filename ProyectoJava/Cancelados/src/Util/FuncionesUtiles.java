@@ -2,6 +2,7 @@ package Util;
 
 import java.awt.Color;
 import java.awt.Image;
+import java.text.Normalizer;
 import java.util.Calendar;
 import java.util.GregorianCalendar;
 import javax.swing.ImageIcon;
@@ -11,17 +12,66 @@ import javax.swing.SwingConstants;
 import java.time.LocalDate;
 import java.time.Period;
 import java.time.format.DateTimeFormatter;
+import java.util.ArrayList;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 import java.util.Arrays;
+import java.util.HashMap;
 import javax.swing.JFrame;
 import javax.swing.JOptionPane;
 import modelo.Empleado;
 
 public class FuncionesUtiles {
 
-    public FuncionesUtiles() {
+    private static final HashMap<String, String> entidadesFederativas = new HashMap<>();
 
+    public FuncionesUtiles() {
+        initEntidadesFederativas();
+    }
+    
+    public Object[] getEstados(){
+        
+        ArrayList estados = new ArrayList<>();
+        estados.add("SELECCIONE UN ESTADO");
+        estados.addAll(entidadesFederativas.values());
+        
+        return estados.toArray(); 
+    }
+
+    private void initEntidadesFederativas() {
+        entidadesFederativas.put("AS", "Aguascalientes");
+        entidadesFederativas.put("BC", "Baja California");
+        entidadesFederativas.put("BS", "Baja California Sur");
+        entidadesFederativas.put("CC", "Campeche");
+        entidadesFederativas.put("CL", "Coahuila");
+        entidadesFederativas.put("CM", "Colima");
+        entidadesFederativas.put("CS", "Chiapas");
+        entidadesFederativas.put("CH", "Chihuahua");
+        entidadesFederativas.put("DF", "Ciudad de México");
+        entidadesFederativas.put("DG", "Durango");
+        entidadesFederativas.put("GT", "Guanajuato");
+        entidadesFederativas.put("GR", "Guerrero");
+        entidadesFederativas.put("HG", "Hidalgo");
+        entidadesFederativas.put("JC", "Jalisco");
+        entidadesFederativas.put("MC", "México");
+        entidadesFederativas.put("MN", "Michoacán");
+        entidadesFederativas.put("MS", "Morelos");
+        entidadesFederativas.put("NT", "Nayarit");
+        entidadesFederativas.put("NL", "Nuevo León");
+        entidadesFederativas.put("OC", "Oaxaca");
+        entidadesFederativas.put("PL", "Puebla");
+        entidadesFederativas.put("QT", "Querétaro");
+        entidadesFederativas.put("QR", "Quintana Roo");
+        entidadesFederativas.put("SP", "San Luis Potosí");
+        entidadesFederativas.put("SL", "Sinaloa");
+        entidadesFederativas.put("SR", "Sonora");
+        entidadesFederativas.put("TC", "Tabasco");
+        entidadesFederativas.put("TS", "Tamaulipas");
+        entidadesFederativas.put("TL", "Tlaxcala");
+        entidadesFederativas.put("VZ", "Veracruz");
+        entidadesFederativas.put("YN", "Yucatán");
+        entidadesFederativas.put("ZS", "Zacatecas");
+        entidadesFederativas.put("NE", "Nacido en el extranjero");
     }
 
     /**
@@ -198,7 +248,7 @@ public class FuncionesUtiles {
 
         //Verificar que la fecha de nacimiento sea 18<=X<=65
         if (!verificarEdad(fechaNacimiento, edadMinima, edadMaxima)) {
-            JOptionPane.showMessageDialog(ventana, "ERROR, Debe de ingresar una edad valida en el RFC, la edad debe de ser: 18<=X<=65");
+            JOptionPane.showMessageDialog(ventana, "ERROR, Debe de ingresar una edad valida en el RFC, la edad debe de ser: " + edadMinima + "<= edad <=" + edadMaxima);
             //System.out.println("La edad del empleado debe de ser: 18<=X<=65");
             return false;
         }
@@ -215,7 +265,7 @@ public class FuncionesUtiles {
         char[] inicialesRFC = rfc.substring(0, 4).toUpperCase().toCharArray();
 
         //Verificar si las iniciales coninciden con las del RFC
-        if (!verificarInicialesRFC(inicialesRFC, iPaterno, vPaterno, iMaterno, iNombre)) {
+        if (!verificarIniciales(inicialesRFC, iPaterno, vPaterno, iMaterno, iNombre)) {
             JOptionPane.showMessageDialog(ventana, "ERROR las iniciales no concuerdan con las del RFC");
             //System.out.println("ERROR las iniciales no concuerdan con las del RFC");
             return false;
@@ -224,7 +274,7 @@ public class FuncionesUtiles {
         return true;
     }
 
-    private boolean verificarInicialesRFC(char[] rfc, char iPaterno, char vPaterno, char iMaterno, char iNombre) {
+    private boolean verificarIniciales(char[] rfc, char iPaterno, char vPaterno, char iMaterno, char iNombre) {
 
         //Verificar que la vocal de vPaterno no sea nula
         if (vPaterno == '\0') {
@@ -291,10 +341,135 @@ public class FuncionesUtiles {
             return '\0'; // Retornar el caracter nulo si no se encuentra ninguna vocal
         }
     }
+
+    private static boolean validarOrdenCURP(String curp) {
+        return !curp.matches("^[A-Z]{4}[0-9]{6}[H,M][A-Z]{5}[A-Z0-9]{2}$");
+    }
+
+    private static boolean verificarEntidadFederativa(String abreviatura, String entidadFederativa) {
+        String nombre = entidadesFederativas.get(abreviatura);
+        return nombre != null && nombre.equals(entidadFederativa);
+    }
+
+    public boolean validarCurp(Empleado empleado, int edadMinima, int edadMaxima, JFrame ventana) {
+
+        //Obtener la CURP
+        String curp = empleado.getCurp();
+
+        //Validar longitud
+        if (curp.length() != 18) {
+            JOptionPane.showMessageDialog(ventana, "ERROR! La cantidad de caracteres de la CURP es incorrecto, debe de ser igual a 18");
+            return false;
+        }
+
+        //Validar caracteres y orden de caracteres
+        if (validarOrdenCURP(curp)) {
+            JOptionPane.showMessageDialog(ventana, "ERROR! El orden de los caracteres de la CURP es incorrecto");
+            return false;
+        }
+
+        //Obtener fecha de nacimiento
+        String fechaNacimiento = curp.substring(4, 10);
+
+        //Verificar que la fecha de nacimiento sea 18<=X<=65
+        if (!verificarEdad(fechaNacimiento, edadMinima, edadMaxima)) {
+            JOptionPane.showMessageDialog(ventana, "ERROR, Debe de ingresar una edad valida en la CURP, la edad debe de ser: " + edadMinima + "<= edad <=" + edadMaxima);
+            return false;
+        }
+
+        //Primera letra el apellido paterno
+        char iPaterno = empleado.getaPaterno().toUpperCase().charAt(0);
+        //Primera vocal inicial del apellidoPaterno
+        char vPaterno = getVocal(empleado.getaPaterno().toUpperCase());
+        //Primera letra inicial del apellidoMaterno
+        char iMaterno = empleado.getaMaterno().toUpperCase().charAt(0);
+        //Primera letra inicial del nombre
+        char iNombre = empleado.getNombre().toUpperCase().charAt(0);
+        //Primeros 4 caracteres del RFC
+        char[] inicialesCURP = curp.substring(0, 4).toUpperCase().toCharArray();
+
+        //Verificar si las iniciales coninciden con las de la CURP
+        if (!verificarIniciales(inicialesCURP, iPaterno, vPaterno, iMaterno, iNombre)) {
+            JOptionPane.showMessageDialog(ventana, "ERROR las iniciales no concuerdan con las de la CURP");
+            return false;
+        }
+
+        //Obtener la entidad federativa de la CURP
+        String abreviatura = curp.substring(11, 13);
+        //Obtener entidad federativa
+        String entidadFederativa = empleado.getEstado();
+
+        //Verificar que la entidad federativa exista
+        if (!verificarEntidadFederativa(abreviatura, entidadFederativa)) {
+            JOptionPane.showMessageDialog(ventana, "ERROR la entidad federativa de la CURP no es valida o no concuerda con la ingresada en 'Estado'");
+            return false;
+        }
+
+        //Primer consonante interna del apellido paterno
+        char cPaterno = getConsonanteInicial(empleado.getaPaterno().toUpperCase());
+        //Primer consonante interna del apellido materno
+        char cMaterno = getConsonanteInicial(empleado.getaMaterno().toUpperCase());
+        //Primer consonante interna del nombre
+        char cNombre = getConsonanteInicial(empleado.getNombre().toUpperCase());
+        //Obtener las consonantes de la CURP
+        char[] consonantesCURP = curp.substring(13, 16).toCharArray();
+
+        if (!verificarConsonantes(consonantesCURP, cPaterno, cMaterno, cNombre)) {
+            JOptionPane.showMessageDialog(ventana, "ERROR las consonantes de la curp y las encontradas en el nombre completo no concuerda");
+            return false;
+        }
+
+        return true;
+    }
+
+    public static char removerAcentos(char letra) {
+
+        if (letra == 'Ñ') {
+            return letra;
+        }
+
+        String textoNormalizado = Normalizer.normalize(String.valueOf(letra), Normalizer.Form.NFD);
+        textoNormalizado = textoNormalizado.replaceAll("\\p{InCombiningDiacriticalMarks}+", "");
+        return textoNormalizado.charAt(0);
+    }
+
+    private static boolean verificarConsonantes(char[] consonantesCURP, char cPaterno, char cMaterno, char cNombre) {
+
+        //Verificar que las consonantes no sean nulas
+        if (cPaterno == '\0' || cMaterno == '\0' || cNombre == '\0') {
+            return false;
+        }
+
+        char[] iniciales = {cPaterno, cMaterno, cNombre};
+
+        return Arrays.equals(consonantesCURP, iniciales);
+    }
+
+    private static char getConsonanteInicial(String cad) {
+
+        // Ignora el primer carácter
+        String subcadena = cad.substring(1);
+
+        //Convertir a char[]
+        char[] letras = subcadena.toCharArray();
+
+        for (char letra : letras) {
+            if (!esVocal(removerAcentos(letra))) {
+                return letra;
+            }
+        }
+
+        // Retorna el carácter nulo si no se encontró ninguna consonante
+        return '\0';
+    }
+
+    private static boolean esVocal(char c) {
+        c = Character.toUpperCase(c);
+        return c == 'A' || c == 'E' || c == 'I' || c == 'O' || c == 'U';
+    }
     /*
     public static void main(String[] args) {
 
-        //DATOS CORRECTOS DE PRUEBA
         Empleado empleado = new Empleado();
 
         empleado.setNombre("Juan");
@@ -304,16 +479,15 @@ public class FuncionesUtiles {
         empleado.setNoExt("111");
         empleado.setColonia("San Pedro");
         empleado.setCp("12345");
-        empleado.setCurp("GALJ920101HDFXXX00");
-        empleado.setRfc("GALJ585027N77");
+        empleado.setCurp("GALJ580311HDFRPN00");
+        empleado.setRfc("GALJ580311N77");
         empleado.setMunicipio("Ciudad de México");
         empleado.setEstado("Ciudad de México");
         empleado.setIdRol(2);
 
-        FuncionesUtiles fun = new FuncionesUtiles();
-
-        System.out.println(fun.validarRFC(empleado, 18, 65, new javax.swing.JFrame()));
-
+        //System.out.println(new FuncionesUtiles().validarRFC(empleado, 18, 65, new javax.swing.JFrame()));
+        System.out.println(new FuncionesUtiles().validarCurp(empleado, 18, 65, new javax.swing.JFrame()));
     }
      */
+
 }

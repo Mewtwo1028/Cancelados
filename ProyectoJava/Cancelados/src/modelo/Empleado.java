@@ -80,7 +80,7 @@ public class Empleado {
         }
     }
 
-    public void getEmpleadoTabla(JTable parametroEmpleado, JTextField id, JTextField nombre, JTextField aPaterno, JTextField aMaterno, JTextField calle, JTextField ext, JTextField col, JTextField cp, JTextField mun, JTextField estado, JTextField curp, JTextField rfc, JComboBox rol) {//Método que manda a los jTextFields los datos del registro seleccionado en la tabla
+    public void getEmpleadoTabla(JTable parametroEmpleado, JTextField id, JTextField nombre, JTextField aPaterno, JTextField aMaterno, JTextField calle, JTextField ext, JTextField col, JTextField cp, JTextField mun, JComboBox estado, JTextField curp, JTextField rfc, JComboBox rol) {//Método que manda a los jTextFields los datos del registro seleccionado en la tabla
 
         try {
             int fila = parametroEmpleado.getSelectedRow();
@@ -96,7 +96,7 @@ public class Empleado {
                 curp.setText(parametroEmpleado.getValueAt(fila, 8).toString());
                 rfc.setText(parametroEmpleado.getValueAt(fila, 9).toString());
                 mun.setText(parametroEmpleado.getValueAt(fila, 10).toString());
-                estado.setText(parametroEmpleado.getValueAt(fila, 11).toString());
+                estado.setSelectedItem(parametroEmpleado.getValueAt(fila, 11));
                 //rol.setText(parametroEmpleado.getValueAt(fila, 12).toString());
                 String valorRol = parametroEmpleado.getValueAt(fila, 12).toString();
                 rol.setSelectedIndex(valorRol.equals("1") ? 1 : 0);
