@@ -24,12 +24,13 @@ public class Direccion extends javax.swing.JFrame {
     }
     private void initTabla() {
         modelo.addColumn("ID");
-        modelo.addColumn("Nombre");
-        modelo.addColumn("Descripcion");
-        modelo.addColumn("Precio Unitario");
-        modelo.addColumn("Stock");
-        modelo.addColumn("Autor");
-        modelo.addColumn("Categoria");
+        modelo.addColumn("Clave");
+        modelo.addColumn("Estado");
+        modelo.addColumn("ID Municipio");
+        modelo.addColumn("Municipio");
+        modelo.addColumn("Zona");
+        modelo.addColumn("CP");
+        modelo.addColumn("Zona");
         tblDireccion.setModel(modelo);
     }
     
