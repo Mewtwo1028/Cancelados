@@ -117,6 +117,7 @@ public class Login extends javax.swing.JFrame {
         btnForgottenPassword = new javax.swing.JButton();
         jLabelBienvenida = new javax.swing.JLabel();
         jLabelBolitas = new javax.swing.JLabel();
+        enviarcorreo = new javax.swing.JButton();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
         setMinimumSize(new java.awt.Dimension(1280, 720));
@@ -181,6 +182,13 @@ public class Login extends javax.swing.JFrame {
         jLabelBolitas.setMinimumSize(new java.awt.Dimension(248, 231));
         jLabelBolitas.setPreferredSize(new java.awt.Dimension(248, 231));
 
+        enviarcorreo.setText("Enviar Correo");
+        enviarcorreo.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                enviarcorreoActionPerformed(evt);
+            }
+        });
+
         javax.swing.GroupLayout jPanelPrincipalLayout = new javax.swing.GroupLayout(jPanelPrincipal);
         jPanelPrincipal.setLayout(jPanelPrincipalLayout);
         jPanelPrincipalLayout.setHorizontalGroup(
@@ -192,15 +200,23 @@ public class Login extends javax.swing.JFrame {
                     .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanelPrincipalLayout.createSequentialGroup()
                         .addComponent(jPanelCredenciales, javax.swing.GroupLayout.PREFERRED_SIZE, 322, javax.swing.GroupLayout.PREFERRED_SIZE)
                         .addGap(111, 111, 111))
-                    .addComponent(jLabelBolitas, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.PREFERRED_SIZE, 248, javax.swing.GroupLayout.PREFERRED_SIZE)))
+                    .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanelPrincipalLayout.createSequentialGroup()
+                        .addComponent(enviarcorreo)
+                        .addGap(18, 18, 18)
+                        .addComponent(jLabelBolitas, javax.swing.GroupLayout.PREFERRED_SIZE, 248, javax.swing.GroupLayout.PREFERRED_SIZE))))
         );
         jPanelPrincipalLayout.setVerticalGroup(
             jPanelPrincipalLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(jPanelPrincipalLayout.createSequentialGroup()
                 .addContainerGap(119, Short.MAX_VALUE)
                 .addComponent(jPanelCredenciales, javax.swing.GroupLayout.PREFERRED_SIZE, 325, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addGap(45, 45, 45)
-                .addComponent(jLabelBolitas, javax.swing.GroupLayout.PREFERRED_SIZE, 231, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addGroup(jPanelPrincipalLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addGroup(jPanelPrincipalLayout.createSequentialGroup()
+                        .addGap(45, 45, 45)
+                        .addComponent(jLabelBolitas, javax.swing.GroupLayout.PREFERRED_SIZE, 231, javax.swing.GroupLayout.PREFERRED_SIZE))
+                    .addGroup(jPanelPrincipalLayout.createSequentialGroup()
+                        .addGap(59, 59, 59)
+                        .addComponent(enviarcorreo))))
             .addComponent(jLabelLogoDegradado, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
         );
 
@@ -250,6 +266,12 @@ public class Login extends javax.swing.JFrame {
         // TODO add your handling code here:
         System.out.println("se cerro la ventana");
     }//GEN-LAST:event_formWindowClosing
+
+    private void enviarcorreoActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_enviarcorreoActionPerformed
+        // TODO add your handling code here:
+        EnvioCorreos formulario = new EnvioCorreos();  // Crear una instancia del formulario
+    formulario.setVisible(true);  // Mostrar el formulario
+    }//GEN-LAST:event_enviarcorreoActionPerformed
 
     private boolean isRestContra(String nombre) {
         return new CredencialManager().isRestContra(nombre);
@@ -396,6 +418,7 @@ public class Login extends javax.swing.JFrame {
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JButton btnForgottenPassword;
     private javax.swing.JButton btnIngresar;
+    private javax.swing.JButton enviarcorreo;
     private javax.swing.JLabel jLabel1;
     private javax.swing.JLabel jLabel2;
     private javax.swing.JLabel jLabelBienvenida;
