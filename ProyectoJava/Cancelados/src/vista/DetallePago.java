@@ -8,7 +8,7 @@ import java.awt.Color;
 import java.awt.Frame;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
-import modelo.FuncionesUtiles;
+import Util.FuncionesUtiles;
 
 /**
  *

@@ -1,4 +1,4 @@
-package modelo;
+package Util;
 
 import java.awt.Color;
 import java.awt.Image;
@@ -14,6 +14,9 @@ import java.time.format.DateTimeFormatter;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 import java.util.Arrays;
+import javax.swing.JFrame;
+import javax.swing.JOptionPane;
+import modelo.Empleado;
 
 public class FuncionesUtiles {
 
@@ -172,14 +175,21 @@ public class FuncionesUtiles {
         return !rfc.matches(regex);
     }
 
-    public boolean validarRFC(Empleado empleado) {
+    public boolean validarRFC(Empleado empleado, int edadMinima, int edadMaxima, JFrame ventana) {
 
         //Obtener el RFC
         String rfc = empleado.getRfc();
 
-        //Validar longitud, caracteres y orden de caracteres
+        //Validar longitud
+        if (rfc.length() != 13) {
+            JOptionPane.showMessageDialog(ventana, "ERROR! La cantidad de caracteres del RFC es incorrecto, debe de ser igual a 13");
+            return false;
+        }
+
+        //Validar caracteres y orden de caracteres
         if (validarOrdenRFC(rfc)) {
-            System.out.println("ERROR! El orden de los caracteres es incorrecto");
+            JOptionPane.showMessageDialog(ventana, "ERROR! El orden de los caracteres del RFC es incorrecto");
+            //System.out.println("ERROR! El orden de los caracteres es incorrecto");
             return false;
         }
 
@@ -187,8 +197,9 @@ public class FuncionesUtiles {
         String fechaNacimiento = rfc.substring(4, 10);
 
         //Verificar que la fecha de nacimiento sea 18<=X<=65
-        if (!verificarEdad(fechaNacimiento, 18, 65)) {
-            System.out.println("La edad del empleado debe de ser: 18<=X<=65");
+        if (!verificarEdad(fechaNacimiento, edadMinima, edadMaxima)) {
+            JOptionPane.showMessageDialog(ventana, "ERROR, Debe de ingresar una edad valida en el RFC, la edad debe de ser: 18<=X<=65");
+            //System.out.println("La edad del empleado debe de ser: 18<=X<=65");
             return false;
         }
 
@@ -205,7 +216,8 @@ public class FuncionesUtiles {
 
         //Verificar si las iniciales coninciden con las del RFC
         if (!verificarInicialesRFC(inicialesRFC, iPaterno, vPaterno, iMaterno, iNombre)) {
-            System.out.println("ERROR las iniciales no concuerdan con las del RFC");
+            JOptionPane.showMessageDialog(ventana, "ERROR las iniciales no concuerdan con las del RFC");
+            //System.out.println("ERROR las iniciales no concuerdan con las del RFC");
             return false;
         }
 
@@ -229,6 +241,7 @@ public class FuncionesUtiles {
         try {
             if (fechaNacimiento.length != 6) {
                 System.out.println("El arreglo debe tener 6 caracteres (aammdd).");
+                return false;
             }
 
             int year = Integer.parseInt(new String(fechaNacimiento, 0, 2));
@@ -248,8 +261,14 @@ public class FuncionesUtiles {
                 birthCentury -= 100;
             }
 
-            LocalDate birthDate = LocalDate.of(birthCentury + year, month, day);
-            //System.out.println(birthDate);
+            LocalDate birthDate = null;
+
+            try {
+                birthDate = LocalDate.of(birthCentury + year, month, day);
+            } catch (Exception e) {
+                return false;
+            }
+
             LocalDate currentDate = LocalDate.of(currentYear, currentMonth, currentDay);
 
             Period age = Period.between(birthDate, currentDate);
@@ -286,16 +305,15 @@ public class FuncionesUtiles {
         empleado.setColonia("San Pedro");
         empleado.setCp("12345");
         empleado.setCurp("GALJ920101HDFXXX00");
-        empleado.setRfc("GALJ580527N77");
+        empleado.setRfc("GALJ585027N77");
         empleado.setMunicipio("Ciudad de México");
         empleado.setEstado("Ciudad de México");
         empleado.setIdRol(2);
 
         FuncionesUtiles fun = new FuncionesUtiles();
 
-        System.out.println(fun.validarRFC(empleado));
+        System.out.println(fun.validarRFC(empleado, 18, 65, new javax.swing.JFrame()));
 
     }
      */
-
 }

@@ -6,11 +6,11 @@ import controlador.EnviosManager;
 import java.awt.Color;
 import java.util.ArrayList;
 import javax.swing.JFrame;
+import Util.FuncionesUtiles;
 import javax.swing.JTable;
 import javax.swing.table.DefaultTableModel;
 import javax.swing.table.TableColumn;
 import javax.swing.table.TableColumnModel;
-import modelo.FuncionesUtiles;
 import vista.*;
 
 public class DialogoEnvio extends javax.swing.JDialog {

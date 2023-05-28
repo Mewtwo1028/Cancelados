@@ -2,7 +2,7 @@ package vista;
 
 import controlador.CorteDeCaja;
 import controlador.VentaManager;
-import modelo.FuncionesUtiles;
+import Util.FuncionesUtiles;
 import java.awt.Color;
 import java.awt.Toolkit;
 import java.util.ArrayList;

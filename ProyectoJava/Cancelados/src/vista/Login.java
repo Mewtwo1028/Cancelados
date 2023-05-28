@@ -1,7 +1,7 @@
 package vista;
 
 import controlador.CajaManager;
-import modelo.FuncionesUtiles;
+import Util.FuncionesUtiles;
 import java.awt.Color;
 import java.awt.Cursor;
 import java.awt.event.KeyEvent;
@@ -16,8 +16,8 @@ import static java.awt.Frame.MAXIMIZED_BOTH;
 import java.util.Arrays;
 import java.util.GregorianCalendar;
 import javax.swing.JOptionPane;
-import modelo.GsonManejador;
-import modelo.ManejoArchivo;
+import Util.GsonManejador;
+import Util.ManejoArchivo;
 
 public class Login extends javax.swing.JFrame {
 

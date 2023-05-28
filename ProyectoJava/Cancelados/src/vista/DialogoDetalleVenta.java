@@ -14,7 +14,7 @@ import java.util.logging.Level;
 import java.util.logging.Logger;
 import javax.swing.JOptionPane;
 import javax.swing.table.DefaultTableModel;
-import modelo.FuncionesUtiles;
+import Util.FuncionesUtiles;
 
 public class DialogoDetalleVenta extends javax.swing.JDialog implements Printable {
 

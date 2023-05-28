@@ -1,12 +1,12 @@
 package vista;
 
 import controlador.CajaManager;
-import modelo.FuncionesUtiles;
+import Util.FuncionesUtiles;
 import java.awt.Color;
 import javax.swing.JButton;
 import javax.swing.JFrame;
-import modelo.GsonManejador;
-import modelo.ManejoArchivo;
+import Util.GsonManejador;
+import Util.ManejoArchivo;
 
 public class PanelControlEmpleado extends javax.swing.JFrame {
     

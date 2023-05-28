@@ -2,9 +2,8 @@ package vista;
 
 import controlador.EmpleadoManager;
 import controlador.NotificacionManager;
-import modelo.Credencial;
 import modelo.Empleado;
-import modelo.FuncionesUtiles;
+import Util.FuncionesUtiles;
 import java.awt.Color;
 import java.math.BigInteger;
 import java.util.ArrayList;
@@ -12,16 +11,8 @@ import javax.swing.JFrame;
 import javax.swing.table.DefaultTableModel;
 import java.security.MessageDigest;
 import java.security.NoSuchAlgorithmException;
-import java.time.LocalDate;
-import java.time.Period;
-import java.util.Arrays;
-import java.util.logging.Level;
-import java.util.logging.Logger;
-import java.util.regex.Matcher;
-import java.util.regex.Pattern;
 import javax.swing.DefaultComboBoxModel;
 import javax.swing.JOptionPane;
-import modelo.ManejoArchivo;
 
 public class AdministrarEmpleado extends javax.swing.JFrame {
 
@@ -589,7 +580,7 @@ public class AdministrarEmpleado extends javax.swing.JFrame {
         }
 
         //Valida el rfc y que la edad minima y maxima sean las especificadas
-        if (!validarRFC(empleado, 18, 65)) {
+        if (!new FuncionesUtiles().validarRFC(empleado, 18, 65, this)) {
             return;
         }
 
@@ -619,6 +610,11 @@ public class AdministrarEmpleado extends javax.swing.JFrame {
         int txtIdRol = String.valueOf(jComboBoxRol.getSelectedItem()).equals("Empleado") ? 2 : 1;
         Empleado empleado = new Empleado(Integer.parseInt(txtIDEmpleado.getText()), txtNombre.getText(), txtApPaterno.getText(), txtApMaterno.getText(), txtCalle.getText(), txtNoExt.getText(), txtColonia.getText(), txtCP.getText(), txtCURP.getText(), txtRFC.getText(), txtMunicipio.getText(), txtEstado.getText(), txtIdRol);
 
+        //Valida el rfc y que la edad minima y maxima sean las especificadas
+        if (!new FuncionesUtiles().validarRFC(empleado, 18, 65, this)) {
+            return;
+        }
+        
         if (new EmpleadoManager().modificarEmpleado(empleado)) {
             llenarTabla();
             dEmergente.setTexto("El empleado se modificó de forma correcta");
@@ -698,121 +694,6 @@ public class AdministrarEmpleado extends javax.swing.JFrame {
         // TODO add your handling code here:
         buscarEmpleado(btnFind.getText(), jComboBox1.getSelectedItem());
     }//GEN-LAST:event_jComboBox1ItemStateChanged
-
-    private static boolean validarOrdenRFC(String rfc) {
-        String regex = "^[A-Z]{4}[0-9]{6}[A-Z0-9]{3}$";
-        return !rfc.matches(regex);
-    }
-
-    public boolean validarRFC(Empleado empleado, int edadMinima, int edadMaxima) {
-
-        //Obtener el RFC
-        String rfc = empleado.getRfc();
-
-        if (rfc.length() != 13) {
-            JOptionPane.showMessageDialog(this, "ERROR! La cantidad de caracteres del RFC es incorrecto, debe de ser igual a 13");
-            return false;
-        }
-
-        //Validar longitud, caracteres y orden de caracteres
-        if (validarOrdenRFC(rfc)) {
-            JOptionPane.showMessageDialog(this, "ERROR! El orden de los caracteres es incorrecto");
-            //System.out.println("ERROR! El orden de los caracteres es incorrecto");
-            return false;
-        }
-
-        //Obtener fecha de nacimiento
-        String fechaNacimiento = rfc.substring(4, 10);
-
-        //Verificar que la fecha de nacimiento sea 18<=X<=65
-        if (!verificarEdad(fechaNacimiento, edadMinima, edadMaxima)) {
-            JOptionPane.showMessageDialog(this, "La edad del empleado debe de ser: 18<=X<=65");
-            //System.out.println("La edad del empleado debe de ser: 18<=X<=65");
-            return false;
-        }
-
-        //Primera letra el apellido paterno
-        char iPaterno = empleado.getaPaterno().toUpperCase().charAt(0);
-        //Primera vocal inicial del apellidoPaterno
-        char vPaterno = getVocal(empleado.getaPaterno().toUpperCase());
-        //Primera letra inicial del apellidoMaterno
-        char iMaterno = empleado.getaMaterno().toUpperCase().charAt(0);
-        //Primera letra inicial del nombre
-        char iNombre = empleado.getNombre().toUpperCase().charAt(0);
-        //Primeros 4 caracteres del RFC
-        char[] inicialesRFC = rfc.substring(0, 4).toUpperCase().toCharArray();
-
-        //Verificar si las iniciales coninciden con las del RFC
-        if (!verificarInicialesRFC(inicialesRFC, iPaterno, vPaterno, iMaterno, iNombre)) {
-            JOptionPane.showMessageDialog(this, "ERROR las iniciales no concuerdan con las del RFC");
-            //System.out.println("ERROR las iniciales no concuerdan con las del RFC");
-            return false;
-        }
-
-        return true;
-    }
-
-    private boolean verificarInicialesRFC(char[] rfc, char iPaterno, char vPaterno, char iMaterno, char iNombre) {
-
-        //Verificar que la vocal de vPaterno no sea nula
-        if (vPaterno == '\0') {
-            return false;
-        }
-
-        char[] iniciales = {iPaterno, vPaterno, iMaterno, iNombre};
-        return Arrays.equals(rfc, iniciales);
-    }
-
-    private boolean verificarEdad(String rfc, int edadMinima, int edadMaxima) {
-        char[] fechaNacimiento = rfc.toCharArray();
-
-        try {
-            if (fechaNacimiento.length != 6) {
-                System.out.println("El arreglo debe tener 6 caracteres (aammdd).");
-            }
-
-            int year = Integer.parseInt(new String(fechaNacimiento, 0, 2));
-            int month = Integer.parseInt(new String(fechaNacimiento, 2, 2));
-            int day = Integer.parseInt(new String(fechaNacimiento, 4, 2));
-
-            int currentYear = LocalDate.now().getYear();
-            int currentMonth = LocalDate.now().getMonthValue();
-            int currentDay = LocalDate.now().getDayOfMonth();
-
-            // Obtener el siglo actual
-            int century = currentYear / 100;
-
-            // Determinar el siglo adecuado para el año de nacimiento del RFC
-            int birthCentury = century * 100;
-            if (currentYear % 100 < year) {
-                birthCentury -= 100;
-            }
-            
-            LocalDate birthDate = LocalDate.of(birthCentury + year, month, day);
-            //System.out.println(birthDate);
-            LocalDate currentDate = LocalDate.of(currentYear, currentMonth, currentDay);
-
-            Period age = Period.between(birthDate, currentDate);
-            int years = age.getYears();
-            
-            //System.out.println("Edad del empleado: "+years);
-            
-            return years >= edadMinima && years <= edadMaxima;
-        } catch (NumberFormatException e) {
-            System.out.println("Error en esMayorEdad: " + e.getMessage());
-        }
-        return false;
-    }
-
-    private char getVocal(String cadena) {
-        Pattern patron = Pattern.compile("[aeiouAEIOU]");
-        Matcher matcher = patron.matcher(cadena);
-        if (matcher.find()) {
-            return matcher.group().charAt(0);
-        } else {
-            return '\0'; // Retornar el caracter nulo si no se encuentra ninguna vocal
-        }
-    }
 
     private void buscarEmpleado(String txt, Object filtro) {
         modelo.setRowCount(0);

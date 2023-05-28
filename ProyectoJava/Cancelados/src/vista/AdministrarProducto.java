@@ -2,7 +2,7 @@ package vista;
 
 import controlador.CategoriaManager;
 import controlador.ProductoManager;
-import modelo.FuncionesUtiles;
+import Util.FuncionesUtiles;
 import modelo.Producto;
 import java.awt.Color;
 import java.awt.Dimension;

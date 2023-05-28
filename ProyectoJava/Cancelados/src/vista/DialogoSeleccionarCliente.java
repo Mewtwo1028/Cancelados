@@ -8,7 +8,7 @@ import javax.swing.DefaultComboBoxModel;
 import javax.swing.JOptionPane;
 import javax.swing.table.DefaultTableModel;
 import modelo.Cliente;
-import modelo.FuncionesUtiles;
+import Util.FuncionesUtiles;
 
 public class DialogoSeleccionarCliente extends javax.swing.JDialog {
 

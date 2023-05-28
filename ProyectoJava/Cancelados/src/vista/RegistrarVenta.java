@@ -5,7 +5,7 @@ import controlador.ProductoManager;
 import controlador.VentaManager;
 import modelo.Cliente;
 import modelo.DetalleVenta;
-import modelo.FuncionesUtiles;
+import Util.FuncionesUtiles;
 import modelo.Producto;
 import modelo.Venta;
 import java.awt.Color;
