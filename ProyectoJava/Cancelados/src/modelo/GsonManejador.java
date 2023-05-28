@@ -94,7 +94,7 @@ public class GsonManejador {
         }
         return false;
     }
-
+    /*
     public static void main(String[] args) {
         GsonManejador gm = new GsonManejador();
 
@@ -112,5 +112,6 @@ public class GsonManejador {
         //escribir un clave valor
         System.out.println(gm.escribirClaveValor("prueba3", "hola"));
     }
+     */
 
 }
