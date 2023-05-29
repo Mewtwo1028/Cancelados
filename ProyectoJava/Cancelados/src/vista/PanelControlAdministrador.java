@@ -72,7 +72,7 @@ public class PanelControlAdministrador extends javax.swing.JFrame {
         tools.confBtnColor(btnAbrirCaja);
 
         CajaManager cm = new CajaManager();
-        if (cm.consultaEstadoCaja(idAdmon)) {
+        if (cm.consultaEstadoCajaPlus(idAdmon)) {
             btnAbrirCaja.setEnabled(false);
             btnCerrarCaja.setEnabled(true);
             abreBotones(true);

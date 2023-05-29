@@ -18,6 +18,7 @@ import java.util.GregorianCalendar;
 import javax.swing.JOptionPane;
 import Util.GsonManejador;
 import Util.ManejoArchivo;
+import controlador.EmpleadoManager;
 
 public class Login extends javax.swing.JFrame {
 
@@ -270,7 +271,7 @@ public class Login extends javax.swing.JFrame {
     private void enviarcorreoActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_enviarcorreoActionPerformed
         // TODO add your handling code here:
         EnvioCorreos formulario = new EnvioCorreos();  // Crear una instancia del formulario
-    formulario.setVisible(true);  // Mostrar el formulario
+        formulario.setVisible(true);  // Mostrar el formulario
     }//GEN-LAST:event_enviarcorreoActionPerformed
 
     private boolean isRestContra(String nombre) {
@@ -330,9 +331,11 @@ public class Login extends javax.swing.JFrame {
             return;
         }
 
+        String nombreEmpleado = new EmpleadoManager().getNombreEmpleado(username);
+
         if (rolId.equals("1")) {
 
-            gm.escribirClaveValor("nombreusuario", username);
+            gm.escribirClaveValor("nombreusuario", nombreEmpleado);
             gm.escribirClaveValor("idEmpleado", String.valueOf(idEmpleado));
 
             PanelControlAdministrador panel = new PanelControlAdministrador();
@@ -351,7 +354,7 @@ public class Login extends javax.swing.JFrame {
             panel.setVisible(true);
         } else {
 
-            gm.escribirClaveValor("nombreusuario", username);
+            gm.escribirClaveValor("nombreusuario", nombreEmpleado);
             gm.escribirClaveValor("idEmpleado", String.valueOf(idEmpleado));
 
             PanelControlEmpleado panel = new PanelControlEmpleado();

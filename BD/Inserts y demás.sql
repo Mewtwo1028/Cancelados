@@ -329,3 +329,19 @@ UPDATE `cancelados`.`producto` SET `Imagen` = ? WHERE (`idProducto` = '9');
 UPDATE `cancelados`.`producto` SET `Imagen` = ? WHERE (`idProducto` = '10');
 UPDATE `cancelados`.`producto` SET `Imagen` = ? WHERE (`idProducto` = '11');
 UPDATE `cancelados`.`producto` SET `Imagen` = ? WHERE (`idProducto` = '12');
+
+
+-- ******************* 28/05/2023 *******************
+ALTER TABLE empleado ADD COLUMN nombreUsuario VARCHAR(30) unique;
+
+UPDATE empleado SET 
+apellidoMaterno = "CACC800523HNYNG1",
+calle = "Agata marina",
+colonia = "Olimpo",
+cp = "63173",
+curp = "CACC800523HNYNG1",
+rfc = "CACC800523",
+nombreUsuario = "CanceladosHugoNT123"
+WHERE idEmpleado = 1;
+
+-- **************************************************

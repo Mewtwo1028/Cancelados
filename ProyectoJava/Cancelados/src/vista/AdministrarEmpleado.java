@@ -16,29 +16,29 @@ import javax.swing.DefaultComboBoxModel;
 import javax.swing.JOptionPane;
 
 public class AdministrarEmpleado extends javax.swing.JFrame {
-
+    
     private int idAdmon;
     private String[] datos;
-
+    
     DefaultTableModel modelo = new DefaultTableModel() {
         @Override
         public boolean isCellEditable(int row, int column) {
             return false;
         }
     };
-
+    
     public AdministrarEmpleado() {
         initComponents();
         inicializar();
         initTabla();
-
+        
     }
 
     //Función que comprueba si el campo contraseña y repetir contraseña tienen el mismo contenido
     private boolean compruebaContra(String pass1, String pass2) {
         return pass1.compareTo(pass2) < 0 ? false : true;
     }
-
+    
     private void inicializar() {
         FuncionesUtiles tool = new FuncionesUtiles();
         //Configuracion ventana
@@ -82,33 +82,33 @@ public class AdministrarEmpleado extends javax.swing.JFrame {
 
         //Limpiar txtFields
         limpiarTxtFields();
-
+        
         btnFind.setText("");
-
+        
         initFiltro();
-
+        
         initCampos();
     }
-
+    
     private void initCampos() {
         this.txtEstado.setEnabled(false);
         this.txtMunicipio.setEnabled(false);
         this.txtColonia.setEnabled(false);
         this.txtCP.setEnabled(false);
     }
-
+    
     private void initFiltro() {
         btnFind.setText("");
         String[] filtro = {"Nombre", "Apellido Paterno", "Apellido Materno"};
         jComboBox1.setModel(new DefaultComboBoxModel(filtro));
     }
-
+    
     public void setAdmon(String nombre, int id) {
-
+        
         this.idAdmon = id;
-
+        
         AccionesRapidasAdministrador panelBotones = new AccionesRapidasAdministrador(this);
-
+        
         panelBotones.setBounds(0, 0, 266, (int) this.getBounds().getHeight() - 80);
         jPanelIzquierda.removeAll();
         jPanelIzquierda.setMinimumSize(panelBotones.getPreferredSize());
@@ -116,7 +116,7 @@ public class AdministrarEmpleado extends javax.swing.JFrame {
         panelBotones.revalidate();
         panelBotones.repaint();
     }
-
+    
     private void limpiarTxtFields() {
         txtNombre.setText("");
         txtApPaterno.setText("");
@@ -132,7 +132,7 @@ public class AdministrarEmpleado extends javax.swing.JFrame {
         jComboBoxRol.setSelectedIndex(0);
         txtIDEmpleado.setText("");
     }
-
+    
     private void initTabla() {
         modelo.addColumn("ID Empleado");
         modelo.addColumn("Nombre");
@@ -147,6 +147,7 @@ public class AdministrarEmpleado extends javax.swing.JFrame {
         modelo.addColumn("Municipio");
         modelo.addColumn("Estado");
         modelo.addColumn("ROL");
+        modelo.addColumn("Nombre Usuario");
         //modelo.addColumn("Contraseña");
         tblEmpleado.setModel(modelo);
         txtIDEmpleado.setEnabled(false);
@@ -359,6 +360,7 @@ public class AdministrarEmpleado extends javax.swing.JFrame {
                             .addComponent(txtMunicipio, javax.swing.GroupLayout.DEFAULT_SIZE, 130, Short.MAX_VALUE))
                         .addGap(18, 18, 18)
                         .addGroup(jPanelFormularioLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
+                            .addComponent(jButton1, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                             .addGroup(jPanelFormularioLayout.createSequentialGroup()
                                 .addGroup(jPanelFormularioLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
                                     .addComponent(labelEstadp, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
@@ -368,8 +370,7 @@ public class AdministrarEmpleado extends javax.swing.JFrame {
                                 .addGroup(jPanelFormularioLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
                                     .addComponent(txtIDEmpleado)
                                     .addComponent(jComboBoxRol, 0, 130, Short.MAX_VALUE)
-                                    .addComponent(txtEstado)))
-                            .addComponent(jButton1, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))))
+                                    .addComponent(txtEstado))))))
                 .addContainerGap(11, Short.MAX_VALUE))
         );
         jPanelFormularioLayout.setVerticalGroup(
@@ -579,7 +580,7 @@ public class AdministrarEmpleado extends javax.swing.JFrame {
 
     private void btnRegistrarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnRegistrarActionPerformed
         DialogoEmergente dEmergente = new DialogoEmergente(this, true);
-
+        
         String nombre = txtNombre.getText();
         String aPaterno = txtApPaterno.getText();
         String aMaterno = txtApMaterno.getText();
@@ -591,17 +592,17 @@ public class AdministrarEmpleado extends javax.swing.JFrame {
         String rfc = txtRFC.getText();
         String municipio = txtMunicipio.getText();
         String estado = txtEstado.getText();
-
+        
         if (estado.equals("SELECCIONE UN ESTADO")) {
             JOptionPane.showMessageDialog(this, "ERROR Seleccione una entidad federativa");
             return;
         }
-
+        
         String rol = String.valueOf(jComboBoxRol.getSelectedItem());
         int idRol = rol.equals("Empleado") ? 2 : 1;
-
+        
         Empleado empleado = new Empleado(nombre, aPaterno, aMaterno, calle, noExt, Colonia, cp, curp, rfc, municipio, estado, idRol);
-
+        
         if (validarFormulario()) {
             dEmergente.setTexto("¡ERROR! HAY AL MENOS\nUN CAMPO SIN LLENAR");
             dEmergente.setVisible(true);
@@ -621,7 +622,7 @@ public class AdministrarEmpleado extends javax.swing.JFrame {
         //Validar que los 4 primeros caracteres del rfc y curp sea la misma
         char[] rfcV = empleado.getRfc().substring(0, 4).toCharArray();
         char[] curpV = empleado.getCurp().substring(0, 4).toCharArray();
-
+        
         if (!Arrays.equals(rfcV, curpV)) {
             JOptionPane.showMessageDialog(this, "ERROR los primeros 4 caracteres de la CURP y del RFC no concuerdan");
             return;
@@ -630,12 +631,12 @@ public class AdministrarEmpleado extends javax.swing.JFrame {
         //Validar que la fecha de nacimiento del rfc y curp sea la misma
         char[] rfcV2 = empleado.getRfc().substring(4, 10).toCharArray();
         char[] curpV2 = empleado.getCurp().substring(4, 10).toCharArray();
-
+        
         if (!Arrays.equals(rfcV2, curpV2)) {
             JOptionPane.showMessageDialog(this, "ERROR la fecha de nacimiento de la CURP y del RFC no concuerdan");
             return;
         }
-
+        
         if (new EmpleadoManager().insertarEmpleado(empleado)) {
             llenarTabla();
             dEmergente.setTexto("El empleado se registró de  forma correcta");
@@ -646,23 +647,23 @@ public class AdministrarEmpleado extends javax.swing.JFrame {
         }
         limpiarTxtFields();
     }//GEN-LAST:event_btnRegistrarActionPerformed
-
+    
     private String encriptaContra(String contrasena) throws NoSuchAlgorithmException {
         MessageDigest md = MessageDigest.getInstance("MD5");
         byte[] messageDigest = md.digest(contrasena.getBytes());
-
+        
         BigInteger bigInt = new BigInteger(1, messageDigest);
-
+        
         return bigInt.toString();
     }
-
+    
 
     private void btnModificarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnModificarActionPerformed
         DialogoEmergente dEmergente = new DialogoEmergente(this, true);
         int txtIdRol = String.valueOf(jComboBoxRol.getSelectedItem()).equals("Empleado") ? 2 : 1;
-
+        
         String estado = txtEstado.getText();
-
+        
         Empleado empleado = new Empleado(Integer.parseInt(txtIDEmpleado.getText()), txtNombre.getText(), txtApPaterno.getText(), txtApMaterno.getText(), txtCalle.getText(), txtNoExt.getText(), txtColonia.getText(), txtCP.getText(), txtCURP.getText(), txtRFC.getText(), txtMunicipio.getText(), estado, txtIdRol);
 
         //Valida el rfc y que la edad minima y maxima sean las especificadas
@@ -678,7 +679,7 @@ public class AdministrarEmpleado extends javax.swing.JFrame {
         //Validar que los 4 primeros caracteres del rfc y curp sea la misma
         char[] rfcV = empleado.getRfc().substring(0, 4).toCharArray();
         char[] curpV = empleado.getCurp().substring(0, 4).toCharArray();
-
+        
         if (!Arrays.equals(rfcV, curpV)) {
             JOptionPane.showMessageDialog(this, "ERROR los primeros 4 caracteres de la CURP y del RFC no concuerdan");
             return;
@@ -687,12 +688,12 @@ public class AdministrarEmpleado extends javax.swing.JFrame {
         //Validar que la fecha de nacimiento del rfc y curp sea la misma
         char[] rfcV2 = empleado.getRfc().substring(4, 10).toCharArray();
         char[] curpV2 = empleado.getCurp().substring(4, 10).toCharArray();
-
+        
         if (!Arrays.equals(rfcV2, curpV2)) {
             JOptionPane.showMessageDialog(this, "ERROR la fecha de nacimiento de la CURP y del RFC no concuerdan");
             return;
         }
-
+        
         if (new EmpleadoManager().modificarEmpleado(empleado)) {
             llenarTabla();
             dEmergente.setTexto("El empleado se modificó de forma correcta");
@@ -713,23 +714,23 @@ public class AdministrarEmpleado extends javax.swing.JFrame {
     private void btnEliminarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnEliminarActionPerformed
         // ELIMINAR EMPLEADO
         DialogoEmergente dEmergente = new DialogoEmergente(this, true);
-
+        
         int idEmpleado;
-
+        
         try {
             idEmpleado = Integer.parseInt(txtIDEmpleado.getText());
         } catch (NumberFormatException e) {
             JOptionPane.showMessageDialog(this, "ERROR!, SELECCIONE UN RENGLON");
             return;
         }
-
+        
         if (idEmpleado == idAdmon) {
             JOptionPane.showMessageDialog(this, "NO PUEDE ELIMINARSE ASI MISMO", "ERROR!", JOptionPane.ERROR_MESSAGE);
             return;
         }
-
+        
         Empleado empleado = new Empleado(idEmpleado);
-
+        
         if (new EmpleadoManager().eliminarEmpleado(empleado)) {
             llenarTabla();
             dEmergente.setTexto("El empleado se eliminó de\nforma correcta");
@@ -742,19 +743,24 @@ public class AdministrarEmpleado extends javax.swing.JFrame {
     }//GEN-LAST:event_btnEliminarActionPerformed
 
     private void btnRestaurarContrasenaActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnRestaurarContrasenaActionPerformed
-
+        
         if (tblEmpleado.getSelectedRow() == -1) {
             JOptionPane.showMessageDialog(this, "ERROR, DEBE DE SELECIONAR UN RENGLON de la tabla");
             return;
         }
         int idEmpleado = Integer.parseInt(tblEmpleado.getValueAt(tblEmpleado.getSelectedRow(), 0).toString());
-
+        
+        if (this.idAdmon == idEmpleado) {
+            JOptionPane.showMessageDialog(this, "ERROR! No puedes restaurar tu propia contraseña");
+            return;
+        }
+        
         if (restContra(idEmpleado) && new NotificacionManager().eliminarNotEmpleado(idEmpleado)) {
             JOptionPane.showMessageDialog(this, "Todo correcto");
         } else {
             JOptionPane.showMessageDialog(this, "ERROR");
         }
-
+        
         limpiarTxtFields();
 
     }//GEN-LAST:event_btnRestaurarContrasenaActionPerformed
@@ -777,7 +783,7 @@ public class AdministrarEmpleado extends javax.swing.JFrame {
         // Abrir dialogo de seleccion de direccion
         DialogoSeleccionDireccion d = new DialogoSeleccionDireccion(this, true);
         d.setVisible(true);
-
+        
         if (datos != null) {
             //mostrar direccion al actor
             txtEstado.setText(this.datos[0]);
@@ -785,10 +791,10 @@ public class AdministrarEmpleado extends javax.swing.JFrame {
             txtColonia.setText(this.datos[2]);
             txtCP.setText(this.datos[3]);
         }
-
+        
 
     }//GEN-LAST:event_jButton1MouseClicked
-
+    
     private void buscarEmpleado(String txt, Object filtro) {
         modelo.setRowCount(0);
         switch (filtro.toString()) {
@@ -802,17 +808,17 @@ public class AdministrarEmpleado extends javax.swing.JFrame {
         tblEmpleado.repaint();
         tblEmpleado.revalidate();
     }
-
+    
     private void llenarTabla(ArrayList<String[]> lista) {
         for (int i = 0; i < lista.size(); i++) {
             modelo.addRow(lista.get(i));
         }
     }
-
+    
     private boolean restContra(int idEmpleado) {
         return new NotificacionManager().restaurarContrasena(idEmpleado);
     }
-
+    
     public void setNombre(String nombre) {
         PanelInformacionArriba panelInformacion = new PanelInformacionArriba();
         panelInformacion.setNombre(nombre);
@@ -823,7 +829,7 @@ public class AdministrarEmpleado extends javax.swing.JFrame {
         panelInformacion.revalidate();
         panelInformacion.repaint();
     }
-
+    
     private void llenarTabla() {
         modelo.setRowCount(0); //Limpiamos la tabla
         ArrayList<String[]> lista = new EmpleadoManager().consultarTodos();
@@ -831,15 +837,15 @@ public class AdministrarEmpleado extends javax.swing.JFrame {
             modelo.addRow(lista.get(i));
         }
     }
-
+    
     private boolean validarFormulario() {
         return txtNombre.getText().isBlank() | txtApPaterno.getText().isBlank() | txtApMaterno.getText().isBlank() | txtCalle.getText().isBlank() | txtNoExt.getText().isBlank() | txtColonia.getText().isBlank() | txtCP.getText().isBlank() | txtCURP.getText().isBlank() | txtRFC.getText().isBlank() | txtMunicipio.getText().isBlank() | txtEstado.getText().isBlank();
     }
-
+    
     public void setDireccion(String[] datos) {
         this.datos = datos;
     }
-
+    
     public static void main(String args[]) {
         /* Set the Nimbus look and feel */
         //<editor-fold defaultstate="collapsed" desc=" Look and feel setting code (optional) ">

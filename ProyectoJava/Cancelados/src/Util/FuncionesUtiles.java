@@ -17,6 +17,7 @@ import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 import java.util.Arrays;
 import java.util.HashMap;
+import java.util.Random;
 import javax.swing.JFrame;
 import javax.swing.JOptionPane;
 import modelo.Empleado;
@@ -27,6 +28,17 @@ public class FuncionesUtiles {
 
     public FuncionesUtiles() {
         initEntidadesFederativas();
+    }
+
+    public String generarNombreUsuario(Empleado empleado) {
+        Random random = new Random();
+        int numbers = random.nextInt(900) + 100;
+        String username = empleado.getaPaterno() + empleado.getNombre() + getAbreviatura(empleado.getCurp()) + numbers;
+        return username;
+    }
+    
+    private String getAbreviatura(String curp){
+        return curp.substring(12, 14);
     }
 
     public Object[] getEstados() {
