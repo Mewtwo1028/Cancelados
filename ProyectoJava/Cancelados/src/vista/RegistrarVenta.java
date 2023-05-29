@@ -209,10 +209,14 @@ public class RegistrarVenta extends javax.swing.JFrame {
     // <editor-fold defaultstate="collapsed" desc="Generated Code">//GEN-BEGIN:initComponents
     private void initComponents() {
 
+        venta1 = new modelo.Venta();
+        venta2 = new modelo.Venta();
         jPanelPrincipal = new javax.swing.JPanel();
         jPanelIzquierda = new javax.swing.JPanel();
         jPanelInformacion = new javax.swing.JPanel();
         jPanelLinea = new javax.swing.JPanel();
+        jScrollPane2 = new javax.swing.JScrollPane();
+        ticket1 = new modelo.Ticket();
         jPanelOperaciones = new javax.swing.JPanel();
         jScrollPane1 = new javax.swing.JScrollPane();
         tblProducto = new javax.swing.JTable();
@@ -269,15 +273,22 @@ public class RegistrarVenta extends javax.swing.JFrame {
             .addGap(0, 110, Short.MAX_VALUE)
         );
 
+        jScrollPane2.setViewportView(ticket1);
+
         javax.swing.GroupLayout jPanelLineaLayout = new javax.swing.GroupLayout(jPanelLinea);
         jPanelLinea.setLayout(jPanelLineaLayout);
         jPanelLineaLayout.setHorizontalGroup(
             jPanelLineaLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGap(0, 70, Short.MAX_VALUE)
+            .addGroup(jPanelLineaLayout.createSequentialGroup()
+                .addComponent(jScrollPane2, javax.swing.GroupLayout.PREFERRED_SIZE, 288, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addGap(0, 284, Short.MAX_VALUE))
         );
         jPanelLineaLayout.setVerticalGroup(
             jPanelLineaLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGap(0, 0, Short.MAX_VALUE)
+            .addGroup(jPanelLineaLayout.createSequentialGroup()
+                .addGap(120, 120, 120)
+                .addComponent(jScrollPane2, javax.swing.GroupLayout.PREFERRED_SIZE, 493, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
         );
 
         jPanelOperaciones.setLayout(new org.netbeans.lib.awtextra.AbsoluteLayout());
@@ -517,9 +528,9 @@ public class RegistrarVenta extends javax.swing.JFrame {
                 .addGroup(jPanelPrincipalLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
                     .addComponent(jPanelOperaciones, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                     .addComponent(jPanelInformacion, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                 .addComponent(jPanelLinea, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addContainerGap(177, Short.MAX_VALUE))
+                .addContainerGap())
         );
         jPanelPrincipalLayout.setVerticalGroup(
             jPanelPrincipalLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -530,9 +541,9 @@ public class RegistrarVenta extends javax.swing.JFrame {
                     .addGroup(jPanelPrincipalLayout.createSequentialGroup()
                         .addComponent(jPanelInformacion, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                        .addComponent(jPanelOperaciones, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
-                    .addComponent(jPanelLinea, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                        .addComponent(jPanelOperaciones, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)))
                 .addContainerGap())
+            .addComponent(jPanelLinea, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
         );
 
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
@@ -551,6 +562,8 @@ public class RegistrarVenta extends javax.swing.JFrame {
 
     private void btnAgregarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnAgregarActionPerformed
         
+        
+        
         if (validarFormulario()) {
             JOptionPane.showMessageDialog(this, "ERROR! Debe de llenar el formulario!");
             return;
@@ -562,6 +575,13 @@ public class RegistrarVenta extends javax.swing.JFrame {
         String importe = txtImporte.getText();
         String producto = cbNombreProducto.getSelectedItem().toString();
         String precioUnitario = txtPrecioUnitario.getText();
+        
+         
+        ticket1.agregarProducto(producto, Double.parseDouble(cantidad), Double.parseDouble(importe));
+         
+         
+        
+       
 
         /*
         subTotal += Float.parseFloat(importe);
@@ -606,6 +626,8 @@ public class RegistrarVenta extends javax.swing.JFrame {
     }//GEN-LAST:event_tblProductoMouseClicked
 
     private void btnEliminarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnEliminarActionPerformed
+            ticket1.quitarProducto();
+       
         int renglon = tblProducto.getSelectedRow();
         
         if (renglon == -1) {
@@ -963,6 +985,7 @@ public class RegistrarVenta extends javax.swing.JFrame {
     private javax.swing.JPanel jPanelOperaciones;
     private javax.swing.JPanel jPanelPrincipal;
     private javax.swing.JScrollPane jScrollPane1;
+    private javax.swing.JScrollPane jScrollPane2;
     private javax.swing.JLabel labelCantidad;
     private javax.swing.JLabel labelPrecioUnitario;
     private javax.swing.JLabel labelSubtotal;
@@ -970,6 +993,7 @@ public class RegistrarVenta extends javax.swing.JFrame {
     private javax.swing.JLabel labelimporte;
     private javax.swing.JSpinner spnCantidad;
     private javax.swing.JTable tblProducto;
+    private modelo.Ticket ticket1;
     private javax.swing.JTextField txtIDProducto;
     private javax.swing.JTextField txtIdCliente;
     private javax.swing.JTextField txtImporte;
@@ -977,5 +1001,7 @@ public class RegistrarVenta extends javax.swing.JFrame {
     private javax.swing.JTextField txtPrecioUnitario;
     private javax.swing.JTextField txtSubtotal;
     private javax.swing.JTextField txtTotal;
+    private modelo.Venta venta1;
+    private modelo.Venta venta2;
     // End of variables declaration//GEN-END:variables
 }
