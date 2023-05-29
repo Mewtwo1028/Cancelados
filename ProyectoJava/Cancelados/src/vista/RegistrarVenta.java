@@ -211,15 +211,13 @@ public class RegistrarVenta extends javax.swing.JFrame {
     // <editor-fold defaultstate="collapsed" desc="Generated Code">//GEN-BEGIN:initComponents
     private void initComponents() {
 
-        venta1 = new modelo.Venta();
-        venta2 = new modelo.Venta();
         jPanelPrincipal = new javax.swing.JPanel();
         jPanelIzquierda = new javax.swing.JPanel();
         jPanelInformacion = new javax.swing.JPanel();
         jPanelLinea = new javax.swing.JPanel();
-        jScrollPane2 = new javax.swing.JScrollPane();
-        ticket1 = new modelo.Ticket();
         jButton3 = new javax.swing.JButton();
+        jScrollPane3 = new javax.swing.JScrollPane();
+        ticket1 = new modelo.Ticket();
         jPanelOperaciones = new javax.swing.JPanel();
         jScrollPane1 = new javax.swing.JScrollPane();
         tblProducto = new javax.swing.JTable();
@@ -276,8 +274,6 @@ public class RegistrarVenta extends javax.swing.JFrame {
             .addGap(0, 110, Short.MAX_VALUE)
         );
 
-        jScrollPane2.setViewportView(ticket1);
-
         jButton3.setText("Imprimir Ticket");
         jButton3.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
@@ -285,25 +281,29 @@ public class RegistrarVenta extends javax.swing.JFrame {
             }
         });
 
+        jScrollPane3.setViewportView(ticket1);
+
         javax.swing.GroupLayout jPanelLineaLayout = new javax.swing.GroupLayout(jPanelLinea);
         jPanelLinea.setLayout(jPanelLineaLayout);
         jPanelLineaLayout.setHorizontalGroup(
             jPanelLineaLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(jPanelLineaLayout.createSequentialGroup()
-                .addComponent(jScrollPane2, javax.swing.GroupLayout.PREFERRED_SIZE, 288, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addGap(0, 284, Short.MAX_VALUE))
-            .addGroup(jPanelLineaLayout.createSequentialGroup()
-                .addGap(99, 99, 99)
+                .addContainerGap()
+                .addComponent(jScrollPane3, javax.swing.GroupLayout.PREFERRED_SIZE, 288, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addComponent(jButton3)
-                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                .addContainerGap(363, Short.MAX_VALUE))
         );
         jPanelLineaLayout.setVerticalGroup(
             jPanelLineaLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(jPanelLineaLayout.createSequentialGroup()
-                .addGap(120, 120, 120)
-                .addComponent(jScrollPane2, javax.swing.GroupLayout.PREFERRED_SIZE, 493, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addGap(31, 31, 31)
-                .addComponent(jButton3)
+                .addGroup(jPanelLineaLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addGroup(jPanelLineaLayout.createSequentialGroup()
+                        .addGap(644, 644, 644)
+                        .addComponent(jButton3))
+                    .addGroup(jPanelLineaLayout.createSequentialGroup()
+                        .addGap(130, 130, 130)
+                        .addComponent(jScrollPane3, javax.swing.GroupLayout.PREFERRED_SIZE, 541, javax.swing.GroupLayout.PREFERRED_SIZE)))
                 .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
         );
 
@@ -1020,7 +1020,7 @@ public class RegistrarVenta extends javax.swing.JFrame {
     private javax.swing.JPanel jPanelOperaciones;
     private javax.swing.JPanel jPanelPrincipal;
     private javax.swing.JScrollPane jScrollPane1;
-    private javax.swing.JScrollPane jScrollPane2;
+    private javax.swing.JScrollPane jScrollPane3;
     private javax.swing.JLabel labelCantidad;
     private javax.swing.JLabel labelPrecioUnitario;
     private javax.swing.JLabel labelSubtotal;
@@ -1036,7 +1036,5 @@ public class RegistrarVenta extends javax.swing.JFrame {
     private javax.swing.JTextField txtPrecioUnitario;
     private javax.swing.JTextField txtSubtotal;
     private javax.swing.JTextField txtTotal;
-    private modelo.Venta venta1;
-    private modelo.Venta venta2;
     // End of variables declaration//GEN-END:variables
 }
