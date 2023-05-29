@@ -211,15 +211,13 @@ public class RegistrarVenta extends javax.swing.JFrame {
     // <editor-fold defaultstate="collapsed" desc="Generated Code">//GEN-BEGIN:initComponents
     private void initComponents() {
 
-        venta1 = new modelo.Venta();
-        venta2 = new modelo.Venta();
         jPanelPrincipal = new javax.swing.JPanel();
         jPanelIzquierda = new javax.swing.JPanel();
         jPanelInformacion = new javax.swing.JPanel();
         jPanelLinea = new javax.swing.JPanel();
-        jScrollPane2 = new javax.swing.JScrollPane();
-        ticket1 = new modelo.Ticket();
         jButton3 = new javax.swing.JButton();
+        jScrollPane3 = new javax.swing.JScrollPane();
+        ticket1 = new modelo.Ticket();
         jPanelOperaciones = new javax.swing.JPanel();
         jScrollPane1 = new javax.swing.JScrollPane();
         tblProducto = new javax.swing.JTable();
@@ -246,6 +244,7 @@ public class RegistrarVenta extends javax.swing.JFrame {
         btnRegistrarVenta = new javax.swing.JButton();
         btnEliminar = new javax.swing.JButton();
         RegistrarEnvio = new javax.swing.JButton();
+        btnimprimir = new javax.swing.JButton();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
         setMinimumSize(new java.awt.Dimension(1280, 720));
@@ -276,8 +275,6 @@ public class RegistrarVenta extends javax.swing.JFrame {
             .addGap(0, 110, Short.MAX_VALUE)
         );
 
-        jScrollPane2.setViewportView(ticket1);
-
         jButton3.setText("Imprimir Ticket");
         jButton3.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
@@ -285,25 +282,29 @@ public class RegistrarVenta extends javax.swing.JFrame {
             }
         });
 
+        jScrollPane3.setViewportView(ticket1);
+
         javax.swing.GroupLayout jPanelLineaLayout = new javax.swing.GroupLayout(jPanelLinea);
         jPanelLinea.setLayout(jPanelLineaLayout);
         jPanelLineaLayout.setHorizontalGroup(
             jPanelLineaLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(jPanelLineaLayout.createSequentialGroup()
-                .addComponent(jScrollPane2, javax.swing.GroupLayout.PREFERRED_SIZE, 288, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addGap(0, 284, Short.MAX_VALUE))
-            .addGroup(jPanelLineaLayout.createSequentialGroup()
-                .addGap(99, 99, 99)
+                .addContainerGap()
+                .addComponent(jScrollPane3, javax.swing.GroupLayout.PREFERRED_SIZE, 288, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addComponent(jButton3)
-                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                .addContainerGap(363, Short.MAX_VALUE))
         );
         jPanelLineaLayout.setVerticalGroup(
             jPanelLineaLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(jPanelLineaLayout.createSequentialGroup()
-                .addGap(120, 120, 120)
-                .addComponent(jScrollPane2, javax.swing.GroupLayout.PREFERRED_SIZE, 493, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addGap(31, 31, 31)
-                .addComponent(jButton3)
+                .addGroup(jPanelLineaLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addGroup(jPanelLineaLayout.createSequentialGroup()
+                        .addGap(644, 644, 644)
+                        .addComponent(jButton3))
+                    .addGroup(jPanelLineaLayout.createSequentialGroup()
+                        .addGap(130, 130, 130)
+                        .addComponent(jScrollPane3, javax.swing.GroupLayout.PREFERRED_SIZE, 541, javax.swing.GroupLayout.PREFERRED_SIZE)))
                 .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
         );
 
@@ -504,6 +505,18 @@ public class RegistrarVenta extends javax.swing.JFrame {
             }
         });
 
+        btnimprimir.setText("Imprimir ticket");
+        btnimprimir.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseClicked(java.awt.event.MouseEvent evt) {
+                btnimprimirMouseClicked(evt);
+            }
+        });
+        btnimprimir.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnimprimirActionPerformed(evt);
+            }
+        });
+
         javax.swing.GroupLayout jPanelAccionesLayout = new javax.swing.GroupLayout(jPanelAcciones);
         jPanelAcciones.setLayout(jPanelAccionesLayout);
         jPanelAccionesLayout.setHorizontalGroup(
@@ -514,7 +527,8 @@ public class RegistrarVenta extends javax.swing.JFrame {
                     .addComponent(btnAgregar, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                     .addComponent(btnRegistrarVenta, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                     .addComponent(btnEliminar, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                    .addComponent(RegistrarEnvio, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                    .addComponent(RegistrarEnvio, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                    .addComponent(btnimprimir, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
                 .addContainerGap())
         );
         jPanelAccionesLayout.setVerticalGroup(
@@ -528,10 +542,11 @@ public class RegistrarVenta extends javax.swing.JFrame {
                 .addComponent(btnEliminar, javax.swing.GroupLayout.PREFERRED_SIZE, 35, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addComponent(RegistrarEnvio, javax.swing.GroupLayout.PREFERRED_SIZE, 35, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addContainerGap(15, Short.MAX_VALUE))
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                .addComponent(btnimprimir, javax.swing.GroupLayout.PREFERRED_SIZE, 35, javax.swing.GroupLayout.PREFERRED_SIZE))
         );
 
-        jPanelOperaciones.add(jPanelAcciones, new org.netbeans.lib.awtextra.AbsoluteConstraints(549, 6, -1, 179));
+        jPanelOperaciones.add(jPanelAcciones, new org.netbeans.lib.awtextra.AbsoluteConstraints(549, 6, -1, 220));
 
         javax.swing.GroupLayout jPanelPrincipalLayout = new javax.swing.GroupLayout(jPanelPrincipal);
         jPanelPrincipal.setLayout(jPanelPrincipalLayout);
@@ -803,6 +818,28 @@ public class RegistrarVenta extends javax.swing.JFrame {
             JOptionPane.showMessageDialog(null, "no se imprimio el ticket");
         }
     }//GEN-LAST:event_jButton3ActionPerformed
+
+    private void btnimprimirMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_btnimprimirMouseClicked
+        // TODO add your handling code here:
+    }//GEN-LAST:event_btnimprimirMouseClicked
+
+    private void btnimprimirActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnimprimirActionPerformed
+        // TODO add your handling code here:
+        PrinterJob job = PrinterJob.getPrinterJob();
+        
+        job.setPrintable(ticket1);
+        
+        if(job.printDialog()){
+            try {
+                job.print();
+            } catch (PrinterException ex) {
+                //Logger.getLogger(Venta.class.getName()).log(Level.SEVERE, null, ex);
+            }
+        }else{
+            JOptionPane.showMessageDialog(null, "no se imprimio el ticket");
+        }
+        
+    }//GEN-LAST:event_btnimprimirActionPerformed
     
     private void calcularTotal() {
         float total = 0;
@@ -1007,6 +1044,7 @@ public class RegistrarVenta extends javax.swing.JFrame {
     private javax.swing.JButton btnAgregar;
     private javax.swing.JButton btnEliminar;
     private javax.swing.JButton btnRegistrarVenta;
+    private javax.swing.JButton btnimprimir;
     protected javax.swing.JComboBox<String> cbNombreProducto;
     private javax.swing.JButton jButton1;
     private javax.swing.JButton jButton2;
@@ -1020,7 +1058,7 @@ public class RegistrarVenta extends javax.swing.JFrame {
     private javax.swing.JPanel jPanelOperaciones;
     private javax.swing.JPanel jPanelPrincipal;
     private javax.swing.JScrollPane jScrollPane1;
-    private javax.swing.JScrollPane jScrollPane2;
+    private javax.swing.JScrollPane jScrollPane3;
     private javax.swing.JLabel labelCantidad;
     private javax.swing.JLabel labelPrecioUnitario;
     private javax.swing.JLabel labelSubtotal;
@@ -1036,7 +1074,5 @@ public class RegistrarVenta extends javax.swing.JFrame {
     private javax.swing.JTextField txtPrecioUnitario;
     private javax.swing.JTextField txtSubtotal;
     private javax.swing.JTextField txtTotal;
-    private modelo.Venta venta1;
-    private modelo.Venta venta2;
     // End of variables declaration//GEN-END:variables
 }
