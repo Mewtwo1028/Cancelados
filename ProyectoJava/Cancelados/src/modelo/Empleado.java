@@ -23,12 +23,13 @@ public class Empleado {
     String estado;
     int idRol;
     String nombreUsuario;
+    String correo;
 
     public Empleado() {
 
     }
 
-    public Empleado(int idEmpledo, String nombre, String aPaterno, String aMaterno, String calle, String noExt, String Colonia, String cp, String curp, String rfc, String municipio, String estado, int idRol) {
+    public Empleado(int idEmpledo, String nombre, String aPaterno, String aMaterno, String calle, String noExt, String Colonia, String cp, String curp, String rfc, String municipio, String estado, int idRol, String correo) {
         this.idEmpledo = idEmpledo;
         this.nombre = nombre;
         this.aPaterno = aPaterno;
@@ -42,9 +43,10 @@ public class Empleado {
         this.municipio = municipio;
         this.estado = estado;
         this.idRol = idRol;
+        this.correo = correo;
     }
 
-    public Empleado(String nombre, String aPaterno, String aMaterno, String calle, String noExt, String Colonia, String cp, String curp, String rfc, String municipio, String estado, int idRol) {
+    public Empleado(String nombre, String aPaterno, String aMaterno, String calle, String noExt, String Colonia, String cp, String curp, String rfc, String municipio, String estado, int idRol, String correo) {
         this.nombre = nombre;
         this.aPaterno = aPaterno;
         this.aMaterno = aMaterno;
@@ -57,6 +59,7 @@ public class Empleado {
         this.municipio = municipio;
         this.estado = estado;
         this.idRol = idRol;
+        this.correo = correo;
     }
 
     public Empleado(int idEmpleado) {
@@ -81,7 +84,7 @@ public class Empleado {
         }
     }
 
-    public void getEmpleadoTabla(JTable parametroEmpleado, JTextField id, JTextField nombre, JTextField aPaterno, JTextField aMaterno, JTextField calle, JTextField ext, JTextField col, JTextField cp, JTextField mun, JTextField estado, JTextField curp, JTextField rfc, JComboBox rol) {//Método que manda a los jTextFields los datos del registro seleccionado en la tabla
+    public void getEmpleadoTabla(JTable parametroEmpleado, JTextField id, JTextField nombre, JTextField aPaterno, JTextField aMaterno, JTextField calle, JTextField ext, JTextField col, JTextField cp, JTextField mun, JTextField estado, JTextField curp, JTextField rfc, JComboBox rol, JTextField correo) {//Método que manda a los jTextFields los datos del registro seleccionado en la tabla
 
         try {
             int fila = parametroEmpleado.getSelectedRow();
@@ -101,6 +104,7 @@ public class Empleado {
                 //rol.setText(parametroEmpleado.getValueAt(fila, 12).toString());
                 String valorRol = parametroEmpleado.getValueAt(fila, 12).toString();
                 rol.setSelectedIndex(valorRol.equals("1") ? 1 : 0);
+                correo.setText(parametroEmpleado.getValueAt(fila, 14).toString());
 
             } //POR AQUÍ IRÍA LO DEL COMPONENTE!!!
             else {
@@ -226,6 +230,14 @@ public class Empleado {
 
     public void setNombreUsuario(String nombreUsuario) {
         this.nombreUsuario = nombreUsuario;
+    }
+
+    public String getCorreo() {
+        return correo;
+    }
+
+    public void setCorreo(String correo) {
+        this.correo = correo;
     }
 
 }

@@ -346,6 +346,7 @@ WHERE idEmpleado = 1;
 
 -- **************************************************
 
+
 UPDATE producto
 SET imagen = 'C:\Users\osmar\OneDrive\Documentos\GitHub\Cancelados\BD\ImágenesOficiales\biblia.jpg'
 WHERE idProducto = 2;
@@ -406,3 +407,12 @@ UPDATE `cancelados`.`producto` SET `categoria` = '6' WHERE (`idProducto` = '10')
 UPDATE `cancelados`.`producto` SET `categoria` = '6' WHERE (`idProducto` = '11');
 UPDATE `cancelados`.`producto` SET `categoria` = '5' WHERE (`idProducto` = '12');
 UPDATE `cancelados`.`producto` SET `categoria` = '6' WHERE (`idProducto` = '13');
+
+-- ******************* 28/05/2023 *******************
+ALTER TABLE empleado ADD COLUMN correo VARCHAR(50) unique;
+
+UPDATE empleado SET
+correo = "cesarizunsa@gmail.com"
+WHERE idEmpleado = 1;
+
+-- **************************************************
