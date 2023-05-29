@@ -1,5 +1,6 @@
 package controlador;
 
+import Util.FuncionesUtiles;
 import java.sql.CallableStatement;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
@@ -25,18 +26,34 @@ public class EmpleadoManager {
      * la base de datos.
      */
     public ArrayList<String[]> consultarTodos() {
-        String sql = "SELECT * FROM empleado WHERE estadoEmpleado = 'ACTIVO'";
+        String sql = "SELECT idEmpleado, nombre, apellidoPaterno, apellidoMaterno, calle, noExt, colonia, cp, curp, rfc, municipio, estado, Roles_idRoles, nombreUsuario FROM empleado WHERE estadoEmpleado = 'ACTIVO'";
         ArrayList<String[]> resultado = new ArrayList<>();
 
         try {
             ResultSet cursor = new Conexion().getConexion().prepareStatement(sql).executeQuery();
 
             while (cursor.next()) {
-                String[] renglon = {cursor.getString(1), cursor.getString(2), cursor.getString(3), cursor.getString(4), cursor.getString(5), cursor.getString(6), cursor.getString(7), cursor.getString(8), cursor.getString(9), cursor.getString(10), cursor.getString(11), cursor.getString(12), cursor.getString(13)};
+                String[] renglon = {cursor.getString(1), cursor.getString(2), cursor.getString(3), cursor.getString(4), cursor.getString(5), cursor.getString(6), cursor.getString(7), cursor.getString(8), cursor.getString(9), cursor.getString(10), cursor.getString(11), cursor.getString(12), cursor.getString(13), cursor.getString(14)};
                 resultado.add(renglon);
             }
         } catch (SQLException ex) {
-            throw new RuntimeException("Error al consultar a los empleados", ex);
+            throw new RuntimeException("Error al consultar a los empleados" + ex.getMessage());
+        }
+        return resultado;
+    }
+
+    public String getNombreEmpleado(String nombreUsuario) {
+        String sql = "SELECT nombre FROM empleado WHERE estadoEmpleado = 'ACTIVO' AND nombreUsuario = '" + nombreUsuario+"'";
+        String resultado = "";
+
+        try {
+            ResultSet cursor = new Conexion().getConexion().prepareStatement(sql).executeQuery();
+
+            while (cursor.next()) {
+                resultado = cursor.getString(1);
+            }
+        } catch (SQLException ex) {
+            throw new RuntimeException("Error al getNombreEmpleado" + ex.getMessage());
         }
         return resultado;
     }
@@ -53,7 +70,7 @@ public class EmpleadoManager {
      * credencial
      */
     public boolean insertarEmpleado(Empleado empleado) {
-        String SQL_insertar = "INSERT INTO empleado VALUES (null, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, false, 'ACTIVO')";
+        String SQL_insertar = "INSERT INTO empleado VALUES (null, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, false, 'ACTIVO', ?)";
         String SQL_idEmpleado = "select idEmpleado from empleado order by idEmpleado DESC";
         String SQL_insertarCredencial = "INSERT INTO credenciales VALUES (null, ?, ?)";
         String SQL_empleado = "UPDATE empleado SET restContra = true WHERE idEmpleado = ?";
@@ -71,6 +88,7 @@ public class EmpleadoManager {
             psInsertar.setString(10, empleado.getMunicipio());
             psInsertar.setString(11, empleado.getEstado());
             psInsertar.setInt(12, empleado.getIdRol());
+            psInsertar.setString(13, new FuncionesUtiles().generarNombreUsuario(empleado));
             psInsertar.executeUpdate();
 
             ResultSet cursor = psIdEmpleado.executeQuery();

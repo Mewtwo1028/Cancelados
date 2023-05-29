@@ -22,6 +22,7 @@ public class Empleado {
     String municipio;
     String estado;
     int idRol;
+    String nombreUsuario;
 
     public Empleado() {
 
@@ -217,6 +218,14 @@ public class Empleado {
 
     public void getIdEmpleado(int idEmpleado) {
         this.idEmpledo = idEmpleado;
+    }
+
+    public String getNombreUsuario() {
+        return nombreUsuario;
+    }
+
+    public void setNombreUsuario(String nombreUsuario) {
+        this.nombreUsuario = nombreUsuario;
     }
 
 }

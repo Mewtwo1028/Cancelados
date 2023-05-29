@@ -49,7 +49,7 @@ public class CredencialManager {
      * contrario una cadena vacía.
      */
     public String verificarLogin(String nombreCredencial, String contrasena) {
-        String SQL_verificar = "Select E.Roles_idRoles from empleado E inner join Credenciales C On (C.Empleado_idEmpleado = E.idEmpleado) where nombre=? and contrasena=?";
+        String SQL_verificar = "Select E.Roles_idRoles from empleado E inner join Credenciales C On (C.Empleado_idEmpleado = E.idEmpleado) where nombreUsuario=? and contrasena=?";
 
         try (PreparedStatement ps = conexion.getConexion().prepareStatement(SQL_verificar)) {
 
@@ -105,7 +105,7 @@ public class CredencialManager {
      * @return el idEmpleado o -1 en caso de que no exista
      */
     private int existeEmpleado(String nombreEmpleado) {
-        String SQL_verificar = "Select idEmpleado from empleado where nombre=?;";
+        String SQL_verificar = "Select idEmpleado from empleado where nombreUsuario=?;";
 
         try (PreparedStatement ps = conexion.getConexion().prepareStatement(SQL_verificar)) {
 
@@ -124,7 +124,7 @@ public class CredencialManager {
     }
 
     public boolean isRestContra(String nombre) {
-        String SQL = "SELECT restContra FROM empleado WHERE nombre=?";
+        String SQL = "SELECT restContra FROM empleado WHERE nombreUsuario=?";
 
         try (PreparedStatement ps = conexion.getConexion().prepareStatement(SQL)) {
 
@@ -143,7 +143,7 @@ public class CredencialManager {
     }
 
     public int getidEmpleado(String nombreEmpleado) {
-        String SQL_verificar = "Select idEmpleado from empleado where nombre=? ORDER BY idEmpleado ASC;";
+        String SQL_verificar = "Select idEmpleado from empleado where nombreUsuario=? ORDER BY idEmpleado ASC;";
 
         try (PreparedStatement ps = conexion.getConexion().prepareStatement(SQL_verificar)) {
 
@@ -162,7 +162,7 @@ public class CredencialManager {
     }
 
     public int getIdEmpleado(String nombreEmpleado, String contra) {
-        String SQL_verificar = "Select c.Empleado_idEmpleado from empleado E inner join Credenciales C On (C.Empleado_idEmpleado = E.idEmpleado) where nombre=? and contrasena=?";
+        String SQL_verificar = "Select c.Empleado_idEmpleado from empleado E inner join Credenciales C On (C.Empleado_idEmpleado = E.idEmpleado) where nombreUsuario=? and contrasena=?";
 
         try (PreparedStatement ps = conexion.getConexion().prepareStatement(SQL_verificar)) {
 
