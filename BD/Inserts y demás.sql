@@ -345,3 +345,64 @@ nombreUsuario = "CanceladosHugoNT123"
 WHERE idEmpleado = 1;
 
 -- **************************************************
+
+UPDATE producto
+SET imagen = 'C:\Users\osmar\OneDrive\Documentos\GitHub\Cancelados\BD\ImágenesOficiales\biblia.jpg'
+WHERE idProducto = 2;
+
+
+UPDATE producto
+SET imagen = 'C:\Users\osmar\OneDrive\Documentos\GitHub\Cancelados\BD\ImágenesOficiales\rosariocristal.jpg'
+WHERE idProducto = 3;
+
+UPDATE producto
+SET imagen = 'C:\Users\osmar\OneDrive\Documentos\GitHub\Cancelados\BD\ImágenesOficiales\imagenvirgen.jpg'
+WHERE idProducto = 4;
+
+UPDATE producto
+SET imagen = 'C:\Users\osmar\OneDrive\Documentos\GitHub\Cancelados\BD\ImágenesOficiales\velaaltar.jpg'
+WHERE idProducto = 5;
+
+UPDATE producto
+SET imagen = 'C:\Users\osmar\OneDrive\Documentos\GitHub\Cancelados\BD\ImágenesOficiales\estampareligiosa.jpg'
+WHERE idProducto = 6;
+
+UPDATE producto
+SET imagen = 'C:\Users\osmar\OneDrive\Documentos\GitHub\Cancelados\BD\ImágenesOficiales\aguabendita.jpg'
+WHERE idProducto = 7;
+
+UPDATE producto
+SET imagen = 'C:\Users\osmar\OneDrive\Documentos\GitHub\Cancelados\BD\ImágenesOficiales\librodeoraciones.jpg'
+WHERE idProducto = 8;
+
+UPDATE producto
+SET imagen = 'C:\Users\osmar\OneDrive\Documentos\GitHub\Cancelados\BD\ImágenesOficiales\librodeoraciones.jpg'
+WHERE idProducto = 9;
+
+UPDATE producto
+SET imagen = 'C:\Users\osmar\OneDrive\Documentos\GitHub\Cancelados\BD\ImágenesOficiales\escalpuriotela.jpg'
+WHERE idProducto = 10;
+
+
+UPDATE producto
+SET imagen = 'C:\Users\osmar\OneDrive\Documentos\GitHub\Cancelados\BD\ImágenesOficiales\cruzmadera.jpg'
+WHERE idProducto = 11;
+
+
+UPDATE producto
+SET imagen = 'C:\Users\osmar\OneDrive\Documentos\GitHub\Cancelados\BD\ImágenesOficiales\Sagrados-Corazones-Jesus-y-maria2.jpg'
+WHERE idProducto = 12;
+
+
+UPDATE `cancelados`.`producto` SET `categoria` = '1' WHERE (`idProducto` = '2');
+UPDATE `cancelados`.`producto` SET `categoria` = '2' WHERE (`idProducto` = '3');
+UPDATE `cancelados`.`producto` SET `categoria` = '3' WHERE (`idProducto` = '4');
+UPDATE `cancelados`.`producto` SET `categoria` = '4' WHERE (`idProducto` = '5');
+UPDATE `cancelados`.`producto` SET `categoria` = '5' WHERE (`idProducto` = '6');
+UPDATE `cancelados`.`producto` SET `categoria` = '6' WHERE (`idProducto` = '7');
+UPDATE `cancelados`.`producto` SET `categoria` = '6' WHERE (`idProducto` = '8');
+UPDATE `cancelados`.`producto` SET `categoria` = '6' WHERE (`idProducto` = '9');
+UPDATE `cancelados`.`producto` SET `categoria` = '6' WHERE (`idProducto` = '10');
+UPDATE `cancelados`.`producto` SET `categoria` = '6' WHERE (`idProducto` = '11');
+UPDATE `cancelados`.`producto` SET `categoria` = '5' WHERE (`idProducto` = '12');
+UPDATE `cancelados`.`producto` SET `categoria` = '6' WHERE (`idProducto` = '13');

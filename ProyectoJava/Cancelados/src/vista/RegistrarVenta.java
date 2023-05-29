@@ -215,7 +215,6 @@ public class RegistrarVenta extends javax.swing.JFrame {
         jPanelIzquierda = new javax.swing.JPanel();
         jPanelInformacion = new javax.swing.JPanel();
         jPanelLinea = new javax.swing.JPanel();
-        jButton3 = new javax.swing.JButton();
         jScrollPane3 = new javax.swing.JScrollPane();
         ticket1 = new modelo.Ticket();
         jPanelOperaciones = new javax.swing.JPanel();
@@ -248,7 +247,6 @@ public class RegistrarVenta extends javax.swing.JFrame {
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
         setMinimumSize(new java.awt.Dimension(1280, 720));
-        setPreferredSize(new java.awt.Dimension(1280, 720));
 
         jPanelPrincipal.setMinimumSize(new java.awt.Dimension(1280, 720));
         jPanelPrincipal.setPreferredSize(new java.awt.Dimension(1280, 720));
@@ -275,13 +273,6 @@ public class RegistrarVenta extends javax.swing.JFrame {
             .addGap(0, 110, Short.MAX_VALUE)
         );
 
-        jButton3.setText("Imprimir Ticket");
-        jButton3.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                jButton3ActionPerformed(evt);
-            }
-        });
-
         jScrollPane3.setViewportView(ticket1);
 
         javax.swing.GroupLayout jPanelLineaLayout = new javax.swing.GroupLayout(jPanelLinea);
@@ -291,20 +282,13 @@ public class RegistrarVenta extends javax.swing.JFrame {
             .addGroup(jPanelLineaLayout.createSequentialGroup()
                 .addContainerGap()
                 .addComponent(jScrollPane3, javax.swing.GroupLayout.PREFERRED_SIZE, 288, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addComponent(jButton3)
-                .addContainerGap(363, Short.MAX_VALUE))
+                .addContainerGap(479, Short.MAX_VALUE))
         );
         jPanelLineaLayout.setVerticalGroup(
             jPanelLineaLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(jPanelLineaLayout.createSequentialGroup()
-                .addGroup(jPanelLineaLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addGroup(jPanelLineaLayout.createSequentialGroup()
-                        .addGap(644, 644, 644)
-                        .addComponent(jButton3))
-                    .addGroup(jPanelLineaLayout.createSequentialGroup()
-                        .addGap(130, 130, 130)
-                        .addComponent(jScrollPane3, javax.swing.GroupLayout.PREFERRED_SIZE, 541, javax.swing.GroupLayout.PREFERRED_SIZE)))
+                .addGap(130, 130, 130)
+                .addComponent(jScrollPane3, javax.swing.GroupLayout.PREFERRED_SIZE, 541, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
         );
 
@@ -581,7 +565,7 @@ public class RegistrarVenta extends javax.swing.JFrame {
         getContentPane().setLayout(layout);
         layout.setHorizontalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addComponent(jPanelPrincipal, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+            .addComponent(jPanelPrincipal, javax.swing.GroupLayout.DEFAULT_SIZE, 1332, Short.MAX_VALUE)
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -800,24 +784,6 @@ public class RegistrarVenta extends javax.swing.JFrame {
     private void RegistrarEnvioActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_RegistrarEnvioActionPerformed
         // TODO add your handling code here:
     }//GEN-LAST:event_RegistrarEnvioActionPerformed
-
-    private void jButton3ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton3ActionPerformed
-        // TODO add your handling code here:PrinterJob job = PrinterJob.getPrinterJob();
-        
-       PrinterJob job = PrinterJob.getPrinterJob();
-        
-        job.setPrintable(ticket1);
-        
-        if(job.printDialog()){
-            try {
-                job.print();
-            } catch (PrinterException ex) {
-                //Logger.getLogger(RegistrarVenta.class.getName()).log(Level.SEVERE, null, ex);
-            }
-        }else{
-            JOptionPane.showMessageDialog(null, "no se imprimio el ticket");
-        }
-    }//GEN-LAST:event_jButton3ActionPerformed
 
     private void btnimprimirMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_btnimprimirMouseClicked
         // TODO add your handling code here:
@@ -1048,7 +1014,6 @@ public class RegistrarVenta extends javax.swing.JFrame {
     protected javax.swing.JComboBox<String> cbNombreProducto;
     private javax.swing.JButton jButton1;
     private javax.swing.JButton jButton2;
-    private javax.swing.JButton jButton3;
     private javax.swing.JLabel jLabel2;
     private javax.swing.JPanel jPanelAcciones;
     private javax.swing.JPanel jPanelFormulario;
