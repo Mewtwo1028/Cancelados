@@ -13,9 +13,9 @@ import javax.swing.JCheckBox;
 import javax.swing.JOptionPane;
 import javax.swing.JTextField;
 
-public class DialogoSeleccionDireccion extends javax.swing.JDialog {
+public class DialogoSeleccionDireccionCliente extends javax.swing.JDialog {
 
-    private AdministrarEmpleado fr;
+    private AdministrarCliente fr;
 
     DefaultTableModel modelo = new DefaultTableModel() {
         @Override
@@ -26,7 +26,7 @@ public class DialogoSeleccionDireccion extends javax.swing.JDialog {
 
     private HashMap<JCheckBox, JTextField> checkBoxTextFieldMap = new HashMap<>();
 
-    public DialogoSeleccionDireccion(AdministrarEmpleado parent, boolean modal) {
+    public DialogoSeleccionDireccionCliente(AdministrarCliente parent, boolean modal) {
         super(parent, modal);
         initComponents();
         this.fr = parent;
@@ -379,20 +379,21 @@ public class DialogoSeleccionDireccion extends javax.swing.JDialog {
                 }
             }
         } catch (ClassNotFoundException ex) {
-            java.util.logging.Logger.getLogger(DialogoSeleccionDireccion.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
+            java.util.logging.Logger.getLogger(DialogoSeleccionDireccionCliente.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
         } catch (InstantiationException ex) {
-            java.util.logging.Logger.getLogger(DialogoSeleccionDireccion.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
+            java.util.logging.Logger.getLogger(DialogoSeleccionDireccionCliente.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
         } catch (IllegalAccessException ex) {
-            java.util.logging.Logger.getLogger(DialogoSeleccionDireccion.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
+            java.util.logging.Logger.getLogger(DialogoSeleccionDireccionCliente.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
         } catch (javax.swing.UnsupportedLookAndFeelException ex) {
-            java.util.logging.Logger.getLogger(DialogoSeleccionDireccion.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
+            java.util.logging.Logger.getLogger(DialogoSeleccionDireccionCliente.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
         }
+        //</editor-fold>
         //</editor-fold>
 
         /* Create and display the dialog */
         java.awt.EventQueue.invokeLater(new Runnable() {
             public void run() {
-                DialogoSeleccionDireccion dialog = new DialogoSeleccionDireccion(new AdministrarEmpleado(), true);
+                DialogoSeleccionDireccionCliente dialog = new DialogoSeleccionDireccionCliente(new AdministrarCliente(), true);
                 dialog.addWindowListener(new java.awt.event.WindowAdapter() {
                     @Override
                     public void windowClosing(java.awt.event.WindowEvent e) {

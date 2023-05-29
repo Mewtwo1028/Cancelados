@@ -203,7 +203,7 @@
                           <Group type="103" groupAlignment="0" attributes="0">
                               <Group type="103" groupAlignment="0" max="-2" attributes="0">
                                   <Component id="labelColonia" max="32767" attributes="0"/>
-                                  <Component id="labelCiudad" max="32767" attributes="0"/>
+                                  <Component id="labelMunicipio" max="32767" attributes="0"/>
                                   <Component id="labelEstado" max="32767" attributes="0"/>
                                   <Component id="labelIDCliente" pref="92" max="32767" attributes="0"/>
                               </Group>
@@ -212,12 +212,14 @@
                           <EmptySpace max="-2" attributes="0"/>
                           <Group type="103" groupAlignment="0" max="-2" attributes="0">
                               <Component id="txtColonia" max="32767" attributes="0"/>
-                              <Component id="txtCiudad" max="32767" attributes="0"/>
+                              <Component id="txtMunicipio" max="32767" attributes="0"/>
                               <Component id="txtEstado" max="32767" attributes="0"/>
                               <Component id="txtIDCliente" pref="130" max="32767" attributes="0"/>
                               <Component id="jComboBox1" max="32767" attributes="0"/>
                           </Group>
-                          <EmptySpace pref="240" max="32767" attributes="0"/>
+                          <EmptySpace max="-2" attributes="0"/>
+                          <Component id="jButton1" min="-2" pref="180" max="-2" attributes="0"/>
+                          <EmptySpace pref="54" max="32767" attributes="0"/>
                       </Group>
                   </Group>
                 </DimensionLayout>
@@ -230,13 +232,14 @@
                               <Component id="txtNombre" alignment="3" min="-2" max="-2" attributes="0"/>
                               <Component id="labelColonia" alignment="3" min="-2" max="-2" attributes="0"/>
                               <Component id="txtColonia" alignment="3" min="-2" max="-2" attributes="0"/>
+                              <Component id="jButton1" alignment="3" min="-2" max="-2" attributes="0"/>
                           </Group>
                           <EmptySpace type="separate" max="-2" attributes="0"/>
                           <Group type="103" groupAlignment="3" attributes="0">
                               <Component id="labelApPaterno" alignment="3" min="-2" max="-2" attributes="0"/>
                               <Component id="txtApPaterno" alignment="3" min="-2" max="-2" attributes="0"/>
-                              <Component id="labelCiudad" alignment="3" min="-2" max="-2" attributes="0"/>
-                              <Component id="txtCiudad" alignment="3" min="-2" max="-2" attributes="0"/>
+                              <Component id="labelMunicipio" alignment="3" min="-2" max="-2" attributes="0"/>
+                              <Component id="txtMunicipio" alignment="3" min="-2" max="-2" attributes="0"/>
                           </Group>
                           <EmptySpace type="separate" max="-2" attributes="0"/>
                           <Group type="103" groupAlignment="3" attributes="0">
@@ -263,7 +266,7 @@
                               <Component id="btnFind" alignment="3" min="-2" max="-2" attributes="0"/>
                               <Component id="jComboBox1" alignment="3" min="-2" max="-2" attributes="0"/>
                           </Group>
-                          <EmptySpace pref="9" max="32767" attributes="0"/>
+                          <EmptySpace pref="8" max="32767" attributes="0"/>
                       </Group>
                   </Group>
                 </DimensionLayout>
@@ -309,12 +312,12 @@
                     <Property name="text" type="java.lang.String" value="jTextField5"/>
                   </Properties>
                 </Component>
-                <Component class="javax.swing.JLabel" name="labelCiudad">
+                <Component class="javax.swing.JLabel" name="labelMunicipio">
                   <Properties>
-                    <Property name="text" type="java.lang.String" value="Ciudad"/>
+                    <Property name="text" type="java.lang.String" value="Municipio"/>
                   </Properties>
                 </Component>
-                <Component class="javax.swing.JTextField" name="txtCiudad">
+                <Component class="javax.swing.JTextField" name="txtMunicipio">
                   <Properties>
                     <Property name="text" type="java.lang.String" value="jTextField6"/>
                   </Properties>
@@ -341,7 +344,7 @@
                 </Component>
                 <Component class="javax.swing.JLabel" name="labelCalle">
                   <Properties>
-                    <Property name="text" type="java.lang.String" value="Calle"/>
+                    <Property name="text" type="java.lang.String" value="Calle y no. exterior"/>
                   </Properties>
                 </Component>
                 <Component class="javax.swing.JTextField" name="txtCalle">
@@ -384,6 +387,14 @@
                   <AuxValues>
                     <AuxValue name="JavaCodeGenerator_TypeParameters" type="java.lang.String" value="&lt;String&gt;"/>
                   </AuxValues>
+                </Component>
+                <Component class="javax.swing.JButton" name="jButton1">
+                  <Properties>
+                    <Property name="text" type="java.lang.String" value="Seleccionar direccion"/>
+                  </Properties>
+                  <Events>
+                    <EventHandler event="mouseClicked" listener="java.awt.event.MouseListener" parameters="java.awt.event.MouseEvent" handler="jButton1MouseClicked"/>
+                  </Events>
                 </Component>
               </SubComponents>
             </Container>
