@@ -18,6 +18,7 @@ import javax.swing.JOptionPane;
 public class AdministrarEmpleado extends javax.swing.JFrame {
 
     private int idAdmon;
+    private String[] datos;
 
     DefaultTableModel modelo = new DefaultTableModel() {
         @Override
@@ -86,14 +87,14 @@ public class AdministrarEmpleado extends javax.swing.JFrame {
 
         initFiltro();
 
-        initEstado();
+        initCampos();
     }
 
-    private void initEstado() {
-        Object[] estados = new FuncionesUtiles().getEstados();
-
-        //String[] estados = {"Aguascalientes", "Baja California", "Baja California Sur"};
-        txtEstado.setModel(new DefaultComboBoxModel(estados));
+    private void initCampos() {
+        this.txtEstado.setEnabled(false);
+        this.txtMunicipio.setEnabled(false);
+        this.txtColonia.setEnabled(false);
+        this.txtCP.setEnabled(false);
     }
 
     private void initFiltro() {
@@ -127,7 +128,7 @@ public class AdministrarEmpleado extends javax.swing.JFrame {
         txtCURP.setText("");
         txtRFC.setText("");
         txtMunicipio.setText("");
-        txtEstado.setSelectedIndex(0);
+        txtEstado.setText("");
         jComboBoxRol.setSelectedIndex(0);
         txtIDEmpleado.setText("");
     }
@@ -193,7 +194,8 @@ public class AdministrarEmpleado extends javax.swing.JFrame {
         jComboBoxRol = new javax.swing.JComboBox<>();
         btnFind = new javax.swing.JTextField();
         jComboBox1 = new javax.swing.JComboBox<>();
-        txtEstado = new javax.swing.JComboBox<>();
+        jButton1 = new javax.swing.JButton();
+        txtEstado = new javax.swing.JTextField();
         jPanelAcciones = new javax.swing.JPanel();
         btnConsultar = new javax.swing.JButton();
         btnRegistrar = new javax.swing.JButton();
@@ -307,7 +309,14 @@ public class AdministrarEmpleado extends javax.swing.JFrame {
             }
         });
 
-        txtEstado.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "Item 1", "Item 2", "Item 3", "Item 4" }));
+        jButton1.setText("Seleccionar direccion");
+        jButton1.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseClicked(java.awt.event.MouseEvent evt) {
+                jButton1MouseClicked(evt);
+            }
+        });
+
+        txtEstado.setText("jTextField1");
 
         javax.swing.GroupLayout jPanelFormularioLayout = new javax.swing.GroupLayout(jPanelFormulario);
         jPanelFormulario.setLayout(jPanelFormularioLayout);
@@ -350,14 +359,17 @@ public class AdministrarEmpleado extends javax.swing.JFrame {
                             .addComponent(txtMunicipio, javax.swing.GroupLayout.DEFAULT_SIZE, 130, Short.MAX_VALUE))
                         .addGap(18, 18, 18)
                         .addGroup(jPanelFormularioLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
-                            .addComponent(labelEstadp, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                            .addComponent(labelRol, javax.swing.GroupLayout.DEFAULT_SIZE, 92, Short.MAX_VALUE)
-                            .addComponent(labelIDEmpleado, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                        .addGroup(jPanelFormularioLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
-                            .addComponent(txtIDEmpleado)
-                            .addComponent(jComboBoxRol, 0, 130, Short.MAX_VALUE)
-                            .addComponent(txtEstado, 0, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))))
+                            .addGroup(jPanelFormularioLayout.createSequentialGroup()
+                                .addGroup(jPanelFormularioLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
+                                    .addComponent(labelEstadp, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                                    .addComponent(labelRol, javax.swing.GroupLayout.DEFAULT_SIZE, 92, Short.MAX_VALUE)
+                                    .addComponent(labelIDEmpleado, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                                .addGroup(jPanelFormularioLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
+                                    .addComponent(txtIDEmpleado)
+                                    .addComponent(jComboBoxRol, 0, 130, Short.MAX_VALUE)
+                                    .addComponent(txtEstado)))
+                            .addComponent(jButton1, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))))
                 .addContainerGap(11, Short.MAX_VALUE))
         );
         jPanelFormularioLayout.setVerticalGroup(
@@ -384,7 +396,8 @@ public class AdministrarEmpleado extends javax.swing.JFrame {
                     .addComponent(labelApMaterno)
                     .addComponent(txtApMaterno, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addComponent(labelCURP)
-                    .addComponent(txtCURP, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                    .addComponent(txtCURP, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(jButton1))
                 .addGap(18, 18, 18)
                 .addGroup(jPanelFormularioLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(labelCalle)
@@ -403,7 +416,7 @@ public class AdministrarEmpleado extends javax.swing.JFrame {
                 .addGroup(jPanelFormularioLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(btnFind, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addComponent(jComboBox1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
-                .addContainerGap(11, Short.MAX_VALUE))
+                .addContainerGap(10, Short.MAX_VALUE))
         );
 
         btnConsultar.setText("Consultar");
@@ -577,8 +590,7 @@ public class AdministrarEmpleado extends javax.swing.JFrame {
         String curp = txtCURP.getText();
         String rfc = txtRFC.getText();
         String municipio = txtMunicipio.getText();
-
-        String estado = String.valueOf(txtEstado.getSelectedItem());
+        String estado = txtEstado.getText();
 
         if (estado.equals("SELECCIONE UN ESTADO")) {
             JOptionPane.showMessageDialog(this, "ERROR Seleccione una entidad federativa");
@@ -649,12 +661,7 @@ public class AdministrarEmpleado extends javax.swing.JFrame {
         DialogoEmergente dEmergente = new DialogoEmergente(this, true);
         int txtIdRol = String.valueOf(jComboBoxRol.getSelectedItem()).equals("Empleado") ? 2 : 1;
 
-        String estado = String.valueOf(txtEstado.getSelectedItem());
-
-        if (estado.equals("SELECCIONE UN ESTADO")) {
-            JOptionPane.showMessageDialog(this, "ERROR Seleccione una entidad federativa");
-            return;
-        }
+        String estado = txtEstado.getText();
 
         Empleado empleado = new Empleado(Integer.parseInt(txtIDEmpleado.getText()), txtNombre.getText(), txtApPaterno.getText(), txtApMaterno.getText(), txtCalle.getText(), txtNoExt.getText(), txtColonia.getText(), txtCP.getText(), txtCURP.getText(), txtRFC.getText(), txtMunicipio.getText(), estado, txtIdRol);
 
@@ -766,6 +773,22 @@ public class AdministrarEmpleado extends javax.swing.JFrame {
         buscarEmpleado(btnFind.getText(), jComboBox1.getSelectedItem());
     }//GEN-LAST:event_jComboBox1ItemStateChanged
 
+    private void jButton1MouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_jButton1MouseClicked
+        // Abrir dialogo de seleccion de direccion
+        DialogoSeleccionDireccion d = new DialogoSeleccionDireccion(this, true);
+        d.setVisible(true);
+
+        if (datos != null) {
+            //mostrar direccion al actor
+            txtEstado.setText(this.datos[0]);
+            txtMunicipio.setText(this.datos[1]);
+            txtColonia.setText(this.datos[2]);
+            txtCP.setText(this.datos[3]);
+        }
+
+
+    }//GEN-LAST:event_jButton1MouseClicked
+
     private void buscarEmpleado(String txt, Object filtro) {
         modelo.setRowCount(0);
         switch (filtro.toString()) {
@@ -810,7 +833,11 @@ public class AdministrarEmpleado extends javax.swing.JFrame {
     }
 
     private boolean validarFormulario() {
-        return txtNombre.getText().isBlank() | txtApPaterno.getText().isBlank() | txtApMaterno.getText().isBlank() | txtCalle.getText().isBlank() | txtNoExt.getText().isBlank() | txtColonia.getText().isBlank() | txtCP.getText().isBlank() | txtCURP.getText().isBlank() | txtRFC.getText().isBlank() | txtMunicipio.getText().isBlank() | txtEstado.getSelectedItem().toString().equals("SELECCIONE UN ESTADO");
+        return txtNombre.getText().isBlank() | txtApPaterno.getText().isBlank() | txtApMaterno.getText().isBlank() | txtCalle.getText().isBlank() | txtNoExt.getText().isBlank() | txtColonia.getText().isBlank() | txtCP.getText().isBlank() | txtCURP.getText().isBlank() | txtRFC.getText().isBlank() | txtMunicipio.getText().isBlank() | txtEstado.getText().isBlank();
+    }
+
+    public void setDireccion(String[] datos) {
+        this.datos = datos;
     }
 
     public static void main(String args[]) {
@@ -852,6 +879,7 @@ public class AdministrarEmpleado extends javax.swing.JFrame {
     private javax.swing.JButton btnModificar;
     private javax.swing.JButton btnRegistrar;
     private javax.swing.JButton btnRestaurarContrasena;
+    private javax.swing.JButton jButton1;
     private javax.swing.JComboBox<String> jComboBox1;
     private javax.swing.JComboBox<String> jComboBoxRol;
     private javax.swing.JPanel jPanelAcciones;
@@ -882,7 +910,7 @@ public class AdministrarEmpleado extends javax.swing.JFrame {
     private javax.swing.JTextField txtCURP;
     private javax.swing.JTextField txtCalle;
     private javax.swing.JTextField txtColonia;
-    private javax.swing.JComboBox<String> txtEstado;
+    private javax.swing.JTextField txtEstado;
     private javax.swing.JTextField txtIDEmpleado;
     private javax.swing.JTextField txtMunicipio;
     private javax.swing.JTextField txtNoExt;

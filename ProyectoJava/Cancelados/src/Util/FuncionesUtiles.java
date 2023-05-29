@@ -28,14 +28,14 @@ public class FuncionesUtiles {
     public FuncionesUtiles() {
         initEntidadesFederativas();
     }
-    
-    public Object[] getEstados(){
-        
+
+    public Object[] getEstados() {
+
         ArrayList estados = new ArrayList<>();
         estados.add("SELECCIONE UN ESTADO");
         estados.addAll(entidadesFederativas.values());
-        
-        return estados.toArray(); 
+
+        return estados.toArray();
     }
 
     private void initEntidadesFederativas() {
@@ -43,7 +43,7 @@ public class FuncionesUtiles {
         entidadesFederativas.put("BC", "Baja California");
         entidadesFederativas.put("BS", "Baja California Sur");
         entidadesFederativas.put("CC", "Campeche");
-        entidadesFederativas.put("CL", "Coahuila");
+        entidadesFederativas.put("CL", "Coahuila de Zaragoza");
         entidadesFederativas.put("CM", "Colima");
         entidadesFederativas.put("CS", "Chiapas");
         entidadesFederativas.put("CH", "Chihuahua");
@@ -54,7 +54,7 @@ public class FuncionesUtiles {
         entidadesFederativas.put("HG", "Hidalgo");
         entidadesFederativas.put("JC", "Jalisco");
         entidadesFederativas.put("MC", "México");
-        entidadesFederativas.put("MN", "Michoacán");
+        entidadesFederativas.put("MN", "Michoacán de Ocampo");
         entidadesFederativas.put("MS", "Morelos");
         entidadesFederativas.put("NT", "Nayarit");
         entidadesFederativas.put("NL", "Nuevo León");
@@ -68,10 +68,10 @@ public class FuncionesUtiles {
         entidadesFederativas.put("TC", "Tabasco");
         entidadesFederativas.put("TS", "Tamaulipas");
         entidadesFederativas.put("TL", "Tlaxcala");
-        entidadesFederativas.put("VZ", "Veracruz");
+        entidadesFederativas.put("VZ", "Veracruz de Ignacion de la Llave");
         entidadesFederativas.put("YN", "Yucatán");
         entidadesFederativas.put("ZS", "Zacatecas");
-        entidadesFederativas.put("NE", "Nacido en el extranjero");
+        //entidadesFederativas.put("NE", "Nacido en el extranjero");
     }
 
     /**
