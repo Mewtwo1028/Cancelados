@@ -436,7 +436,7 @@
             <Container class="javax.swing.JPanel" name="jPanelAcciones">
               <Constraints>
                 <Constraint layoutClass="org.netbeans.modules.form.compat2.layouts.DesignAbsoluteLayout" value="org.netbeans.modules.form.compat2.layouts.DesignAbsoluteLayout$AbsoluteConstraintsDescription">
-                  <AbsoluteConstraints x="549" y="6" width="-1" height="179"/>
+                  <AbsoluteConstraints x="549" y="6" width="-1" height="220"/>
                 </Constraint>
               </Constraints>
 
@@ -450,6 +450,7 @@
                               <Component id="btnRegistrarVenta" alignment="0" max="32767" attributes="0"/>
                               <Component id="btnEliminar" alignment="0" max="32767" attributes="0"/>
                               <Component id="RegistrarEnvio" alignment="0" max="32767" attributes="0"/>
+                              <Component id="btnimprimir" alignment="0" max="32767" attributes="0"/>
                           </Group>
                           <EmptySpace max="-2" attributes="0"/>
                       </Group>
@@ -466,7 +467,8 @@
                           <Component id="btnEliminar" min="-2" pref="35" max="-2" attributes="0"/>
                           <EmptySpace max="-2" attributes="0"/>
                           <Component id="RegistrarEnvio" min="-2" pref="35" max="-2" attributes="0"/>
-                          <EmptySpace pref="15" max="32767" attributes="0"/>
+                          <EmptySpace max="32767" attributes="0"/>
+                          <Component id="btnimprimir" min="-2" pref="35" max="-2" attributes="0"/>
                       </Group>
                   </Group>
                 </DimensionLayout>
@@ -503,6 +505,15 @@
                   <Events>
                     <EventHandler event="mouseClicked" listener="java.awt.event.MouseListener" parameters="java.awt.event.MouseEvent" handler="RegistrarEnvioMouseClicked"/>
                     <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="RegistrarEnvioActionPerformed"/>
+                  </Events>
+                </Component>
+                <Component class="javax.swing.JButton" name="btnimprimir">
+                  <Properties>
+                    <Property name="text" type="java.lang.String" value="Imprimir ticket"/>
+                  </Properties>
+                  <Events>
+                    <EventHandler event="mouseClicked" listener="java.awt.event.MouseListener" parameters="java.awt.event.MouseEvent" handler="btnimprimirMouseClicked"/>
+                    <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="btnimprimirActionPerformed"/>
                   </Events>
                 </Component>
               </SubComponents>
