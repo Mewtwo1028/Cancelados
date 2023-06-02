@@ -577,8 +577,7 @@ public class RegistrarVenta extends javax.swing.JFrame {
 
     private void btnAgregarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnAgregarActionPerformed
         
-        
-        
+  
         if (validarFormulario()) {
             JOptionPane.showMessageDialog(this, "ERROR! Debe de llenar el formulario!");
             return;
@@ -591,13 +590,6 @@ public class RegistrarVenta extends javax.swing.JFrame {
         String producto = cbNombreProducto.getSelectedItem().toString();
         String precioUnitario = txtPrecioUnitario.getText();
         
-         
-        ticket1.agregarProducto(producto, Double.parseDouble(cantidad), Double.parseDouble(importe));
-         
-         
-        
-       
-
         /*
         subTotal += Float.parseFloat(importe);
         txtSubtotal.setText(String.valueOf(subTotal));
@@ -634,6 +626,7 @@ public class RegistrarVenta extends javax.swing.JFrame {
         
         limpiarTxtFields();
         calcularTotal();
+        ticket1.agregarProducto(producto, Double.parseDouble(cantidad), Double.parseDouble(importe));
     }//GEN-LAST:event_btnAgregarActionPerformed
 
     private void tblProductoMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_tblProductoMouseClicked
