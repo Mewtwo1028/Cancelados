@@ -24,11 +24,18 @@ import javax.swing.SpinnerNumberModel;
 import javax.swing.event.ChangeEvent;
 import javax.swing.table.DefaultTableModel;
 import javax.swing.table.TableModel;
+import modelo.Envio;
 
 public class RegistrarVenta extends javax.swing.JFrame {
     
     private int idAdmon;
     private float cambio;
+    private Envio envio = new Envio(idAdmon);
+
+    public void setEnvio(Envio envio) {
+        this.envio = envio;
+    }
+    
     
     DefaultTableModel modelo = new DefaultTableModel() {
         @Override
@@ -746,15 +753,34 @@ public class RegistrarVenta extends javax.swing.JFrame {
     }
 
     private void RegistrarEnvioMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_RegistrarEnvioMouseClicked
-        // TODO add your handling code here:
         
         if (tblProducto.getRowCount() == 0) {
             JOptionPane.showMessageDialog(this, "DEBE DE AGREGAR AL MENOS UN PRODUCTO AL CARRITO","ERROR",JOptionPane.ERROR_MESSAGE);
             return;
         }
         
+        ArrayList<Producto> listaProductos = obtenerListaProductos();
+        float total = Float.parseFloat(txtSubtotal.getText());
+        int idCliente = Integer.parseInt(txtIdCliente.getText());
+        int idEmpleado = idAdmon;
+        
+        Venta venta = new Venta(total, idCliente, idEmpleado);
+        Envio env = new Envio(idAdmon);
+        
+        DialogoEmergente dl = new DialogoEmergente(this, true);
+        
         DialogoEnvio de = new DialogoEnvio(this, true);
         de.setVisible(true);
+        DetallePago dp = new DetallePago(this, true, total);
+        dp.setVisible(true);
+        
+        if (registrarVenta(venta, listaProductos, 'E') && dp.validaPago()) {
+            dl.setTexto("Venta registrada de\nforma correcta!\nSu Cambio es de: " + cambio);
+            limpiarTodosTxtFields();
+        } else {
+            dl.setTexto("¡ERROR! NO SE PUDO REGISTRAR LA VENTA");
+        }
+        
     }//GEN-LAST:event_RegistrarEnvioMouseClicked
 
     private void spnCantidadStateChanged(javax.swing.event.ChangeEvent evt) {//GEN-FIRST:event_spnCantidadStateChanged

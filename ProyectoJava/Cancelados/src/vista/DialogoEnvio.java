@@ -8,13 +8,15 @@ import java.util.ArrayList;
 import javax.swing.JFrame;
 import Util.FuncionesUtiles;
 import javax.swing.JTable;
+import javax.swing.JTextField;
 import javax.swing.table.DefaultTableModel;
 import javax.swing.table.TableColumn;
 import javax.swing.table.TableColumnModel;
 import vista.*;
 
-public class DialogoEnvio extends javax.swing.JDialog {
 
+public class DialogoEnvio extends javax.swing.JDialog {
+    private RegistrarVenta rf;
     public DialogoEnvio(java.awt.Frame parent, boolean modal) {
         super(parent, modal);
         initComponents();
@@ -180,24 +182,10 @@ public class DialogoEnvio extends javax.swing.JDialog {
 
         jTextField12.setText("jTextField1");
 
-        jLabel13.setText("País");
+        jPanel4.setLayout(new org.netbeans.lib.awtextra.AbsoluteLayout());
 
-        javax.swing.GroupLayout jPanel4Layout = new javax.swing.GroupLayout(jPanel4);
-        jPanel4.setLayout(jPanel4Layout);
-        jPanel4Layout.setHorizontalGroup(
-            jPanel4Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(jPanel4Layout.createSequentialGroup()
-                .addContainerGap()
-                .addComponent(jLabel13)
-                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
-        );
-        jPanel4Layout.setVerticalGroup(
-            jPanel4Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(jPanel4Layout.createSequentialGroup()
-                .addContainerGap()
-                .addComponent(jLabel13)
-                .addContainerGap(8, Short.MAX_VALUE))
-        );
+        jLabel13.setText("País");
+        jPanel4.add(jLabel13, new org.netbeans.lib.awtextra.AbsoluteConstraints(6, 6, -1, -1));
 
         jTextField7.setText("jTextField7");
 
@@ -474,7 +462,7 @@ public class DialogoEnvio extends javax.swing.JDialog {
         String responsable = jTextField10.getText();
         String fechaPedido = jTextField11.getText();
         String envio = jTextField12.getText();
-
+        
         this.dispose();
         System.out.print(seEnvioPor);
     }//GEN-LAST:event_jButton1MouseClicked
@@ -516,8 +504,25 @@ public class DialogoEnvio extends javax.swing.JDialog {
         }
     };
 
+    private boolean compruebaTextFields(){
+    JTextField [] arreglo = {
+        jTextField1,jTextField2,jTextField3,jTextField4,jTextField5,jTextField6,jTextField7,jTextField8,
+        jTextField9,jTextField10,jTextField11,jTextField12,jTextField13
+    };
+        for (int i=0; i<13; i++){
+            if(arreglo[i].getText().isBlank()){
+                return false;
+            }
+            
+        }
+        return true;
+    }
+    
+    
     private void jButton1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton1ActionPerformed
-
+        if(!compruebaTextFields()){
+           javax.swing.JOptionPane.showMessageDialog(this, "Comprueba los campos");
+        }
     }//GEN-LAST:event_jButton1ActionPerformed
 
     String cp = "";

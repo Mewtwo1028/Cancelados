@@ -416,3 +416,7 @@ correo = "cesarizunsa@gmail.com"
 WHERE idEmpleado = 1;
 
 -- **************************************************
+
+ALTER TABLE `cancelados`.`envios` 
+DROP COLUMN `tipoEnvio`;
+
