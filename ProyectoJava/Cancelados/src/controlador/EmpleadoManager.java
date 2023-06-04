@@ -1,25 +1,11 @@
 package controlador;
 
 import Util.FuncionesUtiles;
-import java.sql.CallableStatement;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.ArrayList;
-import java.util.Properties;
-import java.util.logging.Level;
-import java.util.logging.Logger;
-import javax.mail.Message;
-import javax.mail.MessagingException;
-import javax.mail.NoSuchProviderException;
-import javax.mail.Session;
-import javax.mail.Transport;
-import javax.mail.internet.AddressException;
-import javax.mail.internet.InternetAddress;
-import javax.mail.internet.MimeMessage;
-import javax.swing.JOptionPane;
 import modelo.Empleado;
-import vista.EnvioCorreos;
 
 public class EmpleadoManager {
 
@@ -119,8 +105,13 @@ public class EmpleadoManager {
             psContra.setInt(1, idEmpleado);
             psContra.execute();
 
-            sendMail(empleado.getCorreo(), nombreUsuario);
+            String nombreCompletoEmpleado = empleado.getNombre() + " " + empleado.getaPaterno() + " " + empleado.getaMaterno();
 
+            FuncionesUtiles tool = new FuncionesUtiles();
+
+            tool.enviarCorreoMensajePredefinido(empleado.getCorreo(), nombreCompletoEmpleado, nombreUsuario);
+
+            //sendMail(empleado.getCorreo(), nombreUsuario);
             return true;
         } catch (SQLException ex) {
             return false;
@@ -289,48 +280,6 @@ public class EmpleadoManager {
             System.err.println("" + e.getMessage());
         }
         return resultado;
-    }
-
-    public static void sendMail(String correo, String nombreUsuario) {
-
-        String emailFrom = "chechocita@gmail.com";
-        String passwordFrom = "rxrhrkxsgvdrftxx";
-        String emailTo;
-        String subject;
-        String content;
-
-        Properties mProperties;
-        Session mSession;
-        MimeMessage mCorreo;
-
-        emailTo = correo;
-        subject = "Nuevo registro";
-
-        content = "Tu usuario es: " + nombreUsuario;
-        // Simple mail transfer protocol
-        mProperties = new Properties();
-        mProperties.put("mail.smtp.host", "smtp.gmail.com");
-        mProperties.put("mail.smtp.ssl.trust", "smtp.gmail.com");
-        mProperties.setProperty("mail.smtp.starttls.enable", "true");
-        mProperties.setProperty("mail.smtp.port", "587");
-        mProperties.setProperty("mail.smtp.user", emailFrom);
-        mProperties.setProperty("mail.smtp.ssl.protocols", "TLSv1.2");
-        mProperties.setProperty("mail.smtp.auth", "true");
-
-        mSession = Session.getDefaultInstance(mProperties);
-
-        try {
-            mCorreo = new MimeMessage(mSession);
-            mCorreo.setFrom(new InternetAddress(emailFrom));
-            mCorreo.setRecipient(Message.RecipientType.TO, new InternetAddress(emailTo));
-            mCorreo.setSubject(subject);
-            mCorreo.setText(content, "ISO-8859-1", "html");
-
-        } catch (AddressException ex) {
-            Logger.getLogger(EnvioCorreos.class.getName()).log(Level.SEVERE, null, ex);
-        } catch (MessagingException ex) {
-            Logger.getLogger(EnvioCorreos.class.getName()).log(Level.SEVERE, null, ex);
-        }
     }
     /*
     public static void main(String[] args) {

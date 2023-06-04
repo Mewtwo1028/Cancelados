@@ -31,8 +31,6 @@ public class AdministrarEmpleado extends javax.swing.JFrame {
     private int idAdmon;
     private String[] datos;
 
-    
-
     DefaultTableModel modelo = new DefaultTableModel() {
         @Override
         public boolean isCellEditable(int row, int column) {
@@ -635,6 +633,11 @@ public class AdministrarEmpleado extends javax.swing.JFrame {
             return;
         }
 
+        if (!validarCorreo(correo)) {
+            JOptionPane.showMessageDialog(this, "ERROR en el correo");
+            return;
+        }
+
         //Valida el rfc y que la edad minima y maxima sean las especificadas
         if (!new FuncionesUtiles().validarRFC(empleado, 18, 65, this)) {
             return;
@@ -648,7 +651,7 @@ public class AdministrarEmpleado extends javax.swing.JFrame {
         //Validar que los 4 primeros caracteres del rfc y curp sea la misma
         char[] rfcV = empleado.getRfc().substring(0, 4).toCharArray();
         char[] curpV = empleado.getCurp().substring(0, 4).toCharArray();
-
+        
         if (!Arrays.equals(rfcV, curpV)) {
             JOptionPane.showMessageDialog(this, "ERROR los primeros 4 caracteres de la CURP y del RFC no concuerdan");
             return;

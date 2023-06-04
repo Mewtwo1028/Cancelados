@@ -48,33 +48,33 @@ public class VentaManager {
         }
         return -1;
     }
-        
-    public int realizarEnvio(Venta venta, char tipoVenta, Envio env){
-        String consulta =  "INSERT INTO envios (Destinatario,Domicilio,Ciudad,Calle,Colonia,Numero,Producto,Paqueteria,CP,Responsable,Peso,Fecha,Remitente,pais) values (?,?,?,?,?,?,?,?,?,?,?,?,?,?);";
-        
-        try(PreparedStatement ps = conexion.getConexion().prepareStatement(consulta);){
-          ps.setString(1, env.getDestinatario());
-          ps.setString(2, env.getDomicilio());
-          ps.setString(3, env.getCiudad());
-          ps.setString(4, env.getCalle());
-          ps.setString(5, env.getColonia());
-          ps.setString(6, env.getNumero());
-          ps.setString(7, env.getProducto());
-          ps.setString(8, env.getPaqueteria());
-          ps.setString(9, env.getCp());
-          ps.setInt(10, env.getResponsable()); //id de quien realiza la venta
-          ps.setString(11, env.getPeso());
-          ps.setString(12, env.getFecha());
-          ps.setString(13, "Cancelados");
-          ps.setString(14, env.getPais());
-          
-        }catch(SQLException e) {
+
+    public int realizarEnvio(Venta venta, char tipoVenta, Envio env) {
+        String consulta = "INSERT INTO envios (Destinatario,Domicilio,Ciudad,Calle,Colonia,Numero,Producto,Paqueteria,CP,Responsable,Peso,Fecha,Remitente,pais) values (?,?,?,?,?,?,?,?,?,?,?,?,?,?);";
+
+        try (PreparedStatement ps = conexion.getConexion().prepareStatement(consulta);) {
+            ps.setString(1, env.getDestinatario());
+            ps.setString(2, env.getDomicilio());
+            ps.setString(3, env.getCiudad());
+            ps.setString(4, env.getCalle());
+            ps.setString(5, env.getColonia());
+            ps.setString(6, env.getNumero());
+            ps.setString(7, env.getProducto());
+            ps.setString(8, env.getPaqueteria());
+            ps.setString(9, env.getCp());
+            ps.setInt(10, env.getResponsable()); //id de quien realiza la venta
+            ps.setString(11, env.getPeso());
+            ps.setString(12, env.getFecha());
+            ps.setString(13, "Cancelados");
+            ps.setString(14, env.getPais());
+
+        } catch (SQLException e) {
             return -1;
         }
-        
+
         return -1;
     }
-    
+
     public ArrayList<String[]> consultarTodos() {
         String sql = "SELECT * FROM vistaVentas;";
         ArrayList<String[]> resultado = new ArrayList<>();
@@ -111,6 +111,24 @@ public class VentaManager {
                 return true;
             }
             return false;
+
+        } catch (SQLException ex) {
+            throw new RuntimeException("Error al modificar el estado de la venta", ex);
+        }
+    }
+
+    public int getIdUltimaVenta() {
+        String sql = "SELECT idVenta FROM venta ORDER BY idVenta DESC LIMIT 1;";
+
+        try (PreparedStatement cs = conexion.getConexion().prepareStatement(sql)) {
+
+            ResultSet c = cs.executeQuery();
+
+            if (c.next()) {
+                return c.getInt("idVenta");
+            }
+
+            return -1;
 
         } catch (SQLException ex) {
             throw new RuntimeException("Error al modificar el estado de la venta", ex);

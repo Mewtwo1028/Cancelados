@@ -17,12 +17,35 @@ import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 import java.util.Arrays;
 import java.util.HashMap;
+import java.util.Properties;
 import java.util.Random;
+import java.util.logging.Level;
+import java.util.logging.Logger;
+import javax.mail.Message;
+import javax.mail.MessagingException;
+import javax.mail.NoSuchProviderException;
+import javax.mail.Session;
+import javax.mail.Transport;
+import javax.mail.internet.AddressException;
+import javax.mail.internet.InternetAddress;
+import javax.mail.internet.MimeMessage;
 import javax.swing.JFrame;
 import javax.swing.JOptionPane;
 import modelo.Empleado;
+import vista.EnvioCorreos;
 
 public class FuncionesUtiles {
+
+    private static String emailFrom = "chechocita@gmail.com";
+    private static String passwordFrom = "rxrhrkxsgvdrftxx";
+    private String emailTo;
+    private String subject;
+    private String content;
+
+    private Properties mProperties = new Properties();
+    ;
+    private Session mSession;
+    private MimeMessage mCorreo;
 
     private static final HashMap<String, String> entidadesFederativas = new HashMap<>();
 
@@ -36,9 +59,10 @@ public class FuncionesUtiles {
         String username = empleado.getaPaterno() + empleado.getNombre() + getAbreviatura(empleado.getCurp()) + numbers;
         return username;
     }
-    
-    private String getAbreviatura(String curp){
-        return curp.substring(12, 14);
+
+    private String getAbreviatura(String curp) {
+        //System.out.println(curp.substring(11, 13));
+        return curp.substring(11, 13);
     }
 
     public Object[] getEstados() {
@@ -268,7 +292,7 @@ public class FuncionesUtiles {
         //Primera letra el apellido paterno
         char iPaterno = empleado.getaPaterno().toUpperCase().charAt(0);
         //Primera vocal inicial del apellidoPaterno
-        char vPaterno = getVocal(empleado.getaPaterno().toUpperCase());
+        char vPaterno = getVocal(empleado.getaPaterno().substring(1).toUpperCase());
         //Primera letra inicial del apellidoMaterno
         char iMaterno = empleado.getaMaterno().toUpperCase().charAt(0);
         //Primera letra inicial del nombre
@@ -294,6 +318,9 @@ public class FuncionesUtiles {
         }
 
         char[] iniciales = {iPaterno, vPaterno, iMaterno, iNombre};
+
+        //System.out.println(iniciales);
+        //System.out.println(rfc);
         return Arrays.equals(rfc, iniciales);
     }
 
@@ -392,7 +419,7 @@ public class FuncionesUtiles {
         //Primera letra el apellido paterno
         char iPaterno = empleado.getaPaterno().toUpperCase().charAt(0);
         //Primera vocal inicial del apellidoPaterno
-        char vPaterno = getVocal(empleado.getaPaterno().toUpperCase());
+        char vPaterno = getVocal(empleado.getaPaterno().substring(1).toUpperCase());
         //Primera letra inicial del apellidoMaterno
         char iMaterno = empleado.getaMaterno().toUpperCase().charAt(0);
         //Primera letra inicial del nombre
@@ -479,6 +506,109 @@ public class FuncionesUtiles {
         c = Character.toUpperCase(c);
         return c == 'A' || c == 'E' || c == 'I' || c == 'O' || c == 'U';
     }
+
+    /**
+     * Funcion para enviar un correo electronico
+     *
+     * @param emailTo correo de destino
+     * @param subject asunto del correo
+     * @param content contenido del correo
+     */
+    public void enviarCorreo(String emailTo, String subject, String content) {
+        this.emailTo = emailTo.trim();
+        this.subject = subject.trim();
+        this.content = subject.trim();
+
+        // Simple mail transfer protocol
+        mProperties.put("mail.smtp.host", "smtp.gmail.com");
+        mProperties.put("mail.smtp.ssl.trust", "smtp.gmail.com");
+        mProperties.setProperty("mail.smtp.starttls.enable", "true");
+        mProperties.setProperty("mail.smtp.port", "587");
+        mProperties.setProperty("mail.smtp.user", emailFrom);
+        mProperties.setProperty("mail.smtp.ssl.protocols", "TLSv1.2");
+        mProperties.setProperty("mail.smtp.auth", "true");
+
+        mSession = Session.getDefaultInstance(mProperties);
+
+        try {
+            mCorreo = new MimeMessage(mSession);
+            mCorreo.setFrom(new InternetAddress(emailFrom));
+            mCorreo.setRecipient(Message.RecipientType.TO, new InternetAddress(emailTo));
+            mCorreo.setSubject(subject);
+            mCorreo.setText(content, "ISO-8859-1", "html");
+
+        } catch (AddressException ex) {
+            Logger.getLogger(EnvioCorreos.class.getName()).log(Level.SEVERE, null, ex);
+        } catch (MessagingException ex) {
+            Logger.getLogger(EnvioCorreos.class.getName()).log(Level.SEVERE, null, ex);
+        }
+
+        sendEmail();
+
+    }
+
+    /**
+     * Funcion para enviar un correo electronico de bienvenida con un asunto y
+     * contenido por defecto.
+     *
+     * @param emailTo correo de destino
+     * @param nombreCompletoEmpleado nombre completo del empleado
+     * @param nombreUsuario el nombre de usuario del empleado
+     */
+    public void enviarCorreoMensajePredefinido(String emailTo, String nombreCompletoEmpleado, String nombreUsuario) {
+        this.emailTo = emailTo.trim();
+        this.subject = "¡Bienvenido a la empresa Cancelados! Tu acceso al sistema ha sido configurado.";
+        this.content = "Estimado [" + nombreCompletoEmpleado + "],\n\n"
+                + "¡En nombre de todo el equipo de la empresa Cancelados, queremos darte una cálida bienvenida! Estamos encantados de tenerte como parte de nuestra organización y nos complace informarte que tu registro en nuestro sistema de información ha sido completado satisfactoriamente.\n\n"
+                + "Tu compromiso y talento son valiosos para nosotros, y nos complace brindarte todas las herramientas necesarias para que puedas comenzar a contribuir a nuestro éxito conjunto. A continuación, encontrarás los detalles de tu cuenta de usuario para que puedas acceder al sistema:\n\n"
+                + "Nombre de usuario: [" + nombreUsuario + "]\n\n"
+                + "Te recomendamos que cambies tu contraseña al ingresar por primera vez para asegurar la confidencialidad de tu cuenta.\n\n"
+                + "Una vez más, te damos la bienvenida a la empresa Cancelados. ¡Estamos emocionados de comenzar esta nueva etapa junto a ti y deseamos que tengas mucho éxito en tu trayectoria con nosotros!";
+
+        // Simple mail transfer protocol
+        mProperties.put("mail.smtp.host", "smtp.gmail.com");
+        mProperties.put("mail.smtp.ssl.trust", "smtp.gmail.com");
+        mProperties.setProperty("mail.smtp.starttls.enable", "true");
+        mProperties.setProperty("mail.smtp.port", "587");
+        mProperties.setProperty("mail.smtp.user", emailFrom);
+        mProperties.setProperty("mail.smtp.ssl.protocols", "TLSv1.2");
+        mProperties.setProperty("mail.smtp.auth", "true");
+
+        mSession = Session.getDefaultInstance(mProperties);
+
+        try {
+            mCorreo = new MimeMessage(mSession);
+            mCorreo.setFrom(new InternetAddress(emailFrom));
+            mCorreo.setRecipient(Message.RecipientType.TO, new InternetAddress(emailTo));
+            mCorreo.setSubject(subject);
+            mCorreo.setText(content, "UTF-8", "plain");
+
+        } catch (AddressException ex) {
+            Logger.getLogger(EnvioCorreos.class.getName()).log(Level.SEVERE, null, ex);
+        } catch (MessagingException ex) {
+            Logger.getLogger(EnvioCorreos.class.getName()).log(Level.SEVERE, null, ex);
+        }
+
+        sendEmail();
+
+    }
+
+    private void sendEmail() {
+        try {
+            Transport mTransport = mSession.getTransport("smtp");
+            mTransport.connect(emailFrom, passwordFrom);
+            mTransport.sendMessage(mCorreo, mCorreo.getRecipients(Message.RecipientType.TO));
+            mTransport.close();
+
+            JOptionPane.showMessageDialog(null, "Correo enviado");
+
+        } catch (NoSuchProviderException ex) {
+            Logger.getLogger(EnvioCorreos.class.getName()).log(Level.SEVERE, null, ex);
+        } catch (MessagingException ex) {
+            Logger.getLogger(EnvioCorreos.class.getName()).log(Level.SEVERE, null, ex);
+        }
+    }
+
     /*
     public static void main(String[] args) {
 
@@ -501,5 +631,13 @@ public class FuncionesUtiles {
         System.out.println(new FuncionesUtiles().validarCurp(empleado, 18, 65, new javax.swing.JFrame()));
     }
      */
+    public static void main(String[] args) {
+        FuncionesUtiles tool = new FuncionesUtiles();
 
+        String emailTo = "cesarinzunsa@gmail.com";
+        String nombreCompletoEmpleado = "Juanito Perez";
+        String nombreUsuario = "usuarioPrueba";
+
+        tool.enviarCorreoMensajePredefinido(emailTo, nombreCompletoEmpleado, nombreUsuario);
+    }
 }

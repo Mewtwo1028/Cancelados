@@ -18,38 +18,38 @@ import javax.swing.JOptionPane;
  * @author LCode
  */
 public class EnvioCorreos extends javax.swing.JFrame {
-
+    
     private static String emailFrom = "chechocita@gmail.com";
-private static String passwordFrom = "rxrhrkxsgvdrftxx";
+    private static String passwordFrom = "rxrhrkxsgvdrftxx";
     private String emailTo;
     private String subject;
     private String content;
-
+    
     private Properties mProperties;
     private Session mSession;
     private MimeMessage mCorreo;
-
+    
     public EnvioCorreos() {
         initComponents();
         mProperties = new Properties();
+        this.setLocationRelativeTo(null);
     }
-
+    
     private void createEmail() {
         emailTo = txtTo.getText().trim();
         subject = txtSubject.getText().trim();
         content = txtContent.getText().trim();
-        
-         // Simple mail transfer protocol
+
+        // Simple mail transfer protocol
         mProperties.put("mail.smtp.host", "smtp.gmail.com");
         mProperties.put("mail.smtp.ssl.trust", "smtp.gmail.com");
         mProperties.setProperty("mail.smtp.starttls.enable", "true");
         mProperties.setProperty("mail.smtp.port", "587");
-        mProperties.setProperty("mail.smtp.user",emailFrom);
+        mProperties.setProperty("mail.smtp.user", emailFrom);
         mProperties.setProperty("mail.smtp.ssl.protocols", "TLSv1.2");
         mProperties.setProperty("mail.smtp.auth", "true");
         
         mSession = Session.getDefaultInstance(mProperties);
-        
         
         try {
             mCorreo = new MimeMessage(mSession);
@@ -57,7 +57,6 @@ private static String passwordFrom = "rxrhrkxsgvdrftxx";
             mCorreo.setRecipient(Message.RecipientType.TO, new InternetAddress(emailTo));
             mCorreo.setSubject(subject);
             mCorreo.setText(content, "ISO-8859-1", "html");
-                     
             
         } catch (AddressException ex) {
             Logger.getLogger(EnvioCorreos.class.getName()).log(Level.SEVERE, null, ex);
@@ -65,7 +64,7 @@ private static String passwordFrom = "rxrhrkxsgvdrftxx";
             Logger.getLogger(EnvioCorreos.class.getName()).log(Level.SEVERE, null, ex);
         }
     }
-
+    
     private void sendEmail() {
         try {
             Transport mTransport = mSession.getTransport("smtp");
@@ -101,7 +100,7 @@ private static String passwordFrom = "rxrhrkxsgvdrftxx";
         txtContent = new javax.swing.JTextArea();
         jLabel4 = new javax.swing.JLabel();
 
-        setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
+        setDefaultCloseOperation(javax.swing.WindowConstants.DISPOSE_ON_CLOSE);
 
         jPanel1.setBackground(new java.awt.Color(153, 0, 0));
         jPanel1.setForeground(new java.awt.Color(0, 204, 255));

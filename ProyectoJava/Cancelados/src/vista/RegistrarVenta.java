@@ -14,6 +14,7 @@ import static java.awt.Frame.MAXIMIZED_BOTH;
 import java.awt.Toolkit;
 import java.awt.print.PrinterException;
 import java.awt.print.PrinterJob;
+import java.text.DecimalFormat;
 import java.util.ArrayList;
 import javax.swing.DefaultComboBoxModel;
 import javax.swing.JFrame;
@@ -27,44 +28,46 @@ import javax.swing.table.TableModel;
 import modelo.Envio;
 
 public class RegistrarVenta extends javax.swing.JFrame {
-    
+
     private int idAdmon;
     private float cambio;
+    private float pagoCon;
     private Envio envio = new Envio(idAdmon);
 
     public void setEnvio(Envio envio) {
         this.envio = envio;
     }
-    
-    
+
+    DecimalFormat formato = new DecimalFormat("0.00");
+
     DefaultTableModel modelo = new DefaultTableModel() {
         @Override
         public boolean isCellEditable(int row, int column) {
             return false;
         }
     };
-    
+
     ArrayList<Producto> productos = new ArrayList<>();
     //ArrayList<Cliente> clientes = new ClienteManager().consultarNombres();
     float subTotal = 0;
-    
+
     public RegistrarVenta() {
         initComponents();
         initProductos();
         inicializar();
         initTabla();
     }
-    
+
     private void initProductos() {
         ArrayList<Producto> pr = new ProductoManager().consultarNombres();
-        
+
         for (Producto e : pr) {
             if (e.getStock() >= 1) {
                 productos.add(e);
             }
         }
     }
-    
+
     private void inicializar() {
         FuncionesUtiles tool = new FuncionesUtiles();
         //Configuracion ventana
@@ -131,7 +134,7 @@ public class RegistrarVenta extends javax.swing.JFrame {
         //total
         txtSubtotal.setText(String.valueOf(subTotal));
     }
-    
+
     private void llenarProducto() {
         DefaultComboBoxModel b = new DefaultComboBoxModel();
         b.addElement("SELECCIONA UN PRODUCTO");
@@ -140,16 +143,16 @@ public class RegistrarVenta extends javax.swing.JFrame {
                 b.addElement(producto.getNombre());
             }
         }
-        
+
         cbNombreProducto.setModel(b);
-        
+
     }
-    
+
     private void llenarCliente() {
         txtIdCliente.setText("1");
         txtNombreCliente.setText("Publico En General");
     }
-    
+
     private void limpiarTxtFields() {
         cbNombreProducto.setSelectedIndex(0);
         spnCantidad.setModel(new SpinnerNumberModel(1, 1, 1, 1));
@@ -158,7 +161,7 @@ public class RegistrarVenta extends javax.swing.JFrame {
         //txtStock.setText("");
         txtIDProducto.setText("");
     }
-    
+
     private void limpiarTodosTxtFields() {
         cbNombreProducto.setSelectedIndex(0);
         spnCantidad.setValue(1);
@@ -171,7 +174,7 @@ public class RegistrarVenta extends javax.swing.JFrame {
         txtNombreCliente.setText("Publico En General");
         modelo.setRowCount(0);
     }
-    
+
     private void initTabla() {
         modelo.addColumn("ID Producto");
         modelo.addColumn("Producto");
@@ -180,7 +183,7 @@ public class RegistrarVenta extends javax.swing.JFrame {
         modelo.addColumn("Importe");
         tblProducto.setModel(modelo);
     }
-    
+
     public void setEmpleado(String nombre, int idEmpleado) {
         //Colocar panel de la izquierda
         AccionesRapidasEmpleado panelBotones = new AccionesRapidasEmpleado(this);
@@ -194,7 +197,7 @@ public class RegistrarVenta extends javax.swing.JFrame {
         panelBotones.revalidate();
         panelBotones.repaint();
     }
-    
+
     public void setAdmon(String nombre, int idAdmon) {
         //Colocar panel de la izquierda
         AccionesRapidasAdministrador panelBotones = new AccionesRapidasAdministrador(this);
@@ -222,8 +225,6 @@ public class RegistrarVenta extends javax.swing.JFrame {
         jPanelIzquierda = new javax.swing.JPanel();
         jPanelInformacion = new javax.swing.JPanel();
         jPanelLinea = new javax.swing.JPanel();
-        jScrollPane3 = new javax.swing.JScrollPane();
-        ticket1 = new modelo.Ticket();
         jPanelOperaciones = new javax.swing.JPanel();
         jScrollPane1 = new javax.swing.JScrollPane();
         tblProducto = new javax.swing.JTable();
@@ -250,7 +251,6 @@ public class RegistrarVenta extends javax.swing.JFrame {
         btnRegistrarVenta = new javax.swing.JButton();
         btnEliminar = new javax.swing.JButton();
         RegistrarEnvio = new javax.swing.JButton();
-        btnimprimir = new javax.swing.JButton();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
         setMinimumSize(new java.awt.Dimension(1280, 720));
@@ -280,23 +280,15 @@ public class RegistrarVenta extends javax.swing.JFrame {
             .addGap(0, 110, Short.MAX_VALUE)
         );
 
-        jScrollPane3.setViewportView(ticket1);
-
         javax.swing.GroupLayout jPanelLineaLayout = new javax.swing.GroupLayout(jPanelLinea);
         jPanelLinea.setLayout(jPanelLineaLayout);
         jPanelLineaLayout.setHorizontalGroup(
             jPanelLineaLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(jPanelLineaLayout.createSequentialGroup()
-                .addContainerGap()
-                .addComponent(jScrollPane3, javax.swing.GroupLayout.PREFERRED_SIZE, 288, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addContainerGap(479, Short.MAX_VALUE))
+            .addGap(0, 773, Short.MAX_VALUE)
         );
         jPanelLineaLayout.setVerticalGroup(
             jPanelLineaLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(jPanelLineaLayout.createSequentialGroup()
-                .addGap(130, 130, 130)
-                .addComponent(jScrollPane3, javax.swing.GroupLayout.PREFERRED_SIZE, 541, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+            .addGap(0, 0, Short.MAX_VALUE)
         );
 
         jPanelOperaciones.setLayout(new org.netbeans.lib.awtextra.AbsoluteLayout());
@@ -342,7 +334,7 @@ public class RegistrarVenta extends javax.swing.JFrame {
 
         txtSubtotal.setText("jTextField1");
 
-        labelTotal.setText("Total");
+        labelTotal.setText("Total + IVA (16%)");
 
         txtTotal.setText("jTextField2");
 
@@ -496,18 +488,6 @@ public class RegistrarVenta extends javax.swing.JFrame {
             }
         });
 
-        btnimprimir.setText("Imprimir ticket");
-        btnimprimir.addMouseListener(new java.awt.event.MouseAdapter() {
-            public void mouseClicked(java.awt.event.MouseEvent evt) {
-                btnimprimirMouseClicked(evt);
-            }
-        });
-        btnimprimir.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                btnimprimirActionPerformed(evt);
-            }
-        });
-
         javax.swing.GroupLayout jPanelAccionesLayout = new javax.swing.GroupLayout(jPanelAcciones);
         jPanelAcciones.setLayout(jPanelAccionesLayout);
         jPanelAccionesLayout.setHorizontalGroup(
@@ -518,8 +498,7 @@ public class RegistrarVenta extends javax.swing.JFrame {
                     .addComponent(btnAgregar, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                     .addComponent(btnRegistrarVenta, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                     .addComponent(btnEliminar, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                    .addComponent(RegistrarEnvio, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                    .addComponent(btnimprimir, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                    .addComponent(RegistrarEnvio, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
                 .addContainerGap())
         );
         jPanelAccionesLayout.setVerticalGroup(
@@ -533,8 +512,7 @@ public class RegistrarVenta extends javax.swing.JFrame {
                 .addComponent(btnEliminar, javax.swing.GroupLayout.PREFERRED_SIZE, 35, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addComponent(RegistrarEnvio, javax.swing.GroupLayout.PREFERRED_SIZE, 35, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                .addComponent(btnimprimir, javax.swing.GroupLayout.PREFERRED_SIZE, 35, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addContainerGap(56, Short.MAX_VALUE))
         );
 
         jPanelOperaciones.add(jPanelAcciones, new org.netbeans.lib.awtextra.AbsoluteConstraints(549, 6, -1, 220));
@@ -583,20 +561,19 @@ public class RegistrarVenta extends javax.swing.JFrame {
     }// </editor-fold>//GEN-END:initComponents
 
     private void btnAgregarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnAgregarActionPerformed
-        
-  
+
         if (validarFormulario()) {
             JOptionPane.showMessageDialog(this, "ERROR! Debe de llenar el formulario!");
             return;
         }
-        
+
         String idProducto = txtIDProducto.getText();
-        
+
         String cantidad = spnCantidad.getValue().toString();
         String importe = txtImporte.getText();
         String producto = cbNombreProducto.getSelectedItem().toString();
         String precioUnitario = txtPrecioUnitario.getText();
-        
+
         /*
         subTotal += Float.parseFloat(importe);
         txtSubtotal.setText(String.valueOf(subTotal));
@@ -607,7 +584,7 @@ public class RegistrarVenta extends javax.swing.JFrame {
         } else {
             agregarTabla(idProducto, producto, precioUnitario, cantidad, importe);
         }
-        
+
         int id = Integer.parseInt(idProducto);
 
         //calcular la nueva cantidad, tomar la que hay en el arreglo de productos
@@ -630,10 +607,11 @@ public class RegistrarVenta extends javax.swing.JFrame {
         } catch (Exception e) {
             System.out.println(e.getMessage());
         }
-        
+
         limpiarTxtFields();
         calcularTotal();
-        ticket1.agregarProducto(producto, Double.parseDouble(cantidad), Double.parseDouble(importe));
+
+        //ticket1.agregarProducto(producto, Double.parseDouble(cantidad), Double.parseDouble(importe));
     }//GEN-LAST:event_btnAgregarActionPerformed
 
     private void tblProductoMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_tblProductoMouseClicked
@@ -641,46 +619,46 @@ public class RegistrarVenta extends javax.swing.JFrame {
     }//GEN-LAST:event_tblProductoMouseClicked
 
     private void btnEliminarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnEliminarActionPerformed
-            ticket1.quitarProducto();
-       
+        //ticket1.quitarProducto();
+
         int renglon = tblProducto.getSelectedRow();
-        
+
         if (renglon == -1) {
             JOptionPane.showMessageDialog(this, "ERROR! DEBE DE SELECCIONAR UN RENGLON DE LA TABLA");
             return;
         }
-        
+
         int idProducto = Integer.parseInt(tblProducto.getValueAt(renglon, 0).toString());
         String nombre = tblProducto.getValueAt(renglon, 1).toString();
         float precioUnitario = Float.parseFloat(tblProducto.getValueAt(renglon, 2).toString());
         int stock = 1;
-        
+
         Producto producto = new Producto();
-        
+
         producto.setIdProducto(idProducto);
         producto.setNombre(nombre);
         producto.setPrecioUnitario(precioUnitario);
         producto.setStock(stock);
-        
+
         float precioUnitarioTabla = Float.parseFloat(tblProducto.getValueAt(renglon, 2).toString());
         int cantidadTabla = Integer.parseInt(tblProducto.getValueAt(renglon, 3).toString());
-        
+
         DefaultTableModel m = (DefaultTableModel) tblProducto.getModel();
-        
+
         if (Integer.parseInt(tblProducto.getValueAt(renglon, 3).toString()) > 1) {
             int valor = Integer.parseInt(tblProducto.getValueAt(renglon, 3).toString()) - 1;
             tblProducto.setValueAt(valor, renglon, 3);
-            
+
             float imp = Float.parseFloat(tblProducto.getValueAt(renglon, 2).toString()) * Float.parseFloat(tblProducto.getValueAt(renglon, 3).toString());
-            
+
             tblProducto.setValueAt(imp, renglon, 4);
-            
+
         } else {
             m.removeRow(renglon);
         }
-        
+
         tblProducto.setModel(m);
-        
+
         if (existeProducto(productos, producto)) {
             for (int i = 0; i < productos.size(); i++) {
                 if (productos.get(i).getIdProducto() == producto.getIdProducto()) {
@@ -691,9 +669,9 @@ public class RegistrarVenta extends javax.swing.JFrame {
             productos.add(producto);
             llenarProducto();
         }
-        
+
         calcularTotal();
-        
+
         cbNombreProducto.setSelectedIndex(0);
         spnCantidad.setModel(new SpinnerNumberModel(1, 1, 1, 1));
         txtPrecioUnitario.setText("");
@@ -702,33 +680,35 @@ public class RegistrarVenta extends javax.swing.JFrame {
     }//GEN-LAST:event_btnEliminarActionPerformed
 
     private void btnRegistrarVentaActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnRegistrarVentaActionPerformed
-        
+
         if (tblProducto.getRowCount() == 0) {
-            JOptionPane.showMessageDialog(this, "DEBE DE AGREGAR AL MENOS UN PRODUCTO AL CARRITO","ERROR",JOptionPane.ERROR_MESSAGE);
+            JOptionPane.showMessageDialog(this, "DEBE DE AGREGAR AL MENOS UN PRODUCTO AL CARRITO", "ERROR", JOptionPane.ERROR_MESSAGE);
             return;
         }
-        
+
         ArrayList<Producto> listaProductos = obtenerListaProductos();
         float total = Float.parseFloat(txtSubtotal.getText());
+        float totalParaRegistrar = Float.parseFloat(txtTotal.getText());
         int idCliente = Integer.parseInt(txtIdCliente.getText());
         int idEmpleado = idAdmon;
         //double cambio;
 
         DetallePago dp = new DetallePago(this, true, total);
         dp.setVisible(true);
-        
-        Venta venta = new Venta(total, idCliente, idEmpleado);
-        
+
+        Venta venta = new Venta(totalParaRegistrar, idCliente, idEmpleado);
+
         DialogoEmergente dl = new DialogoEmergente(this, true);
-        
+
         if (registrarVenta(venta, listaProductos, 'V') && dp.validaPago()) {
-            dl.setTexto("Venta registrada de\nforma correcta!\nSu Cambio es de: " + cambio);
-            limpiarTodosTxtFields();
+            dl.setTexto("Venta registrada de\nforma correcta!");
         } else {
             dl.setTexto("¡ERROR! NO SE PUDO REGISTRAR LA VENTA");
         }
-        
+
         dl.setVisible(true);
+        generarTicket();
+        limpiarTodosTxtFields();
     }//GEN-LAST:event_btnRegistrarVentaActionPerformed
 
     private void cbNombreProductoItemStateChanged(java.awt.event.ItemEvent evt) {//GEN-FIRST:event_cbNombreProductoItemStateChanged
@@ -753,34 +733,34 @@ public class RegistrarVenta extends javax.swing.JFrame {
     }
 
     private void RegistrarEnvioMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_RegistrarEnvioMouseClicked
-        
+
         if (tblProducto.getRowCount() == 0) {
-            JOptionPane.showMessageDialog(this, "DEBE DE AGREGAR AL MENOS UN PRODUCTO AL CARRITO","ERROR",JOptionPane.ERROR_MESSAGE);
+            JOptionPane.showMessageDialog(this, "DEBE DE AGREGAR AL MENOS UN PRODUCTO AL CARRITO", "ERROR", JOptionPane.ERROR_MESSAGE);
             return;
         }
-        
+
         ArrayList<Producto> listaProductos = obtenerListaProductos();
         float total = Float.parseFloat(txtSubtotal.getText());
         int idCliente = Integer.parseInt(txtIdCliente.getText());
         int idEmpleado = idAdmon;
-        
+
         Venta venta = new Venta(total, idCliente, idEmpleado);
         Envio env = new Envio(idAdmon);
-        
+
         DialogoEmergente dl = new DialogoEmergente(this, true);
-        
+
         DialogoEnvio de = new DialogoEnvio(this, true);
         de.setVisible(true);
         DetallePago dp = new DetallePago(this, true, total);
         dp.setVisible(true);
-        
+
         if (registrarVenta(venta, listaProductos, 'E') && dp.validaPago()) {
             dl.setTexto("Venta registrada de\nforma correcta!\nSu Cambio es de: " + cambio);
             limpiarTodosTxtFields();
         } else {
             dl.setTexto("¡ERROR! NO SE PUDO REGISTRAR LA VENTA");
         }
-        
+
     }//GEN-LAST:event_RegistrarEnvioMouseClicked
 
     private void spnCantidadStateChanged(javax.swing.event.ChangeEvent evt) {//GEN-FIRST:event_spnCantidadStateChanged
@@ -804,38 +784,50 @@ public class RegistrarVenta extends javax.swing.JFrame {
         // TODO add your handling code here:
     }//GEN-LAST:event_RegistrarEnvioActionPerformed
 
-    private void btnimprimirMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_btnimprimirMouseClicked
-        // TODO add your handling code here:
-    }//GEN-LAST:event_btnimprimirMouseClicked
+    private void generarTicket() {
+        TicketDialog td = new TicketDialog(this, true, cambio, pagoCon);
+        td.setProducto(getProductosTabla());
+        td.setVisible(true);
+    }
 
-    private void btnimprimirActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnimprimirActionPerformed
-        // TODO add your handling code here:
-        PrinterJob job = PrinterJob.getPrinterJob();
-        
-        job.setPrintable(ticket1);
-        
-        if(job.printDialog()){
-            try {
-                job.print();
-            } catch (PrinterException ex) {
-                //Logger.getLogger(Venta.class.getName()).log(Level.SEVERE, null, ex);
-            }
-        }else{
-            JOptionPane.showMessageDialog(null, "no se imprimio el ticket");
+    private ArrayList<Producto> getProductosTabla() {
+        ArrayList<Producto> productosTabla = new ArrayList<>();
+        Producto producto;
+        for (int i = 0; i < tblProducto.getRowCount(); i++) {
+            producto = new Producto();
+
+            //idProducto
+            producto.setIdProducto(Integer.parseInt(tblProducto.getValueAt(i, 0).toString()));
+            //nombre
+            producto.setNombre(tblProducto.getValueAt(i, 1).toString());
+            //precio unitario
+            producto.setPrecioUnitario(Float.parseFloat(tblProducto.getValueAt(i, 2).toString()));
+            //cantidad
+            producto.setStock(Integer.parseInt(tblProducto.getValueAt(i, 3).toString()));
+            //importe
+            producto.setImporte(Float.parseFloat(tblProducto.getValueAt(i, 4).toString()));
+
+            productosTabla.add(producto);
         }
-        
-    }//GEN-LAST:event_btnimprimirActionPerformed
-    
+
+        return productosTabla;
+
+    }
+
     private void calcularTotal() {
         float total = 0;
         for (int i = 0; i < tblProducto.getRowCount(); i++) {
             total += Float.parseFloat(tblProducto.getValueAt(i, 4).toString());
         }
-        
+
         txtSubtotal.setText(String.valueOf(total));
-        txtTotal.setText(String.valueOf(total));
+
+        float iva = (float) (total * 0.16);
+        float total2 = total + iva;
+
+        txtTotal.setText(formato.format(total2));
     }
-    
+
     private Producto obtenerProducto(int idProducto) {
         for (Producto producto : productos) {
             if (producto.getIdProducto() == idProducto) {
@@ -844,7 +836,7 @@ public class RegistrarVenta extends javax.swing.JFrame {
         }
         return null;
     }
-    
+
     private boolean existeProducto(ArrayList<Producto> productos, Producto p) {
         for (Producto producto : productos) {
             if (producto.getIdProducto() == p.getIdProducto()) {
@@ -853,39 +845,43 @@ public class RegistrarVenta extends javax.swing.JFrame {
         }
         return false;
     }
-    
+
     private boolean validarFormulario() {
         return cbNombreProducto.getSelectedIndex() == 0 || txtIdCliente.getText().isEmpty();
     }
-    
+
     public void setIdCliente(int idCliente, String nombreCliente) {
         this.txtIdCliente.setText(String.valueOf(idCliente));
         this.txtNombreCliente.setText(nombreCliente);
     }
-    
+
     public void setCambio(float cambio) {
         this.cambio = cambio;
     }
-    
+
+    public void setPagoCuanto(float pago) {
+        this.pagoCon = pago;
+    }
+
     private boolean registrarVenta(Venta venta, ArrayList<Producto> productos, char tipoVenta) {
         int idVenta = new VentaManager().realizarVenta(venta, tipoVenta);
-        
+
         if (new DetalleVenta().realizarDetalleVenta(productos, idVenta, tipoVenta)) {
             return new ProductoManager().modificarStock(productos);
         }
-        
+
         return false;
     }
-    
+
     private void actualizarCantidadProducto(String idProducto, String cantidad, String importe) {
         for (int i = 0; i < tblProducto.getRowCount(); i++) {
             Object id = tblProducto.getValueAt(i, 0);
             if (id != null && id.toString().equals(idProducto)) {
-                
+
                 int vCantidad = Integer.parseInt(tblProducto.getValueAt(i, 3).toString());
                 int nCantidad = vCantidad + Integer.parseInt(cantidad);
                 tblProducto.setValueAt(nCantidad, i, 3);
-                
+
                 float vImporte = Float.parseFloat(tblProducto.getValueAt(i, 4).toString());
                 float nImporte = vImporte + Float.parseFloat(importe);
                 tblProducto.setValueAt(nImporte, i, 4);
@@ -894,11 +890,11 @@ public class RegistrarVenta extends javax.swing.JFrame {
         }
         tblProducto.repaint();
     }
-    
+
     private boolean existeProductoTabla(String idProducto) {
         ArrayList<Producto> listaProductos = obtenerCarrito();
         int id = Integer.parseInt(idProducto);
-        
+
         for (Producto producto : listaProductos) {
             if (producto.getIdProducto() == id) {
                 return true;
@@ -906,10 +902,10 @@ public class RegistrarVenta extends javax.swing.JFrame {
         }
         return false;
     }
-    
+
     private ArrayList<Producto> obtenerCarrito() {
         ArrayList<Producto> carrito = new ArrayList<>();
-        
+
         for (int i = 0; i < modelo.getRowCount(); i++) {
             Producto producto = new Producto();
             for (int j = 0; j < modelo.getColumnCount(); j++) {
@@ -931,10 +927,10 @@ public class RegistrarVenta extends javax.swing.JFrame {
             }
             carrito.add(producto);
         }
-        
+
         return carrito;
     }
-    
+
     public void setNombre(String nombre) {
         PanelInformacionArriba panelInformacion = new PanelInformacionArriba();
         panelInformacion.setNombre(nombre);
@@ -945,12 +941,12 @@ public class RegistrarVenta extends javax.swing.JFrame {
         panelInformacion.revalidate();
         panelInformacion.repaint();
     }
-    
+
     private ArrayList<Producto> obtenerListaProductos() {
         ArrayList<Producto> listaProductos = new ArrayList<>();
         TableModel modelo = tblProducto.getModel();
         Producto producto;
-        
+
         for (int i = 0; i < modelo.getRowCount(); i++) {
             producto = new Producto();
             try {
@@ -959,39 +955,42 @@ public class RegistrarVenta extends javax.swing.JFrame {
                 producto.setPrecioUnitario(Float.parseFloat(modelo.getValueAt(i, 2).toString()));
                 producto.setStock(Integer.parseInt(modelo.getValueAt(i, 3).toString()));
                 producto.setImporte(Float.parseFloat(modelo.getValueAt(i, 4).toString()));
-                
+
                 listaProductos.add(producto);
             } catch (NumberFormatException ex) {
-                
+
             }
         }
-        
+
         return listaProductos;
     }
-    
+
     private void calcularImporte() {
         int cantidad = Integer.parseInt(spnCantidad.getValue().toString());
         float precioUnitrario = Float.parseFloat(txtPrecioUnitario.getText());
-        
+
         float calculo = cantidad * precioUnitrario;
-        
-        txtImporte.setText(String.valueOf(calculo));
-        
+
+        txtImporte.setText(formato.format(calculo));
+
     }
-    
+
     private void llenarCantidad(Producto producto) {
         spnCantidad.setModel(new SpinnerNumberModel(1, 1, producto.getStock(), 1));
     }
-    
+
     private void obtenerRenglonTabla() {
         //Aqui va el codigo para eliminar algun productos o para modificarlo
     }
-    
+
     private void agregarTabla(String idProducto, String nombre, String precioUnitario, String cantidad, String importe) {
-        String[] renglon = {idProducto, nombre, precioUnitario, cantidad, importe};
+
+        String precioU = formato.format(Double.valueOf(precioUnitario));
+
+        String[] renglon = {idProducto, nombre, precioU, cantidad, importe};
         modelo.addRow(renglon);
     }
-    
+
     public static void main(String args[]) {
         /* Set the Nimbus look and feel */
         //<editor-fold defaultstate="collapsed" desc=" Look and feel setting code (optional) ">
@@ -1029,7 +1028,6 @@ public class RegistrarVenta extends javax.swing.JFrame {
     private javax.swing.JButton btnAgregar;
     private javax.swing.JButton btnEliminar;
     private javax.swing.JButton btnRegistrarVenta;
-    private javax.swing.JButton btnimprimir;
     protected javax.swing.JComboBox<String> cbNombreProducto;
     private javax.swing.JButton jButton1;
     private javax.swing.JButton jButton2;
@@ -1042,7 +1040,6 @@ public class RegistrarVenta extends javax.swing.JFrame {
     private javax.swing.JPanel jPanelOperaciones;
     private javax.swing.JPanel jPanelPrincipal;
     private javax.swing.JScrollPane jScrollPane1;
-    private javax.swing.JScrollPane jScrollPane3;
     private javax.swing.JLabel labelCantidad;
     private javax.swing.JLabel labelPrecioUnitario;
     private javax.swing.JLabel labelSubtotal;
@@ -1050,7 +1047,6 @@ public class RegistrarVenta extends javax.swing.JFrame {
     private javax.swing.JLabel labelimporte;
     private javax.swing.JSpinner spnCantidad;
     private javax.swing.JTable tblProducto;
-    private modelo.Ticket ticket1;
     private javax.swing.JTextField txtIDProducto;
     private javax.swing.JTextField txtIdCliente;
     private javax.swing.JTextField txtImporte;

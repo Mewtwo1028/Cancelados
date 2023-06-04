@@ -4,6 +4,7 @@
  */
 package modelo;
 
+import controlador.VentaManager;
 import java.awt.Graphics;
 import java.awt.Graphics2D;
 import java.awt.print.PageFormat;
@@ -19,88 +20,122 @@ import java.time.format.DateTimeFormatter;
  * @author MichaelR
  */
 //Clase con interfaz printable para porder imprimir
-public class Ticket extends javax.swing.JPanel implements Printable{
+public class Ticket extends javax.swing.JPanel implements Printable {
 
-   
     private DateTimeFormatter formatoFecha = DateTimeFormatter.ofPattern("dd/MM/yyy HH:mm");
-    
+
     DecimalFormat formato = new DecimalFormat("0.00");
-    
-    
+
     public Ticket() {
         initComponents();
-        
+
         cargarTicket();
+
+        String idVenta = String.valueOf(new VentaManager().getIdUltimaVenta());
+
+        txt.setText(txt.getText().replace("#", idVenta));
+
     }
-    
-    private void cargarTicket(){
+
+    private void cargarTicket() {
         //Carga informacion inicial en el ticket desde la base de datos
-       
-                actualizarFecha();
-                
-      
+
+        actualizarFecha();
+
     }
-    
-    public void agregarProducto(String descripcion, double cantidad, double precio){
+
+    /**
+     *
+     * @param descripcion
+     * @param cantidad
+     * @param precio
+     */
+    public void agregarProducto(String descripcion, double cantidad, double precio) {
         //Agrega una fila con datos del producto y actualiza el precio en el ticket
-        pnlProductos.add(new FilaEditable(descripcion, cantidad, precio));
+        pnlProductos.add(new FilaEditable(descripcion, cantidad, Double.valueOf(formato.format(precio))));
         pnlProductos.revalidate();
 
-        setTotal(precio);
+        setSubtotal(precio);
         setIVA();
-        setSubtotal();
+        setTotal();
         actualizarFecha();
     }
-    
-    public void quitarProducto(){
+
+    public void quitarProducto() {
         //Quitar una fila de producto del ticket y reducir el precio en el ticket
-        int lastIndex = pnlProductos.getComponentCount() -1;
-        FilaEditable fila = (FilaEditable)pnlProductos.getComponent(lastIndex);
-        Double precio = Double.parseDouble(fila.getTextoLabel3());
+        int lastIndex = pnlProductos.getComponentCount() - 1;
+        FilaEditable fila = (FilaEditable) pnlProductos.getComponent(lastIndex);
+        Double precio = Double.valueOf(fila.getTextoLabel3());
         pnlProductos.remove(fila);
         pnlProductos.revalidate();
         pnlProductos.repaint();
-        
-        setTotal(-precio);
-        setIVA();
-        setSubtotal();
-        actualizarFecha();
+
+        //setTotal(-precio);
+        //setIVA();
+        //setSubtotal();
+        //actualizarFecha();
     }
-    
-    private void actualizarFecha(){
+
+    private void actualizarFecha() {
         //Pone la fecha actual al ticket
         LocalDateTime fecha = LocalDateTime.now();
-        String fechaFormated = fecha.format(formatoFecha);
+        String fechaFormated = fecha.minusHours(1).format(formatoFecha);
         txtFecha.setText(fechaFormated);
     }
-    
-    private void setTotal(Double total){
-        txtTotal.setText("$"+formato.format(getTotal()+total));
+
+    private void setTotal() {
+        txtTotal.setText("$" + formato.format(getSubtotal() + getIVA()));
     }
-    
-    public Double getTotal(){
-        return Double.parseDouble(txtTotal.getText().substring(1));
+
+    public Double getTotal() {
+        return Double.valueOf(txtTotal.getText().substring(1));
     }
-    
-    private void setIVA(){
-        txtIva.setText("$"+formato.format(getTotal()*0.16));
+
+    private void setIVA() {
+        txtIva.setText("$" + formato.format(getSubtotal() * 0.16));
     }
-    
-    private void setSubtotal(){
-        txtSubtotal.setText("$"+formato.format(getTotal()*0.84));
+
+    private Double getIVA() {
+        return Double.valueOf(txtIva.getText().substring(1));
     }
-    
-    public void limpiar(){
+
+    private Double getSubtotal() {
+        return Double.valueOf(txtSubtotal.getText().substring(1));
+    }
+
+    private void setSubtotal(Double total) {
+        txtSubtotal.setText("$" + formato.format(getSubtotal() + total));
+    }
+
+    public void limpiar() {
         //Quita todos los productos del ticket
         int lastIndex = pnlProductos.getComponentCount();
-        
-        while (lastIndex>0) {
+
+        while (lastIndex > 0) {
             quitarProducto();
             lastIndex--;
             System.out.println("Productos: " + lastIndex);
         }
     }
 
+    public void setPago(Double pago) {
+        txtPago.setText("$" + formato.format(pago));
+        //calcularCambio();
+    }
+
+    public void setCambio(Double cambio) {
+        txtCambio.setText("$" + formato.format(cambio));
+    }
+
+    /*
+    private Double getPago() {
+        return Double.valueOf(txtPago.getText().substring(1));
+    }
+
+    private void calcularCambio() {
+        txtCambio.setText("$" + formato.format(getPago() - getTotal()));
+    }
+     */
     /**
      * This method is called from within the constructor to initialize the form.
      * WARNING: Do NOT modify this code. The content of this method is always
@@ -386,19 +421,16 @@ public class Ticket extends javax.swing.JPanel implements Printable{
     private javax.swing.JLabel txtTotal;
     // End of variables declaration//GEN-END:variables
 
-    
-    
     @Override
     public int print(Graphics graphics, PageFormat pageFormat, int pageIndex) throws PrinterException {
-        if(pageIndex==0){
+        if (pageIndex == 0) {
             Graphics2D grafic2D = (Graphics2D) graphics;
             grafic2D.translate(pageFormat.getImageableX(), pageFormat.getImageableY());
             printAll(grafic2D);
             return PAGE_EXISTS;
-        }else{
+        } else {
             return NO_SUCH_PAGE;
         }
     }
-    
-    
+
 }
