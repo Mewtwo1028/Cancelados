@@ -700,15 +700,21 @@ public class RegistrarVenta extends javax.swing.JFrame {
 
         DialogoEmergente dl = new DialogoEmergente(this, true);
 
-        if (registrarVenta(venta, listaProductos, 'V') && dp.validaPago()) {
-            dl.setTexto("Venta registrada de\nforma correcta!");
+        if (dp.validaPago()) {
+
+            if (registrarVenta(venta, listaProductos, 'V')) {
+                dl.setTexto("Venta registrada de\nforma correcta!");
+                dl.setVisible(true);
+                generarTicket();
+            }
+
         } else {
             dl.setTexto("¡ERROR! NO SE PUDO REGISTRAR LA VENTA");
+            dl.setVisible(true);
         }
-
-        dl.setVisible(true);
-        generarTicket();
         limpiarTodosTxtFields();
+
+
     }//GEN-LAST:event_btnRegistrarVentaActionPerformed
 
     private void cbNombreProductoItemStateChanged(java.awt.event.ItemEvent evt) {//GEN-FIRST:event_cbNombreProductoItemStateChanged
@@ -754,13 +760,19 @@ public class RegistrarVenta extends javax.swing.JFrame {
         DetallePago dp = new DetallePago(this, true, total);
         dp.setVisible(true);
 
-        if (registrarVenta(venta, listaProductos, 'E') && dp.validaPago()) {
-            dl.setTexto("Venta registrada de\nforma correcta!\nSu Cambio es de: " + cambio);
-            limpiarTodosTxtFields();
+        if (dp.validaPago()) {
+
+            if (registrarVenta(venta, listaProductos, 'E')) {
+                dl.setTexto("Venta registrada de\nforma correcta!\nSu Cambio es de: " + cambio);
+
+            }
+
         } else {
             dl.setTexto("¡ERROR! NO SE PUDO REGISTRAR LA VENTA");
         }
 
+        dl.setVisible(true);
+        limpiarTodosTxtFields();
     }//GEN-LAST:event_RegistrarEnvioMouseClicked
 
     private void spnCantidadStateChanged(javax.swing.event.ChangeEvent evt) {//GEN-FIRST:event_spnCantidadStateChanged
