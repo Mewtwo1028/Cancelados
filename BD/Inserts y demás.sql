@@ -420,3 +420,29 @@ WHERE idEmpleado = 1;
 ALTER TABLE `cancelados`.`envios` 
 DROP COLUMN `tipoEnvio`;
 
+
+
+-- 04/06/2023
+use cancelados;
+ALTER TABLE venta MODIFY COLUMN estado VARCHAR(15);
+
+UPDATE `cancelados`.`cliente` SET `Nombre` = 'Público en general', `ApellidoPaterno` = '', `ApellidoMaterno` = '', `Calle` = 'Desconocido', `Colonia` = 'Desconocido', `CP` = '', `ciudad` = '', `estado` = '' WHERE (`idCliente` = '1');
+
+
+SELECT v.idVenta, v.total, v.fecha, c.nombre, e.nombre, v.estado, v.tipoVenta FROM venta v
+INNER JOIN cliente c ON (v.idCliente = c.idCliente)
+INNER JOIN empleado e ON (v.idEmpleado = e.idEmpleado)
+WHERE v.estado = "ENVIO-PENDIENTE";
+
+CREATE TABLE direccionClienteGeneral(
+	idDireccionClienteGeneral INT NOT NULL AUTO_INCREMENT,
+    pais VARCHAR(50),
+    estado VARCHAR(50),
+    ciudad VARCHAR(50),
+    colonia VARCHAR(50),
+    cp VARCHAR(20),
+    calle VARCHAR(50),
+    idVenta INT NOT NULL,
+    PRIMARY KEY (idDireccionClienteGeneral),
+    constraint fkIdVenta foreign key (idVenta) REFERENCES venta(idVenta)
+);

@@ -26,6 +26,7 @@ import javax.swing.event.ChangeEvent;
 import javax.swing.table.DefaultTableModel;
 import javax.swing.table.TableModel;
 import modelo.Envio;
+import modelo.Direccion;
 
 public class RegistrarVenta extends javax.swing.JFrame {
 
@@ -33,6 +34,8 @@ public class RegistrarVenta extends javax.swing.JFrame {
     private float cambio;
     private float pagoCon;
     private Envio envio = new Envio(idAdmon);
+
+    private Direccion direccion;
 
     public void setEnvio(Envio envio) {
         this.envio = envio;
@@ -751,27 +754,42 @@ public class RegistrarVenta extends javax.swing.JFrame {
         int idEmpleado = idAdmon;
 
         Venta venta = new Venta(total, idCliente, idEmpleado);
+
         Envio env = new Envio(idAdmon);
 
-        DialogoEmergente dl = new DialogoEmergente(this, true);
+        //DialogoEnvio de = new DialogoEnvio(this, true);
+        //de.setVisible(true);
+        //Verificar si el id del cliente
+        //Si es el 1: Publico en general - Abrir jdialog para seleccionar la direccion de envio
+        if (idCliente == 1) {
+            DialogoDireccionClienteEnvio dc = new DialogoDireccionClienteEnvio(this, true);
+            dc.setVisible(true);
+        }
+        //En cualquier otro caso nada 
 
-        DialogoEnvio de = new DialogoEnvio(this, true);
-        de.setVisible(true);
+        //ESTO EN PEDIDOS DEL AREA IZQUIERDA PARA EL ADMINISTRADOR
+        //Crear una vista en mysql en donde se vean todas las ventas con el estado de 'ENVIO-PENDIENTE'
+        //En el jdialog mostrar la informacion de la vista en jtextfield no editables
+        //Y con un boton al lado para copiar la informacion del jtextfield de forma individual
+        //La informacion que se mostrara sera:
+        //1. Nombre del administrador que inicio sesion
+        //2. Empresa: Cancelados Articulos Religisos
+        //3. 
         DetallePago dp = new DetallePago(this, true, total);
         dp.setVisible(true);
 
+        DialogoEmergente dl = new DialogoEmergente(this, true);
         if (dp.validaPago()) {
-
-            if (registrarVenta(venta, listaProductos, 'E')) {
-                dl.setTexto("Venta registrada de\nforma correcta!\nSu Cambio es de: " + cambio);
-
+            //Registrar la venta con el estado de 'ENVIO-PENDIENTE'
+            if (registrarVentaEnvio(venta, listaProductos, 'E')) {
+                dl.setTexto("Venta registrada de\nforma correcta!");
+                dl.setVisible(true);
+                generarTicket();
             }
-
         } else {
             dl.setTexto("¡ERROR! NO SE PUDO REGISTRAR LA VENTA");
+            dl.setVisible(true);
         }
-
-        dl.setVisible(true);
         limpiarTodosTxtFields();
     }//GEN-LAST:event_RegistrarEnvioMouseClicked
 
@@ -873,6 +891,18 @@ public class RegistrarVenta extends javax.swing.JFrame {
 
     public void setPagoCuanto(float pago) {
         this.pagoCon = pago;
+    }
+
+    private boolean registrarVentaEnvio(Venta venta, ArrayList<Producto> productos, char tipoVenta) {
+        int idVenta = new VentaManager().realizarVentaEnvio(venta, tipoVenta);
+
+        new VentaManager().realizarDireccion(venta.getIdCliente(), idVenta, direccion);
+
+        if (new DetalleVenta().realizarDetalleVenta(productos, idVenta, tipoVenta)) {
+            return new ProductoManager().modificarStock(productos);
+        }
+
+        return false;
     }
 
     private boolean registrarVenta(Venta venta, ArrayList<Producto> productos, char tipoVenta) {
@@ -993,6 +1023,10 @@ public class RegistrarVenta extends javax.swing.JFrame {
 
     private void obtenerRenglonTabla() {
         //Aqui va el codigo para eliminar algun productos o para modificarlo
+    }
+
+    public void setDireccion(Direccion direccion) {
+        this.direccion = direccion;
     }
 
     private void agregarTabla(String idProducto, String nombre, String precioUnitario, String cantidad, String importe) {
