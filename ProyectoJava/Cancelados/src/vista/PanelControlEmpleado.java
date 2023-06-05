@@ -9,7 +9,7 @@ import Util.GsonManejador;
 import Util.ManejoArchivo;
 
 public class PanelControlEmpleado extends javax.swing.JFrame {
-    
+
     private String nombre = new ManejoArchivo().leerClaveValor("nombreusuario").toString();
     private int idEmpleado = Integer.parseInt(new ManejoArchivo().leerClaveValor("idEmpleado").toString());
 
@@ -66,7 +66,7 @@ public class PanelControlEmpleado extends javax.swing.JFrame {
         tools.confBtnColor(btnAbrirCaja);
         tools.confBtnColor(btnCerrarCaja);
         tools.confBtnColor(btnVender2);
-        CajaManager cm = new CajaManager();
+        //CajaManager cm = new CajaManager();
         /*if (cm.consultaEstadoCaja(idEmpleado)) {
             btnAbrirCaja.setEnabled(false);
             btnCerrarCaja.setEnabled(true);
@@ -76,6 +76,17 @@ public class PanelControlEmpleado extends javax.swing.JFrame {
             btnAbrirCaja.setEnabled(true);
             abreBotones(false);
         }*/
+
+        CajaManager cm = new CajaManager();
+        if (cm.consultaEstadoCajaPlus(idEmpleado)) {
+            btnAbrirCaja.setEnabled(false);
+            btnCerrarCaja.setEnabled(true);
+            abreBotones(true);
+        } else {
+            btnCerrarCaja.setEnabled(false);
+            btnAbrirCaja.setEnabled(true);
+            abreBotones(false);
+        }
     }
 
     /**
@@ -247,12 +258,18 @@ public class PanelControlEmpleado extends javax.swing.JFrame {
         pack();
     }// </editor-fold>//GEN-END:initComponents
 public void abreBotones(boolean estado) {
-        JButton[] botones = {btnVender2, btnRegistrarCliente, btnConsultarInventario, btnAbrirCaja, btnCerrarCaja};
+
+        JButton[] botones = {btnVender2, btnRegistrarCliente, btnConsultarInventario};
 
         for (JButton boton : botones) {
             boton.setEnabled(estado);
+            boton.repaint();
+            boton.revalidate();
         }
+
     }
+
+
     private void btnRegistrarClienteActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnRegistrarClienteActionPerformed
         AdministrarCliente win = new AdministrarCliente();
         win.setNombre(nombre);
@@ -266,7 +283,7 @@ public void abreBotones(boolean estado) {
         AbrirCaja ac = new AbrirCaja(this, true);
         CajaManager cm = new CajaManager();
 
-        if (!cm.consultaEstadoCaja(idEmpleado)) {
+        if (!cm.consultaEstadoCajaPlus(idEmpleado)) {
             ac.setVisible(true);
             btnCerrarCaja.setEnabled(false);
         } else {
@@ -295,14 +312,19 @@ public void abreBotones(boolean estado) {
 
     private void btnCerrarCajaActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnCerrarCajaActionPerformed
         CerrarCaja cc = new CerrarCaja(this, true);
+
         CajaManager cm = new CajaManager();
-        if (cm.consultaEstadoCaja(idEmpleado)) {
+        if (cm.consultaEstadoCajaPlus(idEmpleado)) {
             cc.setVisible(true);
-            btnCerrarCaja.setEnabled(false);
-        } else {
             btnCerrarCaja.setEnabled(true);
             btnAbrirCaja.setEnabled(false);
+            abreBotones(true);
+        } else {
+            btnCerrarCaja.setEnabled(false);
+            btnAbrirCaja.setEnabled(true);
+            abreBotones(false);
         }
+
         String hora = fu.formatoFecha() + " " + fu.getHora();
         if (!cc.verifica()) {
             javax.swing.JOptionPane.showMessageDialog(this, "Error", "Error", 1);
@@ -311,6 +333,7 @@ public void abreBotones(boolean estado) {
             btnCerrarCaja.setEnabled(false);
             btnAbrirCaja.setEnabled(true);
         }
+
     }//GEN-LAST:event_btnCerrarCajaActionPerformed
 
     private void btnVender2ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnVender2ActionPerformed

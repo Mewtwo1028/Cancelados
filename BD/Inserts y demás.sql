@@ -446,3 +446,6 @@ SELECT v.idVenta,v.total, v.fecha, CONCAT(c.nombre, " ", c.apellidoPaterno) AS n
 INNER JOIN cliente c ON (v.idCliente = c.idCliente)
 INNER JOIN empleado e ON (v.idEmpleado = e.idEmpleado)
 );
+
+
+DELETE FROM empleado WHERE idEmpleado = 39;

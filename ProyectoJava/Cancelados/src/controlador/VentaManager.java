@@ -275,6 +275,25 @@ public class VentaManager {
             throw new RuntimeException("Error al modificar el estado de la venta", ex);
         }
     }
+    
+    public boolean cancelarEnvio(Venta venta) {
+        String sql = "UPDATE venta SET estado=? WHERE idVenta=?;";
+
+        try (PreparedStatement cs = conexion.getConexion().prepareStatement(sql)) {
+
+            cs.setString(1, venta.getEstado());
+            cs.setInt(2, venta.getIdVenta());
+
+            if (cs.executeUpdate() == 1) {
+                //devolverInventario(venta);
+                return true;
+            }
+            return false;
+
+        } catch (SQLException ex) {
+            throw new RuntimeException("Error al modificar el estado de la venta", ex);
+        }
+    }
 
     public int getIdUltimaVenta() {
         String sql = "SELECT idVenta FROM venta ORDER BY idVenta DESC LIMIT 1;";

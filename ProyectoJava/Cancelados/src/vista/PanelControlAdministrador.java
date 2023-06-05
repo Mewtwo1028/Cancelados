@@ -317,7 +317,7 @@ public class PanelControlAdministrador extends javax.swing.JFrame {
         CerrarCaja cc = new CerrarCaja(this, true);
 
         CajaManager cm = new CajaManager();
-        if (cm.consultaEstadoCaja(idAdmon)) {
+        if (cm.consultaEstadoCajaPlus(idAdmon)) {
             cc.setVisible(true);
             btnCerrarCaja.setEnabled(true);
             btnAbrirCaja.setEnabled(false);
@@ -359,7 +359,7 @@ public class PanelControlAdministrador extends javax.swing.JFrame {
     private void btnAbrirCajaActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnAbrirCajaActionPerformed
         CajaManager cm = new CajaManager();
         AbrirCaja ac = new AbrirCaja(this, true);
-        if (!cm.consultaEstadoCaja(idAdmon)) {
+        if (!cm.consultaEstadoCajaPlus(idAdmon)) {
             ac.setVisible(true);
             btnAbrirCaja.setEnabled(true);
             btnCerrarCaja.setEnabled(false);

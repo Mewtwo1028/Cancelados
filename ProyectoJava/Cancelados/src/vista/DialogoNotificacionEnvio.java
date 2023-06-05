@@ -202,7 +202,7 @@ public class DialogoNotificacionEnvio extends javax.swing.JDialog {
 
         if (JOptionPane.showConfirmDialog(this, "Estas seguro?") == JOptionPane.OK_OPTION) {
 
-            if (new VentaManager().cancelarVenta(new Venta(idVenta, "VENDIDO"))) {
+            if (new VentaManager().cancelarEnvio(new Venta(idVenta, "VENDIDO"))) {
                 JOptionPane.showMessageDialog(this, "Estado de la venta modificado de forma exitosa!");
             }
 
