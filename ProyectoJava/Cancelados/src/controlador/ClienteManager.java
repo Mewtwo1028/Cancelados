@@ -15,7 +15,7 @@ public class ClienteManager {
     }
 
     public ArrayList<Cliente> consultarTodosEx() {
-        String sql = "SELECT idCliente, nombre, apellidoPaterno, apellidoMaterno, calle, colonia, ciudad, estado, cp, estadoCliente FROM cliente;";
+        String sql = "SELECT idCliente, nombre, apellidoPaterno, apellidoMaterno, calle, colonia, ciudad, estado, cp, estadoCliente, pais FROM cliente;";
         ArrayList<Cliente> resultado = new ArrayList<>();
 
         try (ResultSet cursor = conexion.getConexion().prepareStatement(sql).executeQuery()) {
@@ -33,6 +33,7 @@ public class ClienteManager {
                 cliente.setEstado(cursor.getString(8));
                 cliente.setCp(cursor.getString(9));
                 cliente.setEstadoCliente(cursor.getString(10));
+                cliente.setPais(cursor.getString(11));
 
                 resultado.add(cliente);
             }
@@ -102,7 +103,7 @@ public class ClienteManager {
      * @throws RuntimeException si ocurre un error al insertar el cliente.
      */
     public boolean insertarCliente(Cliente cliente) {
-        String consulta = "INSERT INTO cliente VALUES (null, ?, ?, ?, ?, ?, ?, ?, ?, 'ABIERTO')";
+        String consulta = "INSERT INTO cliente VALUES (null, ?, ?, ?, ?, ?, ?, ?, ?, 'ABIERTO', ?)";
 
         try (PreparedStatement ps = conexion.getConexion().prepareStatement(consulta)) {
             ps.setString(1, cliente.getNombre());
@@ -113,6 +114,7 @@ public class ClienteManager {
             ps.setString(6, cliente.getCiudad());
             ps.setString(7, cliente.getEstado());
             ps.setString(8, cliente.getCp());
+            ps.setString(9, cliente.getPais());
 
             return ps.executeUpdate() == 1;
 
@@ -130,7 +132,7 @@ public class ClienteManager {
      * @throws RuntimeException Si ocurre un error al ejecutar la consulta SQL.
      */
     public boolean modificarCliente(Cliente cliente) {
-        String sql = "UPDATE cliente SET nombre=?, ApellidoPaterno=?, ApellidoMaterno=?, calle=?, colonia=?, ciudad=?, estado=?, cp=? WHERE idCliente=?;";
+        String sql = "UPDATE cliente SET nombre=?, ApellidoPaterno=?, ApellidoMaterno=?, calle=?, colonia=?, ciudad=?, estado=?, cp=?, pais=? WHERE idCliente=?;";
 
         try (PreparedStatement cs = conexion.getConexion().prepareStatement(sql)) {
 
@@ -142,7 +144,8 @@ public class ClienteManager {
             cs.setString(6, cliente.getCiudad());
             cs.setString(7, cliente.getEstado());
             cs.setString(8, cliente.getCp());
-            cs.setInt(9, cliente.getIdCliente());
+            cs.setString(9, cliente.getPais());
+            cs.setInt(10, cliente.getIdCliente());
 
             return cs.executeUpdate() == 1;
 

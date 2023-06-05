@@ -17,6 +17,23 @@ public class VentaManager {
         conexion = new Conexion();
     }
 
+    public ArrayList<String[]> consultarEnvioPendiente() {
+        String sql = "SELECT * FROM vista_envio_pendiente;";
+        ArrayList<String[]> resultado = new ArrayList<>();
+
+        try {
+            ResultSet cursor = new Conexion().getConexion().prepareStatement(sql).executeQuery();
+
+            while (cursor.next()) {
+                String[] renglon = {cursor.getString(1), cursor.getString(2), cursor.getString(3), cursor.getString(4), cursor.getString(5), cursor.getString(6), cursor.getString(7), cursor.getString(8), cursor.getString(9), cursor.getString(10), cursor.getString(11), cursor.getString(12), cursor.getString(13), cursor.getString(14), cursor.getString(15), cursor.getString(16)};
+                resultado.add(renglon);
+            }
+        } catch (SQLException ex) {
+            System.out.println(ex);
+        }
+        return resultado;
+    }
+
     /**
      * Realiza una venta e inserta los datos en la base de datos.
      *
@@ -85,10 +102,10 @@ public class VentaManager {
                 //llenar la direccion con la del cliente
                 p4.setInt(1, idCliente);
                 ResultSet c4 = p4.executeQuery();
-                
+
                 if (c4.next()) {
                     direccion = new Direccion();
-                    direccion.setPais("Mexico");
+                    direccion.setPais("México");
                     direccion.setEstado(c4.getString(1));
                     direccion.setMunicipio(c4.getString(2));
                     direccion.setColonia(c4.getString(3));
@@ -97,7 +114,7 @@ public class VentaManager {
                 }
             }
 
-            if (direccion.getPais().equals("Mexico")) {
+            if (direccion.getPais().equals("México")) {
                 p3.setString(1, direccion.getPais());
                 p3.setString(2, direccion.getEstado());
                 p3.setString(3, direccion.getMunicipio());
@@ -223,7 +240,7 @@ public class VentaManager {
 
         try (ResultSet cursor = conexion.getConexion().prepareStatement(sql).executeQuery()) {
             while (cursor.next()) {
-                String[] renglon = {cursor.getString(1), cursor.getString(2), cursor.getString(3), cursor.getString(4), cursor.getString(5), cursor.getString(6)};
+                String[] renglon = {cursor.getString(1), cursor.getString(2), cursor.getString(3), cursor.getString(4), cursor.getString(5), cursor.getString(6), cursor.getString(7)};
                 resultado.add(renglon);
             }
         } catch (SQLException ex) {

@@ -18,7 +18,7 @@ import modelo.Direccion;
 
 public class DialogoDireccionClienteEnvio extends javax.swing.JDialog {
 
-    private RegistrarVenta fr;
+    private AdministrarCliente fr;
 
     DefaultTableModel modelo = new DefaultTableModel() {
         @Override
@@ -29,7 +29,7 @@ public class DialogoDireccionClienteEnvio extends javax.swing.JDialog {
 
     private HashMap<JCheckBox, JTextField> checkBoxTextFieldMap = new HashMap<>();
 
-    public DialogoDireccionClienteEnvio(RegistrarVenta parent, boolean modal) {
+    public DialogoDireccionClienteEnvio(AdministrarCliente parent, boolean modal) {
         super(parent, modal);
         initComponents();
         this.fr = parent;
@@ -117,8 +117,6 @@ public class DialogoDireccionClienteEnvio extends javax.swing.JDialog {
         jCheckBoxCP = new javax.swing.JCheckBox();
         jButton2 = new javax.swing.JButton();
         cbPais = new javax.swing.JComboBox<>();
-        jTextField1 = new javax.swing.JTextField();
-        jLabel1 = new javax.swing.JLabel();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.DISPOSE_ON_CLOSE);
 
@@ -212,8 +210,6 @@ public class DialogoDireccionClienteEnvio extends javax.swing.JDialog {
             }
         });
 
-        jLabel1.setText("Calle");
-
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
         getContentPane().setLayout(layout);
         layout.setHorizontalGroup(
@@ -232,17 +228,13 @@ public class DialogoDireccionClienteEnvio extends javax.swing.JDialog {
                         .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                             .addGroup(layout.createSequentialGroup()
                                 .addComponent(jTextFieldCP, javax.swing.GroupLayout.PREFERRED_SIZE, 200, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                                .addComponent(jLabel1, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                                .addGap(18, 18, 18)
-                                .addComponent(jTextField1, javax.swing.GroupLayout.PREFERRED_SIZE, 133, javax.swing.GroupLayout.PREFERRED_SIZE))
+                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
                             .addGroup(layout.createSequentialGroup()
                                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                                     .addComponent(jTextFieldColonia, javax.swing.GroupLayout.PREFERRED_SIZE, 200, javax.swing.GroupLayout.PREFERRED_SIZE)
                                     .addComponent(jTextFieldEstado, javax.swing.GroupLayout.PREFERRED_SIZE, 200, javax.swing.GroupLayout.PREFERRED_SIZE)
                                     .addComponent(jTextFieldMunicipio, javax.swing.GroupLayout.PREFERRED_SIZE, 200, javax.swing.GroupLayout.PREFERRED_SIZE))
-                                .addGap(0, 0, Short.MAX_VALUE)))
-                        .addGap(18, 18, 18)
+                                .addGap(0, 232, Short.MAX_VALUE)))
                         .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
                             .addComponent(jButton2, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                             .addComponent(jButton1, javax.swing.GroupLayout.DEFAULT_SIZE, 150, Short.MAX_VALUE)
@@ -257,8 +249,7 @@ public class DialogoDireccionClienteEnvio extends javax.swing.JDialog {
                     .addComponent(jTextFieldEstado)
                     .addGroup(layout.createSequentialGroup()
                         .addGap(5, 5, 5)
-                        .addComponent(jCheckBoxEstado, javax.swing.GroupLayout.DEFAULT_SIZE, 27, Short.MAX_VALUE)))
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                        .addComponent(jCheckBoxEstado, javax.swing.GroupLayout.DEFAULT_SIZE, 32, Short.MAX_VALUE)))
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
                     .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                         .addComponent(jTextFieldMunicipio, javax.swing.GroupLayout.PREFERRED_SIZE, 30, javax.swing.GroupLayout.PREFERRED_SIZE)
@@ -273,19 +264,12 @@ public class DialogoDireccionClienteEnvio extends javax.swing.JDialog {
                         .addComponent(jButton2, javax.swing.GroupLayout.PREFERRED_SIZE, 30, javax.swing.GroupLayout.PREFERRED_SIZE))
                     .addComponent(jCheckBoxColonia, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addGroup(layout.createSequentialGroup()
-                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                            .addComponent(jButton1, javax.swing.GroupLayout.PREFERRED_SIZE, 30, javax.swing.GroupLayout.PREFERRED_SIZE)
-                            .addComponent(jCheckBoxCP, javax.swing.GroupLayout.DEFAULT_SIZE, 31, Short.MAX_VALUE)
-                            .addComponent(jTextFieldCP, javax.swing.GroupLayout.PREFERRED_SIZE, 30, javax.swing.GroupLayout.PREFERRED_SIZE))
-                        .addGap(16, 16, 16)
-                        .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 250, javax.swing.GroupLayout.PREFERRED_SIZE))
-                    .addGroup(layout.createSequentialGroup()
-                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                            .addComponent(jTextField1, javax.swing.GroupLayout.PREFERRED_SIZE, 25, javax.swing.GroupLayout.PREFERRED_SIZE)
-                            .addComponent(jLabel1, javax.swing.GroupLayout.PREFERRED_SIZE, 22, javax.swing.GroupLayout.PREFERRED_SIZE))
-                        .addGap(0, 0, Short.MAX_VALUE)))
+                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(jButton1, javax.swing.GroupLayout.PREFERRED_SIZE, 30, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(jCheckBoxCP, javax.swing.GroupLayout.DEFAULT_SIZE, 31, Short.MAX_VALUE)
+                    .addComponent(jTextFieldCP, javax.swing.GroupLayout.PREFERRED_SIZE, 30, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addGap(16, 16, 16)
+                .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 250, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addContainerGap())
         );
 
@@ -317,11 +301,6 @@ public class DialogoDireccionClienteEnvio extends javax.swing.JDialog {
     private void jButton2MouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_jButton2MouseClicked
         // Obtener el renglon
         
-        if (jTextField1.getText().isBlank()) {
-            JOptionPane.showMessageDialog(this, "ERROR! Debe de ingresar una calle valida");
-            return;
-        }
-        
         int renglon = jTable1.getSelectedRow();
 
         if (renglon == -1) {
@@ -338,15 +317,15 @@ public class DialogoDireccionClienteEnvio extends javax.swing.JDialog {
             dir.setEstado(jTable1.getValueAt(renglon, 0).toString());
             dir.setCiudad(jTable1.getValueAt(renglon, 1).toString());
             dir.setZip(jTable1.getValueAt(renglon, 2).toString());
-            dir.setCalle(jTextField1.getText());
+            //dir.setCalle(jTextField1.getText());
         } else {
             //mexico
-            dir.setPais("Mexico");
+            dir.setPais("México");
             dir.setEstado(jTable1.getValueAt(renglon, 0).toString());
             dir.setMunicipio(jTable1.getValueAt(renglon, 1).toString());
             dir.setColonia(jTable1.getValueAt(renglon, 2).toString());
             dir.setCp(jTable1.getValueAt(renglon, 3).toString());
-            dir.setCalle(jTextField1.getText());
+            //dir.setCalle(jTextField1.getText());
         }
         
         //retornar la direccion
@@ -495,7 +474,7 @@ public class DialogoDireccionClienteEnvio extends javax.swing.JDialog {
         /* Create and display the dialog */
         java.awt.EventQueue.invokeLater(new Runnable() {
             public void run() {
-                DialogoDireccionClienteEnvio dialog = new DialogoDireccionClienteEnvio(new RegistrarVenta(), true);
+                DialogoDireccionClienteEnvio dialog = new DialogoDireccionClienteEnvio(new AdministrarCliente(), true);
                 dialog.addWindowListener(new java.awt.event.WindowAdapter() {
                     @Override
                     public void windowClosing(java.awt.event.WindowEvent e) {
@@ -515,10 +494,8 @@ public class DialogoDireccionClienteEnvio extends javax.swing.JDialog {
     private javax.swing.JCheckBox jCheckBoxColonia;
     private javax.swing.JCheckBox jCheckBoxEstado;
     private javax.swing.JCheckBox jCheckBoxMunicipio;
-    private javax.swing.JLabel jLabel1;
     private javax.swing.JScrollPane jScrollPane1;
     private javax.swing.JTable jTable1;
-    private javax.swing.JTextField jTextField1;
     private javax.swing.JTextField jTextFieldCP;
     private javax.swing.JTextField jTextFieldColonia;
     private javax.swing.JTextField jTextFieldEstado;

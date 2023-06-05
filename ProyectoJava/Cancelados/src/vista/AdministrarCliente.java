@@ -1,7 +1,6 @@
 package vista;
 
 import controlador.ClienteManager;
-import controlador.Conexion;
 import modelo.Cliente;
 import Util.FuncionesUtiles;
 import java.awt.Color;
@@ -10,13 +9,14 @@ import java.awt.Toolkit;
 import java.util.ArrayList;
 import javax.swing.JFrame;
 import javax.swing.table.DefaultTableModel;
-import java.sql.ResultSet;
 import javax.swing.DefaultComboBoxModel;
+import modelo.Direccion;
 
 public class AdministrarCliente extends javax.swing.JFrame {
 
     private int idAdmon;
     private String[] datos;
+    private Direccion direccion;
 
     DefaultTableModel modelo = new DefaultTableModel() {
         @Override
@@ -29,6 +29,10 @@ public class AdministrarCliente extends javax.swing.JFrame {
         initComponents();
         inicializar();
         initTabla();
+    }
+
+    public void setDireccion(Direccion direccion) {
+        this.direccion = direccion;
     }
 
     private void inicializar() {
@@ -82,10 +86,10 @@ public class AdministrarCliente extends javax.swing.JFrame {
         txtIDCliente.setEnabled(false);
 
         initFiltro();
-        
+
         initCampos();
     }
-    
+
     private void initCampos() {
         this.txtEstado.setEnabled(false);
         this.txtMunicipio.setEnabled(false);
@@ -109,6 +113,7 @@ public class AdministrarCliente extends javax.swing.JFrame {
         txtEstado.setText("");
         txtCP.setText("");
         txtIDCliente.setText("");
+        jFieldPais.setText("");
     }
 
     private void initTabla() {
@@ -118,9 +123,10 @@ public class AdministrarCliente extends javax.swing.JFrame {
         modelo.addColumn("Apellido Materno");
         modelo.addColumn("Calle");
         modelo.addColumn("Colonia");
-        modelo.addColumn("Municipio");
+        modelo.addColumn("Municipio / Ciudad");
         modelo.addColumn("Estado");
         modelo.addColumn("CP");
+        modelo.addColumn("Pais");
         tblCliente.setModel(modelo);
     }
 
@@ -198,6 +204,8 @@ public class AdministrarCliente extends javax.swing.JFrame {
         btnFind = new javax.swing.JTextField();
         jComboBox1 = new javax.swing.JComboBox<>();
         jButton1 = new javax.swing.JButton();
+        jLabel1 = new javax.swing.JLabel();
+        jFieldPais = new javax.swing.JTextField();
         jPanelAcciones = new javax.swing.JPanel();
         btnConsultar = new javax.swing.JButton();
         btnRegistrar = new javax.swing.JButton();
@@ -273,7 +281,7 @@ public class AdministrarCliente extends javax.swing.JFrame {
 
         txtColonia.setText("jTextField5");
 
-        labelMunicipio.setText("Municipio");
+        labelMunicipio.setText("Municipio / Ciudad");
 
         txtMunicipio.setText("jTextField6");
 
@@ -281,7 +289,7 @@ public class AdministrarCliente extends javax.swing.JFrame {
 
         txtEstado.setText("jTextField7");
 
-        labelCP.setText("CP");
+        labelCP.setText("CP / ZIP");
 
         txtCP.setText("jTextField8");
 
@@ -314,6 +322,10 @@ public class AdministrarCliente extends javax.swing.JFrame {
             }
         });
 
+        jLabel1.setText("Pais");
+
+        jFieldPais.setEnabled(false);
+
         javax.swing.GroupLayout jPanelFormularioLayout = new javax.swing.GroupLayout(jPanelFormulario);
         jPanelFormulario.setLayout(jPanelFormularioLayout);
         jPanelFormularioLayout.setHorizontalGroup(
@@ -340,7 +352,7 @@ public class AdministrarCliente extends javax.swing.JFrame {
                         .addComponent(labelColonia, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                         .addComponent(labelMunicipio, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                         .addComponent(labelEstado, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                        .addComponent(labelIDCliente, javax.swing.GroupLayout.DEFAULT_SIZE, 92, Short.MAX_VALUE))
+                        .addComponent(labelIDCliente, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
                     .addComponent(btnFind, javax.swing.GroupLayout.PREFERRED_SIZE, 140, javax.swing.GroupLayout.PREFERRED_SIZE))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addGroup(jPanelFormularioLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
@@ -350,7 +362,12 @@ public class AdministrarCliente extends javax.swing.JFrame {
                     .addComponent(txtIDCliente, javax.swing.GroupLayout.DEFAULT_SIZE, 130, Short.MAX_VALUE)
                     .addComponent(jComboBox1, 0, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addComponent(jButton1, javax.swing.GroupLayout.PREFERRED_SIZE, 180, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addGroup(jPanelFormularioLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
+                    .addComponent(jButton1, javax.swing.GroupLayout.PREFERRED_SIZE, 180, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addGroup(jPanelFormularioLayout.createSequentialGroup()
+                        .addComponent(jLabel1, javax.swing.GroupLayout.PREFERRED_SIZE, 57, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                        .addComponent(jFieldPais)))
                 .addContainerGap(54, Short.MAX_VALUE))
         );
         jPanelFormularioLayout.setVerticalGroup(
@@ -368,7 +385,9 @@ public class AdministrarCliente extends javax.swing.JFrame {
                     .addComponent(labelApPaterno)
                     .addComponent(txtApPaterno, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addComponent(labelMunicipio)
-                    .addComponent(txtMunicipio, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                    .addComponent(txtMunicipio, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(jLabel1)
+                    .addComponent(jFieldPais, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
                 .addGap(18, 18, 18)
                 .addGroup(jPanelFormularioLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(labelApMaterno)
@@ -531,8 +550,10 @@ public class AdministrarCliente extends javax.swing.JFrame {
         String ciudad = txtMunicipio.getText();
         String estado = txtEstado.getText();
         String cp = txtCP.getText();
+        String pais = jFieldPais.getText();
 
         Cliente cliente = new Cliente(nombre, aPaterno, aMaterno, calle, colonia, ciudad, estado, cp);
+        cliente.setPais(pais);
 
         if (validarFormulario()) {
             dEmergente.setTexto("ERROR HAY AL MENOS\nUN CAMPO SIN LLENAR");
@@ -563,9 +584,11 @@ public class AdministrarCliente extends javax.swing.JFrame {
         String ciudad = txtMunicipio.getText();
         String estado = txtEstado.getText();
         String cp = txtCP.getText();
+        String pais = jFieldPais.getText();
 
         Cliente cliente = new Cliente(idCliente, nombre, apPaterno, apMaterno, calle, colonia, ciudad, estado, cp);
-
+        cliente.setPais(pais);
+        
         if (new ClienteManager().modificarCliente(cliente)) {
             llenarTabla();
             dEmergente.setTexto("El cliente se modifico de\nforma correcta");
@@ -588,6 +611,7 @@ public class AdministrarCliente extends javax.swing.JFrame {
 
     private void btnEliminarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnEliminarActionPerformed
         // ELIMINAR CLIENTE
+        
         DialogoEmergente dEmergente = new DialogoEmergente(this, true);
         Cliente cliente = new Cliente(Integer.parseInt(txtIDCliente.getText()));
 
@@ -614,15 +638,34 @@ public class AdministrarCliente extends javax.swing.JFrame {
 
     private void jButton1MouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_jButton1MouseClicked
         // Abrir dialogo de seleccion de direccion
-        DialogoSeleccionDireccionCliente d = new DialogoSeleccionDireccionCliente(this, true);
-        d.setVisible(true);
+        DialogoDireccionClienteEnvio dc = new DialogoDireccionClienteEnvio(this, true);
+        dc.setVisible(true);
+        
+        //limpiarTxtFields();
+        txtColonia.setText("");
+        txtMunicipio.setText("");
+        txtEstado.setText("");
+        jFieldPais.setText("");
+        txtCP.setText("");
 
-        if (datos != null) {
+        //DialogoSeleccionDireccionCliente d = new DialogoSeleccionDireccionCliente(this, true);
+        //d.setVisible(true);
+        if (direccion != null) {
             //mostrar direccion al actor
-            txtEstado.setText(this.datos[0]);
-            txtMunicipio.setText(this.datos[1]);
-            txtColonia.setText(this.datos[2]);
-            txtCP.setText(this.datos[3]);
+
+            if (direccion.getPais().equals("México")) {
+                jFieldPais.setText("México");
+                txtEstado.setText(direccion.getEstado());
+                txtMunicipio.setText(direccion.getMunicipio());
+                txtColonia.setText(direccion.getColonia());
+                txtCP.setText(direccion.getCp());
+            } else {
+                jFieldPais.setText("USA");
+                txtEstado.setText(direccion.getEstado());
+                txtMunicipio.setText(direccion.getCiudad());
+                txtCP.setText(direccion.getZip());
+            }
+
         }
     }//GEN-LAST:event_jButton1MouseClicked
 
@@ -670,6 +713,7 @@ public class AdministrarCliente extends javax.swing.JFrame {
             txtMunicipio.setText(tblCliente.getValueAt(fila, 6).toString());
             txtEstado.setText(tblCliente.getValueAt(fila, 7).toString());
             txtCP.setText(tblCliente.getValueAt(fila, 8).toString());
+            jFieldPais.setText(tblCliente.getValueAt(fila, 9).toString());
         }
     }
 
@@ -696,15 +740,15 @@ public class AdministrarCliente extends javax.swing.JFrame {
         String ciudad = cliente.getCiudad();
         String estado = cliente.getEstado();
         String cp = cliente.getCp();
-        String estadoCliente = cliente.getEstadoCliente();
+        String pais = cliente.getPais();
 
-        String[] datosCliente = {idCliente, nombre, aPaterno, aMaterno, calle, colonia, ciudad, estado, cp, estadoCliente};
+        String[] datosCliente = {idCliente, nombre, aPaterno, aMaterno, calle, colonia, ciudad, estado, cp, pais};
 
         return datosCliente;
     }
 
     private boolean validarFormulario() {
-        return txtNombre.getText().isBlank() | txtApPaterno.getText().isBlank() | txtApMaterno.getText().isBlank() | txtCalle.getText().isBlank() | txtColonia.getText().isBlank() | txtMunicipio.getText().isBlank() | txtEstado.getText().isBlank() | txtCP.getText().isBlank();
+        return txtNombre.getText().isBlank() | txtApPaterno.getText().isBlank() | txtApMaterno.getText().isBlank() | txtCalle.getText().isBlank() | txtMunicipio.getText().isBlank() | txtEstado.getText().isBlank() | txtCP.getText().isBlank();
     }
 
     public void setDireccion(String[] datos) {
@@ -752,6 +796,8 @@ public class AdministrarCliente extends javax.swing.JFrame {
     private javax.swing.JButton btnRegistrar;
     private javax.swing.JButton jButton1;
     private javax.swing.JComboBox<String> jComboBox1;
+    private javax.swing.JTextField jFieldPais;
+    private javax.swing.JLabel jLabel1;
     private javax.swing.JPanel jPanelAcciones;
     private javax.swing.JPanel jPanelFormulario;
     private javax.swing.JPanel jPanelInformacion;

@@ -104,6 +104,9 @@ public class AccionesRapidasAdministrador extends javax.swing.JPanel {
 
         btnPendientes.setText("PENDIENTES");
         btnPendientes.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseClicked(java.awt.event.MouseEvent evt) {
+                btnPendientesMouseClicked(evt);
+            }
             public void mouseEntered(java.awt.event.MouseEvent evt) {
                 btnPendientesMouseEntered(evt);
             }
@@ -157,7 +160,6 @@ public class AccionesRapidasAdministrador extends javax.swing.JPanel {
         jPanelLinea.setPreferredSize(new java.awt.Dimension(15, 100));
         jPanelLinea.setLayout(new java.awt.BorderLayout());
 
-        jLabel1.setIcon(new javax.swing.ImageIcon("C:\\Users\\osmar\\OneDrive\\Documentos\\GitHub\\Cancelados\\ProyectoJava\\Arrow Icon.png")); // NOI18N
         jLabel1.addMouseListener(new java.awt.event.MouseAdapter() {
             public void mouseClicked(java.awt.event.MouseEvent evt) {
                 jLabel1MouseClicked(evt);
@@ -307,6 +309,11 @@ public class AccionesRapidasAdministrador extends javax.swing.JPanel {
             actual.dispose();
         }
     }//GEN-LAST:event_jLabel1MouseClicked
+
+    private void btnPendientesMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_btnPendientesMouseClicked
+        DialogoNotificacionEnvio de = new DialogoNotificacionEnvio(actual, true);
+        de.setVisible(true);
+    }//GEN-LAST:event_btnPendientesMouseClicked
 
     public void setNombre(String nombre) {
         this.nombre = nombre;

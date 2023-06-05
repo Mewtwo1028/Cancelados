@@ -428,21 +428,21 @@ ALTER TABLE venta MODIFY COLUMN estado VARCHAR(15);
 
 UPDATE `cancelados`.`cliente` SET `Nombre` = 'Público en general', `ApellidoPaterno` = '', `ApellidoMaterno` = '', `Calle` = 'Desconocido', `Colonia` = 'Desconocido', `CP` = '', `ciudad` = '', `estado` = '' WHERE (`idCliente` = '1');
 
+ALTER TABLE cliente ADD COLUMN pais VARCHAR(30);
 
-SELECT v.idVenta, v.total, v.fecha, c.nombre, e.nombre, v.estado, v.tipoVenta FROM venta v
+CREATE VIEW vista_envio_pendiente AS (
+SELECT v.idVenta, v.total, v.fecha, c.nombre AS nombreCliente,
+c.apellidoPaterno AS apellidoPaternoCliente, c.apellidoMaterno AS apellidoMaternoCliente, e.nombre AS nombreEmpleado,
+e.ApellidoPaterno AS apellidoPaternoEmpleado, e.ApellidoMaterno AS apellidoMaternoEmpleado, v.estado, v.tipoVenta,
+c.pais, c.Estado AS estadoCliente, c.Ciudad, c.Colonia, c.Calle
+FROM venta v
 INNER JOIN cliente c ON (v.idCliente = c.idCliente)
 INNER JOIN empleado e ON (v.idEmpleado = e.idEmpleado)
-WHERE v.estado = "ENVIO-PENDIENTE";
+WHERE v.estado = "ENVIO-PENDIENTE"
+);
 
-CREATE TABLE direccionClienteGeneral(
-	idDireccionClienteGeneral INT NOT NULL AUTO_INCREMENT,
-    pais VARCHAR(50),
-    estado VARCHAR(50),
-    ciudad VARCHAR(50),
-    colonia VARCHAR(50),
-    cp VARCHAR(20),
-    calle VARCHAR(50),
-    idVenta INT NOT NULL,
-    PRIMARY KEY (idDireccionClienteGeneral),
-    constraint fkIdVenta foreign key (idVenta) REFERENCES venta(idVenta)
+ALTER VIEW vistaVentas as (
+SELECT v.idVenta,v.total, v.fecha, CONCAT(c.nombre, " ", c.apellidoPaterno) AS nombreCliente, CONCAT(e.nombre, " ", e.apellidoPaterno) AS nombreEmpleado, v.estado, v.TipoVenta FROM venta v 
+INNER JOIN cliente c ON (v.idCliente = c.idCliente)
+INNER JOIN empleado e ON (v.idEmpleado = e.idEmpleado)
 );

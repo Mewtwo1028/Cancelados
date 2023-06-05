@@ -762,8 +762,8 @@ public class RegistrarVenta extends javax.swing.JFrame {
         //Verificar si el id del cliente
         //Si es el 1: Publico en general - Abrir jdialog para seleccionar la direccion de envio
         if (idCliente == 1) {
-            DialogoDireccionClienteEnvio dc = new DialogoDireccionClienteEnvio(this, true);
-            dc.setVisible(true);
+            JOptionPane.showMessageDialog(this, "ERROR! Se necesita registrar al cliente, no se permiten ventas internacional al cliente por defecto 'Publico en General'");
+            return;
         }
         //En cualquier otro caso nada 
 
@@ -896,7 +896,7 @@ public class RegistrarVenta extends javax.swing.JFrame {
     private boolean registrarVentaEnvio(Venta venta, ArrayList<Producto> productos, char tipoVenta) {
         int idVenta = new VentaManager().realizarVentaEnvio(venta, tipoVenta);
 
-        new VentaManager().realizarDireccion(venta.getIdCliente(), idVenta, direccion);
+        //new VentaManager().realizarDireccion(venta.getIdCliente(), idVenta, direccion);
 
         if (new DetalleVenta().realizarDetalleVenta(productos, idVenta, tipoVenta)) {
             return new ProductoManager().modificarStock(productos);

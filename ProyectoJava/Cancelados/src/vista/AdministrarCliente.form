@@ -205,7 +205,7 @@
                                   <Component id="labelColonia" max="32767" attributes="0"/>
                                   <Component id="labelMunicipio" max="32767" attributes="0"/>
                                   <Component id="labelEstado" max="32767" attributes="0"/>
-                                  <Component id="labelIDCliente" pref="92" max="32767" attributes="0"/>
+                                  <Component id="labelIDCliente" max="32767" attributes="0"/>
                               </Group>
                               <Component id="btnFind" min="-2" pref="140" max="-2" attributes="0"/>
                           </Group>
@@ -218,7 +218,14 @@
                               <Component id="jComboBox1" max="32767" attributes="0"/>
                           </Group>
                           <EmptySpace max="-2" attributes="0"/>
-                          <Component id="jButton1" min="-2" pref="180" max="-2" attributes="0"/>
+                          <Group type="103" groupAlignment="0" max="-2" attributes="0">
+                              <Component id="jButton1" min="-2" pref="180" max="-2" attributes="0"/>
+                              <Group type="102" attributes="0">
+                                  <Component id="jLabel1" min="-2" pref="57" max="-2" attributes="0"/>
+                                  <EmptySpace type="unrelated" max="-2" attributes="0"/>
+                                  <Component id="jFieldPais" max="32767" attributes="0"/>
+                              </Group>
+                          </Group>
                           <EmptySpace pref="54" max="32767" attributes="0"/>
                       </Group>
                   </Group>
@@ -240,6 +247,8 @@
                               <Component id="txtApPaterno" alignment="3" min="-2" max="-2" attributes="0"/>
                               <Component id="labelMunicipio" alignment="3" min="-2" max="-2" attributes="0"/>
                               <Component id="txtMunicipio" alignment="3" min="-2" max="-2" attributes="0"/>
+                              <Component id="jLabel1" alignment="3" min="-2" max="-2" attributes="0"/>
+                              <Component id="jFieldPais" alignment="3" min="-2" max="-2" attributes="0"/>
                           </Group>
                           <EmptySpace type="separate" max="-2" attributes="0"/>
                           <Group type="103" groupAlignment="3" attributes="0">
@@ -314,7 +323,7 @@
                 </Component>
                 <Component class="javax.swing.JLabel" name="labelMunicipio">
                   <Properties>
-                    <Property name="text" type="java.lang.String" value="Municipio"/>
+                    <Property name="text" type="java.lang.String" value="Municipio / Ciudad"/>
                   </Properties>
                 </Component>
                 <Component class="javax.swing.JTextField" name="txtMunicipio">
@@ -334,7 +343,7 @@
                 </Component>
                 <Component class="javax.swing.JLabel" name="labelCP">
                   <Properties>
-                    <Property name="text" type="java.lang.String" value="CP"/>
+                    <Property name="text" type="java.lang.String" value="CP / ZIP"/>
                   </Properties>
                 </Component>
                 <Component class="javax.swing.JTextField" name="txtCP">
@@ -395,6 +404,16 @@
                   <Events>
                     <EventHandler event="mouseClicked" listener="java.awt.event.MouseListener" parameters="java.awt.event.MouseEvent" handler="jButton1MouseClicked"/>
                   </Events>
+                </Component>
+                <Component class="javax.swing.JLabel" name="jLabel1">
+                  <Properties>
+                    <Property name="text" type="java.lang.String" value="Pais"/>
+                  </Properties>
+                </Component>
+                <Component class="javax.swing.JTextField" name="jFieldPais">
+                  <Properties>
+                    <Property name="enabled" type="boolean" value="false"/>
+                  </Properties>
                 </Component>
               </SubComponents>
             </Container>

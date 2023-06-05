@@ -79,6 +79,7 @@ public class AdministrarVentasPanel extends javax.swing.JFrame {
         modelo.addColumn("Cliente");
         modelo.addColumn("Empleado");
         modelo.addColumn("Estado");
+        modelo.addColumn("Tipo");
         tblVenta.setModel(modelo);
     }
 
@@ -342,7 +343,7 @@ public class AdministrarVentasPanel extends javax.swing.JFrame {
         if (JOptionPane.showConfirmDialog(this, "Estas seguro?") == JOptionPane.OK_OPTION) {
 
             if (new VentaManager().cancelarVenta(new Venta(idVenta, "DEVUELTO"))) {
-                JOptionPane.showMessageDialog(this, "Estado de la venta modificaro de forma exitosa!");
+                JOptionPane.showMessageDialog(this, "Estado de la venta modificado de forma exitosa!");
             }
 
         }
