@@ -251,7 +251,7 @@ public class Login extends javax.swing.JFrame {
 
     private void btnForgottenPasswordActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnForgottenPasswordActionPerformed
 
-        String nombre = JOptionPane.showInputDialog(this, "Ingresa tu primer nombre", DISPOSE_ON_CLOSE);
+        String nombre = JOptionPane.showInputDialog(this, "Ingresa tu nombre de usuario", DISPOSE_ON_CLOSE);
 
         notificarAdmon(nombre);
 

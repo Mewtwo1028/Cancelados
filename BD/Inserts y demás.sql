@@ -449,3 +449,10 @@ INNER JOIN empleado e ON (v.idEmpleado = e.idEmpleado)
 
 
 DELETE FROM empleado WHERE idEmpleado = 39;
+
+
+
+CREATE VIEW vista_producto_like AS (
+SELECT p.idProducto, p.nombre, p.precioUnitario, p.stock, c.nombre AS categoria FROM producto p
+INNER JOIN categoria C On (p.categoria = c.idCategoria)
+);

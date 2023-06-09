@@ -56,7 +56,24 @@ public class DialogoSeleccionProducto extends javax.swing.JDialog {
         switch (filtro.toString()) {
             case "Nombre" ->
                 llenarTabla(buscarProductoNombre(txt));
+            case "Categoria" ->
+                llenarTabla(buscarProductoCategoria(txt));
         }
+    }
+    
+    private ArrayList<Producto> buscarProductoCategoria(String txt) {
+        ArrayList<Producto> resultados = new ArrayList<>();
+
+        Pattern pattern = Pattern.compile(txt, Pattern.CASE_INSENSITIVE);
+        for (Producto producto : productos) {
+            String nombre = producto.getCategoria();
+            Matcher matcher = pattern.matcher(nombre);
+            if (matcher.find()) {
+                resultados.add(producto);
+            }
+        }
+
+        return resultados;
     }
 
     private ArrayList<Producto> buscarProductoNombre(String txt) {

@@ -13,9 +13,9 @@ import javax.swing.JLabel;
 import modelo.Producto;
 
 public class ProductoManager {
-
+    
     private Conexion conexion;
-
+    
     public ProductoManager() {
         conexion = new Conexion();
     }
@@ -32,12 +32,12 @@ public class ProductoManager {
     public ArrayList<Producto> consultarProductos() {
         String consulta = "SELECT idProducto, nombre, descripcion, precioUnitario, stock, autor, categoria  FROM vista_productos;";
         ArrayList<Producto> resultado = new ArrayList<>();
-
+        
         try (ResultSet cursor = conexion.getConexion().prepareStatement(consulta).executeQuery()) {
             Producto producto;
             while (cursor.next()) {
                 producto = new Producto();
-
+                
                 producto.setIdProducto(cursor.getInt(1));
                 producto.setNombre(cursor.getString(2));
                 producto.setDescripcion(cursor.getString(3));
@@ -45,7 +45,7 @@ public class ProductoManager {
                 producto.setStock(cursor.getInt(5));
                 producto.setAutor(cursor.getString(6));
                 producto.setCategoria(cursor.getString(7));
-
+                
                 resultado.add(producto);
             }
         } catch (SQLException ex) {
@@ -65,9 +65,9 @@ public class ProductoManager {
      */
     public boolean modificarProductoConImagen(Producto producto) {
         String consulta = "UPDATE producto SET nombre=?, descripcion=?, precioUnitario=?,imagen=?, autor=?, categoria=? WHERE idProducto=?;";
-
+        
         try (PreparedStatement ps = conexion.getConexion().prepareStatement(consulta)) {
-
+            
             ps.setString(1, producto.getNombre());
             ps.setString(2, producto.getDescripcion());
             ps.setFloat(3, producto.getPrecioUnitario());
@@ -75,9 +75,9 @@ public class ProductoManager {
             ps.setString(5, producto.getAutor());
             ps.setString(6, producto.getCategoria());
             ps.setInt(7, producto.getIdProducto());
-
+            
             return ps.executeUpdate() == 1;
-
+            
         } catch (SQLException | FileNotFoundException ex) {
             throw new RuntimeException("Error al modificar el producto", ex);
         }
@@ -94,54 +94,54 @@ public class ProductoManager {
      */
     public boolean modificarProductoSinImagen(Producto producto) {
         String consulta = "UPDATE producto SET nombre=?, descripcion=?, precioUnitario=?, autor=?, categoria=? WHERE idProducto=?;";
-
+        
         try (PreparedStatement ps = conexion.getConexion().prepareStatement(consulta)) {
-
+            
             ps.setString(1, producto.getNombre());
             ps.setString(2, producto.getDescripcion());
             ps.setFloat(3, producto.getPrecioUnitario());
             ps.setString(4, producto.getAutor());
             ps.setInt(5, Integer.parseInt(producto.getCategoria()));
             ps.setInt(6, producto.getIdProducto());
-
+            
             return ps.executeUpdate() == 1;
-
+            
         } catch (SQLException ex) {
             System.out.println("Error al modificar el producto" + ex.getMessage());
         }
         return false;
     }
-
+    
     public boolean incrementarStock(Producto producto) {
         String consulta = "UPDATE producto SET stock = ? where idProducto = ?";
-
+        
         try (PreparedStatement ps = conexion.getConexion().prepareStatement(consulta)) {
-
+            
             ps.setInt(1, producto.getStock());
             ps.setInt(2, producto.getIdProducto());
-
+            
             ps.execute();
-
+            
             return true;
-
+            
         } catch (SQLException ex) {
             return false;
         }
     }
-
+    
     public boolean modificarStock(ArrayList<Producto> productos) {
         String consulta = "UPDATE producto SET stock = stock - ? where idProducto = ?";
-
+        
         try (PreparedStatement ps = conexion.getConexion().prepareStatement(consulta)) {
-
+            
             for (Producto producto : productos) {
                 ps.setInt(1, producto.getStock());
                 ps.setInt(2, producto.getIdProducto());
                 ps.execute();
             }
-
+            
             return true;
-
+            
         } catch (SQLException ex) {
             return false;
         }
@@ -157,21 +157,22 @@ public class ProductoManager {
      * la base de datos.
      */
     public ArrayList<Producto> consultarNombres() {
-        String consulta = "SELECT idProducto, nombre, precioUnitario, stock FROM producto;";
+        String consulta = "SELECT idProducto, nombre, precioUnitario, stock, categoria FROM vista_producto_like;";
         ArrayList<Producto> resultado = new ArrayList<>();
         Producto producto;
-
+        
         try (ResultSet cursor = conexion.getConexion().prepareStatement(consulta).executeQuery()) {
-
+            
             while (cursor.next()) {
                 producto = new Producto();
                 producto.setIdProducto(cursor.getInt(1));
                 producto.setNombre(cursor.getString(2));
                 producto.setPrecioUnitario(cursor.getFloat(3));
                 producto.setStock(cursor.getInt(4));
+                producto.setCategoria(cursor.getString(5));
                 resultado.add(producto);
             }
-
+            
         } catch (SQLException ex) {
             throw new RuntimeException("Error al consultar el producto", ex);
         }
@@ -213,11 +214,11 @@ public class ProductoManager {
      */
     public boolean obtenerImagen(Producto producto, JLabel jlabel) {
         String consulta = "SELECT Imagen FROM producto WHERE idProducto=?;";
-
+        
         try (PreparedStatement cs = conexion.getConexion().prepareStatement(consulta)) {
             cs.setInt(1, producto.getIdProducto());
             ResultSet cursor = cs.executeQuery();
-
+            
             if (cursor.next()) {
                 byte[] imageData = cursor.getBytes("Imagen");
                 ImageIcon format = new ImageIcon(imageData);
@@ -227,26 +228,26 @@ public class ProductoManager {
                 jlabel.setIcon(img3);
                 return true;
             }
-
+            
         } catch (Exception ex) {
             System.out.println("Error al obtener la imagen del producto: " + ex.getMessage());
         }
         return false;
     }
-
+    
     public Image obtenerImagen(Producto producto) {
         String consulta = "SELECT Imagen FROM producto WHERE idProducto=?;";
-
+        
         try (PreparedStatement cs = conexion.getConexion().prepareStatement(consulta)) {
             cs.setInt(1, producto.getIdProducto());
             ResultSet cursor = cs.executeQuery();
-
+            
             if (cursor.next()) {
                 byte[] imageData = cursor.getBytes("Imagen");
                 ImageIcon format = new ImageIcon(imageData);
                 return format.getImage();
             }
-
+            
         } catch (SQLException ex) {
             throw new RuntimeException("Error al obtener la imagen del producto", ex);
         }
@@ -266,7 +267,7 @@ public class ProductoManager {
      */
     public boolean insertarProducto(Producto producto) {
         String consulta = "INSERT INTO producto (nombre,descripcion,PrecioUnitario,Imagen,stock,Autor,Categoria) VALUES (?,?,?,?,?,?,?);";
-
+        
         try (PreparedStatement ps = conexion.getConexion().prepareStatement(consulta);) {
             ps.setString(1, producto.getNombre());
             ps.setString(2, producto.getDescripcion());
@@ -275,13 +276,13 @@ public class ProductoManager {
             ps.setString(5, String.valueOf(producto.getStock()));
             ps.setString(6, producto.getAutor());
             ps.setInt(7, Integer.parseInt(producto.getCategoria()));
-
+            
             return ps.executeUpdate() == 1;
-
+            
         } catch (SQLException | FileNotFoundException ex) {
             System.out.println("Error al insertar el producto" + ex.getMessage());
         }
-
+        
         return false;
     }
 
@@ -298,14 +299,14 @@ public class ProductoManager {
      */
     public boolean eliminarProducto(Producto producto) {
         String operacion = "DELETE FROM producto WHERE idProducto=?;";
-
+        
         try (PreparedStatement ps = conexion.getConexion().prepareStatement(operacion)) {
-
+            
             ps.setInt(1, producto.getIdProducto());
             ps.executeUpdate();
-
+            
             return true;
-
+            
         } catch (SQLException ex) {
             return false;
         }
@@ -323,17 +324,17 @@ public class ProductoManager {
         String filtro = texto + "%";
         String SQL = "SELECT idProducto, nombre, descripcion, precioUnitario, stock, Autor, Categoria FROM vista_productos WHERE nombre like" + '"' + filtro + '"';
         ArrayList<String[]> resultado = new ArrayList<>();
-
+        
         try {
             ResultSet rs = conexion.getConexion().prepareStatement(SQL).executeQuery();
-
+            
             while (rs.next()) {
                 String[] renglon = {rs.getString(1), rs.getString(2), rs.getString(3), rs.getString(4), rs.getString(5), rs.getString(6), rs.getString(7)};
                 resultado.add(renglon);
             }
-
+            
             return resultado;
-
+            
         } catch (Exception e) {
             System.err.println("" + e.getMessage());
         }
@@ -352,24 +353,24 @@ public class ProductoManager {
         String filtro = texto + "%";
         String SQL = "SELECT idProducto, nombre, precioUnitario, Categoria FROM vista_productos WHERE nombre like" + '"' + filtro + '"';
         ArrayList<Producto> resultado = new ArrayList<>();
-
+        
         try {
             ResultSet rs = conexion.getConexion().prepareStatement(SQL).executeQuery();
             Producto producto;
             while (rs.next()) {
                 producto = new Producto();
-
+                
                 producto.setIdProducto(rs.getInt(1));
                 producto.setNombre(rs.getString(2));
                 producto.setPrecioUnitario(rs.getFloat(3));
                 producto.setCategoria(rs.getString(4));
-
+                
                 resultado.add(producto);
-
+                
             }
-
+            
             return resultado;
-
+            
         } catch (Exception e) {
             System.err.println("" + e.getMessage());
         }
@@ -388,17 +389,17 @@ public class ProductoManager {
         String filtro = texto + "%";
         String SQL = "SELECT idProducto, nombre, descripcion, precioUnitario, stock, Autor, Categoria FROM vista_productos WHERE autor like" + '"' + filtro + '"';
         ArrayList<String[]> resultado = new ArrayList<>();
-
+        
         try {
             ResultSet rs = conexion.getConexion().prepareStatement(SQL).executeQuery();
-
+            
             while (rs.next()) {
                 String[] renglon = {rs.getString(1), rs.getString(2), rs.getString(3), rs.getString(4), rs.getString(5), rs.getString(6), rs.getString(7)};
                 resultado.add(renglon);
             }
-
+            
             return resultado;
-
+            
         } catch (Exception e) {
             System.err.println("" + e.getMessage());
         }
@@ -417,17 +418,17 @@ public class ProductoManager {
         String filtro = texto + "%";
         String SQL = "SELECT idProducto, nombre, descripcion, precioUnitario, stock, Autor, Categoria FROM vista_productos WHERE categoria like" + '"' + filtro + '"';
         ArrayList<String[]> resultado = new ArrayList<>();
-
+        
         try {
             ResultSet rs = conexion.getConexion().prepareStatement(SQL).executeQuery();
-
+            
             while (rs.next()) {
                 String[] renglon = {rs.getString(1), rs.getString(2), rs.getString(3), rs.getString(4), rs.getString(5), rs.getString(6), rs.getString(7)};
                 resultado.add(renglon);
             }
-
+            
             return resultado;
-
+            
         } catch (Exception e) {
             System.err.println("" + e.getMessage());
         }
@@ -446,29 +447,29 @@ public class ProductoManager {
         String filtro = texto + "%";
         String SQL = "SELECT idProducto, nombre, precioUnitario, Categoria FROM vista_productos WHERE categoria like" + '"' + filtro + '"';
         ArrayList<Producto> resultado = new ArrayList<>();
-
+        
         try {
             ResultSet rs = conexion.getConexion().prepareStatement(SQL).executeQuery();
-
+            
             Producto producto;
-
+            
             while (rs.next()) {
                 producto = new Producto();
-
+                
                 producto.setIdProducto(rs.getInt(1));
                 producto.setNombre(rs.getString(2));
                 producto.setPrecioUnitario(rs.getFloat(3));
                 producto.setCategoria(rs.getString(4));
-
+                
                 resultado.add(producto);
             }
-
+            
             return resultado;
-
+            
         } catch (Exception e) {
             System.err.println("" + e.getMessage());
         }
         return resultado;
     }
-
+    
 }
